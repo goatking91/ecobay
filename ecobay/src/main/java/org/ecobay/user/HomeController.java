@@ -58,6 +58,11 @@ public class HomeController {
     @RequestMapping("/testPart.do")
     public String testPart() {
         return "test.part";
-    }        
+    }
     
+    @RequestMapping("productReg.do")
+    public String reg()
+    {
+    	return "productRegistration.page";
+    }
 }
