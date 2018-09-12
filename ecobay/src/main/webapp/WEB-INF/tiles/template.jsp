@@ -11,7 +11,6 @@
             height: 100%;
         }
         #main{
-            float:left;
             width:100%;
             min-height: 1000px;
         }
@@ -29,7 +28,7 @@
     <div style="width:100%; height:100%;">
     <div id="header"><tiles:insertAttribute name="header" /></div>
     <div id="main"><tiles:insertAttribute name="body" /></div>    
-    <div id="footer"><tiles:insertAttribute name="footer" /></div>
+    <div id="foot"><tiles:insertAttribute name="footer" /></div>
     </div>
  
     <script type="text/javascript">
