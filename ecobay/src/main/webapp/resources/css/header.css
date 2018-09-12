@@ -1,5 +1,6 @@
 @charset "UTF-8";
 
+/* navbar */
 .navbar-new-top{
     background: #fff;
 }
@@ -49,4 +50,40 @@
     font-weight: 700;
     font-size: 13px;
     cursor: pointer;
+}
+
+
+
+
+/* 로그인 */
+#login-dp{
+    min-width: 250px;
+    padding: 14px 18px 0;
+    overflow:hidden;
+    background-color:rgba(255,255,255,.8);
+}
+#login-dp .help-block{
+    font-size:12px    
+}
+#login-dp .bottom{
+    background-color:rgba(255,255,255,.8);
+    border-top:1px solid #ddd;
+    clear:both;
+    padding:14px;
+}
+
+
+#login-dp .form-group {
+    margin-bottom: 10px;
+} 
+
+@media(max-width:768px){
+    #login-dp{
+        background-color: inherit;
+        color: #fff;
+    }
+    #login-dp .bottom{
+        background-color: inherit;
+        border-top:0 none;
+    }
 }
