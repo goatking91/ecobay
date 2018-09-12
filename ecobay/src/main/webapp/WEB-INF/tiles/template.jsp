@@ -5,10 +5,10 @@
 <head>
     <meta charset="UTF-8">
     <title>제목</title>
-    <style>
+     <style>
         #header{            
             width:100%;
-            height:100px;
+            height: 100%;
         }
         #main{
             float:left;
@@ -16,13 +16,13 @@
             min-height: 1000px;
         }
         #footer{
-            width: 100%;
-            height: 100px;            
+            width: 100%;           
         }
     </style>
-    <link rel="stylesheet" href="/resources/bootstrap/css/bootstrap.min.css" /> 
-    <script src="/resources/bootstrap/js/bootstrap.min.js"></script>
     <script src="/resources/js/jquery-3.3.1.min.js"></script>
+    <link rel="stylesheet" href="/resources/bootstrap/css/bootstrap.min.css" id="bootstrap-css" /> 
+    <script src="/resources/bootstrap/js/bootstrap.min.js"></script>
+    
     
 </head>
 <body>
