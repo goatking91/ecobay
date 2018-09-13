@@ -46,7 +46,7 @@
 								</form>
 							</div>
 							<div class="bottom text-center">
-								처음 오셨나요? <a href="#"><b>회원가입</b></a>
+								처음 오셨나요? <a href="/memberJoin.do"><b>회원가입</b></a>
 							</div>
 						</div>
 					</li>
