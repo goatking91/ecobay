@@ -27,4 +27,16 @@ public class HomeController {
         return "main.page";
     }
     
+    @RequestMapping("/memberJoin.do")
+    public String join() {
+    	return "join.page";
+    }
+     
+    
+    @RequestMapping("productReg.do")
+    public String reg()
+    {
+    	return "productRegistration.page";
+    }
+
 }
