@@ -37,7 +37,7 @@
 										<input type="password" class="form-control"
 											id="exampleInputPassword2" placeholder="Password" required>
 										<div class="help-block text-right">
-											<a href="">아이디/비밀번호 찾기</a>
+											<a href="#" data-toggle="modal" data-target="#findInfoModal">아이디/비밀번호 찾기</a>
 										</div>
 									</div>
 									<div class="form-group">
@@ -73,3 +73,125 @@
 		</ul>
 	</div>
 </nav>
+
+
+
+
+
+
+
+<!-- 모달 영역 -->
+<!-- 아이디/비밀번호 찾기 선택 모달 -->
+<div class="modal fade" id="findInfoModal" tabindex="-1" role="dialog" aria-labelledby="findInfoModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="findInfoModalLabel">아이디/비밀번호 찾기</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#findIdModal">
+		  아이디 찾기
+		</button>
+		<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#findPwdModal">
+		  비밀번호 찾기
+		</button>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 아이디 찾기 모달 -->
+<div class="modal fade" id="findIdModal" tabindex="-1" role="dialog" aria-labelledby="findIdModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="findIdModalLabel">아이디 찾기</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+	      <form>
+	      	<div class="row">
+		      	<div class="col-md">
+		          <div class="form-group">
+		            <label for="name" class="col-form-label">이름:</label>
+		            <input type="text" class="form-control">
+		          </div>
+		       </div>
+		   </div>
+		   <div class="row">
+		       <div class="col-md">
+		          <div class="form-group">
+		            <label for="birth" class="col-form-label">생년월일:</label>
+		            <input type="text" class="form-control">
+		          </div>
+		      </div>
+		      <div class="col-md">
+		          <div class="form-group">
+		            <label for="phone" class="col-form-label">전화번호:</label>
+		            <input type="text" class="form-control">
+		          </div>
+		      </div>
+		    </div>
+	      </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">아이디 찾기</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 비밀번호 찾기 모달 -->
+<div class="modal fade" id="findPwdModal" tabindex="-1" role="dialog" aria-labelledby="findPwdModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="findPwdModalLabel">비밀번호 찾기</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form>
+	      	<div class="row">
+	      		<div class="col-md">
+		          <div class="form-group">
+		            <label for="id" class="col-form-label">ID(Email):</label>
+		            <input type="text" class="form-control">
+		          </div>
+		      </div>
+		      	
+		   </div>
+		   <div class="row">
+		   		<div class="col-md">
+		          <div class="form-group">
+		            <label for="name" class="col-form-label">이름:</label>
+		            <input type="text" class="form-control">
+		          </div>
+		       </div>
+		       <div class="col-md">
+		          <div class="form-group">
+		            <label for="birth" class="col-form-label">생년월일:</label>
+		            <input type="text" class="form-control">
+		          </div>
+		      </div>
+		      
+		    </div>
+	      </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">비밀번호 찾기</button>
+      </div>
+    </div>
+  </div>
+</div>
