@@ -26,7 +26,7 @@ $(function() {
         <form name="myform" method="post" action="" onsubmit=" ;return false;">
         	<div class="form-group row row">
           		<label class="col-sm-3 col-form-label text-right text-right" for="member_id">ID</label>
-		        <div class="col-sm-6">
+		        <div class="col-sm-3">
 		        	<div class="input-group">
 						<input class="form-control" id="member_id" name="member_id" type="text"/>
 						<div class="input-group-append">
@@ -39,12 +39,16 @@ $(function() {
 							<option value="naver.com">daum.net</option>
 							<option value="직접입력">직접입력</option>
 						</select>
-						<input class="form-control" id="member_id3" name="member_id3" type="text" placeholder="직접입력"/>
+					</div>
+				</div>
+				<div class="col-sm-3">
+        			<div class="input-group">
+						<input class="form-control" id="member_id3" name="member_id3" type="text" placeholder="직접입력" readonly/>
 						<div class="input-group-append">						
-                    	<button class="btn btn-secondary">중복체크</button>
-                    	</div>
-                	</div>
-        		</div>
+                			<button class="btn btn-secondary">중복체크</button>
+                		</div>
+            		</div>
+    			</div>
         		<div class="col-sm-3"></div>
         	</div>
         	
