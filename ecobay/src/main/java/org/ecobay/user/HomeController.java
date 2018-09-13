@@ -42,15 +42,18 @@ public class HomeController {
     	return "login.part";
     }
     
-    @RequestMapping("productReg.do")
-    public String prodReg()
-    {
+    @RequestMapping("/productReg.do")
+    public String prodReg() {
     	return "productRegistration.page";
     }
     
-    @RequestMapping("productDetail.do")
-    public String prodDetail()
-    {
+    @RequestMapping("/productDetail.do")
+    public String prodDetail() {
     	return "productDetail.page";
+    }
+    
+    @RequestMapping("/productList.do")
+    public String prodList() {
+    	return "productList.page";
     }
 }
