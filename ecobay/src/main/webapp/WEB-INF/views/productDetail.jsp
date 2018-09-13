@@ -60,19 +60,6 @@
 		    z-index: 100;
 		}
 		
-		.gallery-thumbs-container .bx-next
-		{
-		    position: absolute;
-		    font-size: 0;
-		    width: 15px;
-		    height: 28px;
-		    overflow: hidden;
-		    text-indent: -100px;
-		    top: 50%;
-		    margin-top: -14px;
-		    z-index: 100;
-		}
-		
 		.product-detail-thum .imgBig 
 		{
 		    display: table;
@@ -89,12 +76,6 @@
 		.product-detail-spec
 		{
 		    padding-left: 20px;
-		}
-		
-		.bx-wrapper .bx-controls 
-		{
-		    position: absolute;
-		    z-index: 10;
 		}
 		
 		.detailTitle
