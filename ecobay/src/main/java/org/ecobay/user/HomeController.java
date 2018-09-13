@@ -31,6 +31,11 @@ public class HomeController {
     public String join() {
     	return "join.page";
     }
+    
+    @RequestMapping("/mypage.do")
+    public String mypage() {
+    	return "mypage.page";
+    }
      
     @RequestMapping("/memberlogin.do")
     public String login() {
