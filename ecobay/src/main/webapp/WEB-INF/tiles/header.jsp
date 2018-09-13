@@ -8,7 +8,7 @@
 
 <nav class="navbar fixed-top navbar-expand-md flex-nowrap navbar-new-top">
 	<div class="container">
-		<a href="/testPage.do" class="navbar-brand"><img src="#" alt="" />ECOBay</a>
+		<a href="/" class="navbar-brand">ECOBay</a>
 		<ul class="nav navbar-nav mr-auto"></ul>
 		<ul class="navbar-nav flex-row">
 			<!-- <li class="nav-item">
@@ -64,7 +64,7 @@
 	<div class="navbar-collapse collapse pt-2 pt-md-0" id="navbar2">
 
 		<ul class="navbar-nav w-100 justify-content-center px-3">
-			<li class="nav-item active"><a class="nav-link" href="#">홈</a></li>
+			<li class="nav-item active"><a class="nav-link" href="/">홈</a></li>
 			<li class="nav-item"><a class="nav-link">소개</a></li>
 			<li class="nav-item"><a class="nav-link">경매1</a></li>
 			<li class="nav-item"><a class="nav-link">경매2</a></li>
