@@ -4,8 +4,12 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <title>제목</title>
-    
+    <title>ECObay</title>
+    <style type="text/css">
+    	#main{
+    		width:100%;
+    	}
+    </style>
     <script src="/resources/js/jquery-3.3.1.min.js"></script>
     <link rel="stylesheet" href="/resources/bootstrap/css/bootstrap.min.css" id="bootstrap-css" /> 
     <script src="/resources/bootstrap/js/bootstrap.min.js"></script>
