@@ -4,7 +4,7 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <title>제목</title>
+    <title>ECObay</title>
      <style>
         #header{            
             width:100%;

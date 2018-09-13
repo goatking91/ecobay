@@ -8,7 +8,7 @@
 
 <nav class="navbar fixed-top navbar-expand-md flex-nowrap navbar-new-top">
 	<div class="container">
-		<a href="/" class="navbar-brand">ECOBay</a>
+		<a href="/" class="navbar-brand">ECObay</a>
 		<ul class="nav navbar-nav mr-auto"></ul>
 		<ul class="navbar-nav flex-row">
 			<!-- <li class="nav-item">
