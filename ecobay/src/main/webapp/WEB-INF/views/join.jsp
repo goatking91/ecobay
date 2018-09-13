@@ -8,13 +8,16 @@
 </head>
 <link rel="/resource/bootstrap/css/bootstrap.css">
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-<link rel="stylesheet" href="/resources/demos/style.css">
-<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script>
-$( function() {
-  $( "#datepicker" ).css('z-index', 99999999999999).datepicker();
-} );
+$(function() {
+    $( "#datepicker" ).datepicker({
+    	beforeShow: function() {
+				$('#search').css('z-index', 1); 
+			}
+    });
+ });
+	
 </script>
 <body>
 <article>
@@ -39,9 +42,9 @@ $( function() {
 							<option value="직접입력">직접입력</option>
 						</select>
 						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-						<input class="form-control" id="member_id2" name="member_id2" type="text" placeholder="직접입력"/>
+						<input class="form-control" id="member_id3" name="member_id3" type="text" placeholder="직접입력"/>
 						&nbsp;&nbsp;
-                    	<button class="btn btn-defualt">중복체크</button>
+                    	<button class="btn btn-secondary">중복체크</button>
                 	</div>
         		</div>
         	</div>
@@ -59,9 +62,9 @@ $( function() {
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-sm-3 control-label" for="birth">생년월일</label>
+				<label class="col-sm-3 control-label" for="datepicker">생년월일</label>
 				<div class="col-sm-3">
-					<input class="form-control" id="datepicker" name="datepicker" type="text" placeholder="생년월일"><!-- datepicker6자리 930811-->
+					<input class="form-control" id="datepicker" name="datepicker" type="text" placeholder="생년월일">
 				</div>
 			</div>			
 			<div class="form-group">
@@ -70,7 +73,7 @@ $( function() {
 					<div class="input-group">
 						<input class="form-control" id="zipcode" name="zipcode" type="text" placeholder="우편번호"><!-- datepicker6자리 930811-->
 						<span class="input-group-append">
-	                    		<button class="btn btn-defualt">우편번호찾기</button>
+	                    		<button id="search" class="btn btn-secondary" >우편번호찾기</button>
 	                  	</span>
 					</div>	                  	
 				</div>
@@ -89,8 +92,8 @@ $( function() {
 			<div class="form-group">
 				<label class="col-sm-3 control-label" for="gender">성별</label>
 				<div class="col-sm-3">
-					<input type="radio" id="gender" name="gender" value="남" checked="checked">남&nbsp;&nbsp;
-					<input type="radio" id="gender" name="gender" value="여">여
+					<input type="radio" id="man" name="gender" value="남" checked="checked">남&nbsp;&nbsp;
+					<input type="radio" id="woman" name="gender" value="여">여
 				</div>	
 			</div>
 			
@@ -108,8 +111,8 @@ $( function() {
 				</div>	
 			</div>    
 			<div class="form-group">
-				<div class="col-sm-3">
-					<input type="submit" class="btn btn-lg btn-info" value="등록">
+				<div class="col-sm" style="padding-left:20%">
+					<input type="submit" class="btn btn-lg btn-info" value="등록">&nbsp;
 					<input type="reset" class="btn btn-lg btn-info" value="초기화">
 				</div>	
 			</div>     	
