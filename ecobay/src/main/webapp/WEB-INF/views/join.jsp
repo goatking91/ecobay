@@ -9,11 +9,11 @@
 <link rel="/resource/bootstrap/css/bootstrap.css">
 <body>
 <article>
-        <div class="page-header" style="padding:2%">
-    	    <h1>회원가입 </h1>
-    	    <hr>
-        </div>
-        <div class="col-md-12" style="padding-left:35%">
+	<div class="page-header" style="padding:2%">
+   	    <h1>회원가입 </h1>
+   	    <hr>
+	</div>
+	<div class="col-md-12" style="padding-left:35%">
         <form class="form-horizontal" name="myform" method="post" action="" onsubmit=" ;return false;">
         	<div class="form-group">
           		<label class="col-sm-3 control-label" for="member_id">ID</label>
