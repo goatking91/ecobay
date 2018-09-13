@@ -7,6 +7,15 @@
 <title>join.jsp</title>
 </head>
 <link rel="/resource/bootstrap/css/bootstrap.css">
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<link rel="stylesheet" href="/resources/demos/style.css">
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script>
+$( function() {
+  $( "#datepicker" ).css('z-index', 99999999999999).datepicker();
+} );
+</script>
 <body>
 <article>
 	<div class="page-header" style="padding:2%">
@@ -52,7 +61,7 @@
 			<div class="form-group">
 				<label class="col-sm-3 control-label" for="birth">생년월일</label>
 				<div class="col-sm-3">
-					<input class="form-control" id="birth" name="birth" type="text" placeholder="생년월일"><!-- datepicker6자리 930811-->
+					<input class="form-control" id="datepicker" name="datepicker" type="text" placeholder="생년월일"><!-- datepicker6자리 930811-->
 				</div>
 			</div>			
 			<div class="form-group">
