@@ -34,9 +34,14 @@ public class HomeController {
      
     
     @RequestMapping("productReg.do")
-    public String reg()
+    public String prodReg()
     {
     	return "productRegistration.page";
     }
-
+    
+    @RequestMapping("productDetail.do")
+    public String prodDetail()
+    {
+    	return "productDetail.page";
+    }
 }

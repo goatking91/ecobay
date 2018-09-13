@@ -5,7 +5,6 @@
 <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1">
 <title>상품등록</title>
 	<link rel="stylesheet" type="text/css" href="resources/bootstrap/css/bootstrap.css">
-<!-- <script src="resources/js/jquery-3.3.1.min.js"></script> -->
 	
 	<script type="text/javascript">
 		$(function()
@@ -13,14 +12,15 @@
 			$('#baynowYn').click(function()
 			{
 				var ck = this.checked;
-				alert(ck);
+
 				if(ck == true)
 				{
-					$('#baynowMoney').removeAttr("disable");
+					$('#baynowMoney').removeAttr("disabled");
 				}
 				else
 				{
-					$('#baynowMoney').attr("disable", true);			
+					$('#baynowMoney').val('');
+					$('#baynowMoney').attr("disabled", true);			
 				}
 			});
 		});
@@ -135,7 +135,7 @@
 						<th class="colTitle">*즉시구매</th>
 						<td>
 							<input class="checkbox" type="checkbox" name="baynowYn" id="baynowYn" value="baynowYn">&nbsp;&nbsp;
-							<input type="number" name="baynowMoney">(원)-체크처리필요
+							<input type="number" name="baynowMoney" id="baynowMoney" disabled>(원)
 						</td>
 					</tr>
 				</table>
