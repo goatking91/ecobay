@@ -50,7 +50,17 @@
 		</a>
 	</div>
 </div>
-
+<div class="container">
+	<div align="center">
+		<a href="#"><img src="/resources/images/icons/fashion_ic.png"></a>
+		<a href="#"><img src="/resources/images/icons/living_ic.png"></a>
+		<a href="#"><img src="/resources/images/icons/homeItem_ic.png"></a>
+		<a href="#"><img src="/resources/images/icons/digital_ic.png"></a>
+		<a href="#"><img src="/resources/images/icons/culture_ic.png"></a>
+		<a href="#"><img src="/resources/images/icons/sports_ic.png"></a>
+		<a href="#"><img src="/resources/images/icons/collection_ic.png"></a>
+	</div>
+</div>
 <p>
 <div id="carouselControls" class="carousel slide" data-ride="carousel">
 	<div class="carousel-inner">
@@ -105,7 +115,6 @@
 							</div>
 						</a>
 					</div>
-
 				</div>
 			</div>
 		</div>
@@ -144,8 +153,6 @@
 							</div>
 						</a>
 					</div>
-
-
 					<div class="col-md-4">
 						<a href="#">
 							<div class="card mb-4 shadow-sm">
