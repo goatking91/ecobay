@@ -56,4 +56,9 @@ public class HomeController {
     public String prodList() {
     	return "productList.page";
     }
+    
+    @RequestMapping("/noticeList.do")
+    public String noticeList() {
+    	return "noticeList.page";
+    }
 }
