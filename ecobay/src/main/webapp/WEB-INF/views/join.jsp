@@ -8,7 +8,7 @@
 </head>
 <script>
 $(function() {
-    $( "#datepicker" ).datepicker({
+    $( "#birth" ).datepicker({
     	beforeShow: function() {
 				$('#search').css('z-index', 1); 
 			}
@@ -65,9 +65,9 @@ $(function() {
 				</div>
 			</div>
 			<div class="form-group row">
-				<label class="col-sm-3 col-form-label text-right" for="datepicker">생년월일</label>
+				<label class="col-sm-3 col-form-label text-right" for="birth">생년월일</label>
 				<div class="col-sm-3">
-					<input class="form-control" id="datepicker" name="datepicker" type="text" placeholder="생년월일">
+					<input class="form-control" id="birth" name="birth" type="text" placeholder="생년월일">
 				</div>
 			</div>
 			
