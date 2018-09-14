@@ -76,7 +76,7 @@
 					<tr>
 						<th class="colTitle">*이미지 등록</th>
 						<td colspan="2">
-							<textarea rows="15" class="form-control" name="content" placeholder="차후 이미지 등록기능 구현 예정임...."></textarea>
+							<textarea rows="15" class="form-control" name="fileupload" placeholder="차후 이미지 등록기능 구현 예정임...."></textarea>
 							이미지파일은 [ JPG | GIF | BMP ] 형식만 가능합니다.(이미지 관련 안내문구 출력하기....) 
 						</td>
 					</tr>
