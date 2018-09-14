@@ -61,4 +61,9 @@ public class HomeController {
     public String noticeReg() {
     	return "noticeRegistration.page";
     }
+    
+    @RequestMapping("/noticeDetail.do")
+    public String noticeDetail() {
+    	return "noticeDetail.page";
+    }
 }
