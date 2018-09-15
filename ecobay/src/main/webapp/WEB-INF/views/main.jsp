@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="security"%>
 <style>
 .carousel-inner>.carousel-item>img {
 	top: 0;
@@ -10,7 +10,12 @@
 	/* max-height: 400px; */
 }
 </style>
-
+<div>
+	<form action="/logout" method="post">
+		<button class="btn" type="submit"> 로그아웃 </button>
+		<security:csrfInput />
+	</form>
+</div>
 <div>
 	<div id="carouselIndicators" class="carousel slide"
 		data-ride="carousel">

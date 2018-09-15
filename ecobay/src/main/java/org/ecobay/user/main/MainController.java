@@ -11,13 +11,14 @@ public class MainController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(MainController.class);
 	
-	@RequestMapping(value = "/main.do", method = RequestMethod.GET)
+	@RequestMapping(value="/main.do", method = RequestMethod.GET)
     public String main() {
         return "main.page";
     }
 	
-	@RequestMapping("login.do")
+	@RequestMapping(value="login.do", method = RequestMethod.GET)
     public String login() {
     	return "login.part";
     }
+	
 }
