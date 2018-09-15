@@ -23,7 +23,7 @@ $(function() {
    	    <hr>
 	</div>
 	<div class="col-md-12" >
-        <form name="myform" method="post" action="" onsubmit=" ;return false;">
+        <form name="myform" method="post" action="create.do" onsubmit=" ;return false;">
         	<div class="form-group row row">
           		<label class="col-sm-3 col-form-label text-right text-right" for="member_id">ID</label>
 		        <div class="col-sm-3">

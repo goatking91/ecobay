@@ -3,8 +3,26 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="org.ecobay.user.mapper.memberMapper">
+<mapper namespace="org.ecobay.user.mapper.MemberMapper">
 
-	<insert id="create"></insert>
+	<insert id="create" parameterType="org.ecobay.user.member.domain.MemberVO">
+		insert into member 
+		(member_id,member_name,pwd,birth,zipcode,addr1,addr2,gender,phone,regdate)
+		values(#{member_id},#{member_name},#{pwd},#{birth},#{zipcode},#{addr1},#{addr2},#{gender},#{phone},sysdate)
+	</insert>
+	
+	<select id="read" parameterType="String" resultType="org.ecobay.user.member.domain.MemberVO">
+		select * from member where member_id = #{member_id}
+	</select>
+	
+	<update id="update" parameterType="org.ecobay.user.member.domain.MemberVO">
+		update member set
+		pwd = #{pwd}
+		zipcode = #{zipcode}
+		addr1 = #{addr1}
+		addr2 = #{addr2}
+		moddate = #{moddate}			
+	</update>
+	
 </mapper>
 
