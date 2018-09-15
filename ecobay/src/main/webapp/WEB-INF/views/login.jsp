@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="security"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -14,12 +16,13 @@
 
 
 <body class="text-center">
-    <form class="form-signin">
+    <form class="form-signin" action="/login" method="post">
+      <security:csrfInput />
       <h1 class="h3 mb-3 font-weight-normal">로그인</h1>
       <label for="inputEmail" class="sr-only">Email address</label>
-      <input type="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
+      <input type="text" name="member_id" id="member_id" class="form-control" placeholder="Email address" required autofocus>
       <label for="inputPassword" class="sr-only">Password</label>
-      <input type="password" id="inputPassword" class="form-control" placeholder="Password" required>
+      <input type="password" name="pwd" id="pwd" class="form-control" placeholder="Password" required>
       <div class="d-flex justify-content-between align-items-center">
       <span>
       	<input type="checkbox" value="remember-me"> 아이디 기억
