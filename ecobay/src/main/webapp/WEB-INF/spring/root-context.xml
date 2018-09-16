@@ -34,8 +34,6 @@
 		<property name="dataSource" ref="dataSource"></property>
 	</bean>
 	
-	<context:component-scan base-package="org.ecobay.user.member"></context:component-scan>
-	<tx:annotation-driven/>
 	
 	<tx:annotation-driven/>
 	

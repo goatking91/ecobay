@@ -1,6 +1,5 @@
 package org.ecobay.user.member.persistence;
 
-import javax.annotation.Resource;
 import javax.inject.Inject;
 
 import org.apache.ibatis.session.SqlSession;

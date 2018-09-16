@@ -22,8 +22,15 @@ $(function() {
    	    <h1>회원가입 </h1>
    	    <hr>
 	</div>
-	<div class="col-md-12" >
-        <form name="myform" method="post" action="create.do" onsubmit=" ;return false;">
+	<div class="col-md-12">
+        <form name="myform" method="post" action="create.do">
+        	<div class="form-group row">
+				<label class="col-sm-3 col-form-label text-right" for="member_name">이름</label>
+				<div class="col-sm-4">
+					<input class="form-control" id="member_name" name="member_name" type="text" placeholder="이름">
+				</div>
+			</div>
+        	
         	<div class="form-group row row">
           		<label class="col-sm-3 col-form-label text-right text-right" for="member_id">ID</label>
 		        <div class="col-sm-3">
@@ -51,7 +58,6 @@ $(function() {
     			</div>
         		<div class="col-sm-3"></div>
         	</div>
-        	
 			<div class="form-group row row">
 				<label class="col-sm-3 col-form-label text-right text-right" for="pwd">비밀번호</label><!-- 8~16자리 -->
 				<div class="col-sm-4">
@@ -72,7 +78,7 @@ $(function() {
 			</div>
 			
 			<div class="form-group row">
-				<label class="col-sm-3 col-form-label text-right " for="gender">성별</label>
+				<label class="col-sm-3 col-form-label text-right" for="gender">성별</label>
 				<div class="col-sm-3 col-form-label">
 					<div class="form-check form-check-inline">
 						<input class="form-check-input" type="radio" id="man" name="gender" value="남" checked="checked">
@@ -88,10 +94,10 @@ $(function() {
 			</div>	
 			
 			<div class="form-group row">	
-			<label class="col-sm-3 col-form-label text-right" for="phone1 phone2 phone3">번호</label>
+			<label class="col-sm-3 col-form-label text-right" for="phone phone2 phone3">번호</label>
 				<div class="col-sm-3">
 					<div class="input-group">				
-					<select class="form-control" id="phone1" name="phone1">
+					<select class="form-control" id="phone" name="phone">
 						<option value="010">010</option>
 						<option value="011">011</option>
 						<option value="016">016</option>

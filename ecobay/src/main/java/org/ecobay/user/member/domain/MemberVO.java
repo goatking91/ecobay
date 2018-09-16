@@ -19,6 +19,10 @@ public class MemberVO {
 	private Date modDate;
 	private Date delDate;
 	
+	public MemberVO() {
+		
+	}
+	
 	public MemberVO(String member_id, String member_name, String pwd, String birth, String zipcode, String addr1,
 			String addr2, String gender, String phone, String join_YN, String use_YN, Date regDate, Date modDate,
 			Date delDate) {

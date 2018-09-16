@@ -8,7 +8,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<insert id="create" parameterType="org.ecobay.user.member.domain.MemberVO">
 		insert into member 
 		(member_id,member_name,pwd,birth,zipcode,addr1,addr2,gender,phone,regdate)
-		values(#{member_id},#{member_name},#{pwd},#{birth},#{zipcode},#{addr1},#{addr2},#{gender},#{phone},sysdate)
+		values(#{member_id},#{member_name},#{pwd},#{birth},#{zipcode},#{addr1},#{addr2},#{gender},#{phone},now())
 	</insert>
 	
 	<select id="read" parameterType="String" resultType="org.ecobay.user.member.domain.MemberVO">

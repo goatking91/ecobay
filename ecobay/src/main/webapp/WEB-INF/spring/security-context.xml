@@ -11,6 +11,7 @@
 	<security:http auto-config="true" use-expressions="true">
 		<security:intercept-url pattern="/main.do" access="permitAll" />
 		<security:intercept-url pattern="/login.do" access="permitAll" />
+		<security:intercept-url pattern="/member/**" access="hasRole('ANONYMOUS')"/>
 		<security:intercept-url pattern="/**" access="isAuthenticated()" />
 		
 		<security:form-login login-page="/login.do"
@@ -26,7 +27,7 @@
 			logout-success-url="/main.do?logout" />
 			
 		<!-- enable csrf protection -->
-		<security:csrf />
+		<security:csrf disabled="true"/>
 		
 	</security:http>
 	
