@@ -1,5 +1,12 @@
 @charset "UTF-8";
 
+
+/* 시간표시 */
+.clock {
+    font-size: 15px;
+	margin-left: 5px;
+}
+
 /* navbar */
 .navbar-new-top{
     background: #fff;
@@ -9,12 +16,6 @@
 }
 .navbar-brand img{
     width: 20%;
-}
-.navbar-new-top ul{
-    margin-right: 9%;
-}
-.navbar-new-top ul li{
-    margin-right: 8%;
 }
 .navbar-new-bottom{
     background-color: #f7f7f7;
@@ -51,6 +52,8 @@
     font-size: 13px;
     cursor: pointer;
 }
+
+
 
 
 

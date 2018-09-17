@@ -1,15 +1,17 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="security"%>
 
 <link rel="stylesheet" href="/resources/css/header.css" />
-<script type="text/javascript">
-	$(function() {});
-</script>
+
 
 <nav class="navbar fixed-top navbar-expand-md flex-nowrap navbar-new-top">
 	<div class="container">
-		<a href="/" class="navbar-brand">ECObay</a>
-		<ul class="nav navbar-nav mr-auto"></ul>
+		<a href="/main.do" class="navbar-brand">ECObay</a>
+		<ul class="nav navbar-nav mr-auto">
+			<li id="MyDayDisplay" class="clock"></li>
+			<li id="MyClockDisplay" class="clock"></li>
+		</ul>
 		<ul class="navbar-nav flex-row">
 			<!-- <li class="nav-item">
 	                    <a class="nav-link px-2">Link</a>
@@ -28,14 +30,15 @@
 						<div class="row">
 							<div class="col-md-12">
 								<form class="form" role="form" method="post" action="login" accept-charset="UTF-8" id="login-nav">
+									<security:csrfInput />
 									<div class="form-group">
-										<label class="sr-only" for="exampleInputEmail2">Email address</label> 
-										<input type="email" class="form-control" id="exampleInputEmail2" placeholder="Email address" required>
+										<label class="sr-only" for="#member_id">Email address</label> 
+										<input type="email" class="form-control" name="member_id" id="member_id" placeholder="Email address" required>
 									</div>
 									<div class="form-group">
-										<label class="sr-only" for="exampleInputPassword2">Password</label>
+										<label class="sr-only" for="#pwd">Password</label>
 										<input type="password" class="form-control"
-											id="exampleInputPassword2" placeholder="Password" required>
+											name="pwd" id="pwd" placeholder="Password" required>
 										<div class="help-block text-right">
 											<a href="#" data-toggle="modal" data-target="#findInfoModal">아이디/비밀번호 찾기</a>
 										</div>
@@ -64,7 +67,7 @@
 	<div class="navbar-collapse collapse pt-2 pt-md-0" id="navbar2">
 
 		<ul class="navbar-nav w-100 justify-content-center px-3">
-			<li class="nav-item active"><a class="nav-link" href="/">홈</a></li>
+			<li class="nav-item active"><a class="nav-link" href="/main.do">홈</a></li>
 			<li class="nav-item"><a class="nav-link">소개</a></li>
 			<li class="nav-item"><a class="nav-link">경매1</a></li>
 			<li class="nav-item"><a class="nav-link">경매2</a></li>
@@ -195,3 +198,57 @@
     </div>
   </div>
 </div>
+
+
+
+<script type="text/javascript">
+function showTime(){
+    var date = new Date();
+    var y = date.getFullYear();
+    var M = date.getMonth()+1;
+    var d = date.getDate();
+    var h = date.getHours(); // 0 - 23
+    var m = date.getMinutes(); // 0 - 59
+    var s = date.getSeconds(); // 0 - 59
+    var session = "오전";
+    
+    if(h == 0){
+        h = 12;
+    }
+    
+    if(h == 12){
+        session = "오후";
+    }
+    
+    if(h > 12){
+        h = h - 12;
+        session = "오후";
+    }
+    
+    
+    y = y.toString().substr(2,2);
+    M = (M < 10) ? "0" + M : M;
+    d = (d < 10) ? "0" + d : d;
+    h = (h < 10) ? "0" + h : h;
+    m = (m < 10) ? "0" + m : m;
+    s = (s < 10) ? "0" + s : s;
+    
+    var day = y + "년 " + M + "월 " + d + "일";
+    var time = session + " " + h + ":" + m + ":" + s;
+    document.getElementById("MyDayDisplay").innerHTML = day;
+    document.getElementById("MyClockDisplay").innerHTML = time;
+    
+    /* document.getElementById("MyClockDisplay").textContent = time; */
+    
+    setTimeout(showTime, 1000);
+    
+}
+
+
+showTime();
+</script>
+
+ 
+ 
+ 
+ 
