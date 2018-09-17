@@ -33,11 +33,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		where member_id = #{member_id}			
 	</update>
 	
-	<delete id="delete" parameterType="String"><!-- 회원탈퇴 -->
+	<update id="delete" parameterType="String"><!-- 회원탈퇴 -->
 		update member set
 		join_yn = false,
 		use_yn = false
 		where member_id = #{member_id}	
-	</delete>
+	</update>
 </mapper>
 
