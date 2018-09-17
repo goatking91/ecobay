@@ -24,6 +24,8 @@ $(function() {
 	</div>
 	<div class="col-md-12">
         <form name="myform" method="post" action="create.do">
+        	<input type="hidden" id="join_YN" name="join_YN" value="true">
+        	
         	<div class="form-group row">
 				<label class="col-sm-3 col-form-label text-right" for="member_name">이름</label>
 				<div class="col-sm-4">
@@ -37,13 +39,13 @@ $(function() {
 		        	<div class="input-group">
 						<input class="form-control" id="member_id" name="member_id" type="text"/>
 						<div class="input-group-append">
-    						<span class="input-group-text" id="basic-addon2">@</span>
+    						<span class="input-group-text" id="at">@</span>
   						</div>
-						<select class="form-control" id="member_id2" name="member_id2" type="text">
+						<select class="form-control" id="member_id2" name="member_id2">
 							<option value="선택">선택</option>
 							<option value="naver.com">naver.com</option>
-							<option value="naver.com">gmail.com</option>
-							<option value="naver.com">daum.net</option>
+							<option value="gmail.com">gmail.com</option>
+							<option value="daum.net">daum.net</option>
 							<option value="직접입력">직접입력</option>
 						</select>
 					</div>
@@ -71,7 +73,7 @@ $(function() {
 				</div>
 			</div>
 			<div class="form-group row">
-				<label class="col-sm-3 col-form-label text-right" for="birth">생년월일</label>
+				<label class="col-sm-3 col-form-label text-right" for="birth">생년월일</label><!-- datepicker6자리로 바꾸기 930811-->
 				<div class="col-sm-3">
 					<input class="form-control" id="birth" name="birth" type="text" placeholder="생년월일">
 				</div>
@@ -120,7 +122,7 @@ $(function() {
 				<label class="col-sm-3 col-form-label text-right" for="zipcode">주소</label>
 				<div class="col-sm-3">
 					<div class="input-group">
-						<input class="form-control" id="zipcode" name="zipcode" type="text" placeholder="우편번호"><!-- datepicker6자리 930811-->
+						<input class="form-control" id="zipcode" name="zipcode" type="text" placeholder="우편번호">
 						<span class="input-group-append">
 	                    		<button id="search" class="btn btn-secondary" >우편번호찾기</button>
 	                  	</span>
@@ -149,18 +151,5 @@ $(function() {
 		</form>
 	</div>
 </article>
-
-<!-- 
-
-			</tr>
-			<tr>
-				<td></td>
-				<td align="center">
-					<input type="submit" class="btn btn-info" value="등록">
-					<input type="reset" class="btn btn-info" value="초기화">
-				</td>
-			</tr>		
-		</table> -->
-
 </body>
 </html>

@@ -1,19 +1,17 @@
 package org.ecobay.user.member.service;
 
-import javax.inject.Inject;
+import java.util.List;
 
 import org.ecobay.user.member.domain.MemberVO;
 import org.ecobay.user.member.persistence.MemberDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class MemberServiceImpl implements MemberService {
-	@Inject
+	@Autowired
 	private MemberDAO dao;
 
-	@Transactional
 	@Override
 	public void regist(MemberVO vo) throws Exception {
 		dao.create(vo);
@@ -28,4 +26,20 @@ public class MemberServiceImpl implements MemberService {
 	public void modify(MemberVO vo) throws Exception {
 		dao.update(vo);	
 	}
+
+	@Override
+	public void delete(String member_id) throws Exception {
+		dao.delete(member_id);
+	}
+
+	@Override
+	public List<MemberVO> listAll() throws Exception {
+		return dao.listAll();
+	}
+
+	@Override
+	public int count() throws Exception {
+		return dao.count();
+	}
+	
 }

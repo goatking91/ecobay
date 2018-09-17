@@ -1,5 +1,7 @@
 package org.ecobay.user.member.persistence;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
 import org.apache.ibatis.session.SqlSession;
@@ -28,4 +30,20 @@ public class MemberDAOImpl implements MemberDAO {
 	public void update(MemberVO vo) throws Exception {
 		session.update(namespace + ".update", vo);
 	}
+
+	@Override
+	public void delete(String member_id) throws Exception {
+		session.update(namespace + ".delete", member_id); 
+	}
+
+	@Override
+	public List<MemberVO> listAll() throws Exception {
+		return session.selectList(namespace + ".readAll");
+	}
+
+	@Override
+	public int count() throws Exception {
+		return session.selectOne(namespace + ".count");
+	}
+	
 }
