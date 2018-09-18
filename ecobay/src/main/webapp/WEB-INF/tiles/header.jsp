@@ -1,59 +1,97 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%-- <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%> --%>
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="security"%>
 
 <link rel="stylesheet" href="/resources/css/header.css" />
 
 
+<!-- Header -->
 <nav class="navbar fixed-top navbar-expand-md flex-nowrap navbar-new-top">
 	<div class="container">
+		<!-- BrandName -->
 		<a href="/main.do" class="navbar-brand">ECObay</a>
 		<ul class="nav navbar-nav mr-auto">
 			<li id="MyDayDisplay" class="clock"></li>
 			<li id="MyClockDisplay" class="clock"></li>
 		</ul>
 		<ul class="navbar-nav flex-row">
-			<!-- <li class="nav-item">
-	                    <a class="nav-link px-2">Link</a>
-	                </li>
-	                <li class="nav-item">
-	                    <a class="nav-link px-2">Link</a>
-	                </li> -->
+		
+			<!-- Search -->
+			<li id="searchBar">
+				<form class="form-inline my-2 my-lg-0">
+					<div class="input-group">
+						<input class="form-control form-control-sm input-primary" id="searchInput" type="search" placeholder="Search" aria-label="Search">
+				      	<button class="btn btn-outline-primary btn-sm input-group-append" type="button" id="searchBtn">
+	                        <i class="fa fa-search"></i>
+	                  	</button>
+					</div>
+			      
+			    </form>
+			</li>
+			
+			<!-- Login DropDown -->
 			<li class="dropdown">
-				<a href="#" class="dropdown-toggle btn header-btn" data-toggle="dropdown">
-					<b>Login</b>
-					<span class="caret"></span>
-				</a>
-				
-				<ul id="login-dp" class="dropdown-menu">
-					<li>
-						<div class="row">
-							<div class="col-md-12">
-								<form class="form" role="form" method="post" action="login" accept-charset="UTF-8" id="login-nav">
-									<security:csrfInput />
-									<div class="form-group">
-										<label class="sr-only" for="#member_id">Email address</label> 
-										<input type="email" class="form-control" name="member_id" id="member_id" placeholder="Email address" required>
-									</div>
-									<div class="form-group">
-										<label class="sr-only" for="#pwd">Password</label>
-										<input type="password" class="form-control"
-											name="pwd" id="pwd" placeholder="Password" required>
-										<div class="help-block text-right">
-											<a href="#" data-toggle="modal" data-target="#findInfoModal">아이디/비밀번호 찾기</a>
+				<!-- 인증된 유저가 아닐 때 -->
+				<security:authorize access="isAnonymous()">
+					<button type="button" class="btn btn-outline-primary btn-sm dropdown-toggle" data-toggle="dropdown">
+						<i class="fa fa-user-o"></i>
+					</button>
+					
+					<ul id="login-dp" class="dropdown-menu dropdown-menu-right">
+						<li>
+							<div class="row">
+								<div class="col-md-12">
+									<form class="form" role="form" method="post" action="login" accept-charset="UTF-8" id="login-nav">
+										<security:csrfInput />
+										<div class="form-group">
+											<label class="sr-only" for="#member_id">Email address</label> 
+											<input type="email" class="form-control" name="member_id" id="member_id" placeholder="Email address" required>
 										</div>
-									</div>
-									<div class="form-group">
-										<button type="submit" class="btn btn-primary btn-block">로그인</button>
-									</div>
-								</form>
+										<div class="form-group">
+											<label class="sr-only" for="#pwd">Password</label>
+											<input type="password" class="form-control"
+												name="pwd" id="pwd" placeholder="Password" required>
+											<div class="help-block text-right">
+												<a href="#" data-toggle="modal" data-target="#findInfoModal">아이디/비밀번호 찾기</a>
+											</div>
+										</div>
+										<div class="form-group">
+											<button type="submit" class="btn btn-primary btn-block">로그인</button>
+										</div>
+									</form>
+								</div>
+								<div class="bottom text-center">
+									처음 오셨나요? <a href="/memberJoin.do"><b>회원가입</b></a>
+								</div>
 							</div>
-							<div class="bottom text-center">
-								처음 오셨나요? <a href="/memberJoin.do"><b>회원가입</b></a>
+						</li>
+					</ul>
+				</security:authorize>
+				
+				
+				<!-- 인증된 유저일 때 -->
+				<%-- <security:authorize access="isAuthenticated()">
+					<button type="button" class="btn btn-outline-primary btn-sm dropdown-toggle" data-toggle="dropdown">
+						<i class="fa fa-user"></i>
+					</button>
+					
+					<ul id="login-dp" class="dropdown-menu dropdown-menu-right">
+						<li>
+							<div class="row">
+								<div class="col-md-12">
+									<security:authorize access="isAuthenticated()">
+										<div class="form-group">
+											<form class="logoutForm" role="logoutForm" method="post" action="logout" accept-charset="UTF-8" id="login-nav">
+												<button type="submit" class="btn btn-primary btn-block">로그아웃</button>
+											</form>
+										</div>
+									</security:authorize>
+								</div>
 							</div>
-						</div>
-					</li>
-				</ul>
+						</li>
+					</ul>
+				</security:authorize> --%>
 			</li>
 		</ul>
 		<button class="navbar-toggler ml-auto" type="button"

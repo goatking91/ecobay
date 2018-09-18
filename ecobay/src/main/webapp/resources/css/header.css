@@ -53,9 +53,13 @@
     cursor: pointer;
 }
 
-
-
-
+/* searchBar */
+#searchBar {
+	margin-right: 5px;
+}
+#searchInput {
+	border-color: #007bff;
+}
 
 
 /* 로그인 */
