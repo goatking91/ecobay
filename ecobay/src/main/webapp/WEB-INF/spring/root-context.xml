@@ -34,7 +34,6 @@
 		<property name="dataSource" ref="dataSource"></property>
 	</bean>
 	
-	
 	<tx:annotation-driven/>
 	
 	<aop:aspectj-autoproxy></aop:aspectj-autoproxy>
