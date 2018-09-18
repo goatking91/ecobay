@@ -6,8 +6,6 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<script src="/resources/bootstrap/js/bootstrap.js"></script>
-<script src="/resources/js/jquery-3.3.1.min.js"></script>
 </head>
 <body>
 

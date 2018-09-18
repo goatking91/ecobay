@@ -5,13 +5,19 @@
 <head>
 <meta charset="UTF-8">
 <title>join.jsp</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 </head>
 <script>
 $(function() {
-    $( "#birth" ).datepicker({
-    	beforeShow: function() {
-				$('#search').css('z-index', 1); 
-			}
+    $( "#birth" ).flatpickr({
+    	maxDate: 'today',
+        dateForm at: 'd/m/Y',
+        onReady: function (selectedDates, dateStr, instance) {
+            $('#birth input').val(
+                instance.formatDate(new Date(), 'd/m/Y')
+            )
+		}
     });
  });
 	

@@ -12,7 +12,7 @@
 <div class="container">
 	<div class="row">
 		<div class="page-header" style="padding:2%">
-   	    	<h1>회원가입 </h1>
+   	    	<h1>공지사항 </h1>
 		</div>
 		<div class="col-md-12" >
 			<form name="myform" action="list.do">

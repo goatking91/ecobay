@@ -1,5 +1,7 @@
 package org.ecobay.user.member;
 
+import java.util.List;
+
 import org.ecobay.user.member.domain.MemberVO;
 import org.ecobay.user.member.service.MemberService;
 import org.slf4j.Logger;
@@ -27,10 +29,11 @@ public class MemberController {
     }
     
     @RequestMapping("/list.do")
-    public void listAll(Model model) throws Exception {
+    public String listAll(Model model) throws Exception {
     	//admin 회원리스트
     	model.addAttribute("mcnt", service.count());
     	model.addAttribute("list", service.listAll());
+    	return "member/list.page";
     }
     
     @RequestMapping("/detail.do")
@@ -62,6 +65,7 @@ public class MemberController {
     
     @RequestMapping(value = "/update.do", method = RequestMethod.POST)
     public String update(MemberVO vo) throws Exception {
+    	
     	service.modify(vo);
     	return "redirect:/member/mypage.do?member_id=" + vo.getMember_id();
     }
