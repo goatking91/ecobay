@@ -51,7 +51,6 @@
 				if(valBig == "" || valBig == null) {
 					$("select[name='class_mid_cd'] option").remove();
 					$("select[name='class_mid_cd']").append("<option value='XX'>-중분류 선택-</option>");
-					$("select[name='class_mid_cd']").append("<option value='SH'>신발</option>");
 				}
 				else {
 					$.ajax({  
@@ -86,13 +85,17 @@
 						<td>
 							<select class="custom-select" name="class_big_cd" id="class_big_cd">
 								<option value="">-대분류 선택-</option>
-								<option value="FS">패션</option>
+								<c:forEach var="bigcls" items="${bigclass}">
+									<option value="${bigcls.class_big_cd}">${bigcls.class_big_nm}</option>
+								</c:forEach>
 							</select>
 						</td>
 						<td>
 							<select class="custom-select" name="class_mid_cd" id="class_mid_cd">
 								<option value="XX">-중분류 선택-</option>
-								<option value="SH">신발</option>
+								<c:forEach var="midcls" items="${midclass}">
+									<option value="${midcls.class_mid_cd}">${midcls.class_mid_nm}</option>
+								</c:forEach>
 							</select>
 						</td>
 					</tr>

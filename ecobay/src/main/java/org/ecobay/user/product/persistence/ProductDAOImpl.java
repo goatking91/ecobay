@@ -29,15 +29,20 @@ public class ProductDAOImpl implements ProductDAO {
 	public ProductVO select(String product_cd) throws Exception {
 		return session.selectOne(namespace + ".select", product_cd);
 	}
-
+	
 	@Override
 	public List<ProductVO> selectList() throws Exception {
 		return session.selectList(namespace + ".selectList");
 	}
 
 	@Override
-	public List<ProductVO> classList(String class_big_cd) throws Exception {
-		return session.selectList(namespace + ".classList", class_big_cd);
+	public List<ProductVO> bigclassList() throws Exception {
+		return session.selectList(namespace + ".bigclassList");
+	}
+
+	@Override
+	public List<ProductVO> midclassList(String class_big_cd) throws Exception {
+		return session.selectList(namespace + ".midclassList", class_big_cd);
 	}
 
 	@Override

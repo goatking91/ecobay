@@ -34,8 +34,13 @@ public class ProductServiceImpl implements ProductService{
 	}
 
 	@Override
-	public List<ProductVO> classList(String class_big_cd) throws Exception {
-		return dao.classList(class_big_cd);
+	public List<ProductVO> bigclassList() throws Exception {
+		return dao.bigclassList();
+	}
+	
+	@Override
+	public List<ProductVO> midclassList(String class_big_cd) throws Exception {
+		return dao.midclassList(class_big_cd);
 	}
 
 	@Override
