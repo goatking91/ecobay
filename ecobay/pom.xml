@@ -238,6 +238,13 @@
 		    <artifactId>javax.mail</artifactId>
 		    <version>1.5.6</version>
 		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/org.imgscalr/imgscalr-lib -->
+		<dependency>
+		    <groupId>org.imgscalr</groupId>
+		    <artifactId>imgscalr-lib</artifactId>
+		    <version>4.2</version>
+		</dependency>
         
 		
 	</dependencies>

@@ -25,20 +25,31 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<select id="selectList" resultType="org.ecobay.user.product.domain.ProductVO">
 		SELECT * 
-		  FROM product 
+		  FROM product
+		 WHERE USE_YN = TRUE
+		   AND STATE_CD IN ('3', '5', '6')
 	</select>
 
-	<select id="classList" resultType="org.ecobay.user.product.domain.ProductVO">
-		SELECT CLASS_MID_CD, CLASS_NM 
+	<select id="bigclassList" resultType="org.ecobay.user.product.domain.ProductVO">
+		SELECT CLASS_BIG_CD, CLASS_NM as CLASS_BIG_NM
+		  FROM class
+		 WHERE USE_YN = TRUE
+		   AND CLASS_DIV = 'B'
+	  ORDER BY CLASS_BIG_CD ASC
+	</select>
+
+	<select id="midclassList" resultType="org.ecobay.user.product.domain.ProductVO">
+		SELECT CLASS_MID_CD, CLASS_NM as CLASS_MID_NM
 		  FROM class
 		 WHERE USE_YN = TRUE
 		   AND CLASS_DIV = 'M'
 		   AND CLASS_BIG_CD = #{class_big_cd}
+	  ORDER BY CLASS_MID_CD ASC
 	</select>
 
-	<select id="maxCnt" resultType="int">
-		SELECT MAX(cast(substring(product_cd, 11, 4) as unsigned)) +1 as maxCnt
+	<select id="maxCnt" parameterType="String" resultType="int">
+		SELECT IFNULL(MAX(CAST(SUBSTRING(product_cd, 11, 4) as unsigned)), 0) +1 as maxCnt
 		  FROM product
-		 WHERE product_cd like #{searchVal} || '%'
+		 WHERE SUBSTRING(product_cd, 1, 10) = #{searchVal}
 	</select>
 </mapper>
