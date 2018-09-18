@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -32,6 +33,9 @@
 			background-color: #F2F2F2; 
 			vertical-align: middle;
 		}
+		.fileDrop {
+			height: 150px;
+		}
 	</style>
 	
 	<script type="text/javascript" src="/resources/lib/ckeditor/ckeditor.js"></script>
@@ -53,17 +57,12 @@
 					$("select[name='class_mid_cd']").append("<option value='XX'>-중분류 선택-</option>");
 				}
 				else {
-					$.ajax({  
-						url         : "midclass.do",  
-						type        : "POST",  
-						data    	: "class_big_cd="+valBig,  
-						dataType    : "json",  
-						contentType : "applicaton/json; charset=UTF-8",  
-						success     : function (data) {
-							$.each(data, function(i, d) {
-								$("select[name=class_mid_cd]").append('<option value="' + d.class_mid_cd + '">' + d.class_mid_nm + '</option>'); 
-							});  
-						}
+					$.getJSON("/product/midclass.do/" + valBig, function(data) {
+						$("select[name='class_mid_cd'] option").remove();
+						$("select[name='class_mid_cd']").append("<option value='XX'>-중분류 선택-</option>");
+						$.each(data, function(i, d) {
+							$("select[name=class_mid_cd]").append('<option value="' + d.class_mid_cd + '">' + d.class_mid_nm + '</option>'); 
+						}); 
 					});
 				}
 			});
@@ -93,9 +92,6 @@
 						<td>
 							<select class="custom-select" name="class_mid_cd" id="class_mid_cd">
 								<option value="XX">-중분류 선택-</option>
-								<c:forEach var="midcls" items="${midclass}">
-									<option value="${midcls.class_mid_cd}">${midcls.class_mid_nm}</option>
-								</c:forEach>
 							</select>
 						</td>
 					</tr>
@@ -116,14 +112,16 @@
 					<tr>
 						<th class="colTitle">*이미지 등록</th>
 						<td colspan="2">
-							<textarea rows="5" class="form-control fileDrop" name="fileupload" placeholder="차후 이미지 등록기능 구현 예정임...."></textarea>
-							이미지파일은 [ JPG | GIF | BMP ] 형식만 가능합니다.(이미지 관련 안내문구 출력하기....) 
+							<div class="form-control fileDrop">
+								<label>이미지를 여기로 드래그해주세요.</label>
+							</div>
+							이미지파일은 [ JPG | GIF | PNG ] 형식만 가능합니다.(이미지 관련 안내문구 출력하기....) 
 						</td>
 					</tr>
 					<tr>
 						<th class="colTitle">이미지 미리보기</th>
 						<td colspan="2">
-							<div class="uploadedList"></div>
+							<div class="uploadedList fileDrop"></div>
 						</td>
 					</tr>
 				</table>
@@ -214,6 +212,8 @@
 	</div>
 	<br><br><br>
 	<script type="text/javascript">
+	var idx = 1;
+	
 	$(".fileDrop").on("dragenter dragover", function(event) {
 		event.preventDefault();
 	});
@@ -241,17 +241,22 @@
 				
 				var str = "";
 				
+				var fileName = getImageLink(data); 
+				var originalName = getOriginalName(data);
+				var thumbName = data;
+				
 				if(checkImageType(data)) {
 					str = "<div>"
-						+ "<a href='displayFile?fileName=" + getImageLink(data) + "'>"
-						+ "<img src='displayFile?fileName=" + data + "'/>"
-						+ "</a><small data-src=" + data + ">X</small></div>";
+						+ "<img src='/product/displayFile.do?fileName=" + thumbName + "'/>"
+						+ "<small data-src=" + thumbName + ">X</small></div>";
+						+ "<input style='display:none;' type='hidden' name='filename' value=" + fileName + ">";
+						+ "<input style='display:none;' type='hidden' name='filename_org' value=" + originalName + ">";
+						+ "<input style='display:none;' type='hidden' name='filename_thumb' value=" + thumbName + ">";
+						+ "<input style='display:none;' type='hidden' name='img_idx' value=" + idx + ">";
 				}else {
-					str = "<div><a href='displayFile?fileName=" + data + "'>"
-						+ getOriginalName(data) +"</a>"
-						+ "<small data-src=" + data + ">X</small></div></div>";
+					alert("이미지 파일로 올려주세요.");
 				}
-				
+				idx = idx + 1;
 				$(".uploadedList").append(str);
 			}
 		});
@@ -265,15 +270,18 @@
 		
 	}
 	
-	function getOriginalName(fileName) {
-		
-		if(checkImageType(fileName)) {
-			return;
-		}
+	function getFileName(fileName) {
 		
 		var idx = fileName.indexOf("_") + 1;
 		return fileName.substr(idx);
 	}
+	
+	function getOriginalName(fileName) {
+		
+		var idx = fileName.lastIndexOf("_") + 1;
+		return fileName.substr(idx);
+	}
+	
 	
 	function getImageLink(fileName) {
 		
@@ -292,7 +300,7 @@
 		var that = $(this);
 		
 		$.ajax({
-			url: "/deleteFile",
+			url: "/product/deleteFile.do",
 			type: "post",
 			data: {fileName:$(this).attr("data-src")},
 			dataType: "text",
