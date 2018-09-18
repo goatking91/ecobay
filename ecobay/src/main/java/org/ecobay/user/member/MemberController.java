@@ -21,6 +21,12 @@ public class MemberController {
     
     private static final Logger logger = LoggerFactory.getLogger(MemberController.class);
     
+    
+    @RequestMapping(value="/join.do", method = RequestMethod.GET)
+    public String joinGET() {
+    	return "member/join.page";
+    }
+    
     @RequestMapping(value="/reg.do", method = RequestMethod.GET)
     public String regGET() {
     	return "member/register.page";
