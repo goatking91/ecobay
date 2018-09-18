@@ -12,7 +12,7 @@
 $(function() {
     $( "#birth" ).flatpickr({
     	maxDate: 'today',
-        dateForm at: 'd/m/Y',
+        dateFormat: 'd/m/Y',
         onReady: function (selectedDates, dateStr, instance) {
             $('#birth input').val(
                 instance.formatDate(new Date(), 'd/m/Y')
