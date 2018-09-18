@@ -29,7 +29,7 @@ $(function() {
    	    <hr>
 	</div>
 	<div class="col-md-12">
-        <form name="myform" method="post" action="create.do">
+        <form name="myform" method="post" action="reg.do">
         	<input type="hidden" id="join_YN" name="join_YN" value="true">
         	
         	<div class="form-group row">

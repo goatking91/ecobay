@@ -1,10 +1,15 @@
 package org.ecobay.user.member;
 
+import javax.mail.internet.MimeMessage;
+
 import org.ecobay.user.member.domain.MemberVO;
 import org.ecobay.user.member.service.MemberService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
+import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.mail.javamail.MimeMessagePreparator;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,6 +23,9 @@ public class MemberController {
 	
 	@Autowired
 	MemberService service;
+	
+	@Autowired
+	private JavaMailSenderImpl mailSender;
     
     private static final Logger logger = LoggerFactory.getLogger(MemberController.class);
     
@@ -56,9 +64,29 @@ public class MemberController {
     }
     
     @RequestMapping(value = "/reg.do", method = RequestMethod.POST)
-    public String regPOST(MemberVO vo) throws Exception {
+    public String regPOST(final MemberVO vo) throws Exception {
     	service.regist(vo);
-    	return "redirect:/main.do";
+    	
+    	final MimeMessagePreparator preparator = new MimeMessagePreparator() {
+	        @Override
+	        public void prepare(MimeMessage mimeMessage) throws Exception {
+	            final MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true, "UTF-8");
+	            String from = "ecobaymasters@gmail.com";
+	            String to = vo.getMember_id()+"@gmail.com";
+	            /*String subject = "ECObay 가입 확인 메일";*/
+	            String subject = "아아 마이크 테스트";
+	            String text = "1212 123";
+	            
+	            helper.setFrom(from);
+	            helper.setTo(to);
+	            helper.setSubject(subject);
+	            helper.setText(text, true);
+	        }
+	    };
+
+	    mailSender.send(preparator);
+	    
+    	return "member/mailCheck.page";
     }
     
     @RequestMapping(value = "/modify.do", method = RequestMethod.GET)
