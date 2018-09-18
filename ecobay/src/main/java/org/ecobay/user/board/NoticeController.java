@@ -12,8 +12,8 @@ public class NoticeController {
     	return "board/notice/list.page";
     }
 
-    @RequestMapping("/register.do")
-    public String resgiter() {
+    @RequestMapping("/reg.do")
+    public String regGET() {
     	return "board/notice/register.page";
     }
     

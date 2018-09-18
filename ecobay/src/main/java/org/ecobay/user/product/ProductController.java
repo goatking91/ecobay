@@ -18,7 +18,7 @@ public class ProductController {
     
     @RequestMapping("/detail.do")
     public String detail() {
-    	return "product/.page";
+    	return "product/detail.page";
     }
     
     @RequestMapping("/list.do")
