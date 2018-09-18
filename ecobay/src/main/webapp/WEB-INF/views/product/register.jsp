@@ -113,8 +113,14 @@
 					<tr>
 						<th class="colTitle">*이미지 등록</th>
 						<td colspan="2">
-							<textarea rows="5" class="form-control" name="fileupload" placeholder="차후 이미지 등록기능 구현 예정임...."></textarea>
+							<textarea rows="5" class="form-control fileDrop" name="fileupload" placeholder="차후 이미지 등록기능 구현 예정임...."></textarea>
 							이미지파일은 [ JPG | GIF | BMP ] 형식만 가능합니다.(이미지 관련 안내문구 출력하기....) 
+						</td>
+					</tr>
+					<tr>
+						<th class="colTitle">이미지 미리보기</th>
+						<td colspan="2">
+							<div class="uploadedList"></div>
 						</td>
 					</tr>
 				</table>
@@ -204,5 +210,96 @@
 		</form>
 	</div>
 	<br><br><br>
+	<script type="text/javascript">
+	$(".fileDrop").on("dragenter dragover", function(event) {
+		event.preventDefault();
+	});
+	
+	$(".fileDrop").on("drop", function(event) {
+		event.preventDefault();
+		
+		var files = event.originalEvent.dataTransfer.files;
+		
+		var file = files[0];
+		
+		//console.log(file);
+		var formData = new FormData();
+		
+		formData.append("file", file);
+		 
+		$.ajax({
+			url: "/product/uploadAjax.do",
+			data: formData,
+			dataType: "text",
+			processData: false,
+			contentType: false,
+			type: "POST",
+			success: function(data) {
+				
+				var str = "";
+				
+				if(checkImageType(data)) {
+					str = "<div>"
+						+ "<a href='displayFile?fileName=" + getImageLink(data) + "'>"
+						+ "<img src='displayFile?fileName=" + data + "'/>"
+						+ "</a><small data-src=" + data + ">X</small></div>";
+				}else {
+					str = "<div><a href='displayFile?fileName=" + data + "'>"
+						+ getOriginalName(data) +"</a>"
+						+ "<small data-src=" + data + ">X</small></div></div>";
+				}
+				
+				$(".uploadedList").append(str);
+			}
+		});
+	});
+	
+	function checkImageType(fileName) {
+		
+		var pattern = /jpg$|gif$|png$|jpeg$/i;
+		
+		return fileName.match(pattern);
+		
+	}
+	
+	function getOriginalName(fileName) {
+		
+		if(checkImageType(fileName)) {
+			return;
+		}
+		
+		var idx = fileName.indexOf("_") + 1;
+		return fileName.substr(idx);
+	}
+	
+	function getImageLink(fileName) {
+		
+		if(!checkImageType(fileName)) {
+			return;
+		}
+		
+		var front = fileName.substr(0,12);
+		var end = fileName.substr(14);
+		
+		return front + end;
+	}
+	
+	$(".uploadedList").on("click", "small", function(event) {
+		
+		var that = $(this);
+		
+		$.ajax({
+			url: "/deleteFile",
+			type: "post",
+			data: {fileName:$(this).attr("data-src")},
+			dataType: "text",
+			success: function(result) {
+				if(result=="deleted") {
+					that.parent("div").remove();
+				}
+			}
+		});
+	});
+	</script>
 </body>
 </html>
