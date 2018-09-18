@@ -1,5 +1,8 @@
 package org.ecobay.user.product;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import org.ecobay.user.product.domain.ProductVO;
 import org.ecobay.user.product.service.ProductService;
 import org.slf4j.Logger;
@@ -10,6 +13,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import com.sun.org.apache.bcel.internal.generic.NEW;
 
 @RequestMapping("/product")
 @Controller
@@ -28,10 +33,11 @@ public class ProductController {
 	@RequestMapping(value = "/register.do", method = RequestMethod.POST)
     public String registerPOST(ProductVO vo) throws Exception {
 		// 상풍코드 생성 - [상품코드[상품코드(14자리) : 대분류코드(2자리) + 중분코드(2자리) + 날짜(yyMMdd(6자리)) + 일련번호(4자리) ]
-//		System.out.println(vo.getClass_big_cd());
-//		System.out.println(vo.getClass_mid_cd());
+		SimpleDateFormat transFormat = new SimpleDateFormat("yyMMdd");
+		String sDate = transFormat.format(new Date());
+		String searchVal = vo.getClass_big_cd() + vo.getClass_mid_cd() + sDate;
 		
-		String searchVal = "FS" + "SH" + "180918";
+		System.out.println("searchVal = " + searchVal);
 		
 		int iMaxCnt = service.maxCnt(searchVal);
 		
@@ -73,6 +79,7 @@ public class ProductController {
     
     @RequestMapping(value = "/midclass.do", method = RequestMethod.POST)
     public String classList(@RequestParam("class_big_cd") String class_big_cd, Model model) throws Exception {
+    	System.out.println("class_big_cd = " + class_big_cd);
     	model.addAttribute("product", service.classList(class_big_cd));
     	return "product/register.page";
     }

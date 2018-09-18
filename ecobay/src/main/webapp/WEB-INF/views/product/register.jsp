@@ -55,14 +55,14 @@
 				}
 				else {
 					$.ajax({  
-						url         :  "",  
+						url         : "midclass.do",  
 						type        : "POST",  
 						data    	: "class_big_cd="+valBig,  
 						dataType    : "json",  
 						contentType : "applicaton/json; charset=UTF-8",  
 						success     : function (data) {
-							$.each(data, function(i, d) { 
-								$("select[name=class_mid_cd]").append('<option value="' + d.seq+ '">' + d.title+ '</option>'); 
+							$.each(data, function(i, d) {
+								$("select[name=class_mid_cd]").append('<option value="' + d.class_mid_cd + '">' + d.class_mid_nm + '</option>'); 
 							});  
 						}
 					});
@@ -137,16 +137,16 @@
 						<td>
 							<select class="form-control" name="moneyUnit">
 								<option value="">-선택하세요-</option>
-								<option valie="100">100</option>
-								<option valie="200">200</option>
-								<option valie="500">500</option>
-								<option valie="1000">1,000</option>
-								<option valie="2000">2,000</option>
-								<option valie="5000">5,000</option>
-								<option valie="10000">10,000</option>
-								<option valie="20000">20,000</option>
-								<option valie="50000">50,000</option>
-								<option valie="100000">100,000</option>
+								<option value="100">100</option>
+								<option value="200">200</option>
+								<option value="500">500</option>
+								<option value="1000">1,000</option>
+								<option value="2000">2,000</option>
+								<option value="5000">5,000</option>
+								<option value="10000">10,000</option>
+								<option value="20000">20,000</option>
+								<option value="50000">50,000</option>
+								<option value="100000">100,000</option>
 							</select>
 						</td>
 					</tr>
@@ -155,16 +155,16 @@
 						<td>
 							<select class="form-control" name="auctdateUnit">
 								<option value="">-선택하세요-</option>
-								<option valie="1">1</option>
-								<option valie="2">2</option>
-								<option valie="3">3</option>
-								<option valie="4">4</option>
-								<option valie="5">5</option>
-								<option valie="6">6</option>
-								<option valie="7">7</option>
-								<option valie="8">8</option>
-								<option valie="9">9</option>
-								<option valie="10">10</option>
+								<option value="1">1</option>
+								<option value="2">2</option>
+								<option value="3">3</option>
+								<option value="4">4</option>
+								<option value="5">5</option>
+								<option value="6">6</option>
+								<option value="7">7</option>
+								<option value="8">8</option>
+								<option value="9">9</option>
+								<option value="10">10</option>
 							</select>
 						</td>
 					</tr>
