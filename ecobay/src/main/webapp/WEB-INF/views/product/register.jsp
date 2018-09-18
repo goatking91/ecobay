@@ -4,8 +4,6 @@
 <head>
 <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1">
 <title>상품등록</title>
-	<link rel="stylesheet" type="text/css" href="resources/bootstrap/css/bootstrap.css">
-	
 	<script type="text/javascript">
 		$(function()
 		{
@@ -35,6 +33,43 @@
 			vertical-align: middle;
 		}
 	</style>
+	
+	<script type="text/javascript" src="/resources/lib/ckeditor/ckeditor.js"></script>
+	<script type="text/javascript">
+		$(function()
+		{
+		    CKEDITOR.replace( 'content' );
+		});
+	</script>
+	
+	<script type="text/javascript">
+		$(function()
+		{
+			$("select[name='class_big_cd']").change(function(){  // 셀렉트 박스가 체인지 될때 이벤트  - "select[name=classBig]"
+				var valBig = $(this).val(); // 현재 선택된 값
+	
+				if(valBig == "" || valBig == null) {
+					$("select[name='class_mid_cd'] option").remove();
+					$("select[name='class_mid_cd']").append("<option value='XX'>-중분류 선택-</option>");
+					$("select[name='class_mid_cd']").append("<option value='SH'>신발</option>");
+				}
+				else {
+					$.ajax({  
+						url         :  "",  
+						type        : "POST",  
+						data    	: "class_big_cd="+valBig,  
+						dataType    : "json",  
+						contentType : "applicaton/json; charset=UTF-8",  
+						success     : function (data) {
+							$.each(data, function(i, d) { 
+								$("select[name=class_mid_cd]").append('<option value="' + d.seq+ '">' + d.title+ '</option>'); 
+							});  
+						}
+					});
+				}
+			});
+		});
+	</script>
 </head>
 <body>
 	<div class="container"> <!-- container-fluid -->
@@ -49,34 +84,36 @@
 					<tr>
 						<th class="colTitle">*물품분류</th>
 						<td>
-							<select class="form-control" name="classBig">
+							<select class="custom-select" name="class_big_cd" id="class_big_cd">
 								<option value="">-대분류 선택-</option>
+								<option value="FS">패션</option>
 							</select>
 						</td>
 						<td>
-							<select class="form-control" name="classMid">
-								<option value="">-중분류 선택-</option>
+							<select class="custom-select" name="class_mid_cd" id="class_mid_cd">
+								<option value="XX">-중분류 선택-</option>
+								<option value="SH">신발</option>
 							</select>
 						</td>
 					</tr>
 				
 					<tr>
 						<th class="colTitle">*물품제목</th>
-						<td colspan="2"><input class="form-control" type="text" name="productNm" placeholder="물품제목을 입력하세요."></td>
+						<td colspan="2"><input class="form-control" type="text" name="product_nm" placeholder="물품제목을 입력하세요."></td>
 					</tr>
 					
 					<tr>
 						<th class="colTitle">*물품설명</th>
 						<td colspan="2">
 							<font color="red"><strong> * 직거래를 유도하는 문구, 개인정보(휴대폰, e-mail 등)나 html 태그는 사용할 수 없습니다.</strong></font>
-							<textarea rows="15" class="form-control" name="content" placeholder="물품설명을 입력하세요."></textarea>
+							<textarea rows="25" class="form-control" name="content" id="content"></textarea>
 						</td>
 					</tr>
 					
 					<tr>
 						<th class="colTitle">*이미지 등록</th>
 						<td colspan="2">
-							<textarea rows="15" class="form-control" name="fileupload" placeholder="차후 이미지 등록기능 구현 예정임...."></textarea>
+							<textarea rows="5" class="form-control" name="fileupload" placeholder="차후 이미지 등록기능 구현 예정임...."></textarea>
 							이미지파일은 [ JPG | GIF | BMP ] 형식만 가능합니다.(이미지 관련 안내문구 출력하기....) 
 						</td>
 					</tr>

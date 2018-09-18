@@ -4,8 +4,7 @@
 <head>
 <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1">
 <title>상품상세보기</title>
-	<link rel="stylesheet" type="text/css" href="resources/bootstrap/css/bootstrap.css">
-	
+<!-- 	<link rel="stylesheet" type="text/css" href="resources/bootstrap/css/bootstrap.css"> -->
 	<style type="text/css">
 		a 
 		{
@@ -170,7 +169,7 @@
 	<!-- 제목(상품명) 출력영역 -->
 	<div class="container">
 		<div class="row">
-			<h4>제목 출력(productNm)</h4>
+			<h4>${product.product_nm}</h4>
 		</div>
 	</div>
 
@@ -294,7 +293,7 @@
 						
 						<tr>
 							<th class="detailTitle">상품번호</th>
-							<td colspan="2">상품번호(productCd)</td>
+							<td colspan="2">${product.product_cd}</td>
 						</tr>
 						
 						<tr>

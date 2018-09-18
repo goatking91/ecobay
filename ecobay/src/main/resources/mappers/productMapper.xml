@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.ecobay.user.mapper.ProductMapper">
+
+	<select id="select" resultType="org.ecobay.user.product.domain.ProductVO">
+		SELECT * 
+		  FROM product
+		 WHERE USE_YN = TRUE
+		   AND product_cd = #{product_cd}
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO product 
+		     VALUES (#{product_cd}, #{product_nm}, 'aaa@bbb.ccc', #{class_big_cd}, #{class_mid_cd}, #{content}, '1', '요청', now(), now(), null, TRUE, 0)
+	</insert>
+	
+	<update id="delete">
+		UPDATE product
+		   SET USE_YN = FALSE
+		 WHERE product_cd = #{product_cd}
+	</update>
+	
+	<select id="selectList" resultType="org.ecobay.user.product.domain.ProductVO">
+		SELECT * 
+		  FROM product 
+	</select>
+
+	<select id="classList" resultType="org.ecobay.user.product.domain.ProductVO">
+		SELECT CLASS_MID_CD, CLASS_NM 
+		  FROM class
+		 WHERE USE_YN = TRUE
+		   AND CLASS_DIV = 'M'
+		   AND CLASS_BIG_CD = #{class_big_cd}
+	</select>
+
+	<select id="maxCnt" resultType="int">
+		SELECT MAX(cast(substring(product_cd, 11, 4) as unsigned)) +1 as maxCnt
+		  FROM product
+		 WHERE product_cd like #{searchVal} || '%'
+	</select>
+</mapper>
