@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -336,14 +337,16 @@
 			<!-- 상품정보 출력영역 끝 -->
 			
 			<!-- 탭 영역 -->
-			<div class="col-sm-9">
+			<div class="col-sm-12">
 				<nav class="nav nav-tabs" id="myTab" role="tablist">
 					<a class="nav-item nav-link active" id="nav-content-tab" data-toggle="tab" href="#nav-content" role="tab" aria-controls="nav-content" aria-selected="true">상품정보</a>
 					<a class="nav-item nav-link" id="nav-qna-tab" data-toggle="tab" href="#nav-qna" role="tab" aria-controls="nav-qna" aria-selected="false">상품문의</a>
 				</nav>
 				<div class="tab-content" id="nav-tabContent">
 					<div class="tab-pane fade show active" id="nav-content" role="tabpanel" aria-labelledby="nav-content-tab">상품설명</div>
-					<div class="tab-pane fade" id="nav-qna" role="tabpanel" aria-labelledby="nav-qna-tab">상품문의</div>
+					<div class="tab-pane fade" id="nav-qna" role="tabpanel" aria-labelledby="nav-qna-tab">
+						<%-- <c:import url="/WEB-INF/views/product/qna.jsp"></c:import> --%>
+					</div>
 				</div>
 			</div>
 		<!--탭 영역 끝-->

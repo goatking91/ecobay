@@ -1,7 +1,5 @@
 package org.ecobay.user.member;
 
-import java.util.List;
-
 import org.ecobay.user.member.domain.MemberVO;
 import org.ecobay.user.member.service.MemberService;
 import org.slf4j.Logger;
@@ -23,27 +21,33 @@ public class MemberController {
     
     private static final Logger logger = LoggerFactory.getLogger(MemberController.class);
     
-    @RequestMapping("/join.do")
-    public String join() {
+    
+    @RequestMapping(value="/join.do", method = RequestMethod.GET)
+    public String joinGET() {
     	return "member/join.page";
     }
     
-    @RequestMapping("/list.do")
-    public String listAll(Model model) throws Exception {
+    @RequestMapping(value="/reg.do", method = RequestMethod.GET)
+    public String regGET() {
+    	return "member/register.page";
+    }
+    
+    @RequestMapping(value="/list.do", method = RequestMethod.GET)
+    public String list(Model model) throws Exception {
     	//admin 회원리스트
     	model.addAttribute("mcnt", service.count());
     	model.addAttribute("list", service.listAll());
     	return "member/list.page";
     }
     
-    @RequestMapping("/detail.do")
+    @RequestMapping(value="/detail.do", method = RequestMethod.GET)
     public void read(@RequestParam("member_id") String member_id) throws Exception {
     	//admin 상세보기 회원한명에대한 상세
     	
     	MemberVO vo = service.read(member_id);
     }
     
-    @RequestMapping("/mypage.do")
+    @RequestMapping(value="/mypage.do", method = RequestMethod.GET)
     public String mypage(@RequestParam("member_id") String member_id, Model model) throws Exception {
     	model.addAttribute("member",service.read(member_id));
     	MemberVO vo = service.read(member_id);
@@ -51,20 +55,20 @@ public class MemberController {
     	return "member/mypage.page";
     }
     
-    @RequestMapping(value = "/create.do", method = RequestMethod.POST)
-    public String join(MemberVO vo) throws Exception {
+    @RequestMapping(value = "/reg.do", method = RequestMethod.POST)
+    public String regPOST(MemberVO vo) throws Exception {
     	service.regist(vo);
     	return "redirect:/main.do";
     }
     
-    @RequestMapping(value = "/update.do", method = RequestMethod.GET)
-    public String preupdate(@RequestParam("member_id") String member_id, Model model) throws Exception {
+    @RequestMapping(value = "/modify.do", method = RequestMethod.GET)
+    public String modifyGET(@RequestParam("member_id") String member_id, Model model) throws Exception {
     	model.addAttribute("member", service.read(member_id));
-    	return "member/update.page";
+    	return "member/modify.page";
     }
     
-    @RequestMapping(value = "/update.do", method = RequestMethod.POST)
-    public String update(MemberVO vo) throws Exception {
+    @RequestMapping(value = "/modify.do", method = RequestMethod.POST)
+    public String modifyPOST(MemberVO vo) throws Exception {
     	
     	service.modify(vo);
     	return "redirect:/member/mypage.do?member_id=" + vo.getMember_id();
