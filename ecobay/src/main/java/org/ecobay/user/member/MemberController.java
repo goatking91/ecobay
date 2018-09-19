@@ -1,5 +1,8 @@
 package org.ecobay.user.member;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.mail.internet.MimeMessage;
 
 import org.ecobay.user.member.domain.MemberVO;
@@ -12,9 +15,11 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.mail.javamail.MimeMessagePreparator;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 
 @RequestMapping("/member")
@@ -29,6 +34,15 @@ public class MemberController {
     
     private static final Logger logger = LoggerFactory.getLogger(MemberController.class);
     
+    @RequestMapping(value = "/idcheck.do", method = RequestMethod.POST)
+    @ResponseBody
+    public Map<Object, Object> idcheck(@RequestBody String member_id) throws Exception {
+        int count = 0;
+        Map<Object, Object> map = new HashMap<Object, Object>();
+        count = service.idcheck(member_id);
+        map.put("cnt", count);
+        return map;
+    }
     
     @RequestMapping(value="/join.do", method = RequestMethod.GET)
     public String joinGET() {
@@ -74,7 +88,7 @@ public class MemberController {
 	            StringBuffer sb = new StringBuffer();
 	            
 	            String from = "ecobaymasters@gmail.com";
-	            String to = vo.getMember_id()+"@gmail.com";
+	            String to = vo.getMember_id();
 	            String subject = "ECObay 가입 확인 메일";
 	            sb.append("<h1>메일인증<h1>");
 				sb.append("<a href='http://localhost:7080/member/verify.do?member_id=" + vo.getMember_id()

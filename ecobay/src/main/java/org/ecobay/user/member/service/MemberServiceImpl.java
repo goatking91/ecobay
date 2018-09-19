@@ -46,5 +46,10 @@ public class MemberServiceImpl implements MemberService {
 	public void verify(MemberVO vo) throws Exception {
 		dao.verify(vo);	
 	}
+
+	@Override
+	public int idcheck(String member_id) throws Exception {
+		return dao.idcheck(member_id);
+	}
 	
 }

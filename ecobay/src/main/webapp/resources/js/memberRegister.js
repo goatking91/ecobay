@@ -1,4 +1,6 @@
 $(document).ready(function(){
+	var flag = false;
+	
 	$('#searchCode').click(function() {		
 		
 		new daum.Postcode({
@@ -55,14 +57,14 @@ $(document).ready(function(){
 	
 	$('#regbutton').click(function(event){
 		var member_name = $('#member_name').val();
-		var member_id = $('#member_id1').val();
+		var member_id1 = $('#member_id1').val();
 		var member_id2 = $('#member_id2 ').val();
 		var member_id3 = $('#member_id3').val();
 		var pwd = $('#member_pwd').val();
 		var pwdck = $('#pwdck').val();
 		var birth = $('#birth').val();
 		var gender = $('#gender').val();
-		var phone = $('#phone').val();
+		var phone1 = $('#phone1').val();
 		var phone2 = $('#phone2').val();
 		var phone3 = $('#phone3').val();
 		var zipcode = $('#zipcode').val();
@@ -74,8 +76,8 @@ $(document).ready(function(){
 		var reg_phone= RegExp(/(\d{3,4})/);
         var reg_name= RegExp(/^[가-힣]+$/);
 		
-        var full_id = '';
-        var full_phone = '';
+        var member_id = '';
+        var phone = '';
         
         if(member_name.length == 0){
         	$('#message').find('h4').text("올바른 이름을 입력해주세요");
@@ -90,7 +92,7 @@ $(document).ready(function(){
          	return false;
          } 
         
-        if(member_id.length == 0){
+        if(member_id1.length == 0){
         	$('#message').find('h4').text("아이디를 입력해주세요");
         	$('#myModal').modal('show');
         	$("#member_id1").focus();
@@ -109,24 +111,29 @@ $(document).ready(function(){
             return false;
          } else {
             if (member_id2 == '직접입력') {
-               full_id = member_id + "@" + member_id3;
-               if(!reg_email.test(full_id)){
+            	member_id = member_id1 + "@" + member_id3;
+               if(!reg_email.test(member_id)){
             	   $('#message').find('h4').text('올바른 메일 형식을 입력해주세요');
                    $('#myModal').modal('show'); 
                    $("#member_id1").val("");
                    $("#member_id1").focus();
                    return false;
                }
+               $('#member_id_join').val(member_id);
             } else {
-               full_id = member_id + "@" + member_id2;
-               if(!reg_email.test(full_id)){
+            	member_id = member_id1 + "@" + member_id2;
+               if(!reg_email.test(member_id)){
             	   $('#message').find('h4').text('올바른 메일 형식을 입력해주세요');
                    $('#myModal').modal('show');
                    $("#member_id1").val("");
                    $("#member_id1").focus();
                    return false;
                }
+               $('#member_id_join').val(member_id);
             }
+         }if(flag == false){
+        	 $('#message').find('h4').text('아이디 중복체크 해주세요');
+             $('#myModal').modal('show');
          }if(pwd.length == 0){
         	$('#message').find('h4').text("비밀번호를 입력해주세요");
         	$('#myModal').modal('show');
@@ -173,7 +180,8 @@ $(document).ready(function(){
             $("#phone3").focus();
             return false;
         }else{
-        	full_phone = phone + "-" + phone2 + "-" + phone3;
+        	phone = phone1 + "-" + phone2 + "-" + phone3;
+        	$('#phone').val(phone);
         }
         
         if(zipcode.length == 0){
@@ -190,8 +198,81 @@ $(document).ready(function(){
         	$("#addr2").focus();
         	return false; 
         }
-        console.log(full_id);
-        console.log(full_phone);
-	})
-	
+	});
+	$('#member_idck').click(function(){
+		/* 	var member_id = GetComponent("full_id") */
+
+			var member_id ='';
+			var member_id1 = $('#member_id1').val();
+			var member_id2 = $('#member_id2').val();
+			var member_id3 = $('#member_id3').val();
+			var reg_email = RegExp(/^([\S]{2,16})@([a-zA-Z]{2,10})\.([a-zA-Z]{2,10})$/)
+			
+			console.log(member_id1);
+			console.log(member_id2);
+			console.log(member_id3);
+			
+			if(member_id1.length == 0){
+		    	$('#message').find('h4').text("아이디를 입력해주세요");
+		    	$('#myModal').modal('show');
+		    	$("#member_id1").focus();
+		    	return false;
+		     }else if(member_id2 == '선택'){
+		        $('#message').find('h4').text('메일 주소를 선택해 주세요.');
+		        $('#myModal').modal('show');
+		        return false;
+		        
+		     } else if(member_id2 == '직접입력' && member_id3.length == 0) {
+		        $('#message').find('h4').text('메일 주소를 입력해주세요');
+		        $('#myModal').modal('show');
+		        $("#member_id3").focus();
+		        return false;
+		     } else {
+		        if (member_id2 == '직접입력') {
+		        	member_id = member_id1 + "@" + member_id3;
+		           if(!reg_email.test(member_id)){
+		        	   $('#message').find('h4').text('올바른 메일 형식을 입력해주세요');
+		               $('#myModal').modal('show'); 
+		               $("#member_id1").val("");
+		               $("#member_id1").focus();
+		               return false;
+		           }
+		        } else {
+		        	member_id = member_id1 + "@" + member_id2;
+		           if(!reg_email.test(member_id)){
+		        	   $('#message').find('h4').text('올바른 메일 형식을 입력해주세요');
+		               $('#myModal').modal('show');
+		               $("#member_id1").val("");
+		               $("#member_id1").focus();
+		               return false;
+		           }
+		        }
+		     }
+			
+			$.ajax({
+				async: true,
+		        type : 'POST',
+		        data : member_id,
+		        url : "/member/idcheck.do",
+		        dataType : "json",
+		        contentType: "application/json; charset=UTF-8",
+		        success : function(data) {
+		            if (data.cnt > 0) {
+		                
+		                alert("아이디가 존재합니다. 다른 아이디를 입력해주세요.");
+		                $("#member_id1").val("");
+		                $("#member_id1").focus();            
+		            } else {
+		            	alert("사용가능한 아이디입니다.");
+		                $("#member_pwd").focus();
+		     
+		            }
+		            flag=true;
+		        },
+		        error : function(error) {
+		            
+		            alert("error : " + error);
+		        }
+			});
+		});
 });

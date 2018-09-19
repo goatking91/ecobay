@@ -22,6 +22,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="count" resultType="int">
 		select count(*) from member
  	</select>
+ 	
+ 	<select id="idcount" resultType="int">
+ 		select count(*) from member where member_id = #{member_id}
+ 	</select>
 	
 	<update id="verify" parameterType="MemberVO">
 		update member set

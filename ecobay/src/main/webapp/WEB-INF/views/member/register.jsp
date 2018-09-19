@@ -23,6 +23,7 @@ $(function() {
  });
 	
 </script>
+
 </head>
 
 
@@ -34,7 +35,8 @@ $(function() {
 	</div>
 	<div class="col-md-12">
         <form name="myform" method="post" action="reg.do">
-        	<input type="hidden" id="join_YN" name="join_YN" value="true">
+        	<input type="hidden" id="phone" name="phone" value="">
+        	<input type="hidden" id="member_id_join" name="member_id" value="">
         	
         	<div class="form-group row">
 				<label class="col-sm-3 col-form-label text-right" for="member_name">이름</label>
@@ -47,12 +49,12 @@ $(function() {
           		<label class="col-sm-3 col-form-label text-right text-right" for="member_id1">ID</label>
 		        <div class="col-sm-3">
 		        	<div class="input-group">
-						<input class="form-control" id="member_id1" name="member_id" type="text"/>
+						<input class="form-control" id="member_id1" name="member_id1" type="text"/>
 						<div class="input-group-append">
     						<span class="input-group-text" id="at">@</span>
   						</div>
 						<select class="form-control" id="member_id2" name="member_id2">
-							<option value="선택">선택</option>
+							<option value="">선택</option>
 							<option value="naver.com">naver.com</option>
 							<option value="gmail.com">gmail.com</option>
 							<option value="daum.net">daum.net</option>
@@ -64,7 +66,7 @@ $(function() {
         			<div class="input-group">
 						<input class="form-control" id="member_id3" name="member_id3" type="text" placeholder="직접입력"/>
 						<div class="input-group-append">						
-                			<button class="btn btn-secondary" type="button">중복체크</button>
+                			<button id="member_idck"class="btn btn-secondary" type="button">중복체크</button>
                 		</div>
             		</div>
     			</div>
@@ -106,10 +108,10 @@ $(function() {
 			</div>	
 			
 			<div class="form-group row">	
-			<label class="col-sm-3 col-form-label text-right" for="phone phone2 phone3">번호</label>
+			<label class="col-sm-3 col-form-label text-right" for="phone1 phone2 phone3">번호</label>
 				<div class="col-sm-3">
 					<div class="input-group">				
-					<select class="form-control" id="phone" name="phone">
+					<select class="form-control" id="phone1" name="phon1e">
 						<option value="010">010</option>
 						<option value="011">011</option>
 						<option value="016">016</option>
@@ -154,7 +156,7 @@ $(function() {
 						
 			<div class="form-group row">
 				<div class="col-sm text-center">
-					<input type="button" id="regbutton" class="btn btn-lg btn-info" value="등록">&nbsp;
+					<input type="submit" id="regbutton" class="btn btn-lg btn-info" value="등록">&nbsp;
 					<input type="reset" class="btn btn-lg btn-info" value="초기화">
 				</div>	
 			</div>     	
