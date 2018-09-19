@@ -22,6 +22,154 @@ $(function() {
  });
 	
 </script>
+<script type="text/javascript">
+$(document).ready(function(){
+	
+	$('#member_id2').bind('change', function(){
+		var member_id2 = $('#member_id2').val();
+		var member_id3 = $('#member_id3').val();
+	       if(member_id2 == '선택'){
+	    	   $('#member_id3').attr("readonly", true);
+	       }else if(member_id2 == '직접입력'){
+	    	   $('#member_id3').attr("readonly", false);
+	       }else{
+	    	   $('#member_id3').attr("readonly", true);
+	       }
+	   });
+	
+	$('#regbutton').click(function(event){
+		var member_name = $('#member_name').val();
+		var member_id = $('#member_id1').val();
+		var member_id2 = $('#member_id2 ').val();
+		var member_id3 = $('#member_id3').val();
+		var pwd = $('#member_pwd').val();
+		var pwdck = $('#pwdck').val();
+		var birth = $('#birth').val();
+		var gender = $('#gender').val();
+		var phone = $('#phone').val();
+		var phone2 = $('#phone2').val();
+		var phone3 = $('#phone3').val();
+		var zipcode = $('#zipcode').val();
+		var addr1 = $('#addr1').val();
+		var addr2 = $('#addr2').val();
+		
+		var reg_pwd = RegExp(/^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,16}$/);
+		var reg_email = RegExp(/^([\S]{2,16})@([a-zA-Z]{2,10})\.([a-zA-Z]{2,10})$/);
+		var reg_phone= RegExp(/^[0-9](3,4)+$/);
+        var reg_name= RegExp(/^[가-힣]+$/);
+		
+        var full_id = '';
+        
+        if(member_name.length == 0){
+        	$('#message').find('h4').text("올바른 이름을 입력해주세요");
+        	$('#myModal').modal('show');
+        	$("#member_name").focus();
+        	return false;
+         }if(!reg_name.test(member_name)){
+        	 $('#message').find('h4').text("올바른 이름형식을 입력해주세요");
+         	$('#myModal').modal('show');
+         	$("#member_name").val("");
+            $("#member_name").focus();
+         	return false;
+         } 
+        
+        if(member_id.length == 0){
+        	$('#message').find('h4').text("아이디를 입력해주세요");
+        	$('#myModal').modal('show');
+        	$("#member_id1").focus();
+        	return false;
+         }   
+          
+          else if(member_id2 == '선택'){
+            $('#message').find('h4').text('메일 주소를 선택해 주세요.');
+            $('#myModal').modal('show');
+            return false;
+            
+         } else if(member_id2 == '직접입력' && member_id3.length == 0) {
+            $('#message').find('h4').text('메일 주소를 입력해주세요');
+            $('#myModal').modal('show');
+            $("#member_id3").focus();
+            return false;
+         } else {
+            if (member_id2 == '직접입력') {
+               full_id = member_id + "@" + member_id3;
+               if(!reg_email.test(full_id)){
+            	   $('#message').find('h4').text('올바른 메일 형식을 입력해주세요');
+                   $('#myModal').modal('show'); 
+                   $("#member_id1").val("");
+                   $("#member_id1").focus();
+                   return false;
+               }
+            } else {
+               full_id = member_id + "@" + member_id2;
+               if(!reg_email.test(full_id)){
+            	   $('#message').find('h4').text('올바른 메일 형식을 입력해주세요');
+                   $('#myModal').modal('show');
+                   $("#member_id1").val("");
+                   $("#member_id1").focus();
+                   return false;
+               }
+            }
+         }if(pwd.length == 0){
+        	$('#message').find('h4').text("비밀번호를 입력해주세요");
+        	$('#myModal').modal('show');
+        	$("#member_pwd").focus();
+        	return false;
+        }else if(!reg_pwd.test(pwd)){
+        	$('#message').find('h4').text('특수문자를 포함한 8~16자리 수를 입력해주세요');
+            $('#myModal').modal('show');
+            $("#member_pwd").val("");
+            $("#member_pwd").focus();
+            return false;
+        }
+         
+         if(pwd != pwdck){
+        	$('#message').find('h4').text("동일한 비밀번호를 입력해주세요");
+        	$('#myModal').modal('show');
+            $("#pwdck").val("");
+            $("#pwdck").focus();
+        	return false;
+        }if(birth.length == 0){
+        	$('#message').find('h4').text("생년월일을 입력해주세요");
+        	$('#myModal').modal('show');
+        	return false;
+        }if(phone2.length == 0 || phone3.length == 0){
+        	$('#message').find('h4').text("번호를 입력해주세요");
+        	$('#myModal').modal('show');
+        	$("#phone2").focus();
+        	return false;
+        }else if(!reg_phone.test(phone2) || !reg_phone.test(phone3)){
+        	$('#message').find('h4').text("올바른 번호를 입력해주세요");
+        	$('#myModal').modal('show');
+            $("#phone2").val("");
+            $("#phone3").val("");
+            $("#phone2").focus();
+        }
+        
+        if(zipcode.length == 0){
+        	$('#message').find('h4').text("우편번호를 입력해주세요");
+        	$('#myModal').modal('show');
+        	return false;
+        }if(addr1.length == 0 || addr2.length == 0){
+        	$('#message').find('h4').text("주소를 입력해주세요");
+        	$('#myModal').modal('show');
+        	return false;
+        }      
+	})
+
+/* 	$('#member_id2 option:checked').focus(function(event){
+		var member_id2 = $('#member_id2').val();
+		if(member_id2 == '직접입력'){
+			$('#member_id3').attr("readonly", false);
+		}else{
+			$('#member_id3').attr("disabled",true).attr("readonly", true);
+		}	
+	}) */
+	
+});
+
+
+</script>
 <body>
 <article>
 	<div class="page-header" style="padding:2%">
@@ -40,10 +188,10 @@ $(function() {
 			</div>
         	
         	<div class="form-group row row">
-          		<label class="col-sm-3 col-form-label text-right text-right" for="member_id">ID</label>
+          		<label class="col-sm-3 col-form-label text-right text-right" for="member_id1">ID</label>
 		        <div class="col-sm-3">
 		        	<div class="input-group">
-						<input class="form-control" id="member_id" name="member_id" type="text"/>
+						<input class="form-control" id="member_id1" name="member_id" type="text"/>
 						<div class="input-group-append">
     						<span class="input-group-text" id="at">@</span>
   						</div>
@@ -58,7 +206,7 @@ $(function() {
 				</div>
 				<div class="col-sm-3">
         			<div class="input-group">
-						<input class="form-control" id="member_id3" name="member_id3" type="text" placeholder="직접입력" readonly/>
+						<input class="form-control" id="member_id3" name="member_id3" type="text" placeholder="직접입력"/>
 						<div class="input-group-append">						
                 			<button class="btn btn-secondary">중복체크</button>
                 		</div>
@@ -67,9 +215,9 @@ $(function() {
         		<div class="col-sm-3"></div>
         	</div>
 			<div class="form-group row row">
-				<label class="col-sm-3 col-form-label text-right text-right" for="pwd">비밀번호</label><!-- 8~16자리 -->
+				<label class="col-sm-3 col-form-label text-right text-right" for="member_pwd">비밀번호</label><!-- 8~16자리 -->
 				<div class="col-sm-4">
-					<input class="form-control" id="pwd" name="pwd" type="password" placeholder="비밀번호">
+					<input class="form-control" id="member_pwd" name="pwd" type="password" placeholder="비밀번호">
 				</div>
 			</div>
 			<div class="form-group row">
@@ -150,12 +298,40 @@ $(function() {
 						
 			<div class="form-group row">
 				<div class="col-sm text-center">
-					<input type="submit" class="btn btn-lg btn-info" value="등록">&nbsp;
+					<input type="button" id="regbutton" class="btn btn-lg btn-info" value="등록">&nbsp;
 					<input type="reset" class="btn btn-lg btn-info" value="초기화">
 				</div>	
 			</div>     	
 		</form>
 	</div>
 </article>
+
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModallabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modaltitle">안내</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form>
+	      	<div class="row">
+	      		<div class="col-md">
+		          <div id="message">
+					<h4 align="center"></h4>
+		          </div>
+		      </div>		      	
+		   </div>
+	      </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal">확인</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 </body>
 </html>
