@@ -23,10 +23,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		select count(*) from member
  	</select>
 	
-	<update id="verify" parameterType="String">
+	<update id="verify">
 		update member set
 		join_YN = true
-		where member_id = ${member_id}
+		where member_id = #{member_id}
+		and birth = #{birth}
 	</update>
 	
 	<update id="update" parameterType="org.ecobay.user.member.domain.MemberVO">

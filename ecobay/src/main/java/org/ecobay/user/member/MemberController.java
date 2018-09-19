@@ -77,7 +77,7 @@ public class MemberController {
 	            String to = vo.getMember_id()+"@gmail.com";
 	            String subject = "ECObay 가입 확인 메일";
 	            sb.append("<h1>메일인증<h1>");
-				sb.append("<a href='http://localhost:8081/member/verify.do?member_id=" + vo.getMember_id()
+				sb.append("<a href='http://localhost:7080/member/verify.do?member_id=" + vo.getMember_id()
 					+"&birth=" + vo.getBirth());
 				sb.append("' target='blank'>이메일 인증 확인 </a>");      
 				
