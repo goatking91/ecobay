@@ -7,7 +7,8 @@
 <title>join.jsp</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-</head>
+<script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
+<script src="/resources/js/memberRegister.js"></script>
 <script>
 $(function() {
     $( "#birth" ).flatpickr({
@@ -22,6 +23,9 @@ $(function() {
  });
 	
 </script>
+</head>
+
+
 <body>
 <article>
 	<div class="page-header" style="padding:2%">
@@ -187,6 +191,4 @@ $(function() {
 
 </body>
 
-<script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
-<script src="/resources/js/memberRegister.js"></script>
 </html>
