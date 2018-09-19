@@ -68,6 +68,25 @@
 			});
 		});
 	</script>
+	
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+	<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+	
+	<script type="text/javascript">
+		$(function() {
+		    $( "#money_unit_Start" ).flatpickr({
+		    	minDate: 'today',
+		        dateFormat: 'Y-m-d',
+		        onReady: function (selectedDates, dateStr, instance) {
+		            $('#money_unit_Start input').val(
+		                instance.formatDate(new Date(), 'Y-m-d')
+		            )
+				}
+		    });
+		 });
+		
+		
+	</script>
 </head>
 <body>
 	<div class="container"> <!-- container-fluid -->
@@ -131,18 +150,18 @@
 				<table class="table">
 					<tr>
 						<th>경매 설정</th>
-						<td style="text-align: right; vertical-align: bottom;"><font  size="1">* 표시는 필수 항목입니다.</font></td>
+						<td colspan="2" style="text-align: right; vertical-align: bottom;"><font  size="1">* 표시는 필수 항목입니다.</font></td>
 					</tr>
 					
 					<tr>
 						<th class="colTitle">*시작가</th>
-						<td><input class="form-control" type="text" name="moneyFirst" placeholder="시작가를 입력하세요."></td>
+						<td colspan="2"><input class="form-control" type="number" name="avo.money_first" placeholder="시작가를 입력하세요."></td>
 					</tr>
 
 					<tr>
 						<th class="colTitle">*입찰단위(원)</th>
-						<td>
-							<select class="form-control" name="moneyUnit">
+						<td colspan="2">
+							<select class="form-control"  name="avo.money_unit">
 								<option value="">-선택하세요-</option>
 								<option value="100">100</option>
 								<option value="200">200</option>
@@ -160,26 +179,29 @@
 					<tr>
 						<th class="colTitle">*경매기간(일)</th>
 						<td>
-							<select class="form-control" name="auctdateUnit">
+							<input class="form-control" size="8" id="money_unit_Start" name="money_unit_Start" type="text" placeholder="경매시작일">
+						</td>
+						<td>
+							<select class="form-control" name="avo.auctdate_unit">
 								<option value="">-선택하세요-</option>
-								<option value="1">1</option>
-								<option value="2">2</option>
-								<option value="3">3</option>
-								<option value="4">4</option>
-								<option value="5">5</option>
-								<option value="6">6</option>
-								<option value="7">7</option>
-								<option value="8">8</option>
-								<option value="9">9</option>
-								<option value="10">10</option>
+								<option value="1">1일</option>
+								<option value="2">2일</option>
+								<option value="3">3일</option>
+								<option value="4">4일</option>
+								<option value="5">5일</option>
+								<option value="6">6일</option>
+								<option value="7">7일</option>
+								<option value="8">8일</option>
+								<option value="9">9일</option>
+								<option value="10">10일</option>
 							</select>
 						</td>
 					</tr>
 					<tr>
 						<th class="colTitle">*즉시구매</th>
-						<td>
-							<input class="checkbox" type="checkbox" name="baynowYn" id="baynowYn" value="baynowYn">&nbsp;&nbsp;
-							<input type="number" name="baynowMoney" id="baynowMoney" disabled>(원)
+						<td colspan="2">
+							<input class="checkbox" type="checkbox" name="avo.baynow_yn" id="baynowYn" value="baynowYn">&nbsp;&nbsp;
+							<input type="number" name="baynowMoney" id="avo.baynow_money" disabled>(원)
 						</td>
 					</tr>
 				</table>
@@ -194,10 +216,11 @@
 					
 					<tr>
 						<th class="colTitle">*배송구분</th>
-						<td>
-							<input type="radio" name="deliDiv" value="1">직거래 <!-- direct  -->
+						<td id="deli_div_cd">
+							<input type="radio" name="dvo.deli_div_cd" value="1">직거래 <!-- direct  -->
 							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-							<input type="radio" name="deliDiv" value="2" checked>택배 <!-- delivery  -->
+							<input type="radio" name="dvo.deli_div_cd" value="2" checked="checked">택배 <!-- delivery  -->
+							<div id="deli_div_nm"></div>
 						</td>
 					</tr>
 				</table>
@@ -248,10 +271,10 @@
 				if(checkImageType(data)) {
 					str = "<img src='/product/displayFile.do?fileName=" + thumbName + "'/>"
 						+ "<small data-src=" + thumbName + ">X</small>"
-						+ "<input style='display:none;' type='text' name='ivo["+idx+"].filename' value=" + fileName + "'>"
-						+ "<input style='display:none;' type='text' name='ivo["+idx+"].filename_org' value='" + originalName + "'>"
-						+ "<input style='display:none;' type='text' name='ivo["+idx+"].filename_thumb' value='" + thumbName + "'>"
-						+ "<input style='display:none;' type='text' name='ivo["+idx+"].img_idx' value='" + idx + "'>";
+						+ "<input style='display:none;' type='hidden' name='ivo["+idx+"].filename' value=" + fileName + "'>"
+						+ "<input style='display:none;' type='hidden' name='ivo["+idx+"].filename_org' value='" + originalName + "'>"
+						+ "<input style='display:none;' type='hidden' name='ivo["+idx+"].filename_thumb' value='" + thumbName + "'>"
+						+ "<input style='display:none;' type='hidden' name='ivo["+idx+"].img_idx' value='" + idx + "'>";
 				}else {
 					alert("이미지 파일로 올려주세요.");
 				}
@@ -309,6 +332,19 @@
 				}
 			}
 		});
+	});
+	
+	$("#deli_div_cd").children().click(function() {
+		var str = "";
+		var check = $("input[name='dvo.deli_div_cd']:checked").val();
+		$("#deli_div_nm").html("");
+		if(check==1) {
+			str = "<input style='display:none;' type='hidden' name='dvo.deli_div_nm' value='직거래'>";
+			$("#deli_div_nm").append(str);
+		}else if(check==2) {
+			str = "<input style='display:none;' type='hidden' name='dvo.deli_div_nm' value='택배'>";
+			$("#deli_div_nm").append(str);
+		}
 	});
 	</script>
 </body>

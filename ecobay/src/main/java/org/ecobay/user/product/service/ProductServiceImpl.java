@@ -16,46 +16,30 @@ public class ProductServiceImpl implements ProductService{
 	@Autowired
 	ProductDAO dao;
 
-	@Override
-	public void insert(ProductVO vo) throws Exception {
-		dao.insert(vo);
-	}
 
 	@Override
 	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED)
-	public boolean insert(ProductVO vo, List<ProductImageVO> imgListVo) {
-		int idx = 1;
-		int cnt = 0;
+	public void insert(ProductVO vo) {
 		int imgCd = 0;
 		String sProductCd = "";
-		
-		boolean retVal = false;
 		
 		sProductCd = vo.getProduct_cd();
 		
 		if(sProductCd.equals("") == false || sProductCd != null) {
 			dao.insert(vo);
 			
-			ProductImageVO imageVO = new ProductImageVO();
+			imgCd = dao.maxImgCnt();
 			
-			cnt = imgListVo.size();
-			
-			if(cnt > 0) {
-				imgCd = dao.maxImgCnt();
+			for(ProductImageVO imageVO : vo.getIvo()) {
 				
-				for(int i = 0; i < cnt; i++) {
-					imageVO = imgListVo.get(i);
-					
-					imageVO.setImg_cd(imgCd);
-					imageVO.setProduct_cd(sProductCd);
-					imageVO.setImg_idx(idx);
-		 			
-					dao.imageListinsert(imageVO);
-				}
+				imageVO.setImg_cd(imgCd);
+				imageVO.setProduct_cd(sProductCd);
+				
+				dao.imageListinsert(imageVO);
 			}
-			retVal = true;
+			
+			
 		}
-		return retVal;
 	}
 	
 	@Override
@@ -88,8 +72,4 @@ public class ProductServiceImpl implements ProductService{
 		return dao. maxCnt(searchVal);
 	}
 
-	@Override
-	public void imgInsert(ProductImageVO vo) throws Exception {
-		dao.imgInsert(vo);
-	}
 }
