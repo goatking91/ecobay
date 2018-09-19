@@ -71,12 +71,18 @@ public class MemberController {
 	        @Override
 	        public void prepare(MimeMessage mimeMessage) throws Exception {
 	            final MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true, "UTF-8");
+	            StringBuffer sb = new StringBuffer();
+	            
 	            String from = "ecobaymasters@gmail.com";
 	            String to = vo.getMember_id()+"@gmail.com";
-	            /*String subject = "ECObay 가입 확인 메일";*/
-	            String subject = "아아 마이크 테스트";
-	            String text = "1212 123";
-	            
+	            String subject = "ECObay 가입 확인 메일";
+	            sb.append("<h1>메일인증<h1>");
+				sb.append("<a href='http://localhost:8081/member/verify.do?member_id=" + vo.getMember_id()
+					+"&birth=" + vo.getBirth());
+				sb.append("' target='blank'>이메일 인증 확인 </a>");      
+				
+				String text = sb.toString();
+				
 	            helper.setFrom(from);
 	            helper.setTo(to);
 	            helper.setSubject(subject);
@@ -87,6 +93,15 @@ public class MemberController {
 	    mailSender.send(preparator);
 	    
     	return "member/mailCheck.page";
+    }
+    
+    @RequestMapping(value="/verify.do", method = RequestMethod.GET)
+    public String verify(@RequestParam String member_id, @RequestParam String birth) throws Exception {
+    	MemberVO vo = new MemberVO();
+    	vo.setMember_id(member_id);
+    	vo.setBirth(birth);
+    	service.verify(vo);
+    	return "main.page";
     }
     
     @RequestMapping(value = "/modify.do", method = RequestMethod.GET)

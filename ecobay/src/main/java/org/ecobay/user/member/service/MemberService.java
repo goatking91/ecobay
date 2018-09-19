@@ -16,4 +16,6 @@ import org.ecobay.user.member.domain.MemberVO;
 	public List<MemberVO> listAll() throws Exception;
 	
 	public int count() throws Exception;
+	
+	public void verify(MemberVO vo) throws Exception;
 }

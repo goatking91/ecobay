@@ -23,6 +23,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		select count(*) from member
  	</select>
 	
+	<update id="verify" parameterType="String">
+		update member set
+		join_YN = true
+		where member_id = ${member_id}
+	</update>
+	
 	<update id="update" parameterType="org.ecobay.user.member.domain.MemberVO">
 		update member set
 		pwd = #{pwd},

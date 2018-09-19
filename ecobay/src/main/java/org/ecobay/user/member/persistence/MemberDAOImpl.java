@@ -45,5 +45,11 @@ public class MemberDAOImpl implements MemberDAO {
 	public int count() throws Exception {
 		return session.selectOne(namespace + ".count");
 	}
+
+	@Override
+	public void verify(MemberVO vo) throws Exception {
+		session.update(namespace+ ".verify",vo) ;
+		
+	}
 	
 }
