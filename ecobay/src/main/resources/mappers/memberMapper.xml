@@ -5,17 +5,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 <mapper namespace="org.ecobay.user.mapper.MemberMapper">
 
-	<insert id="create" parameterType="org.ecobay.user.member.domain.MemberVO">
+	<insert id="create" parameterType="MemberVO">
 		insert into member 
 		(member_id,member_name,pwd,birth,zipcode,addr1,addr2,gender,phone,join_yn,regdate)
 		values(#{member_id},#{member_name},#{pwd},#{birth},#{zipcode},#{addr1},#{addr2},#{gender},#{phone},#{join_YN},now())
 	</insert>
 	
-	<select id="read" parameterType="String" resultType="org.ecobay.user.member.domain.MemberVO">
+	<select id="read" parameterType="String" resultType="MemberVO">
 		select * from member where member_id = #{member_id}
 	</select>
 	
-	<select id="readAll" resultType="org.ecobay.user.member.domain.MemberVO">
+	<select id="readAll" resultType="MemberVO">
 		select @rownum:=@rownum+1 as rn, m.* from member m, (select @rownum:=0) tmp
 	</select>
 	
@@ -23,14 +23,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		select count(*) from member
  	</select>
 	
-	<update id="verify">
+	<update id="verify" parameterType="MemberVO">
 		update member set
 		join_YN = true
 		where member_id = #{member_id}
 		and birth = #{birth}
 	</update>
 	
-	<update id="update" parameterType="org.ecobay.user.member.domain.MemberVO">
+	<update id="update" parameterType="MemberVO">
 		update member set
 		pwd = #{pwd},
 		zipcode = #{zipcode},

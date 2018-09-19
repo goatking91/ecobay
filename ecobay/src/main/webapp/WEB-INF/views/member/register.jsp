@@ -208,7 +208,7 @@ $(document).ready(function(){
         			<div class="input-group">
 						<input class="form-control" id="member_id3" name="member_id3" type="text" placeholder="직접입력"/>
 						<div class="input-group-append">						
-                			<button class="btn btn-secondary">중복체크</button>
+                			<button class="btn btn-secondary" type="button">중복체크</button>
                 		</div>
             		</div>
     			</div>
@@ -276,9 +276,9 @@ $(document).ready(function(){
 				<label class="col-sm-3 col-form-label text-right" for="zipcode">주소</label>
 				<div class="col-sm-3">
 					<div class="input-group">
-						<input class="form-control" id="zipcode" name="zipcode" type="text" placeholder="우편번호">
+						<input class="form-control" id="zipcode" name="zipcode" type="text" placeholder="우편번호" readonly="readonly">
 						<span class="input-group-append">
-	                    		<button id="search" class="btn btn-secondary" >우편번호찾기</button>
+	                    		<button id="searchCode" class="btn btn-secondary" type="button" >우편번호찾기</button>
 	                  	</span>
 					</div>	                  	
 				</div>
@@ -286,7 +286,7 @@ $(document).ready(function(){
 			<div class="form-group row">
 				<div class="col-sm-3"></div>
 				<div class="col-sm-6">
-					<input class="form-control" id="addr1" name="addr1" type="text" placeholder="도로명/지번">
+					<input class="form-control" id="addr1" name="addr1" type="text" placeholder="도로명/지번" readonly="readonly">
 				</div>	
 			</div>
 			<div class="form-group row">
@@ -334,4 +334,7 @@ $(document).ready(function(){
 </div>
 
 </body>
+
+<script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
+<script src="/resources/js/memberRegister.js"></script>
 </html>

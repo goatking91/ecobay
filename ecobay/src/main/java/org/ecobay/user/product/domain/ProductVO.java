@@ -1,6 +1,7 @@
 package org.ecobay.user.product.domain;
 
 import java.util.Date;
+import java.util.List;
 
 public class ProductVO {
 	// ==== PRODUCT(상품테이블) ==== //
@@ -20,6 +21,8 @@ public class ProductVO {
 	private Boolean use_yn;
 	private int viewcnt;
 	
+	private List<ProductImageVO> ivo;
+
 	private int rn;
 	private String searchVal;
 
@@ -27,7 +30,9 @@ public class ProductVO {
 	
 	public ProductVO(String product_cd, String product_nm, String member_id, String class_big_cd, String class_big_nm,
 			String class_mid_cd, String class_mid_nm, String content, String state_cd, String state_nm, Date regdate,
-			Date moddate, Date deldate, Boolean use_yn, int viewcnt, int rn, String searchVal) {
+			Date moddate, Date deldate, Boolean use_yn, int viewcnt, List<ProductImageVO> ivo, int rn,
+			String searchVal) {
+		super();
 		this.product_cd = product_cd;
 		this.product_nm = product_nm;
 		this.member_id = member_id;
@@ -43,6 +48,7 @@ public class ProductVO {
 		this.deldate = deldate;
 		this.use_yn = use_yn;
 		this.viewcnt = viewcnt;
+		this.ivo = ivo;
 		this.rn = rn;
 		this.searchVal = searchVal;
 	}
@@ -77,33 +83,21 @@ public class ProductVO {
 	public void setUse_yn(Boolean use_yn) { this.use_yn = use_yn; }
 	public int getViewcnt() { return viewcnt; }
 	public void setViewcnt(int viewcnt) { this.viewcnt = viewcnt; }
+	public List<ProductImageVO> getIvo() { return ivo; }
+	public void setIvo(List<ProductImageVO> ivo) { this.ivo = ivo; }
 	
 	public int getRn() { return rn; }
 	public void setRn(int rn) { this.rn = rn; }
 	
 	public String getSearchVal() { return searchVal; }
 	public void setSearchVal(String searchVal) { this.searchVal = searchVal; }
-	
+
 	@Override
 	public String toString() {
-		return "ProductVO ["
-				+   "rn=" + rn
-				+   "product_cd=" + product_cd
-				+ ", product_nm=" + product_nm 
-				+ ", member_id=" + member_id
-				+ ", class_big_cd=" + class_big_cd 
-				+ ", class_big_nm=" + class_big_nm 
-				+ ", class_mid_cd=" + class_mid_cd
-				+ ", class_mid_nm=" + class_mid_nm 
-				+ ", content=" + content 
-				+ ", state_cd=" + state_cd 
-				+ ", state_nm="	+ state_nm 
-				+ ", regdate=" + regdate 
-				+ ", moddate=" + moddate 
-				+ ", deldate=" + deldate 
-				+ ", use_yn=" + use_yn 
-				+ ", viewcnt=" + viewcnt
-				+ ", searchVal=" + searchVal
-				+ "]";
+		return "ProductVO [product_cd=" + product_cd + ", product_nm=" + product_nm + ", member_id=" + member_id
+				+ ", class_big_cd=" + class_big_cd + ", class_big_nm=" + class_big_nm + ", class_mid_cd=" + class_mid_cd
+				+ ", class_mid_nm=" + class_mid_nm + ", content=" + content + ", state_cd=" + state_cd + ", state_nm="
+				+ state_nm + ", regdate=" + regdate + ", moddate=" + moddate + ", deldate=" + deldate + ", use_yn="
+				+ use_yn + ", viewcnt=" + viewcnt + ", ivo=" + ivo + ", rn=" + rn + ", searchVal=" + searchVal + "]";
 	}
 }

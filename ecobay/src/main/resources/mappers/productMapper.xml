@@ -5,16 +5,21 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 <mapper namespace="org.ecobay.user.mapper.ProductMapper">
 
-	<select id="select" resultType="org.ecobay.user.product.domain.ProductVO">
+	<select id="select" resultType="productVO">
 		SELECT * 
 		  FROM product
 		 WHERE USE_YN = TRUE
 		   AND product_cd = #{product_cd}
 	</select>
 	
-	<insert id="insert">
+	<insert id="insert" parameterType="ProductVO">
 		INSERT INTO product 
 		     VALUES (#{product_cd}, #{product_nm}, 'aaa@bbb.ccc', #{class_big_cd}, #{class_mid_cd}, #{content}, '1', '요청', now(), now(), null, TRUE, 0)
+	</insert>
+	
+	<insert id="imageinsert" parameterType="ProductVO">
+		INSERT INTO productimg 
+		     VALUES (#{IMG_CD}, #{IMG_IDX}, #{PRODUCT_CD}, #{FILENAME}, #{FILENAME_ORG}, #{FILENAME_THUMB}, now())	
 	</insert>
 	
 	<update id="delete">
@@ -51,5 +56,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		SELECT IFNULL(MAX(CAST(SUBSTRING(product_cd, 11, 4) as unsigned)), 0) +1 as maxCnt
 		  FROM product
 		 WHERE SUBSTRING(product_cd, 1, 10) = #{searchVal}
+	</select>
+	
+	<select id="maxImgCnt" resultType="int">
+		SELECT IFNULL(MAX(IMG_CD), 0) +1 as maxImgCnt
+		  FROM productimg
 	</select>
 </mapper>
