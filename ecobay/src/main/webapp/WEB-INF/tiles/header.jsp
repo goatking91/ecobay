@@ -106,11 +106,11 @@
 
 		<ul class="navbar-nav w-100 justify-content-center px-3">
 			<li class="nav-item active"><a class="nav-link" href="/main.do">홈</a></li>
-			<li class="nav-item"><a class="nav-link">소개</a></li>
-			<li class="nav-item"><a class="nav-link">경매1</a></li>
-			<li class="nav-item"><a class="nav-link">경매2</a></li>
-			<li class="nav-item"><a class="nav-link">경매3</a></li>
-			<li class="nav-item"><a class="nav-link">고객센터</a></li>
+			<li class="nav-item"><a class="nav-link" href="#">소개</a></li>
+			<li class="nav-item"><a class="nav-link" href="/product/list.do">경매목록</a></li>
+			<li class="nav-item"><a class="nav-link" href="/product/reg.do">물품등록</a></li>
+			<li class="nav-item"><a class="nav-link" href="#">임시메뉴</a></li>
+			<li class="nav-item"><a class="nav-link" href="#">고객센터</a></li>
 		</ul>
 	</div>
 </nav>
