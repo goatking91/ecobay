@@ -3,6 +3,7 @@ package org.ecobay.user.product.persistence;
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
+import org.ecobay.user.product.domain.ProductImageVO;
 import org.ecobay.user.product.domain.ProductVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -16,10 +17,15 @@ public class ProductDAOImpl implements ProductDAO {
 	private static String namespace = "org.ecobay.user.mapper.ProductMapper";
 
 	@Override
-	public void insert(ProductVO vo) throws Exception {
+	public void insert(ProductVO vo) {
 		session.insert(namespace + ".insert", vo);
 	}
 
+	@Override
+	public void imageListinsert(ProductImageVO imagevo) {
+		session.insert(namespace + ".imageListinsert", imagevo);
+	}
+	
 	@Override
 	public void delete(String product_cd) throws Exception {
 		session.update(namespace + ".delete", product_cd);
@@ -48,5 +54,10 @@ public class ProductDAOImpl implements ProductDAO {
 	@Override
 	public int maxCnt(String searchVal) throws Exception {
 		return session.selectOne(namespace + ".maxCnt", searchVal);
+	}
+
+	@Override
+	public int maxImgCnt() {
+		return session.selectOne(namespace + ".maxImgCnt");
 	}
 }
