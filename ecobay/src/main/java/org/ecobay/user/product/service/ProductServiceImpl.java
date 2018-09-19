@@ -24,6 +24,7 @@ public class ProductServiceImpl implements ProductService{
 		String sProductCd = "";
 		
 		sProductCd = vo.getProduct_cd();
+		System.out.println(sProductCd);
 		
 		if(sProductCd.equals("") == false || sProductCd != null) {
 			dao.insert(vo);
@@ -34,8 +35,8 @@ public class ProductServiceImpl implements ProductService{
 				
 				imageVO.setImg_cd(imgCd);
 				imageVO.setProduct_cd(sProductCd);
-				
-				dao.imageListinsert(imageVO);
+							
+				dao.imageInsert(imageVO);
 			}
 			
 			

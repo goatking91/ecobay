@@ -8,7 +8,7 @@ import org.ecobay.user.product.domain.ProductVO;
 public interface ProductDAO {
 	
 	public void insert(ProductVO vo);
-	public void imageListinsert(ProductImageVO imagevo);
+	public void imageInsert(ProductImageVO imagevo);
 	public void delete(String product_cd) throws Exception;
 	public ProductVO select(String product_cd) throws Exception;
 	public List<ProductVO> selectList() throws Exception;

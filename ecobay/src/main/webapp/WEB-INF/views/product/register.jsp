@@ -271,7 +271,7 @@
 				if(checkImageType(data)) {
 					str = "<img src='/product/displayFile.do?fileName=" + thumbName + "'/>"
 						+ "<small data-src=" + thumbName + ">X</small>"
-						+ "<input style='display:none;' type='hidden' name='ivo["+idx+"].filename' value=" + fileName + "'>"
+						+ "<input style='display:none;' type='hidden' name='ivo["+idx+"].filename' value='" + fileName + "'>"
 						+ "<input style='display:none;' type='hidden' name='ivo["+idx+"].filename_org' value='" + originalName + "'>"
 						+ "<input style='display:none;' type='hidden' name='ivo["+idx+"].filename_thumb' value='" + thumbName + "'>"
 						+ "<input style='display:none;' type='hidden' name='ivo["+idx+"].img_idx' value='" + idx + "'>";

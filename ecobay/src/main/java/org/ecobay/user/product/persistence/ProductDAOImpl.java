@@ -22,8 +22,8 @@ public class ProductDAOImpl implements ProductDAO {
 	}
 
 	@Override
-	public void imageListinsert(ProductImageVO imagevo) {
-		session.insert(namespace + ".imageListinsert", imagevo);
+	public void imageInsert(ProductImageVO imagevo) {
+		session.insert(namespace + ".imageInsert", imagevo);
 	}
 	
 	@Override
