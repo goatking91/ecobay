@@ -5,32 +5,32 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 <mapper namespace="org.ecobay.user.mapper.ProductMapper">
 
-	<select id="select" resultType="org.ecobay.user.product.domain.ProductVO">
+	<select id="select" parameterType="String" resultType="ProductVO">
 		SELECT * 
 		  FROM product
 		 WHERE USE_YN = TRUE
 		   AND product_cd = #{product_cd}
 	</select>
 	
-	<insert id="insert">
+	<insert id="insert" parameterType="ProductVO">
 		INSERT INTO product 
 		     VALUES (#{product_cd}, #{product_nm}, 'aaa@bbb.ccc', #{class_big_cd}, #{class_mid_cd}, #{content}, '1', '요청', now(), now(), null, TRUE, 0)
 	</insert>
 	
-	<update id="delete">
+	<update id="delete" parameterType="String">
 		UPDATE product
 		   SET USE_YN = FALSE
 		 WHERE product_cd = #{product_cd}
 	</update>
 	
-	<select id="selectList" resultType="org.ecobay.user.product.domain.ProductVO">
+	<select id="selectList" resultType="ProductVO">
 		SELECT * 
 		  FROM product
 		 WHERE USE_YN = TRUE
 		   AND STATE_CD IN ('3', '5', '6')
 	</select>
 
-	<select id="bigclassList" resultType="org.ecobay.user.product.domain.ProductVO">
+	<select id="bigclassList" resultType="ProductVO">
 		SELECT CLASS_BIG_CD, CLASS_NM as CLASS_BIG_NM
 		  FROM class
 		 WHERE USE_YN = TRUE
@@ -38,7 +38,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	  ORDER BY CLASS_BIG_CD ASC
 	</select>
 
-	<select id="midclassList" resultType="org.ecobay.user.product.domain.ProductVO">
+	<select id="midclassList" parameterType="String" resultType="org.ecobay.user.product.domain.ProductVO">
 		SELECT CLASS_MID_CD, CLASS_NM as CLASS_MID_NM
 		  FROM class
 		 WHERE USE_YN = TRUE
@@ -52,4 +52,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		  FROM product
 		 WHERE SUBSTRING(product_cd, 1, 10) = #{searchVal}
 	</select>
+	
+	<insert id="imgInsert" parameterType="ProductImageVO">
+		INSERT INTO PRODUCTIMG
+			VALUES (#{img_cd}, #{img_idx}, #{product_cd}, #{filename}, #{filename_thumb}, #{filename_org}, now())
+	</insert>
 </mapper>

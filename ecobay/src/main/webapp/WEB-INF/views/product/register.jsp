@@ -212,7 +212,7 @@
 	</div>
 	<br><br><br>
 	<script type="text/javascript">
-	var idx = 1;
+	var idx = 0;
 	
 	$(".fileDrop").on("dragenter dragover", function(event) {
 		event.preventDefault();
@@ -246,13 +246,12 @@
 				var thumbName = data;
 				
 				if(checkImageType(data)) {
-					str = "<div>"
-						+ "<img src='/product/displayFile.do?fileName=" + thumbName + "'/>"
-						+ "<small data-src=" + thumbName + ">X</small></div>";
-						+ "<input style='display:none;' type='hidden' name='filename' value=" + fileName + ">";
-						+ "<input style='display:none;' type='hidden' name='filename_org' value=" + originalName + ">";
-						+ "<input style='display:none;' type='hidden' name='filename_thumb' value=" + thumbName + ">";
-						+ "<input style='display:none;' type='hidden' name='img_idx' value=" + idx + ">";
+					str = "<img src='/product/displayFile.do?fileName=" + thumbName + "'/>"
+						+ "<small data-src=" + thumbName + ">X</small>"
+						+ "<input style='display:none;' type='text' name='ivo["+idx+"].filename' value=" + fileName + "'>"
+						+ "<input style='display:none;' type='text' name='ivo["+idx+"].filename_org' value='" + originalName + "'>"
+						+ "<input style='display:none;' type='text' name='ivo["+idx+"].filename_thumb' value='" + thumbName + "'>"
+						+ "<input style='display:none;' type='text' name='ivo["+idx+"].img_idx' value='" + idx + "'>";
 				}else {
 					alert("이미지 파일로 올려주세요.");
 				}

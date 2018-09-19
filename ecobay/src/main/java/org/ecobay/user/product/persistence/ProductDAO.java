@@ -2,6 +2,7 @@ package org.ecobay.user.product.persistence;
 
 import java.util.List;
 
+import org.ecobay.user.product.domain.ProductImageVO;
 import org.ecobay.user.product.domain.ProductVO;
 
 public interface ProductDAO {
@@ -13,4 +14,5 @@ public interface ProductDAO {
 	public List<ProductVO> bigclassList() throws Exception;
 	public List<ProductVO> midclassList(String class_big_cd) throws Exception;
 	public int maxCnt(String searchVal) throws Exception; // 일련번호 구하기
+	public void imgInsert(ProductImageVO vo) throws Exception;
 }

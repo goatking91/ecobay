@@ -4,7 +4,8 @@
 	"http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
 	<typeAliases>
-		<package name="org.ecobay.user.member.domain"/>
-		<package name="org.ecobay.user.product.domain"/>
+		<typeAlias type="org.ecobay.user.member.domain.MemberVO" alias="MemberVO"/>
+		<typeAlias type="org.ecobay.user.product.domain.ProductVO" alias="ProductVO"/>
+		<typeAlias type="org.ecobay.user.product.domain.ProductImageVO" alias="ProductImageVO"/>
 	</typeAliases>
 </configuration>

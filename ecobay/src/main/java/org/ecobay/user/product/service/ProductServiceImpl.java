@@ -2,6 +2,7 @@ package org.ecobay.user.product.service;
 
 import java.util.List;
 
+import org.ecobay.user.product.domain.ProductImageVO;
 import org.ecobay.user.product.domain.ProductVO;
 import org.ecobay.user.product.persistence.ProductDAO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,5 +47,10 @@ public class ProductServiceImpl implements ProductService{
 	@Override
 	public int maxCnt(String searchVal) throws Exception {
 		return dao. maxCnt(searchVal);
+	}
+
+	@Override
+	public void imgInsert(ProductImageVO vo) throws Exception {
+		dao.imgInsert(vo);
 	}
 }
