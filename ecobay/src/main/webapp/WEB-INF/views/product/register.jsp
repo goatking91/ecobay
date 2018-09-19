@@ -68,6 +68,25 @@
 			});
 		});
 	</script>
+	
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+	<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+	
+	<script type="text/javascript">
+		$(function() {
+		    $( "#money_unit_Start" ).flatpickr({
+		    	minDate: 'today',
+		        dateFormat: 'Y-m-d',
+		        onReady: function (selectedDates, dateStr, instance) {
+		            $('#money_unit_Start input').val(
+		                instance.formatDate(new Date(), 'Y-m-d')
+		            )
+				}
+		    });
+		 });
+		
+		
+	</script>
 </head>
 <body>
 	<div class="container"> <!-- container-fluid -->
@@ -131,18 +150,18 @@
 				<table class="table">
 					<tr>
 						<th>경매 설정</th>
-						<td style="text-align: right; vertical-align: bottom;"><font  size="1">* 표시는 필수 항목입니다.</font></td>
+						<td colspan="2" style="text-align: right; vertical-align: bottom;"><font  size="1">* 표시는 필수 항목입니다.</font></td>
 					</tr>
 					
 					<tr>
 						<th class="colTitle">*시작가</th>
-						<td><input class="form-control" type="number" name="avo.money_first" placeholder="시작가를 입력하세요."></td>
+						<td colspan="2"><input class="form-control" type="number" name="avo.money_first" placeholder="시작가를 입력하세요."></td>
 					</tr>
 
 					<tr>
 						<th class="colTitle">*입찰단위(원)</th>
-						<td>
-							<select class="form-control" name="avo.money_unit">
+						<td colspan="2">
+							<select class="form-control"  name="avo.money_unit">
 								<option value="">-선택하세요-</option>
 								<option value="100">100</option>
 								<option value="200">200</option>
@@ -160,24 +179,27 @@
 					<tr>
 						<th class="colTitle">*경매기간(일)</th>
 						<td>
+							<input class="form-control" size="8" id="money_unit_Start" name="money_unit_Start" type="text" placeholder="경매시작일">
+						</td>
+						<td>
 							<select class="form-control" name="avo.auctdate_unit">
 								<option value="">-선택하세요-</option>
-								<option value="1">1</option>
-								<option value="2">2</option>
-								<option value="3">3</option>
-								<option value="4">4</option>
-								<option value="5">5</option>
-								<option value="6">6</option>
-								<option value="7">7</option>
-								<option value="8">8</option>
-								<option value="9">9</option>
-								<option value="10">10</option>
+								<option value="1">1일</option>
+								<option value="2">2일</option>
+								<option value="3">3일</option>
+								<option value="4">4일</option>
+								<option value="5">5일</option>
+								<option value="6">6일</option>
+								<option value="7">7일</option>
+								<option value="8">8일</option>
+								<option value="9">9일</option>
+								<option value="10">10일</option>
 							</select>
 						</td>
 					</tr>
 					<tr>
 						<th class="colTitle">*즉시구매</th>
-						<td>
+						<td colspan="2">
 							<input class="checkbox" type="checkbox" name="avo.baynow_yn" id="baynowYn" value="baynowYn">&nbsp;&nbsp;
 							<input type="number" name="baynowMoney" id="avo.baynow_money" disabled>(원)
 						</td>
