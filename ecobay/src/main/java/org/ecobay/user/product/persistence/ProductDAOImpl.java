@@ -17,10 +17,15 @@ public class ProductDAOImpl implements ProductDAO {
 	private static String namespace = "org.ecobay.user.mapper.ProductMapper";
 
 	@Override
-	public void insert(ProductVO vo) throws Exception {
+	public void insert(ProductVO vo) {
 		session.insert(namespace + ".insert", vo);
 	}
 
+	@Override
+	public void imageListinsert(ProductImageVO imagevo) {
+		session.insert(namespace + ".imageListinsert", imagevo);
+	}
+	
 	@Override
 	public void delete(String product_cd) throws Exception {
 		session.update(namespace + ".delete", product_cd);
@@ -52,7 +57,7 @@ public class ProductDAOImpl implements ProductDAO {
 	}
 
 	@Override
-	public void imgInsert(ProductImageVO vo) throws Exception {
-		session.insert(namespace + ".imgInsert", vo);
+	public int maxImgCnt() {
+		return session.selectOne(namespace + ".maxImgCnt");
 	}
 }

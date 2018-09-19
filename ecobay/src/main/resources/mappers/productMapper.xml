@@ -5,7 +5,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 <mapper namespace="org.ecobay.user.mapper.ProductMapper">
 
-	<select id="select" parameterType="String" resultType="ProductVO">
+	<select id="select" resultType="productVO">
 		SELECT * 
 		  FROM product
 		 WHERE USE_YN = TRUE
@@ -17,20 +17,25 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		     VALUES (#{product_cd}, #{product_nm}, 'aaa@bbb.ccc', #{class_big_cd}, #{class_mid_cd}, #{content}, '1', '요청', now(), now(), null, TRUE, 0)
 	</insert>
 	
-	<update id="delete" parameterType="String">
+	<insert id="imageinsert" parameterType="ProductVO">
+		INSERT INTO productimg 
+		     VALUES (#{IMG_CD}, #{IMG_IDX}, #{PRODUCT_CD}, #{FILENAME}, #{FILENAME_ORG}, #{FILENAME_THUMB}, now())	
+	</insert>
+	
+	<update id="delete">
 		UPDATE product
 		   SET USE_YN = FALSE
 		 WHERE product_cd = #{product_cd}
 	</update>
 	
-	<select id="selectList" resultType="ProductVO">
+	<select id="selectList" resultType="org.ecobay.user.product.domain.ProductVO">
 		SELECT * 
 		  FROM product
 		 WHERE USE_YN = TRUE
 		   AND STATE_CD IN ('3', '5', '6')
 	</select>
 
-	<select id="bigclassList" resultType="ProductVO">
+	<select id="bigclassList" resultType="org.ecobay.user.product.domain.ProductVO">
 		SELECT CLASS_BIG_CD, CLASS_NM as CLASS_BIG_NM
 		  FROM class
 		 WHERE USE_YN = TRUE
@@ -38,7 +43,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	  ORDER BY CLASS_BIG_CD ASC
 	</select>
 
-	<select id="midclassList" parameterType="String" resultType="org.ecobay.user.product.domain.ProductVO">
+	<select id="midclassList" resultType="org.ecobay.user.product.domain.ProductVO">
 		SELECT CLASS_MID_CD, CLASS_NM as CLASS_MID_NM
 		  FROM class
 		 WHERE USE_YN = TRUE
@@ -53,8 +58,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		 WHERE SUBSTRING(product_cd, 1, 10) = #{searchVal}
 	</select>
 	
-	<insert id="imgInsert" parameterType="ProductImageVO">
-		INSERT INTO PRODUCTIMG
-			VALUES (#{img_cd}, #{img_idx}, #{product_cd}, #{filename}, #{filename_thumb}, #{filename_org}, now())
-	</insert>
+	<select id="maxImgCnt" resultType="int">
+		SELECT IFNULL(MAX(IMG_CD), 0) +1 as maxImgCnt
+		  FROM productimg
+	</select>
 </mapper>

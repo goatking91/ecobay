@@ -23,7 +23,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -51,9 +50,8 @@ public class ProductController {
     	return "product/register.page";
     }
 	
-	@Transactional
 	@RequestMapping(value = "/reg.do", method = RequestMethod.POST)
-    public String regPOST(ProductVO vo) throws Exception {
+    public String regPOST(ProductVO vo, List<ProductImageVO> imageListVO) throws Exception {
 		// 상풍코드 생성 - [상품코드[상품코드(14자리) : 대분류코드(2자리) + 중분코드(2자리) + 날짜(yyMMdd(6자리)) + 일련번호(4자리) ]
 		SimpleDateFormat transFormat = new SimpleDateFormat("yyMMdd");
 		String sDate = transFormat.format(new Date());
@@ -66,8 +64,6 @@ public class ProductController {
 		vo.setProduct_cd(sproductcode);
 		
 		//service.insert(vo);
-		System.out.println(vo.toString());
-		//service.imgInsert(ivo);
 		
     	return "redirect:/product/list.do";
     }
