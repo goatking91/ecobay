@@ -77,10 +77,24 @@ public class ProductController {
     	
     	return "redirect:/product/detail.do";
     }*/
+
+	@RequestMapping(value = "/list.do", method = RequestMethod.GET)
+    public String list(ProductVO vo, Model model) throws Exception {
+		model.addAttribute("bigclass", service.bigclassList());
+		
+		vo.setStart_num(1);
+		vo.setEnd_num(18);
+		model.addAttribute("productList", service.selectList(vo));
+
+    	return "product/list.page";
+    }
     
-    @RequestMapping("/list.do")
-    public String list(Model model) throws Exception {
-    	model.addAttribute("productList", service.selectList());
+    @RequestMapping(value = "/list.do", method = RequestMethod.POST)
+    public String listPOST(ProductVO vo, Model model) throws Exception {
+		vo.setStart_num(1);
+		vo.setEnd_num(18);
+		
+    	model.addAttribute("productList", service.selectList(vo));
     	
     	return "product/list.page";
     }

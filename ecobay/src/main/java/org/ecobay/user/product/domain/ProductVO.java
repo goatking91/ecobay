@@ -26,8 +26,18 @@ public class ProductVO {
 	private DeliveryInfoVO dvo;
 
 	private int rn;
-	private String searchVal;
+	private String searchVal; // 검색어
 
+	// 상품리스트 검색용.
+	private int start_num;
+	private int end_num;
+	
+	// 상품리스트 출력용 추가.
+	private int bib_cnt; // 입찰수
+	private long bib_max_money; // 최대입찰금액
+	private String filename_thumb; // 썸네일파일명
+	private String acutdate_start_str; // 경매종료일시(String)
+	
 	public ProductVO() { 
 		
 	}
@@ -35,7 +45,8 @@ public class ProductVO {
 	public ProductVO(String product_cd, String product_nm, String member_id, String class_big_cd, String class_big_nm,
 			String class_mid_cd, String class_mid_nm, String content, String state_cd, String state_nm, Date regdate,
 			Date moddate, Date deldate, Boolean use_yn, int viewcnt, List<ProductImageVO> ivo, AuctionInfoVO avo,
-			DeliveryInfoVO dvo, int rn, String searchVal) {
+			DeliveryInfoVO dvo, int rn, String searchVal, 
+			int bib_cnt, long bib_max_money, String filename_thumb, String acutdate_start_str) {
 		this.product_cd = product_cd;
 		this.product_nm = product_nm;
 		this.member_id = member_id;
@@ -56,6 +67,10 @@ public class ProductVO {
 		this.dvo = dvo;
 		this.rn = rn;
 		this.searchVal = searchVal;
+		this.bib_cnt = bib_cnt;
+		this.bib_max_money = bib_max_money;
+		this.filename_thumb = filename_thumb;
+		this.acutdate_start_str = acutdate_start_str;
 	}
 
 	public String getProduct_cd() {
@@ -217,6 +232,54 @@ public class ProductVO {
 	public void setSearchVal(String searchVal) {
 		this.searchVal = searchVal;
 	}
+	
+	public int getStart_num() {
+		return start_num;
+	}
+
+	public void setStart_num(int start_num) {
+		this.start_num = start_num;
+	}
+
+	public int getEnd_num() {
+		return end_num;
+	}
+
+	public void setEnd_num(int end_num) {
+		this.end_num = end_num;
+	}
+
+	public int getBib_cnt() {
+		return bib_cnt;
+	}
+
+	public void setBib_cnt(int bib_cnt) {
+		this.bib_cnt = bib_cnt;
+	}
+
+	public long getBib_max_money() {
+		return bib_max_money;
+	}
+
+	public void setBib_max_money(long bib_max_money) {
+		this.bib_max_money = bib_max_money;
+	}
+
+	public String getFilename_thumb() {
+		return filename_thumb;
+	}
+
+	public void setFilename_thumb(String filename_thumb) {
+		this.filename_thumb = filename_thumb;
+	}
+
+	public String getAcutdate_start_str() {
+		return acutdate_start_str;
+	}
+
+	public void setAcutdate_start_str(String acutdate_start_str) {
+		this.acutdate_start_str = acutdate_start_str;
+	}
 
 	@Override
 	public String toString() {
@@ -225,7 +288,9 @@ public class ProductVO {
 				+ ", class_mid_nm=" + class_mid_nm + ", content=" + content + ", state_cd=" + state_cd + ", state_nm="
 				+ state_nm + ", regdate=" + regdate + ", moddate=" + moddate + ", deldate=" + deldate + ", use_yn="
 				+ use_yn + ", viewcnt=" + viewcnt + ", ivo=" + ivo + ", avo=" + avo + ", dvo=" + dvo + ", rn=" + rn
-				+ ", searchVal=" + searchVal + "]";
+				+ ", searchVal=" + searchVal 
+				+ ", bib_cnt=" + bib_cnt + ", bib_max_money=" + bib_max_money 
+				+ ", filename_thumb=" + filename_thumb + ", acutdate_start_str=" + acutdate_start_str 
+				+ "]";
 	}
-	
 }

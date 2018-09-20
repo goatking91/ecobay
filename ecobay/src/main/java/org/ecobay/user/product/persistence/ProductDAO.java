@@ -19,7 +19,7 @@ public interface ProductDAO {
 	
 	public void delete(String product_cd) throws Exception;
 	public ProductVO select(String product_cd) throws Exception;
-	public List<ProductVO> selectList() throws Exception;
+	public List<ProductVO> selectList(ProductVO vo) throws Exception;
 	public List<ProductVO> bigclassList() throws Exception;
 	public List<ProductVO> midclassList(String class_big_cd) throws Exception;
 }

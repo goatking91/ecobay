@@ -39,10 +39,31 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</update>
 	
 	<select id="selectList" resultType="org.ecobay.user.product.domain.ProductVO">
-		SELECT * 
-		  FROM product
-		 WHERE USE_YN = TRUE
-		   AND STATE_CD IN ('3', '5', '6')
+		SELECT * FROM
+		(
+			 SELECT @rownum:=@rownum+1 as rn
+			 		, prod.PRODUCT_CD, prod.PRODUCT_NM, prod.MEMBER_ID, prod.STATE_CD, prod.STATE_NM, prod.VIEWCNT
+					, (SELECT COUNT(PRODUCT_CD) FROM bidinfo bid WHERE bid.PRODUCT_CD = prod.PRODUCT_CD) as BIB_CNT
+					, IFNULL((SELECT MAX(MONEY_BID) FROM bidinfo bid WHERE bid.PRODUCT_CD = prod.PRODUCT_CD), 0) as BIB_MAX_MONEY
+			        , IFNULL((SELECT prodimg.FILENAME_THUMB FROM productimg prodimg WHERE prodimg.PRODUCT_CD = prod.PRODUCT_CD ORDER BY prodimg.IMG_IDX ASC limit 1), '') as FILENAME_THUMB
+			        , CASE prod.STATE_CD
+						WHEN '5' THEN IFNULL((SELECT DATE_FORMAT(ACUTDATE_END, '%Y-%m-%d %H:%s') FROM auctioninfo auct WHERE auct.PRODUCT_CD = prod.PRODUCT_CD), '')
+						WHEN '6' THEN IFNULL((SELECT DATE_FORMAT(ACUTDATE_END, '%Y-%m-%d %H:%s') FROM auctioninfo auct WHERE auct.PRODUCT_CD = prod.PRODUCT_CD), '')
+						ELSE '' END AS ACUTDATE_START_STR
+			   FROM product prod , (select @rownum:=0) tmp
+			  WHERE prod.USE_YN = TRUE
+			    AND prod.STATE_CD IN (3, 5, 6)
+			    <if test="class_big_cd != null and class_big_cd != ''">
+			    	AND prod.CLASS_BIG_CD = #{class_big_cd}
+			    	<if test="class_mid_cd != null and class_mid_cd != 'XX'">
+				    AND prod.CLASS_MID_CD = #{class_mid_cd}
+				    </if>
+			    </if>
+				<if test="searchVal != null and searchVal != ''">
+				AND prod.PRODUCT_NM like '%' || #{searchVal} || '%'
+				</if>
+		) prodlist
+		where prodlist.rn between #{start_num} and #{end_num}
 	</select>
 
 	<select id="bigclassList" resultType="org.ecobay.user.product.domain.ProductVO">
