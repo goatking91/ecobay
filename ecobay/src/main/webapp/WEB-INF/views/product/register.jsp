@@ -10,12 +10,14 @@
 	
 	<script type="text/javascript">
 		$(function() {
-		    $( "#acutdate_start" ).flatpickr({
+		    $( "#acutdate_start_str" ).flatpickr({
 		    	minDate: 'today',
-		        dateFormat: 'Y-m-d',
+		    	enableTime: true,
+		    	time_24hr: true,
+		        dateFormat: 'Y-m-d H:i',
 		        onReady: function (selectedDates, dateStr, instance) {
-		            $('#acutdate_start input').val(
-		                instance.formatDate(new Date(), 'Y-m-d')
+		            $('#acutdate_start_str input').val(
+		                instance.formatDate(new Date(), 'Y-m-d H:i')
 		            )
 				}
 		    });
@@ -40,6 +42,10 @@
 		}
 		.fileDropImg {
 			height: 150px;
+		}
+		
+		.inline{
+			display: inline;
 		}
 	</style>
 </head>
@@ -97,7 +103,9 @@
 					<tr>
 						<th class="colTitle">이미지 미리보기</th>
 						<td colspan="2" class="fileDrop">
-							<div class="uploadedList fileDropImg"></div>
+							<div class="uploadedList fileDropImg">
+								<input style='display:none;' type='hidden' name='ivo[0].product_cd' value=''>
+							</div>
 						</td>
 					</tr>
 				</table>
@@ -111,15 +119,11 @@
 					</tr>
 					
 					<tr>
-						<th class="colTitle">*시작가</th>
-						<td colspan="2"><input class="form-control" type="number" id="money_first" name="avo.money_first" placeholder="시작가를 입력하세요."></td>
-					</tr>
-
-					<tr>
-						<th class="colTitle">*입찰단위(원)</th>
-						<td colspan="2">
-							<select class="form-control" id="money_unit" name="avo.money_unit">
-								<option value="">-선택하세요-</option>
+						<th class="colTitle">*시작가/입찰단위</th>
+						<td><input class="form-control inline" style="width: 90%;" type="number" id="money_first" name="avo.money_first" placeholder="시작가를 입력하세요.">원</td>
+						<td>
+							<select class="form-control inline" style="width: 70%;" id="money_unit" name="avo.money_unit">
+								<option value="">-입찰단위 선택-</option>
 								<option value="100">100</option>
 								<option value="200">200</option>
 								<option value="500">500</option>
@@ -131,16 +135,16 @@
 								<option value="50000">50,000</option>
 								<option value="100000">100,000</option>
 							</select>
+							원
 						</td>
 					</tr>
+
 					<tr>
 						<th class="colTitle">*경매기간(일)</th>
+						<td><input class="form-control" style="width: 90%;" id="acutdate_start_str" name="avo.acutdate_start_str" type="text" placeholder="경매시작일을 넣어주세요."></td>
 						<td>
-							<input class="form-control" size="8" id="acutdate_start" name="avo.acutdate_start" type="text" placeholder="경매시작일을 넣어주세요.">
-						</td>
-						<td>
-							<select class="form-control" id="auctdate_unit" name="avo.auctdate_unit">
-								<option value="0">-선택하세요-</option>
+							<select class="form-control" name="avo.auctdate_unit">
+								<option value="0">-경매기간 선택-</option>
 								<option value="1">1일</option>
 								<option value="2">2일</option>
 								<option value="3">3일</option>
@@ -158,7 +162,7 @@
 						<th class="colTitle">*즉시구매</th>
 						<td colspan="2">
 							<input class="checkbox" type="checkbox" name="avo.baynow_yn" id="baynow_yn" value="baynow_yn">&nbsp;&nbsp;
-							<input type="number" name="avo.baynow_money" id="baynow_money" disabled>(원)
+							<input class="form-control inline" style="width: 30%;" type="number" name="avo.baynow_money" id="baynow_money" disabled>(원)
 						</td>
 					</tr>
 				</table>
@@ -177,7 +181,10 @@
 							<input type="radio" name="dvo.deli_div_cd" value="1">직거래 <!-- direct  -->
 							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 							<input type="radio" name="dvo.deli_div_cd" value="2" checked="checked">택배 <!-- delivery  -->
-							<div id="deli_div_nm"></div>
+							<div id="deli_div_nm">
+								<input style='display:none;' type='hidden' name='dvo.deli_div_nm' value='택배'>
+							</div>
+							
 						</td>
 					</tr>
 				</table>

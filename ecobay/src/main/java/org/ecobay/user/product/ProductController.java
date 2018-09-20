@@ -10,6 +10,7 @@ import java.util.List;
 import javax.annotation.Resource;
 
 import org.apache.commons.io.IOUtils;
+import org.ecobay.user.product.domain.AuctionInfoVO;
 import org.ecobay.user.product.domain.ProductVO;
 import org.ecobay.user.product.service.ProductService;
 import org.ecobay.user.util.MediaUtils;
@@ -52,8 +53,8 @@ public class ProductController {
 	@RequestMapping(value = "/reg.do", method = RequestMethod.POST)
     public String regPOST(ProductVO vo) throws Exception {
 		service.insert(vo);
-		
-    	return "redirect:/product/list.do";
+	
+		return "redirect:/product/list.do";
     }
     
     @RequestMapping(value = "/detail.do")

@@ -1,6 +1,7 @@
 package org.ecobay.user.product.service;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -29,6 +30,7 @@ public class ProductServiceImpl implements ProductService{
 		String sProductCd = "";
 		
 		SimpleDateFormat transFormat = new SimpleDateFormat("yyMMdd");
+		SimpleDateFormat transDateTimeFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 		
 		// 1. 상풍코드 생성 - [상품코드[상품코드(14자리) : 대분류코드(2자리) + 중분코드(2자리) + 날짜(yyMMdd(6자리)) + 일련번호(4자리) ]
 		sDate = transFormat.format(new Date()); // 1.1. 오늘 날짜 추출.
@@ -40,44 +42,53 @@ public class ProductServiceImpl implements ProductService{
 		System.out.println("sProductCd = " + sProductCd);
 
 		if(sProductCd.equals("") == false && sProductCd != null) {
-			//dao.insert(vo); // 2. 상품테이블에 저장.
+			dao.insert(vo); // 2. 상품테이블에 저장.
 			
 			// 3. 상품이미지테이블에 한 행씩 저장.
 			if(vo.getIvo() != null && vo.getIvo().size() > 0)
 			{
-				imgCd = dao.maxImgCnt();
-				
-				for(ProductImageVO imageVO : vo.getIvo()) {
-					imageVO.setImg_cd(imgCd);
-					imageVO.setProduct_cd(sProductCd);
+				if(vo.getIvo().get(0).getFilename() != null && vo.getIvo().get(0).getFilename().equals("") == false)
+				{
+					imgCd = dao.maxImgCnt();
+					
+					for(ProductImageVO imageVO : vo.getIvo()) {
+						imageVO.setImg_cd(imgCd);
+						imageVO.setProduct_cd(sProductCd);
 
-					//dao.imageInsert(imageVO); 
+						dao.imageInsert(imageVO);
+					}
 				}
 			}
 			
 			// 4. 경매설정 저장.
 			if(vo.getAvo() != null)
 			{
-				System.out.println("auctVO");
-				
+				// 경매 시작일시와 경매기간에 따른 경매종료일시 처리.
 				int acutUnit = 0;
-				Date dateStart = new Date();
-				Date dateEnd = new Date();
-				
+				String DateStart_str = "";
+				Date dateStart = null;
+				Date dateEnd = null;
+				java.util.Calendar dateEnd_cal = Calendar.getInstance();
+
 				AuctionInfoVO auctVO = vo.getAvo();
 				
+				try 
+				{
+					acutUnit = auctVO.getAuctdate_unit();
+					DateStart_str = auctVO.getAcutdate_start_str();
+					dateStart = (Date) transDateTimeFormat.parse(DateStart_str);					
+
+					dateEnd_cal.setTime(dateStart);
+					dateEnd_cal.add(Calendar.DATE, acutUnit);
+					
+					dateEnd = (Date) transDateTimeFormat.parse(transDateTimeFormat.format(dateEnd_cal.getTime()));
+				} catch (Exception ex) { ex.toString(); }
+				
 				auctVO.setProduct_cd(sProductCd);
-				// 경매 시작일시와 경매기간에 따른 경매종료일시 처리.
-				acutUnit = auctVO.getAuctdate_unit();
-				System.out.println("acutUnit = " + acutUnit);
+				auctVO.setAcutdate_start(dateStart);
+				auctVO.setAcutdate_end(dateEnd);
 				
-				dateStart = auctVO.getAcutdate_start();
-				System.out.println("dateStart = " + dateStart.toLocaleString());
-				
-				dateEnd.setDate(dateStart.getDate() + acutUnit);
-				System.out.println("dateEnd = " + dateStart.toLocaleString());
-				
-				//dao.auctInsert(auctVO);				
+				dao.auctInsert(auctVO);
 			}
 
 			// 5. 배송설정 저장.
@@ -87,7 +98,8 @@ public class ProductServiceImpl implements ProductService{
 				
 				DeliveryInfoVO deliVO = vo.getDvo();
 				deliVO.setProduct_cd(sProductCd);
-				//dao.deliInsert(deliVO);
+				
+				dao.deliInsert(deliVO);
 			}
 		}
 	}

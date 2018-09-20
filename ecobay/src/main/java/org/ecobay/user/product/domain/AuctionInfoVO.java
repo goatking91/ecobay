@@ -9,6 +9,8 @@ public class AuctionInfoVO {
 	private long money_last;
 	private long money_unit;
 	private int auctdate_unit;
+	private String acutdate_start_str;
+	private String acutdate_end_str;
 	private Date acutdate_start;
 	private Date acutdate_end;
 	private boolean baynow_yn;
@@ -21,13 +23,15 @@ public class AuctionInfoVO {
 	}
 
 	public AuctionInfoVO(String product_cd, long money_first, long money_last, long money_unit, int auctdate_unit,
-			Date acutdate_start, Date acutdate_end, boolean baynow_yn, long baynow_money, Date regdate,
-			String bay_member_id) {
+			String acutdate_start_str, String acutdate_end_str, Date acutdate_start, Date acutdate_end, 
+			boolean baynow_yn, long baynow_money, Date regdate, String bay_member_id) {
 		this.product_cd = product_cd;
 		this.money_first = money_first;
 		this.money_last = money_last;
 		this.money_unit = money_unit;
 		this.auctdate_unit = auctdate_unit;
+		this.acutdate_start_str = acutdate_start_str;
+		this.acutdate_end_str = acutdate_end_str;
 		this.acutdate_start = acutdate_start;
 		this.acutdate_end = acutdate_end;
 		this.baynow_yn = baynow_yn;
@@ -76,6 +80,22 @@ public class AuctionInfoVO {
 		this.auctdate_unit = auctdate_unit;
 	}
 
+	public String getAcutdate_start_str() {
+		return acutdate_start_str;
+	}
+
+	public void setAcutdate_start_str(String acutdate_start_str) {
+		this.acutdate_start_str = acutdate_start_str;
+	}
+
+	public String getAcutdate_end_str() {
+		return acutdate_end_str;
+	}
+
+	public void setAcutdate_end_str(String acutdate_end_str) {
+		this.acutdate_end_str = acutdate_end_str;
+	}
+	
 	public Date getAcutdate_start() {
 		return acutdate_start;
 	}
@@ -127,9 +147,10 @@ public class AuctionInfoVO {
 	@Override
 	public String toString() {
 		return "AuctionInfoVO [product_cd=" + product_cd + ", money_first=" + money_first + ", money_last=" + money_last
-				+ ", money_unit=" + money_unit + ", auctdate_unit=" + auctdate_unit + ", acutdate_start="
-				+ acutdate_start + ", acutdate_end=" + acutdate_end + ", baynow_yn=" + baynow_yn + ", baynow_money="
-				+ baynow_money + ", regdate=" + regdate + ", bay_member_id=" + bay_member_id + "]";
+				+ ", money_unit=" + money_unit + ", auctdate_unit=" + auctdate_unit
+				+ ", acutdate_start_str=" + acutdate_start_str + ", acutdate_end_str=" + acutdate_end_str
+				+ ", acutdate_start=" + acutdate_start + ", acutdate_end_date=" + acutdate_end
+				+ ", baynow_yn=" + baynow_yn + ", baynow_money=" + baynow_money 
+				+ ", regdate=" + regdate + ", bay_member_id=" + bay_member_id + "]";
 	}
-
 }
