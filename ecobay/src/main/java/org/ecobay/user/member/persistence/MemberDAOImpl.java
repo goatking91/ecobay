@@ -37,16 +37,6 @@ public class MemberDAOImpl implements MemberDAO {
 	}
 
 	@Override
-	public List<MemberVO> listAll() throws Exception {
-		return session.selectList(namespace + ".readAll");
-	}
-
-	@Override
-	public int count() throws Exception {
-		return session.selectOne(namespace + ".count");
-	}
-
-	@Override
 	public void verify(MemberVO vo) throws Exception {
 		session.update(namespace+ ".verify",vo) ;
 		

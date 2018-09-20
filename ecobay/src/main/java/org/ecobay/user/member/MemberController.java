@@ -91,14 +91,6 @@ public class MemberController {
     }
     
     
-    @RequestMapping(value="/list.do", method = RequestMethod.GET)
-    public String list(Model model) throws Exception {
-    	//admin 회원리스트
-    	model.addAttribute("mcnt", service.count());
-    	model.addAttribute("list", service.listAll());
-    	return "member/list.page";
-    }
-    
     @RequestMapping(value="/detail.do", method = RequestMethod.GET)
     public void read(@RequestParam("member_id") String member_id) throws Exception {
     	//admin 상세보기 회원한명에대한 상세

@@ -44,16 +44,6 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	public List<MemberVO> listAll() throws Exception {
-		return dao.listAll();
-	}
-
-	@Override
-	public int count() throws Exception {
-		return dao.count();
-	}
-
-	@Override
 	public void verify(MemberVO vo) throws Exception {
 		dao.verify(vo);	
 	}

@@ -16,10 +16,6 @@ import org.ecobay.user.member.domain.MemberVO;
 	
 	public void delete(String member_id) throws Exception;
 	
-	public List<MemberVO> listAll() throws Exception;
-	
-	public int count() throws Exception;
-	
 	public void verify(MemberVO vo) throws Exception;
 	
 	public Boolean pwdcheck(String member_id, String pwd) throws Exception;
