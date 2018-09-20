@@ -21,15 +21,15 @@
 		<beans:property name="suffix" value=".jsp" />
 	</beans:bean>
 	
-	<context:component-scan base-package="org.ecobay.user" />
+	<context:component-scan base-package="org.ecobay.*" />
 	
 	<beans:bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
 		<beans:property name="maxUploadSize" value="10485760"></beans:property>
 	</beans:bean>
 	
 	<beans:bean id="uploadPath" class="java.lang.String">
-		<beans:constructor-arg value="/Users/seung-minyeom/Documents/upload">
-		<!-- <beans:constructor-arg value="C:\\ecobay\\upload"> -->
+		<!-- <beans:constructor-arg value="/Users/seung-minyeom/Documents/upload"> -->
+		<beans:constructor-arg value="E:\\finalSpring\\upload">
 		</beans:constructor-arg>
 	</beans:bean>
 	
