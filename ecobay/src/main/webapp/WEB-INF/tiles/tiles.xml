@@ -3,7 +3,7 @@
   "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
  
 <tiles-definitions>
- 
+ 	<!-- user -->
     <!-- 메뉴 표시 -->
     <definition name="base" template="/WEB-INF/tiles/template.jsp">
         <put-attribute name="header" value="/WEB-INF/tiles/header.jsp" />
@@ -37,6 +37,25 @@
     
     <definition name="*/*/*.part" extends="baseEmpty">
         <put-attribute name="body" value="/WEB-INF/views/{1}/{2}/{3}.jsp" />
-    </definition>        
+    </definition>
+    
+    
+    <!-- admin -->
+    <definition name="adminBase" template="/WEB-INF/tiles/adminTemplate.jsp">
+        <put-attribute name="adminHeader" value="/WEB-INF/tiles/admin/header.jsp" />
+        <put-attribute name="adminFooter" value="/WEB-INF/tiles/admin/footer.jsp" />
+    </definition>
+ 
+    <definition name="*.admin" extends="adminBase">
+        <put-attribute name="adminBody" value="/WEB-INF/views/{1}.jsp" />
+    </definition>
+ 
+     <definition name="*/*.admin" extends="adminBase">
+         <put-attribute name="adminBody" value="/WEB-INF/views/{1}/{2}.jsp" />
+     </definition>
+    
+    <definition name="*/*/*.admin" extends="adminBase">
+        <put-attribute name="adminBody" value="/WEB-INF/views/{1}/{2}/{3}.jsp" />
+    </definition>
     
 </tiles-definitions>
