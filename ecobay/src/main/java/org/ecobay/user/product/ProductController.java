@@ -51,17 +51,6 @@ public class ProductController {
 	
 	@RequestMapping(value = "/reg.do", method = RequestMethod.POST)
     public String regPOST(ProductVO vo) throws Exception {
-		// 상풍코드 생성 - [상품코드[상품코드(14자리) : 대분류코드(2자리) + 중분코드(2자리) + 날짜(yyMMdd(6자리)) + 일련번호(4자리) ]
-		SimpleDateFormat transFormat = new SimpleDateFormat("yyMMdd");
-		String sDate = transFormat.format(new Date());
-		
-		String searchVal = vo.getClass_big_cd() + vo.getClass_mid_cd() + sDate;
-		
-		int iMaxCnt = service.maxCnt(searchVal);
-		
-		String sproductcode = searchVal + String.format("%04d", iMaxCnt);
-		vo.setProduct_cd(sproductcode);
-		
 		service.insert(vo);
 		
     	return "redirect:/product/list.do";

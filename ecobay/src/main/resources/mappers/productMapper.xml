@@ -19,7 +19,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<insert id="imageInsert" parameterType="ProductImageVO">
 		INSERT INTO productimg 
-		    VALUES (#{img_cd}, #{img_idx}, #{product_cd}, #{filename}, #{filename_org}, #{filename_thumb}, now())
+		    VALUES (#{img_CD}, #{img_idx}, #{product_cd}, #{filename}, #{filename_org}, #{filename_thumb}, now())
+	</insert>
+	
+	<insert id="auctInsert" parameterType="AuctionInfoVO">
+		INSERT INTO auctioninfo 
+		    VALUES (#{product_cd}, #{money_first}, 0, #{money_unit}, #{auctdate_unit}, #{acutdate_start}, #{acutdate_end}, #{baynow_yn}, #{baynow_money}, now(), #{bay_member_id})
+	</insert>
+
+	<insert id="deliInsert" parameterType="DeliveryInfoVO">
+		INSERT INTO deliveryinfo
+		    VALUES (#{product_cd}, #{deli_div_cd}, #{deli_div_nm}, now())
 	</insert>
 	
 	<update id="delete">

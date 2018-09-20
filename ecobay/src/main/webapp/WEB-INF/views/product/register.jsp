@@ -5,23 +5,28 @@
 <head>
 <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1">
 <title>상품등록</title>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+	<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+	
+	<script type="text/javascript">
+		$(function() {
+		    $( "#acutdate_start" ).flatpickr({
+		    	minDate: 'today',
+		        dateFormat: 'Y-m-d',
+		        onReady: function (selectedDates, dateStr, instance) {
+		            $('#acutdate_start input').val(
+		                instance.formatDate(new Date(), 'Y-m-d')
+		            )
+				}
+		    });
+		 });
+	</script>
+
+	<script type="text/javascript" src="/resources/lib/ckeditor/ckeditor.js"></script>
 	<script type="text/javascript">
 		$(function()
 		{
-			$('#baynowYn').click(function()
-			{
-				var ck = this.checked;
-
-				if(ck == true)
-				{
-					$('#baynowMoney').removeAttr("disabled");
-				}
-				else
-				{
-					$('#baynowMoney').val('');
-					$('#baynowMoney').attr("disabled", true);			
-				}
-			});
+		    CKEDITOR.replace( 'content' );
 		});
 	</script>
 	
@@ -33,60 +38,10 @@
 			background-color: #F2F2F2; 
 			vertical-align: middle;
 		}
-		.fileDrop {
+		.fileDropImg {
 			height: 150px;
 		}
 	</style>
-	
-	<script type="text/javascript" src="/resources/lib/ckeditor/ckeditor.js"></script>
-	<script type="text/javascript">
-		$(function()
-		{
-		    CKEDITOR.replace( 'content' );
-		});
-	</script>
-	
-	<script type="text/javascript">
-		$(function()
-		{
-			$("select[name='class_big_cd']").change(function(){  // 셀렉트 박스가 체인지 될때 이벤트  - "select[name=classBig]"
-				var valBig = $(this).val(); // 현재 선택된 값
-	
-				if(valBig == "" || valBig == null) {
-					$("select[name='class_mid_cd'] option").remove();
-					$("select[name='class_mid_cd']").append("<option value='XX'>-중분류 선택-</option>");
-				}
-				else {
-					$.getJSON("/product/midclass.do/" + valBig, function(data) {
-						$("select[name='class_mid_cd'] option").remove();
-						$("select[name='class_mid_cd']").append("<option value='XX'>-중분류 선택-</option>");
-						$.each(data, function(i, d) {
-							$("select[name=class_mid_cd]").append('<option value="' + d.class_mid_cd + '">' + d.class_mid_nm + '</option>'); 
-						}); 
-					});
-				}
-			});
-		});
-	</script>
-	
-	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
-	<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-	
-	<script type="text/javascript">
-		$(function() {
-		    $( "#money_unit_Start" ).flatpickr({
-		    	minDate: 'today',
-		        dateFormat: 'Y-m-d',
-		        onReady: function (selectedDates, dateStr, instance) {
-		            $('#money_unit_Start input').val(
-		                instance.formatDate(new Date(), 'Y-m-d')
-		            )
-				}
-		    });
-		 });
-		
-		
-	</script>
 </head>
 <body>
 	<div class="container"> <!-- container-fluid -->
@@ -130,17 +85,19 @@
 					
 					<tr>
 						<th class="colTitle">*이미지 등록</th>
-						<td colspan="2">
-							<div class="form-control fileDrop">
-								<label>이미지를 여기로 드래그해주세요.</label>
+						<td colspan="2" class="fileDrop">
+							<div class="form-control fileDropImg">
+								<label>
+									이미지를 여기로 드래그해주세요.<br>
+									이미지파일은 [ JPG | GIF | PNG ] 형식만 가능합니다.(이미지 관련 안내문구 출력하기....) 
+								</label>
 							</div>
-							이미지파일은 [ JPG | GIF | PNG ] 형식만 가능합니다.(이미지 관련 안내문구 출력하기....) 
 						</td>
 					</tr>
 					<tr>
 						<th class="colTitle">이미지 미리보기</th>
-						<td colspan="2">
-							<div class="uploadedList fileDrop"></div>
+						<td colspan="2" class="fileDrop">
+							<div class="uploadedList fileDropImg"></div>
 						</td>
 					</tr>
 				</table>
@@ -155,13 +112,13 @@
 					
 					<tr>
 						<th class="colTitle">*시작가</th>
-						<td colspan="2"><input class="form-control" type="number" name="avo.money_first" placeholder="시작가를 입력하세요."></td>
+						<td colspan="2"><input class="form-control" type="number" id="money_first" name="avo.money_first" placeholder="시작가를 입력하세요."></td>
 					</tr>
 
 					<tr>
 						<th class="colTitle">*입찰단위(원)</th>
 						<td colspan="2">
-							<select class="form-control"  name="avo.money_unit">
+							<select class="form-control" id="money_unit" name="avo.money_unit">
 								<option value="">-선택하세요-</option>
 								<option value="100">100</option>
 								<option value="200">200</option>
@@ -179,11 +136,11 @@
 					<tr>
 						<th class="colTitle">*경매기간(일)</th>
 						<td>
-							<input class="form-control" size="8" id="money_unit_Start" name="money_unit_Start" type="text" placeholder="경매시작일">
+							<input class="form-control" size="8" id="acutdate_start" name="avo.acutdate_start" type="text" placeholder="경매시작일을 넣어주세요.">
 						</td>
 						<td>
-							<select class="form-control" name="avo.auctdate_unit">
-								<option value="">-선택하세요-</option>
+							<select class="form-control" id="auctdate_unit" name="avo.auctdate_unit">
+								<option value="0">-선택하세요-</option>
 								<option value="1">1일</option>
 								<option value="2">2일</option>
 								<option value="3">3일</option>
@@ -200,8 +157,8 @@
 					<tr>
 						<th class="colTitle">*즉시구매</th>
 						<td colspan="2">
-							<input class="checkbox" type="checkbox" name="avo.baynow_yn" id="baynowYn" value="baynowYn">&nbsp;&nbsp;
-							<input type="number" name="baynowMoney" id="avo.baynow_money" disabled>(원)
+							<input class="checkbox" type="checkbox" name="avo.baynow_yn" id="baynow_yn" value="baynow_yn">&nbsp;&nbsp;
+							<input type="number" name="avo.baynow_money" id="baynow_money" disabled>(원)
 						</td>
 					</tr>
 				</table>
@@ -234,6 +191,50 @@
 		</form>
 	</div>
 	<br><br><br>
+	
+		<script type="text/javascript">
+		$(function()
+		{
+			$('#baynow_yn').click(function()
+			{
+				var ck = this.checked;
+
+				if(ck == true)
+				{
+					$('#baynow_money').removeAttr("disabled");
+				}
+				else
+				{
+					$('#baynow_money').val('');
+					$('#baynow_money').attr("disabled", true);
+				}
+			});
+		});
+	</script>
+	
+	<script type="text/javascript">
+		$(function()
+		{
+			$("select[name='class_big_cd']").change(function(){  // 셀렉트 박스가 체인지 될때 이벤트  - "select[name=classBig]"
+				var valBig = $(this).val(); // 현재 선택된 값
+	
+				if(valBig == "" || valBig == null) {
+					$("select[name='class_mid_cd'] option").remove();
+					$("select[name='class_mid_cd']").append("<option value='XX'>-중분류 선택-</option>");
+				}
+				else {
+					$.getJSON("/product/midclass.do/" + valBig, function(data) {
+						$("select[name='class_mid_cd'] option").remove();
+						$("select[name='class_mid_cd']").append("<option value='XX'>-중분류 선택-</option>");
+						$.each(data, function(i, d) {
+							$("select[name=class_mid_cd]").append('<option value="' + d.class_mid_cd + '">' + d.class_mid_nm + '</option>'); 
+						}); 
+					});
+				}
+			});
+		});
+	</script>
+	
 	<script type="text/javascript">
 	var idx = 0;
 	
@@ -269,12 +270,12 @@
 				var thumbName = data;
 				
 				if(checkImageType(data)) {
-					str = "<img src='/product/displayFile.do?fileName=" + thumbName + "'/>"
+					str = "<div style='display:inline;'><img src='/product/displayFile.do?fileName=" + thumbName + "'/>"
 						+ "<small data-src=" + thumbName + ">X</small>"
 						+ "<input style='display:none;' type='hidden' name='ivo["+idx+"].filename' value='" + fileName + "'>"
 						+ "<input style='display:none;' type='hidden' name='ivo["+idx+"].filename_org' value='" + originalName + "'>"
 						+ "<input style='display:none;' type='hidden' name='ivo["+idx+"].filename_thumb' value='" + thumbName + "'>"
-						+ "<input style='display:none;' type='hidden' name='ivo["+idx+"].img_idx' value='" + idx + "'>";
+						+ "<input style='display:none;' type='hidden' name='ivo["+idx+"].img_idx' value='" + idx + "'>&nbsp;&nbsp;&nbsp;</div>";
 				}else {
 					alert("이미지 파일로 올려주세요.");
 				}

@@ -7,5 +7,7 @@
 		<typeAlias type="org.ecobay.user.member.domain.MemberVO" alias="MemberVO"/>
 		<typeAlias type="org.ecobay.user.product.domain.ProductVO" alias="ProductVO"/>
 		<typeAlias type="org.ecobay.user.product.domain.ProductImageVO" alias="ProductImageVO"/>
+		<typeAlias type="org.ecobay.user.product.domain.AuctionInfoVO" alias="AuctionInfoVO"/>
+		<typeAlias type="org.ecobay.user.product.domain.DeliveryInfoVO" alias="DeliveryInfoVO"/>
 	</typeAliases>
 </configuration>
