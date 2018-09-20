@@ -56,5 +56,10 @@ public class MemberDAOImpl implements MemberDAO {
 	public int idcheck(String member_id) throws Exception {
 		return session.selectOne(namespace + ".idcount", member_id);
 	}
+
+	@Override
+	public String pwdcheck(String member_id) throws Exception {	
+		return session.selectOne(namespace + ".pwdcheck", member_id);
+	}
 	
 }

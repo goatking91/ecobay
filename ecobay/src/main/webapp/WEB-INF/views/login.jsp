@@ -14,7 +14,6 @@
     <link href="/resources/css/login.css" rel="stylesheet">
 </head>
 
-
 <body class="text-center">
     <form class="form-signin" action="/login" method="post">
       <security:csrfInput />

@@ -26,6 +26,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
  	<select id="idcount" resultType="int">
  		select count(*) from member where member_id = #{member_id}
  	</select>
+ 	
+ 	<select id="pwdcheck" resultType="String">
+ 		select pwd from member where member_id = #{member_id}
+ 	</select>
 	
 	<update id="verify" parameterType="MemberVO">
 		update member set
@@ -40,6 +44,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		zipcode = #{zipcode},
 		addr1 = #{addr1},
 		addr2 = #{addr2},
+		phone = #{phone},
 		moddate = now()
 		where member_id = #{member_id}			
 	</update>

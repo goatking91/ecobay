@@ -1,8 +1,68 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<hr>
+<%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
+<head>
+	<meta id="_csrf" name="_csrf" content="${_csrf.token}"/>
+	<meta id="_csrf_header" name="_csrf_header" content="${_csrf.headerName}"/>
+	
+	<script type="text/javascript">
+		var token = $("meta[name='_csrf']").attr("content");
+		var header = $("meta[name='_csrf_header']").attr("content");
+		 
+		$(function() {
+		    $(document).ajaxSend(function(e, xhr, options) {
+		        xhr.setRequestHeader(header, token);
+		    });
+		});
+</script>
+</head>
+<script>
+$(document).ready(function(){	
+	$('#confirmpwd').click(function(event){
+		/* $('#myModal').css('z-index',99999); */
+		$('#enter').text("");
+		
+		var pwd = $('#pwd').val();//입력받은값
+		console.log(pwd);
+		if(pwd.length == 0){
+			$('#enter').text("비밀번호를 입력하세요");
+	        return false;
+		}
+		$.ajax({
+			async: true,
+			type: 'POST',
+			url : "/member/pwdcheck.do",
+			data: pwd,
+			dataType : "json",
+			contentType: "application/json; charset=UTF-8",
+			success : function(data) {
+				console.log(data);
+				if(data.flag == false){
+					$('#enter').text("올바른 비밀번호가 아닙니다");
+					console.log(data);
+					console.log(data.flag);
+					return false;
+				}else{
+					location.href='/member/modify.do?member_id='+data.member_id;
+					console.log(data.member_id);
+					console.log(data.flag);
+				}
+	        },
+	        error: function(data) {
+				console.log("error :" + data);
+			}
+		});  
+	})
+	
+	$('#edit_button').click(function(event){
+		var pwd = $('#pwd').val();//입력받은값
+        $('#pwdModal').modal('show');
+	});
+})
+</script>
 
+<hr>
 <div class="container bootstrap snippet">
 	<div class="row">
 		<div class="col-sm-10"><h1>${member_name}</h1></div>
@@ -46,68 +106,69 @@
 			<div class="tab-content" id="nav-tabContent">
 				<div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
 					<div class="form-group row">
-					<input class="form-control col-sm-3" id="member_id" name="member_id" type="text" value="${member.member_name}" readonly> 님의 정보입니다
+					<h2>&nbsp;&nbsp;${member.member_name}</h2>&nbsp;&nbsp; <h6 style="padding-top:15px">님의 정보입니다</h6>
 				</div>
 		<div class="col-sm-12">
 	        <form>
 	        	<div class="form-group row">
 					<label class="col-sm-3 col-form-label text-right" for="member_name">이름</label>
 					<div class="col-sm-4">
-						<input class="form-control" id="member_name" name="member_name" type="text" value="${member.member_name}" readonly>
+						<security:csrfInput/>
+						<input class="form-control border-0 " style="background-color:white" id="member_name" name="member_name" type="text" value="${member.member_name}" readonly>
 					</div>
 				</div>
 	        	
 	        	<div class="form-group row">
 	          		<label class="col-sm-3 col-form-label text-right text-right" for="member_id">ID</label>
-			        <div class="col-sm-3">
+			        <div class="col-sm-4">
 			        	<div class="input-group">
-							<input class="form-control" id="member_id" name="member_id" type="text" value="${member.member_id}" readonly>
+							<input class="form-control border-0 " style="background-color:white" id="member_id" name="member_id" type="text" value="${member.member_id}" readonly>
 						</div>
 					</div>
 	        		<div class="col-sm-3"></div>
 	        	</div>
 				<div class="form-group row">
-					<label class="col-sm-3 col-form-label text-right" for="birth">생년월일</label><!-- datepicker6자리로 바꾸기 930811-->
+					<label class="col-sm-3 col-form-label text-right" for="birth">생년월일</label>
 					<div class="col-sm-3">
-						<input class="form-control" id="birth" name="birth" type="text" value="${member.birth}" readonly>
+						<input class="form-control border-0 " style="background-color:white" id="birth" name="birth" type="text" value="${member.birth}" readonly>
 					</div>
 				</div>
 				
 				<div class="form-group row">
 					<label class="col-sm-3 col-form-label text-right" for="gender">성별</label>
 					<div class="col-sm-3">
-						<input class="form-control" id="gender" name="gender" type="text" value="${member.gender}" readonly>
+						<input class="form-control border-0 " style="background-color:white" id="gender" name="gender" type="text" value="${member.gender}" readonly>
 					</div>
 				</div>	
 				
 				<div class="form-group row">	
 				<label class="col-sm-3 col-form-label text-right" for="phone">번호</label>
 					<div class="col-sm-3">
-						<input class="form-control" id="phone" name="phone" type="text" value="${member.phone}" readonly>
+						<input class="form-control border-0 " style="background-color:white" id="phone" name="phone" type="text" value="${member.phone}" readonly>
 					</div>
 				</div>    		
 				<div class="form-group row">
-					<label class="col-sm-3 col-form-label text-right" for="zipcode">주소</label>
+					<div class="col-sm-3"></div>
 					<div class="col-sm-3">
-						<input class="form-control" id="zipcode" name="zipcode" type="text" value="${member.zipcode}" readonly>	                  	
+						<input class="form-control border-0 " style="background-color:white" id="zipcode" name="zipcode" type="text" value="${member.zipcode}" readonly>	                  	
 					</div>
 				</div> 
 				<div class="form-group row">
-					<div class="col-sm-3"></div>
+					<label class="col-sm-3 col-form-label text-right" for="addr1">주소</label>
 					<div class="col-sm-6">
-						<input class="form-control" id="addr1" name="addr1" type="text" value="${member.addr1}" readonly>
+						<input class="form-control border-0 " style="background-color:white" id="addr1" name="addr1" type="text" value="${member.addr1}" readonly>
 					</div>
 				</div>
 				<div class="form-group row">
 					<div class="col-sm-3"></div>
 					<div class="col-sm-6">
-						<input class="form-control" id="addr2" name="addr2" type="text" value="${member.addr2}" readonly>
+						<input class="form-control border-0 " style="background-color:white" id="addr2" name="addr2" type="text" value="${member.addr2}" readonly>
 					</div>	
 				</div>
 							
 				<div class="form-group row">
 					<div class="col-sm text-center">
-						<input type="button" class="btn btn-lg btn-info" value="수정" onclick="location.href='update.do?member_id=${member.member_id}'">
+						<input type="button" id="edit_button" class="btn btn-lg btn-info" value="수정">
 					</div>	
 				</div>     	
 			</form>
@@ -119,4 +180,67 @@
 		</div>
 		<!--탭 영역 끝-->
 	</div>
-</div>                           
+</div>                
+
+
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModallabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modaltitle">안내</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form>
+	      	<div class="row">
+	      		<div class="col-md">
+		          <div id="message">
+					<h4 align="center"></h4>
+		          </div>
+		      </div>		      	
+		   </div>
+	      </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal">확인</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+<div class="modal fade" id="pwdModal" tabindex="-1" role="dialog" aria-labelledby="findIdModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="pwdModallabel">아이디 찾기</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+	      <form>
+	      	<div class="row">
+		      	<div class="col-md">
+		          <div class="form-group">
+		            <label for="pwd" class="col-form-label">비밀번호</label>
+		            <input id="pwd" type="password" class="form-control">
+		            <span id="enter" style="color: red"></span>
+		          </div>
+		       </div>
+		   </div>
+	      </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" id="confirmpwd" class="btn btn-primary">확인</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+           

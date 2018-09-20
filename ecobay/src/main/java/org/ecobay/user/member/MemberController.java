@@ -10,9 +10,13 @@ import org.ecobay.user.member.service.MemberService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.mail.javamail.MimeMessagePreparator;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -54,29 +58,6 @@ public class MemberController {
     	return "member/register.page";
     }
     
-    @RequestMapping(value="/list.do", method = RequestMethod.GET)
-    public String list(Model model) throws Exception {
-    	//admin 회원리스트
-    	model.addAttribute("mcnt", service.count());
-    	model.addAttribute("list", service.listAll());
-    	return "member/list.page";
-    }
-    
-    @RequestMapping(value="/detail.do", method = RequestMethod.GET)
-    public void read(@RequestParam("member_id") String member_id) throws Exception {
-    	//admin 상세보기 회원한명에대한 상세
-    	
-    	MemberVO vo = service.read(member_id);
-    }
-    
-    @RequestMapping(value="/mypage.do", method = RequestMethod.GET)
-    public String mypage(@RequestParam("member_id") String member_id, Model model) throws Exception {
-    	model.addAttribute("member",service.read(member_id));
-    	MemberVO vo = service.read(member_id);
-    	System.out.println(vo.toString());
-    	return "member/mypage.page";
-    }
-    
     @RequestMapping(value = "/reg.do", method = RequestMethod.POST)
     public String regPOST(final MemberVO vo) throws Exception {
     	service.regist(vo);
@@ -108,6 +89,53 @@ public class MemberController {
 	    
     	return "member/mailCheck.page";
     }
+    
+    
+    @RequestMapping(value="/list.do", method = RequestMethod.GET)
+    public String list(Model model) throws Exception {
+    	//admin 회원리스트
+    	model.addAttribute("mcnt", service.count());
+    	model.addAttribute("list", service.listAll());
+    	return "member/list.page";
+    }
+    
+    @RequestMapping(value="/detail.do", method = RequestMethod.GET)
+    public void read(@RequestParam("member_id") String member_id) throws Exception {
+    	//admin 상세보기 회원한명에대한 상세
+    	
+    	MemberVO vo = service.read(member_id);
+    }
+    
+    @RequestMapping(value="/mypage.do", method = RequestMethod.GET)
+    public String mypage(Model model) throws Exception {
+    	User user = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    	
+    	model.addAttribute("member",service.read(user.getUsername()));
+    	MemberVO vo = service.read(user.getUsername());
+    	System.out.println(vo.toString());
+    	return "member/mypage.page";
+    }
+    
+    
+    
+    
+    
+    @ResponseBody
+    @RequestMapping(value="/pwdcheck.do", method = RequestMethod.POST)
+    public Map<String, Object> pwdcheck(@RequestBody String pwd) throws Exception{
+    	User user = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    	Map<String, Object> map = new HashMap<String, Object>();
+    	
+    	map.put("member_id", user.getUsername());
+    	map.put("flag", service.pwdcheck(user.getUsername(), pwd));
+    	return map;
+    }
+    
+    
+    
+    
+    
+    
     
     @RequestMapping(value="/verify.do", method = RequestMethod.GET)
     public String verify(@RequestParam String member_id, @RequestParam String birth) throws Exception {

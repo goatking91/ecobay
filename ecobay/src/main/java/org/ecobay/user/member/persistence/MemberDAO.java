@@ -20,4 +20,6 @@ public interface MemberDAO {
 	public int count() throws Exception;
 	
 	public void verify(MemberVO vo) throws Exception;
+	
+	public String pwdcheck(String member_id) throws Exception;
 }

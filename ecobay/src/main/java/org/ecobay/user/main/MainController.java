@@ -16,7 +16,7 @@ public class MainController {
         return "main.page";
     }
 	
-	@RequestMapping(value="login.do", method = RequestMethod.GET)
+	@RequestMapping(value="/login.do", method = RequestMethod.GET)
     public String login() {
     	return "login.part";
     }
