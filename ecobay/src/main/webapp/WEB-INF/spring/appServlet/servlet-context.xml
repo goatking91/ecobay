@@ -28,8 +28,8 @@
 	</beans:bean>
 	
 	<beans:bean id="uploadPath" class="java.lang.String">
-		<beans:constructor-arg value="/Users/seung-minyeom/Documents/upload">
-		<!-- <beans:constructor-arg value="C:\\ecobay\\upload"> -->
+		<!-- <beans:constructor-arg value="/Users/seung-minyeom/Documents/upload"> -->
+		<beans:constructor-arg value="D:\\CookSpring\\upload">
 		</beans:constructor-arg>
 	</beans:bean>
 	
