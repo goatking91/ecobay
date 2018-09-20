@@ -71,7 +71,7 @@
 				
 				
 				<!-- 인증된 유저일 때 -->
-				<%-- <security:authorize access="isAuthenticated()">
+				<security:authorize access="isAuthenticated()">
 					<button type="button" class="btn btn-outline-primary btn-sm dropdown-toggle" data-toggle="dropdown">
 						<i class="fa fa-user"></i>
 					</button>
@@ -80,18 +80,19 @@
 						<li>
 							<div class="row">
 								<div class="col-md-12">
-									<security:authorize access="isAuthenticated()">
+									
 										<div class="form-group">
-											<form class="logoutForm" role="logoutForm" method="post" action="logout" accept-charset="UTF-8" id="login-nav">
+											<form class="logoutForm" role="logoutForm" method="post" action="/logout" accept-charset="UTF-8" id="login-nav">
+												<security:csrfInput />
 												<button type="submit" class="btn btn-primary btn-block">로그아웃</button>
 											</form>
 										</div>
-									</security:authorize>
+									
 								</div>
 							</div>
 						</li>
 					</ul>
-				</security:authorize> --%>
+				</security:authorize> 
 			</li>
 		</ul>
 		<button class="navbar-toggler ml-auto" type="button"

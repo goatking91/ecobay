@@ -1,9 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="security" uri="http://www.springframework.org/security/tags"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1">
+<!-- ajax로그인 할 때 필요한 메타데이터 두 줄-->
+<meta id="_csrf" name="_csrf" content="${_csrf.token}"/>
+<meta id="_csrf_header" name="_csrf_header" content="${_csrf.headerName}"/>
 <title>상품등록</title>
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 	<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
@@ -23,7 +27,17 @@
 		    });
 		 });
 	</script>
-
+	<!-- ajax처리시 권한 스크립트-->
+	<script type="text/javascript">
+		var token = $("meta[name='_csrf']").attr("content");
+		var header = $("meta[name='_csrf_header']").attr("content");
+		 
+		$(function() {
+		    $(document).ajaxSend(function(e, xhr, options) {
+		        xhr.setRequestHeader(header, token);
+		    });
+		});
+	</script>
 	<script type="text/javascript" src="/resources/lib/ckeditor/ckeditor.js"></script>
 	<script type="text/javascript">
 		$(function()
@@ -52,6 +66,7 @@
 <body>
 	<div class="container"> <!-- container-fluid -->
 		<form name="iform" class="form-horizontal" method="post">
+			<security:csrfInput/>
 			<div class="table-responsive">
 				<table class="table">
 					<tr>

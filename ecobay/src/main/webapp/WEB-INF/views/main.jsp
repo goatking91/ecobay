@@ -11,12 +11,6 @@
 }
 </style>
 <div>
-	<form action="/logout" method="post">
-		<button class="btn" type="submit"> 로그아웃 </button>
-		<security:csrfInput />
-	</form>
-</div>
-<div>
 	<div id="carouselIndicators" class="carousel slide"
 		data-ride="carousel">
 		<ol class="carousel-indicators">

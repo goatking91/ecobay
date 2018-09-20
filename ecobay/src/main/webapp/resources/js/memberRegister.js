@@ -259,11 +259,13 @@ $(document).ready(function(){
 		        success : function(data) {
 		            if (data.cnt > 0) {
 		                
-		                alert("아이디가 존재합니다. 다른 아이디를 입력해주세요.");
+		                $("#message").find('h4').text('사용할 수 없는 아이디입니다.');
+		                $("#myModal").modal("show");
 		                $("#member_id1").val("");
 		                $("#member_id1").focus();            
 		            } else {
-		            	alert("사용가능한 아이디입니다.");
+		            	$("#message").find('h4').text('사용 가능한 아이디입니다.');
+		                $("#myModal").modal("show");
 		                $("#member_pwd").focus();
 		     
 		            }
