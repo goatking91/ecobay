@@ -7,7 +7,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 public interface ProductService {
-	@Transactional(propagation=Propagation.REQUIRED, rollbackFor=Throwable.class)
+	@Transactional(propagation=Propagation.REQUIRED)
 	public void insert(ProductVO vo);
 	
 	public void delete(String product_cd) throws Exception;

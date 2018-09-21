@@ -1,7 +1,5 @@
 package org.ecobay.user.member.persistence;
 
-import java.util.List;
-
 import org.ecobay.user.member.domain.MemberVO;
 
 public interface MemberDAO {

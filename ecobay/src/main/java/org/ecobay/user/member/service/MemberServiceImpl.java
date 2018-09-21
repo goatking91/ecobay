@@ -1,7 +1,5 @@
 package org.ecobay.user.member.service;
 
-import java.util.List;
-
 import org.ecobay.user.member.domain.MemberVO;
 import org.ecobay.user.member.persistence.MemberDAO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +19,6 @@ public class MemberServiceImpl implements MemberService {
 		//비밀번호 암호화
 		String encPassword = passwordEncoder.encode(vo.getPwd());
 		vo.setPwd(encPassword);
-		System.out.println("암호화된 비밀번호: "+vo.getPwd());
 		dao.create(vo);
 	}
 
@@ -34,7 +31,6 @@ public class MemberServiceImpl implements MemberService {
 	public void modify(MemberVO vo) throws Exception {
 		String encPassword = passwordEncoder.encode(vo.getPwd());
 		vo.setPwd(encPassword);
-		System.out.println("암호화된 비밀번호: "+vo.getPwd());
 		dao.update(vo);	
 	}
 
