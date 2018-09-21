@@ -217,7 +217,7 @@ $(document).ready(function(){
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="pwdModallabel">아이디 찾기</h5>
+        <h5 class="modal-title" id="pwdModallabel">비밀번호를 입력해야 수정할 수 있습니다</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>

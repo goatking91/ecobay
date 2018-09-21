@@ -55,5 +55,19 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		use_yn = false
 		where member_id = #{member_id}	
 	</update>
+	
+	<select id="idfind" parameterType="MemberVO" resultType="String">
+		select member_id from member where 
+		member_name = #{member_name} and
+		birth = #{birth} and
+		phone = #{phone}
+	</select>
+	
+	<select id="pwdfind" parameterType="MemberVO" resultType="String">
+		select pwd from member where 
+		member_name = #{member_name} and
+		birth = #{birth} and
+		member_id = #{member_id}
+	</select>
 </mapper>
 

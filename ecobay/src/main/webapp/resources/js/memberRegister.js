@@ -134,13 +134,14 @@ $(document).ready(function(){
          }if(flag == false){
         	 $('#message').find('h4').text('아이디 중복체크 해주세요');
              $('#myModal').modal('show');
+             return false;
          }if(pwd.length == 0){
         	$('#message').find('h4').text("비밀번호를 입력해주세요");
         	$('#myModal').modal('show');
         	$("#member_pwd").focus();
         	return false;
         }else if(!reg_pwd.test(pwd)){
-        	$('#message').find('h4').text('특수문자를 포함한 8~16자리 수를 입력해주세요');
+        	$('#message').find('h4').text('영문, 숫자, 특수문자를 포함한 8~16자리 수를 입력해주세요');
             $('#myModal').modal('show');
             $("#member_pwd").val("");
             $("#member_pwd").focus();

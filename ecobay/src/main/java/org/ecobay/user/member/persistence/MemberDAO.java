@@ -18,4 +18,8 @@ public interface MemberDAO {
 	public void verify(MemberVO vo) throws Exception;
 	
 	public String pwdcheck(String member_id) throws Exception;
+	
+	public String idfind(MemberVO vo) throws Exception;
+
+	public String pwdfind(MemberVO vo) throws Exception;
 }

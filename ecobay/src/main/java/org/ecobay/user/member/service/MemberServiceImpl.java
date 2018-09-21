@@ -58,5 +58,15 @@ public class MemberServiceImpl implements MemberService {
 		String encPassword = dao.pwdcheck(member_id);
 		return passwordEncoder.matches(pwd, encPassword);
 	}
+
+	@Override
+	public String idfind(MemberVO vo) throws Exception {
+		return dao.idfind(vo);
+	}
+
+	@Override
+	public String pwdfind(MemberVO vo) throws Exception {
+		return dao.pwdfind(vo);
+	}
 	
 }

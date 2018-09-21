@@ -19,4 +19,8 @@ import org.ecobay.user.member.domain.MemberVO;
 	public void verify(MemberVO vo) throws Exception;
 	
 	public Boolean pwdcheck(String member_id, String pwd) throws Exception;
+	
+	public String idfind(MemberVO vo) throws Exception; 
+	
+	public String pwdfind(MemberVO vo) throws Exception; 
 }

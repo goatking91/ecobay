@@ -19,6 +19,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -123,8 +124,37 @@ public class MemberController {
     	return map;
     }
     
+    @ResponseBody
+    @RequestMapping(value="/idfind.do", method = RequestMethod.POST)
+    public Map<String, Object> idfind(@RequestBody Map<String, Object> postData ) throws Exception{
+    	MemberVO vo = new MemberVO();
+    	vo.setMember_name(postData.get("member_name").toString());
+    	vo.setBirth(postData.get("birth").toString());
+    	vo.setPhone(postData.get("phone").toString());
+    	Map<String, Object> map = new HashMap<String, Object>();
+    	if(service.idfind(vo) == null || service.idfind(vo) == "") {
+    		map.put("member_id", "");
+    	}else {
+    		map.put("member_id", service.idfind(vo));
+    	}
+    	return map;
+    }
     
-    
+    @ResponseBody
+    @RequestMapping(value="/pwdfind.do", method = RequestMethod.POST)
+    public Map<String, Object> pwdfind(@RequestBody Map<String, Object> postData ) throws Exception{
+    	MemberVO vo = new MemberVO();
+    	vo.setMember_id(postData.get("member_id").toString());
+    	vo.setMember_name(postData.get("member_name").toString());
+    	vo.setBirth(postData.get("birth").toString());
+    	Map<String, Object> map = new HashMap<String, Object>();
+    	if(service.pwdfind(vo) == null || service.pwdfind(vo) == "") {
+    		map.put("pwd", "");
+    	}else {
+    		map.put("pwd", service.pwdfind(vo));
+    	}
+    	return map;
+    }
     
     
     
