@@ -19,7 +19,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<insert id="imageInsert" parameterType="ProductImageVO">
 		INSERT INTO productimg 
-		    VALUES (#{img_CD}, #{img_idx}, #{product_cd}, #{filename}, #{filename_org}, #{filename_thumb}, now())
+		    VALUES (#{img_cd}, #{img_idx}, #{product_cd}, #{filename}, #{filename_org}, #{filename_thumb}, now())
 	</insert>
 	
 	<insert id="auctInsert" parameterType="AuctionInfoVO">
