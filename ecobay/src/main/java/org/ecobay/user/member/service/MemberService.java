@@ -1,7 +1,5 @@
 package org.ecobay.user.member.service;
 
-import java.util.List;
-
 import org.ecobay.user.member.domain.MemberVO;
 
 	public interface MemberService {

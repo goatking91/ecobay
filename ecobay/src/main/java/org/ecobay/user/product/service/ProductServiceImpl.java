@@ -1,9 +1,12 @@
 package org.ecobay.user.product.service;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+
+import javax.annotation.Resource;
 
 import org.ecobay.user.product.domain.AuctionInfoVO;
 import org.ecobay.user.product.domain.DeliveryInfoVO;
@@ -12,6 +15,7 @@ import org.ecobay.user.product.domain.ProductVO;
 import org.ecobay.user.product.persistence.ProductDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
@@ -20,8 +24,11 @@ public class ProductServiceImpl implements ProductService{
 	@Autowired
 	ProductDAO dao;
 
+	@Resource(name = "uploadPath")
+	private String uploadPath;
+	
 	@Override
-	@Transactional(rollbackFor = Throwable.class) // 모든 Exception 발생시 //Exception.class : IOException오류시 / SQLException - SQL 오류시 롤백
+	@Transactional(propagation=Propagation.REQUIRED) // 모든 Exception 발생시 //Exception.class : IOException오류시 / SQLException - SQL 오류시 롤백
 	public void insert(ProductVO vo) {
 		int imgCd = 0;
 		int iMaxCnt = 0;
@@ -116,7 +123,14 @@ public class ProductServiceImpl implements ProductService{
 
 	@Override
 	public List<ProductVO> selectList(ProductVO vo) throws Exception {
-		return dao.selectList(vo);
+		List<ProductVO> list = new ArrayList<ProductVO>();
+		
+		for(ProductVO temp : dao.selectList(vo)) {
+			String tmpPath = uploadPath+temp.getFilename_thumb();
+			temp.setFilename_thumb(tmpPath);
+			list.add(temp);
+		}
+		return list;
 	}
 
 	@Override

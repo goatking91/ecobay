@@ -5,7 +5,9 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -22,6 +24,8 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -52,6 +56,8 @@ public class ProductController {
 	
 	@RequestMapping(value = "/reg.do", method = RequestMethod.POST)
     public String regPOST(ProductVO vo) throws Exception {
+		User user = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		vo.setMember_id(user.getUsername());
 		service.insert(vo);
 	
 		return "redirect:/product/list.do";
@@ -88,15 +94,18 @@ public class ProductController {
 
     	return "product/list.page";
     }
-    
-    @RequestMapping(value = "/list.do", method = RequestMethod.POST)
-    public String listPOST(ProductVO vo, Model model) throws Exception {
-		vo.setStart_num(1);
-		vo.setEnd_num(18);
-		
-    	model.addAttribute("productList", service.selectList(vo));
+	
+    @ResponseBody
+    @RequestMapping(value = "/list.do/{page}", method = RequestMethod.POST)
+    public Map<String, List<ProductVO>> listPOST(@PathVariable("page") int page, ProductVO vo) throws Exception {
     	
-    	return "product/list.page";
+		vo.setStart_num((page-1) * 3 + 1 );
+		vo.setEnd_num(page * 3);
+		
+		Map<String, List<ProductVO>> map = new HashMap<String, List<ProductVO>>();
+    	
+		map.put("arr", service.selectList(vo));
+    	return map;
     }
     
     @ResponseBody
@@ -167,4 +176,5 @@ public class ProductController {
 		
 		return new ResponseEntity<String>("deleted", HttpStatus.OK);
 	}
+	
 }

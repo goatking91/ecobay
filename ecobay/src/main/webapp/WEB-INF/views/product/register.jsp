@@ -11,40 +11,9 @@
 <title>상품등록</title>
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 	<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-	
-	<script type="text/javascript">
-		$(function() {
-		    $( "#acutdate_start_str" ).flatpickr({
-		    	minDate: 'today',
-		    	enableTime: true,
-		    	time_24hr: true,
-		        dateFormat: 'Y-m-d H:i',
-		        onReady: function (selectedDates, dateStr, instance) {
-		            $('#acutdate_start_str input').val(
-		                instance.formatDate(new Date(), 'Y-m-d H:i')
-		            )
-				}
-		    });
-		 });
-	</script>
-	<!-- ajax처리시 권한 스크립트-->
-	<script type="text/javascript">
-		var token = $("meta[name='_csrf']").attr("content");
-		var header = $("meta[name='_csrf_header']").attr("content");
-		 
-		$(function() {
-		    $(document).ajaxSend(function(e, xhr, options) {
-		        xhr.setRequestHeader(header, token);
-		    });
-		});
-	</script>
 	<script type="text/javascript" src="/resources/lib/ckeditor/ckeditor.js"></script>
-	<script type="text/javascript">
-		$(function()
-		{
-		    CKEDITOR.replace( 'content' );
-		});
-	</script>
+
+	<script src="/resources/js/productRegister.js"></script>
 	
 	<style type="text/css">
 		.colTitle
@@ -93,7 +62,7 @@
 				
 					<tr>
 						<th class="colTitle">*물품제목</th>
-						<td colspan="2"><input class="form-control" type="text" name="product_nm" placeholder="물품제목을 입력하세요."></td>
+						<td colspan="2"><input class="form-control" type="text" id="product_nm" name="product_nm" placeholder="물품제목을 입력하세요."></td>
 					</tr>
 					
 					<tr>
@@ -158,7 +127,7 @@
 						<th class="colTitle">*경매기간(일)</th>
 						<td><input class="form-control" style="width: 90%;" id="acutdate_start_str" name="avo.acutdate_start_str" type="text" placeholder="경매시작일을 넣어주세요."></td>
 						<td>
-							<select class="form-control" name="avo.auctdate_unit">
+							<select class="form-control" id="auctdate_unit" name="avo.auctdate_unit">
 								<option value="0">-경매기간 선택-</option>
 								<option value="1">1일</option>
 								<option value="2">2일</option>
@@ -207,168 +176,39 @@
 
             <p>
             <div align="center" class="form-actions">
-	            <button type="submit" class="btn btn-default btn-primary"> 등  록 </button>&nbsp;
-	            <button type="button" class="btn btn-info"> 메  인 </button>
+	            <input type="submit" id="regbutton" class="btn btn-lg btn-default btn-primary" value=" 등&nbsp;&nbsp;&nbsp;록 ">&nbsp;
+	            <input type="reset" class="btn btn-lg btn-info" value=" 초기화 ">
 			</div>
 		</form>
 	</div>
 	<br><br><br>
-	
-		<script type="text/javascript">
-		$(function()
-		{
-			$('#baynow_yn').click(function()
-			{
-				var ck = this.checked;
 
-				if(ck == true)
-				{
-					$('#baynow_money').removeAttr("disabled");
-				}
-				else
-				{
-					$('#baynow_money').val('');
-					$('#baynow_money').attr("disabled", true);
-				}
-			});
-		});
-	</script>
-	
-	<script type="text/javascript">
-		$(function()
-		{
-			$("select[name='class_big_cd']").change(function(){  // 셀렉트 박스가 체인지 될때 이벤트  - "select[name=classBig]"
-				var valBig = $(this).val(); // 현재 선택된 값
-	
-				if(valBig == "" || valBig == null) {
-					$("select[name='class_mid_cd'] option").remove();
-					$("select[name='class_mid_cd']").append("<option value='XX'>-중분류 선택-</option>");
-				}
-				else {
-					$.getJSON("/product/midclass.do/" + valBig, function(data) {
-						$("select[name='class_mid_cd'] option").remove();
-						$("select[name='class_mid_cd']").append("<option value='XX'>-중분류 선택-</option>");
-						$.each(data, function(i, d) {
-							$("select[name=class_mid_cd]").append('<option value="' + d.class_mid_cd + '">' + d.class_mid_nm + '</option>'); 
-						}); 
-					});
-				}
-			});
-		});
-	</script>
-	
-	<script type="text/javascript">
-	var idx = 0;
-	
-	$(".fileDrop").on("dragenter dragover", function(event) {
-		event.preventDefault();
-	});
-	
-	$(".fileDrop").on("drop", function(event) {
-		event.preventDefault();
-		
-		var files = event.originalEvent.dataTransfer.files;
-		
-		var file = files[0];
-		
-		//console.log(file);
-		var formData = new FormData();
-		
-		formData.append("file", file);
-		 
-		$.ajax({
-			url: "/product/uploadAjax.do",
-			data: formData,
-			dataType: "text",
-			processData: false,
-			contentType: false,
-			type: "POST",
-			success: function(data) {
-				
-				var str = "";
-				
-				var fileName = getImageLink(data); 
-				var originalName = getOriginalName(data);
-				var thumbName = data;
-				
-				if(checkImageType(data)) {
-					str = "<div style='display:inline;'><img src='/product/displayFile.do?fileName=" + thumbName + "'/>"
-						+ "<small data-src=" + thumbName + ">X</small>"
-						+ "<input style='display:none;' type='hidden' name='ivo["+idx+"].filename' value='" + fileName + "'>"
-						+ "<input style='display:none;' type='hidden' name='ivo["+idx+"].filename_org' value='" + originalName + "'>"
-						+ "<input style='display:none;' type='hidden' name='ivo["+idx+"].filename_thumb' value='" + thumbName + "'>"
-						+ "<input style='display:none;' type='hidden' name='ivo["+idx+"].img_idx' value='" + idx + "'>&nbsp;&nbsp;&nbsp;</div>";
-				}else {
-					alert("이미지 파일로 올려주세요.");
-				}
-				idx = idx + 1;
-				$(".uploadedList").append(str);
-			}
-		});
-	});
-	
-	function checkImageType(fileName) {
-		
-		var pattern = /jpg$|gif$|png$|jpeg$/i;
-		
-		return fileName.match(pattern);
-		
-	}
-	
-	function getFileName(fileName) {
-		
-		var idx = fileName.indexOf("_") + 1;
-		return fileName.substr(idx);
-	}
-	
-	function getOriginalName(fileName) {
-		
-		var idx = fileName.lastIndexOf("_") + 1;
-		return fileName.substr(idx);
-	}
-	
-	
-	function getImageLink(fileName) {
-		
-		if(!checkImageType(fileName)) {
-			return;
-		}
-		
-		var front = fileName.substr(0,12);
-		var end = fileName.substr(14);
-		
-		return front + end;
-	}
-	
-	$(".uploadedList").on("click", "small", function(event) {
-		
-		var that = $(this);
-		
-		$.ajax({
-			url: "/product/deleteFile.do",
-			type: "post",
-			data: {fileName:$(this).attr("data-src")},
-			dataType: "text",
-			success: function(result) {
-				if(result=="deleted") {
-					that.parent("div").remove();
-				}
-			}
-		});
-	});
-	
-	$("#deli_div_cd").children().click(function() {
-		var str = "";
-		var check = $("input[name='dvo.deli_div_cd']:checked").val();
-		$("#deli_div_nm").html("");
-		if(check==1) {
-			str = "<input style='display:none;' type='hidden' name='dvo.deli_div_nm' value='직거래'>";
-			$("#deli_div_nm").append(str);
-		}else if(check==2) {
-			str = "<input style='display:none;' type='hidden' name='dvo.deli_div_nm' value='택배'>";
-			$("#deli_div_nm").append(str);
-		}
-	});
-	</script>
+	<!-- 모달 창 -->	
+	<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModallabel" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="modaltitle">안내</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<form>
+						<div class="row">
+							<div class="col-md">
+								<div id="message">
+									<h4 align="center"></h4>
+								</div>
+							</div>		      	
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary" data-dismiss="modal">확인</button>
+				</div>
+			</div>
+		</div>
+	</div>
 </body>
 </html>
