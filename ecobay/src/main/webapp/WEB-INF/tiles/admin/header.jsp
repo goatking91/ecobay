@@ -85,7 +85,7 @@
 					</a>
 					<ul class="treeview-menu">
 						<li><a href="#">공지사항</a></li>
-						<li><a href="#">FAQ</a></li>
+						<li><a href="/admin/faqlist.do">FAQ</a></li>
 						<li><a href="#">1:1문의</a></li>
 					</ul>
 				</li>
