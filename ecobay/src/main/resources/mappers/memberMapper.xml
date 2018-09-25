@@ -69,5 +69,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		birth = #{birth} and
 		member_id = #{member_id}
 	</select>
+	
+	<update id="newpwd" parameterType="MemberVO">
+		update member set
+		pwd = #{pwd},
+		moddate = now()
+		where member_id =#{member_id}	
+	</update>
 </mapper>
 

@@ -30,7 +30,9 @@
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script type="text/javascript">
     $(document).ready(function(){
-    	$('#newpwdModal').css("z-index","9999999");
+    	$('#newpwdModal').css("z-index","9999999");//모달 z-index 설정하기
+    	$('#myModal').css("z-index","99999999");
+    	
     	$('#idfind').click(function(event){
     		$('#idModal').modal('show');
     	});
@@ -88,7 +90,8 @@
     	$('#pwdfind').click(function(event){
     		$('#pwdModal').modal('show');
     	});
-    	var tempPwd;
+
+    	var tmpId;//비번 변경할 아이디 값 기억
     	$('#pwdgo').click(function(event){
     		var member_id = $('#member_id1').val();
     		var member_name = $('#member_name1').val();
@@ -111,7 +114,7 @@
     			$('#birth1').focus();
     			return false;
     		}
-    		
+    		//아이디를 먼저 받아와서 아이디에 해당하는 pwd값 업데이트
     		$.ajax({
     			async: true,
     			type: 'POST',
@@ -122,7 +125,7 @@
     			success : function(data) {//이름,생년월일,폰번호,아이디
     				console.log(data.pwd);
 					 if(data.pwd != ""){
-						 tempPwd = data.pwd;
+	    				tmpId = data.member_id;
 						$('#pwdModal').modal('hide'); 
 						$('#newpwdModal').modal('show');	
 					}else{
@@ -140,7 +143,6 @@
     	});
     	
     	$('#newpwdgo').click(function(event){
-    		//비밀번호 받아와서 삭제하고 다시 비밀번호 등록 암호화
     		var pwd = $('#newpwd').val();
     		var pwdck = $('#newpwd2').val();
     		
@@ -156,33 +158,25 @@
     			$('#message').find('h4').text("동일한 비밀번호를 입력해주세요");
 				$('#myModal').modal('show');
 				return false;
-    		}else{
-    			"location newpwd.do?pwd=" + tempPwd
     		}
-
+    		
+    		var postData = {"member_id" : tmpId, "pwd" : pwd} 
     		$.ajax({
-    			async: true,
-    			type: 'POST',
-    			url : "/member/newpwd.do",
-    			data: tempPwd,
-    			dataType : "json",
-    			contentType: "application/json; charset=UTF-8",
-    			success : function(data) {//이름,생년월일,폰번호,아이디
-    				console.log(data.pwd);
-					 if(data.pwd != ""){
-						$('#pwdModal').modal('hide'); 
-						$('#message').find('h4').text("비밀번호가 변경되었습니다");
-						$('#myModal').modal('show');	
-					}else{
-							
-						return false;
-					} 
-    			},
-    	        error: function(data) {
-    				console.log("error :" + data);
-    				console.log(data.pwd);
-    			}
-    		});
+	    			async: true,
+	    			type: 'POST',
+	    			url : "/member/newpwd.do",
+	    			data: {"member_id" : tmpId, "pwd" : pwd},
+	    			dataType : "text",
+/* 	    			contentType: "application/text; charset=UTF-8",  */ //배열을 넘길때 contentType쓰면 값이 안넘어감
+	    			success : function(data) {//이름,생년월일,폰번호,아이디							 	
+		    					$('#newpwdModal').modal('hide'); 
+								$('#message').find('h4').text("비밀번호가 변경되었습니다");
+								$('#myModal').modal('show');
+	    			},
+	    	        error: function(error) {
+	    				console.log("error :" + data);
+	    			}
+	    		});
     	})
     	
     	$( "#birth" ).flatpickr({

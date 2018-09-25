@@ -59,5 +59,10 @@ public class MemberDAOImpl implements MemberDAO {
 	public String pwdfind(MemberVO vo) throws Exception {
 		return session.selectOne(namespace + ".pwdfind", vo);
 	}
+
+	@Override
+	public void newpwd(MemberVO vo) throws Exception {
+		session.update(namespace + ".newpwd", vo);
+	}
 	
 }

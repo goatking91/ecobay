@@ -17,7 +17,8 @@
 		<security:intercept-url pattern="/member/idcheck.do" access="hasRole('ANONYMOUS')"/>
 		<security:intercept-url pattern="/member/verify.do" access="hasRole('ANONYMOUS')"/>
 		<security:intercept-url pattern="/member/idfind.do" access="hasRole('ANONYMOUS')"/>
-		<security:intercept-url pattern="/member/pwdfind.do" access="hasRole('ANONYMOUS')"/>
+		<security:intercept-url pattern="/member/pwdfind.do" access="hasRole('ANONYMOUS')"/>		
+		<security:intercept-url pattern="/member/newpwd.do" access="hasRole('ANONYMOUS')"/>
 		<security:intercept-url pattern="/product/list.do/**" access="permitAll"/>
 		<security:intercept-url pattern="/product/detail.do" access="hasRole('ANONYMOUS')"/>
 		<security:intercept-url pattern="/admin/**" access="hasRole('ANONYMOUS')"/>

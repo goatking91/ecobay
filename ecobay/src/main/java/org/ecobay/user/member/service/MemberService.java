@@ -21,4 +21,6 @@ import org.ecobay.user.member.domain.MemberVO;
 	public String idfind(MemberVO vo) throws Exception; 
 	
 	public String pwdfind(MemberVO vo) throws Exception; 
+	
+	public void newpwd(MemberVO vo) throws Exception;
 }
