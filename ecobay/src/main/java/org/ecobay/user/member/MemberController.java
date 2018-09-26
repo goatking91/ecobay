@@ -105,22 +105,9 @@ public class MemberController {
     	MemberVO vo = service.read(user.getUsername());
     	System.out.println(vo.toString());
     	return "member/mypage.page";
-    }
+    }    
     
-    
-    
-    
-    
-    @ResponseBody
-    @RequestMapping(value="/pwdcheck.do", method = RequestMethod.POST)
-    public Map<String, Object> pwdcheck(@RequestBody String pwd) throws Exception{
-    	User user = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-    	Map<String, Object> map = new HashMap<String, Object>();
-    	
-    	map.put("member_id", user.getUsername());
-    	map.put("flag", service.pwdcheck(user.getUsername(), pwd));
-    	return map;
-    }
+
     
     @ResponseBody
     @RequestMapping(value="/idfind.do", method = RequestMethod.POST)
@@ -137,6 +124,18 @@ public class MemberController {
     	}
     	return map;
     }
+        
+    
+    @ResponseBody
+    @RequestMapping(value="/pwdcheck.do", method = RequestMethod.POST)
+    public Map<String, Object> pwdcheck(@RequestBody String pwd) throws Exception{
+    	User user = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    	Map<String, Object> map = new HashMap<String, Object>();
+    	
+    	map.put("member_id", user.getUsername());
+    	map.put("flag", service.pwdcheck(user.getUsername(), pwd));
+    	return map;
+    }
     
     @ResponseBody
     @RequestMapping(value="/pwdfind.do", method = RequestMethod.POST)
@@ -150,12 +149,22 @@ public class MemberController {
     		map.put("pwd", "");
     	}else {
     		map.put("pwd", service.pwdfind(vo));
+    		map.put("member_id", postData.get("member_id").toString());
     	}
     	return map;
     }
     
     
-    
+    @ResponseBody
+    @RequestMapping(value = "/newpwd.do", method = RequestMethod.POST)
+    public String newpwd(MemberVO vo1) throws Exception{
+    	MemberVO vo = new MemberVO();
+    	vo.setMember_id(vo1.getMember_id());
+    	vo.setPwd(vo1.getPwd());
+    	service.newpwd(vo);
+    	System.out.println("member_id=" + vo.getMember_id() + "pwd="+ vo.getPwd());
+    	return "login.part";
+    }
     
     @RequestMapping(value="/verify.do", method = RequestMethod.GET)
     public String verify(@RequestParam String member_id, @RequestParam String birth) throws Exception {
@@ -174,7 +183,6 @@ public class MemberController {
     
     @RequestMapping(value = "/modify.do", method = RequestMethod.POST)
     public String modifyPOST(MemberVO vo) throws Exception {
-    	
     	service.modify(vo);
     	return "redirect:/member/mypage.do?member_id=" + vo.getMember_id();
     }

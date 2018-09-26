@@ -5,6 +5,8 @@ import org.ecobay.user.member.persistence.MemberDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class MemberServiceImpl implements MemberService {
@@ -63,6 +65,13 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public String pwdfind(MemberVO vo) throws Exception {
 		return dao.pwdfind(vo);
+	}
+
+	@Override
+	public void newpwd(MemberVO vo) throws Exception {
+			String encPassword = passwordEncoder.encode(vo.getPwd());
+			vo.setPwd(encPassword);
+			dao.newpwd(vo);
 	}
 	
 }
