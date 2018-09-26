@@ -123,14 +123,15 @@ public class ProductServiceImpl implements ProductService{
 
 	@Override
 	public List<ProductVO> selectList(ProductVO vo) throws Exception {
-		List<ProductVO> list = new ArrayList<ProductVO>();
+		/*List<ProductVO> list = new ArrayList<ProductVO>();
 		
 		for(ProductVO temp : dao.selectList(vo)) {
 			String tmpPath = uploadPath+temp.getFilename_thumb();
+			System.out.println(tmpPath);
 			temp.setFilename_thumb(tmpPath);
 			list.add(temp);
-		}
-		return list;
+		}*/
+		return dao.selectList(vo);
 	}
 
 	@Override

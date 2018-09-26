@@ -62,12 +62,13 @@ $(function() {
 				var thumbName = data;
 				
 				if(checkImageType(data)) {
-					str = "<div style='display:inline;'><img src='/product/displayFile.do?fileName=" + thumbName + "'/>"
-						+ "<small data-src=" + thumbName + ">X</small>"
-						+ "<input style='display:none;' type='hidden' name='ivo["+idx+"].filename' value='" + fileName + "'>"
-						+ "<input style='display:none;' type='hidden' name='ivo["+idx+"].filename_org' value='" + originalName + "'>"
-						+ "<input style='display:none;' type='hidden' name='ivo["+idx+"].filename_thumb' value='" + thumbName + "'>"
-						+ "<input style='display:none;' type='hidden' name='ivo["+idx+"].img_idx' value='" + idx + "'>&nbsp;&nbsp;&nbsp;</div>";
+					str = "<div style='display:inline;' class='uploadData'><img width=100 height=100 src='/product/displayFile.do?fileName=" + thumbName + "'/>"
+						+ "<small data-src=" + thumbName + "><button type='button' class='btn btn-outline-danger btn-sm'>삭제</button></small>"
+						+ "<input style='display:none;' type='hidden' name='filename' value='" + fileName + "'>"
+						+ "<input style='display:none;' type='hidden' name='filename_org' value='" + originalName + "'>"
+						+ "<input style='display:none;' type='hidden' name='filename_thumb' value='" + thumbName + "'>"
+						+ "<input style='display:none;' type='hidden' name='img_idx'>&nbsp;&nbsp;&nbsp;</div>"
+						
 				}else {
 					alert("이미지 파일로 올려주세요.");
 				}
@@ -75,6 +76,20 @@ $(function() {
 				$(".uploadedList").append(str);
 			}
 		});
+		
+		return false;
+	});
+	
+	$(window).on("dragenter dragover", function(event) {
+		event.preventDefault();
+	});
+	
+	$(window).on("drop", function(event) {
+		event.preventDefault();
+		$('#message').find('h4').text("이미지를 등록하는 부분에 드래그 해주세요.");
+    	$('#myModal').modal('show');
+    	
+    	return false;
 	});
 	
 	function checkImageType(fileName) {
@@ -122,6 +137,7 @@ $(function() {
 			success: function(result) {
 				if(result=="deleted") {
 					that.parent("div").remove();
+					idx = idx - 1;
 				}
 			}
 		});
@@ -276,5 +292,12 @@ $(function() {
                 return false;
         	}
         }
+        
+        $(".uploadData").each( function (index) {
+	        $(this).find("input[name=filename]").attr("name", "ivo[" + index + "].filename");
+	        $(this).find("input[name=filename_org]").attr("name", "ivo[" + index + "].filename_org");
+	        $(this).find("input[name=filename_thumb]").attr("name", "ivo[" + index + "].filename_thumb");
+	        $(this).find("input[name=img_idx]").attr("name", "ivo[" + index + "].img_idx").attr("value", index);
+	    });
     });
  });

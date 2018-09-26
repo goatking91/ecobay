@@ -3,8 +3,6 @@ package org.ecobay.user.product;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -12,7 +10,6 @@ import java.util.Map;
 import javax.annotation.Resource;
 
 import org.apache.commons.io.IOUtils;
-import org.ecobay.user.product.domain.AuctionInfoVO;
 import org.ecobay.user.product.domain.ProductVO;
 import org.ecobay.user.product.service.ProductService;
 import org.ecobay.user.util.MediaUtils;
@@ -29,6 +26,7 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -44,6 +42,8 @@ public class ProductController {
 	
 	@Resource(name = "uploadPath")
 	private String uploadPath;
+	
+	private int pageCount = 12;
 	
 	private static final Logger logger = LoggerFactory.getLogger(ProductController.class);
 	
@@ -89,7 +89,7 @@ public class ProductController {
 		model.addAttribute("bigclass", service.bigclassList());
 		
 		vo.setStart_num(1);
-		vo.setEnd_num(18);
+		vo.setEnd_num(pageCount);
 		model.addAttribute("productList", service.selectList(vo));
 
     	return "product/list.page";
@@ -99,8 +99,8 @@ public class ProductController {
     @RequestMapping(value = "/list.do/{page}", method = RequestMethod.POST)
     public Map<String, List<ProductVO>> listPOST(@PathVariable("page") int page, ProductVO vo) throws Exception {
     	
-		vo.setStart_num((page-1) * 3 + 1 );
-		vo.setEnd_num(page * 3);
+		vo.setStart_num((page-1) * pageCount + 1 );
+		vo.setEnd_num(page * pageCount);
 		
 		Map<String, List<ProductVO>> map = new HashMap<String, List<ProductVO>>();
     	
