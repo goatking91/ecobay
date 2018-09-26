@@ -6,10 +6,29 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <mapper namespace="org.ecobay.user.mapper.ProductMapper">
 
 	<select id="select" resultType="productVO">
-		SELECT * 
-		  FROM product
-		 WHERE USE_YN = TRUE
-		   AND product_cd = #{product_cd}
+		SELECT  *
+		   FROM product
+		  WHERE USE_YN = TRUE
+		    AND product_cd = #{product_cd}
+	</select>
+
+	<select id="selectDetail" resultType="productVO">
+		SELECT    prod.PRODUCT_CD, prod.PRODUCT_NM, prod.MEMBER_ID, prod.STATE_CD, prod.STATE_NM, prod.VIEWCNT
+				, (SELECT COUNT(PRODUCT_CD) FROM bidinfo bid WHERE bid.PRODUCT_CD = prod.PRODUCT_CD) as BIB_CNT
+				, IFNULL((SELECT MAX(MONEY_BID) FROM bidinfo bid WHERE bid.PRODUCT_CD = prod.PRODUCT_CD), 0) as BIB_MAX_MONEY
+                , IFNULL(auct.AUCTDATE_UNIT, 0) as AUCTDATE_UNIT
+                , IFNULL(DATE_FORMAT(auct.ACUTDATE_START, '%Y-%m-%d %H:%s'), '') as ACUTDATE_START_STR
+                , IFNULL(DATE_FORMAT(auct.ACUTDATE_END, '%Y-%m-%d %H:%s'), '') as ACUTDATE_END_STR
+				, IFNULL(auct.MONEY_FIRST, 0) as MONEY_FIRST
+                , IFNULL(auct.MONEY_UNIT, 0) as MONEY_UNIT
+                , auct.BAYNOW_YN
+                , IFNULL(auct.BAYNOW_MONEY, 0) as BAYNOW_MONEY
+                , IFNULL((SELECT DELI_DIV_CD FROM deliveryinfo deli WHERE deli.PRODUCT_CD = prod.PRODUCT_CD), '') as DELI_DIV_CD
+                , IFNULL((SELECT DELI_DIV_NM FROM deliveryinfo deli WHERE deli.PRODUCT_CD = prod.PRODUCT_CD), '') as DELI_DIV_NM
+		   FROM product prod LEFT JOIN  auctioninfo auct
+             ON prod.PRODUCT_CD = auct.PRODUCT_CD
+		  WHERE prod.USE_YN = TRUE
+		    AND prod.product_cd = #{product_cd}
 	</select>
 	
 	<insert id="insert" parameterType="ProductVO">
@@ -47,9 +66,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 					, IFNULL((SELECT MAX(MONEY_BID) FROM bidinfo bid WHERE bid.PRODUCT_CD = prod.PRODUCT_CD), 0) as BIB_MAX_MONEY
 			        , IFNULL((SELECT prodimg.FILENAME_THUMB FROM productimg prodimg WHERE prodimg.PRODUCT_CD = prod.PRODUCT_CD ORDER BY prodimg.IMG_IDX ASC limit 1), '') as FILENAME_THUMB
 			        , CASE prod.STATE_CD
-						WHEN '5' THEN IFNULL((SELECT DATE_FORMAT(ACUTDATE_END, '%Y-%m-%d %H:%s') FROM auctioninfo auct WHERE auct.PRODUCT_CD = prod.PRODUCT_CD), '')
-						WHEN '6' THEN IFNULL((SELECT DATE_FORMAT(ACUTDATE_END, '%Y-%m-%d %H:%s') FROM auctioninfo auct WHERE auct.PRODUCT_CD = prod.PRODUCT_CD), '')
-						ELSE '' END AS ACUTDATE_START_STR
+						WHEN '5' THEN IFNULL((SELECT DATE_FORMAT(auct.ACUTDATE_END, '%Y-%m-%d %H:%s') FROM auctioninfo auct WHERE auct.PRODUCT_CD = prod.PRODUCT_CD), '')
+						WHEN '6' THEN IFNULL((SELECT DATE_FORMAT(auct.ACUTDATE_END, '%Y-%m-%d %H:%s') FROM auctioninfo auct WHERE auct.PRODUCT_CD = prod.PRODUCT_CD), '')
+						ELSE '' END AS ACUTDATE_END_STR
+					, IFNULL((SELECT auct.MONEY_FIRST FROM auctioninfo auct WHERE auct.PRODUCT_CD = prod.PRODUCT_CD), 0) as MONEY_FIRST
 			   FROM product prod , (select @rownum:=0) tmp
 			  WHERE prod.USE_YN = TRUE
 			    AND prod.STATE_CD IN (1, 3, 5, 6)
@@ -64,6 +84,38 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 				</if>
 		) prodlist
 		where prodlist.rn between #{start_num} and #{end_num}
+	</select>
+	
+	<select id="selectListBest" resultType="org.ecobay.user.product.domain.ProductVO">
+		SELECT *
+		 FROM (
+				SELECT   prod.PRODUCT_CD, prod.PRODUCT_NM, prod.MEMBER_ID, prod.STATE_CD, prod.STATE_NM, prod.VIEWCNT
+						, (SELECT COUNT(PRODUCT_CD) FROM bidinfo bid WHERE bid.PRODUCT_CD = prod.PRODUCT_CD) as BIB_CNT
+						, IFNULL((SELECT MAX(MONEY_BID) FROM bidinfo bid WHERE bid.PRODUCT_CD = prod.PRODUCT_CD), 0) as BIB_MAX_MONEY
+				        , IFNULL((SELECT prodimg.FILENAME_THUMB FROM productimg prodimg WHERE prodimg.PRODUCT_CD = prod.PRODUCT_CD ORDER BY prodimg.IMG_IDX ASC limit 1), '') as FILENAME_THUMB
+				        , CASE prod.STATE_CD
+							WHEN '5' THEN IFNULL((SELECT DATE_FORMAT(ACUTDATE_END, '%Y-%m-%d %H:%s') FROM auctioninfo auct WHERE auct.PRODUCT_CD = prod.PRODUCT_CD), '')
+							WHEN '6' THEN IFNULL((SELECT DATE_FORMAT(ACUTDATE_END, '%Y-%m-%d %H:%s') FROM auctioninfo auct WHERE auct.PRODUCT_CD = prod.PRODUCT_CD), '')
+							ELSE '' END AS ACUTDATE_END_STR
+						, IFNULL((SELECT auct.MONEY_FIRST FROM auctioninfo auct WHERE auct.PRODUCT_CD = prod.PRODUCT_CD), 0) as MONEY_FIRST
+				   FROM product prod
+				  WHERE prod.USE_YN = TRUE
+				    AND prod.STATE_CD = '3'
+			 ) bestprod
+		 ORDER BY bestprod.BIB_CNT DESC, bestprod.VIEWCNT DESC
+		 	limit 6
+	</select>
+	
+	<select id="selectImageList" resultType="org.ecobay.user.product.domain.ProductVO">
+		SELECT *
+		  FROM productimg
+		 WHERE product_cd = #{product_cd}
+	</select>
+	
+	<select id="selectBibList" resultType="org.ecobay.user.product.domain.BibInfoVO">
+		SELECT *
+		  FROM bidinfo
+		 WHERE product_cd = #{product_cd}
 	</select>
 
 	<select id="bigclassList" resultType="org.ecobay.user.product.domain.ProductVO">

@@ -3,6 +3,7 @@ package org.ecobay.user.product.persistence;
 import java.util.List;
 
 import org.ecobay.user.product.domain.AuctionInfoVO;
+import org.ecobay.user.product.domain.BibInfoVO;
 import org.ecobay.user.product.domain.DeliveryInfoVO;
 import org.ecobay.user.product.domain.ProductImageVO;
 import org.ecobay.user.product.domain.ProductVO;
@@ -18,8 +19,12 @@ public interface ProductDAO {
 	public void deliInsert(DeliveryInfoVO delivo);
 	
 	public void delete(String product_cd) throws Exception;
-	public ProductVO select(String product_cd) throws Exception;
+	public ProductVO selectDetail(String product_cd) throws Exception;
+	
 	public List<ProductVO> selectList(ProductVO vo) throws Exception;
 	public List<ProductVO> bigclassList() throws Exception;
 	public List<ProductVO> midclassList(String class_big_cd) throws Exception;
+	
+	public List<BibInfoVO> selectBibList(String product_cd) throws Exception;
+	public List<ProductImageVO> selectImageList(String product_cd) throws Exception;
 }

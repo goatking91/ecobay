@@ -1,6 +1,7 @@
 $(function() {
-	
+	/*======================================================================================*/
 	// ajax처리시 권한 스크립트
+	/*======================================================================================*/
 	var token = $("meta[name='_csrf']").attr("content");
 	var header = $("meta[name='_csrf_header']").attr("content");
 	
@@ -26,8 +27,11 @@ $(function() {
 			});
 		}
 	});
+	/*======================================================================================*/
 	
+	/*======================================================================================*/
 	// 파일 처리
+	/*======================================================================================*/
 	var idx = 0;
 	
 	$(".fileDrop").on("dragenter dragover", function(event) {
@@ -142,9 +146,11 @@ $(function() {
 			}
 		});
 	});
-
+	/*======================================================================================*/
 	
+	/*======================================================================================*/
 	// 배송구분코드(라디오버튼)에 배송구분명 처리.
+	/*======================================================================================*/
 	$("#deli_div_cd").children().click(function() {
 		var str = "";
 		var check = $("input[name='dvo.deli_div_cd']:checked").val();
@@ -157,11 +163,17 @@ $(function() {
 			$("#deli_div_nm").append(str);
 		}
 	});
+	/*======================================================================================*/
 	
+	/*======================================================================================*/
 	// CKEdit 연동
+	/*======================================================================================*/
 	CKEDITOR.replace( 'content' );
+	/*======================================================================================*/
 	
+	/*======================================================================================*/
 	// 즉시구매여부에 따른 금액입력 활성화 처리.
+	/*======================================================================================*/
 	$('#baynow_yn').click(function()
 	{
 		var ck = this.checked;
@@ -176,8 +188,11 @@ $(function() {
 			$('#baynow_money').attr("disabled", true);
 		}
 	});
+	/*======================================================================================*/
 	
+	/*======================================================================================*/
 	// flatpickr 연동 처리.
+	/*======================================================================================*/
     $( "#acutdate_start_str" ).flatpickr({
     	minDate: 'today',
     	enableTime: true,
@@ -189,26 +204,29 @@ $(function() {
             )
 		}
     });
-	
-	// 등록 사전 체크작업
+    /*======================================================================================*/
+    
+    /*======================================================================================*/
+	// 상품등록 버튼 클릭시 상품관련테이블 사전 체크작업
+    /*======================================================================================*/
 	$('#regbutton').click(function(event){
-		var class_big_cd = $("#class_big_cd").val();
-		var class_mid_cd = $("#class_mid_cd").val();
-		var product_nm = $("#product_nm").val();
-		var content = CKEDITOR.instances.content.getData(); // CKEdit 값 가져오기.
+		var class_big_cd = $("#class_big_cd").val(); // 대분류(selectBox)
+		var class_mid_cd = $("#class_mid_cd").val(); // 중분류(selectBox)
+		var product_nm = $("#product_nm").val(); // 물품명 - 제목
+		var content = CKEDITOR.instances.content.getData(); // 물품설명 - CKEdit 값 가져오기.
 		
 		var money_first = $("#money_first").val(); // 시작가(최소 100원)
-		var money_unit = $("#money_unit").val();
-		var acutdate_start_str = $("#acutdate_start_str").val();
-		var auctdate_unit = $("#auctdate_unit").val();
-		var baynow_yn = $("#baynow_yn").is(":checked"); //$("#baynow_yn").val();
-		var baynow_money = $("#baynow_money").val(); // 여부 체크시 금액 있어야 함.
+		var money_unit = $("#money_unit").val(); // 입찰단위(selectBox) - 최소 100원
+		var acutdate_start_str = $("#acutdate_start_str").val(); // 경매시작일 - 문자열
+		var auctdate_unit = $("#auctdate_unit").val(); // 경매기간(selectBox) - 최소 1일
+		var baynow_yn = $("#baynow_yn").is(":checked"); // 즉시구매여부(checkBox)
+		var baynow_money = $("#baynow_money").val(); // 즉시구매가 - 즉시구매여부가 true인 경우만 금액 입력가능(최소 100원).
 		
 		// 배송구분 - 라디오버튼으로 하나는 선택되어있음 - 체크루틴 필요없음.
-//		var deli_div_cd = $("#deli_div_cd").val();
-//		var deli_div_nm = $("#deli_div_nm").val();
+//		var deli_div_cd = $("#deli_div_cd").val(); // 배송구분코드
+//		var deli_div_nm = $("#deli_div_nm").val(); // 배송구분명
 		
-		// 상품정보 체크
+		// 1. 상품정보 체크
         if(class_big_cd == null || class_big_cd.length == 0) {
             $('#message').find('h4').text("대분류를 선택하세요.");
         	$('#myModal').modal('show');
@@ -237,14 +255,14 @@ $(function() {
             return false;
         }
         
-		// 이미지 존재여부 체크 -- // 이미지 - 최소 1개 이상 있어야 함.
+		// 2. 이미지 존재여부 체크 -- // 이미지 - 최소 1개 이상 있어야 함.
         if(idx == 0) {
             $('#message').find('h4').text("이미지를 1개 이상 넣어주세요.");
         	$('#myModal').modal('show');
             return false;
         }
 
-        // 경매설정 체크
+        // 3. 경매설정 체크
         if(money_first.length == 0) {
             $('#message').find('h4').text("시작가를 입력하세요.");
         	$('#myModal').modal('show');
@@ -293,6 +311,7 @@ $(function() {
         	}
         }
         
+        // 4. 이미지 upload하기 전에 index 순차적으로 새로 부여.
         $(".uploadData").each( function (index) {
 	        $(this).find("input[name=filename]").attr("name", "ivo[" + index + "].filename");
 	        $(this).find("input[name=filename_org]").attr("name", "ivo[" + index + "].filename_org");
@@ -300,4 +319,5 @@ $(function() {
 	        $(this).find("input[name=img_idx]").attr("name", "ivo[" + index + "].img_idx").attr("value", index);
 	    });
     });
+	/*======================================================================================*/
  });

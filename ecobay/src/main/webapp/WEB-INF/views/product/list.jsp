@@ -77,7 +77,7 @@
 								</div>
 								<div class="col-xs-12 col-md-6">
 									<c:if test="${list.state_cd != '3'}">
-										<label>${list.acutdate_start_str}</label>
+										<label>${list.acutdate_end_str}</label>
 									</c:if>
 								</div>
 							</div>

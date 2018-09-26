@@ -36,7 +36,8 @@ public class ProductVO {
 	private int bib_cnt; // 입찰수
 	private long bib_max_money; // 최대입찰금액
 	private String filename_thumb; // 썸네일파일명
-	private String acutdate_start_str; // 경매종료일시(String)
+	private String acutdate_start_str; // 경매시작일시(String)
+	private String acutdate_end_str; // 경매종료일시(String)
 	
 	public ProductVO() { 
 		
