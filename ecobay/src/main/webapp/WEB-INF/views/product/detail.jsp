@@ -299,33 +299,40 @@
 						
 						<tr>
 							<th class="detailTitle">경매기간</th>
-							<td colspan="2">경매시작일시(acutdateStart) ~ 경매종료일시(acutdateEnd)</td>
+							<td colspan="2">${product.acutdate_start_str} ~ ${product.acutdate_end_str}</td>
 						</tr>
 						
 						<tr>
 							<th class="detailTitle">시작가</th>
-							<td colspan="2">시작가(moneyFirst)</td>
+							<td colspan="2">${product.avo.money_first}</td>
 						</tr>
 						<tr>
 							<th class="detailTitle">입찰단위</th>
-							<td colspan="2">입찰단위(moneyUnit)</td>
+							<td colspan="2">${product.avo.money_unit}원</td>
 						</tr>
 						<tr>
 							<th class="detailTitle">즉시구매</th>
-							<td colspan="2">구매여부(baynowYn)가 false이면 즉시구매불가능(baynowMoney)</td>
+							<td colspan="2">
+								<c:choose>
+									<c:when test="${product.avo.baynow_yn == true}">${product.avo.baynow_money}</c:when>
+									<c:otherwise>
+										<button type="button" class="btn btn-danger" name="baynow_money" id="baynow_money">즉시구매 불가능</button>
+									</c:otherwise>
+								</c:choose>
+							</td>
 						</tr>
 						<tr>
 							<th class="detailTitle">입찰수</th>
-							<td>입찰내역 count</td>
+							<td>${product.bib_cnt}명</td>
 							<td style="text-align: center;"><button type="button" class="btn btn-outline-dark btn-sm" name="bidCnt" id="bidCnt">경매기록보기</button></td>
 						</tr>
 						<tr>
 							<th class="detailTitle">배송정보</th>
-							<td colspan="2">배송구분명(deliDivNm)</td>
+							<td colspan="2">${product.dvo.deli_div_nm}</td>
 						</tr>
 						<tr>
 							<th class="detailTitle">판매자정보</th>
-							<td colspan="2">상품판매자ID(memberId)</td>
+							<td colspan="2">${product.member_id}</td>
 						</tr>
 						
 						<tr>
