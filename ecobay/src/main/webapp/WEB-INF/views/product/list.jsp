@@ -60,7 +60,7 @@
 		<div id="products" class="row view-group">
 			<c:forEach var="list" items="${productList}">
 				<div class="item col-xs-4 col-lg-4">
-					<div class="thumbnail card">
+					<div class="thumbnail card" data-src="${list.product_cd}">
 						<div class="img-event">
 							<img class="group list-group-image img-fluid"
 								 src="/product/displayFile.do?fileName=${list.filename_thumb}"
@@ -109,7 +109,7 @@
 			    	 		var str = "";
 			    	 		$.each(data.arr, function(index, arr) {
 			    	 			str = str + "<div class='item col-xs-4 col-lg-4'>";
-			    	 			str = str + "        <div class='thumbnail card'>";
+			    	 			str = str + "        <div class='thumbnail card' data-src='"+arr.product_cd+"'>";
 			    	 			str = str + "            <div class='img-event'>";
 			    	 			str = str + "                <img class='group list-group-image img-fluid' src='/product/displayFile.do?fileName="+arr.filename_thumb+"' onerror=this.src='/resources/images/noimg.gif;' alt=''/>";
 			    	 			str = str + "            </div>";
@@ -142,6 +142,12 @@
 			    }
 			});
 		});
+		
+		$(".thumbnail").on("click", function() {
+			var datasrc = $(this).attr("data-src");
+			
+			location.href="/product/detail.do?product_cd=" + datasrc;
+		})
 	
 		$(function()
 		{
