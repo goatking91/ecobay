@@ -30,7 +30,34 @@ public class FaqController {
     public String faqRegPOST(FaqVO vo) throws Exception {
 		service.FaqRegist(vo);
 		
-        return "redirect:/admin/faqlist.do";
+        return "redirect:/admin/board/faqlist.do";
+    }
+	
+	
+	@RequestMapping(value="/faqmod.do", method = RequestMethod.GET)
+    public String faqModGET(@RequestParam("idx") String faq_idx, Model model) throws Exception {
+		
+		int idx = Integer.parseInt(faq_idx);
+		
+		model.addAttribute("faq", service.faqLoad(idx));
+		
+        return "admin/board/faqModify.admin";
+    }
+	
+	@RequestMapping(value="/faqmod.do", method = RequestMethod.POST)
+    public String faqModPOST(FaqVO vo) throws Exception {
+		service.faqUpdate(vo);
+		
+        return "redirect:/admin/board/faqlist.do";
+    }
+	
+	@RequestMapping(value="/faqdel.do", method = RequestMethod.GET)
+    public String faqDelGet(@RequestParam("idx") String faq_idx) throws Exception {
+		int idx = Integer.parseInt(faq_idx);
+		
+		service.faqDelete(idx);
+		
+        return "redirect:/admin/board/faqlist.do";
     }
 	
 }
