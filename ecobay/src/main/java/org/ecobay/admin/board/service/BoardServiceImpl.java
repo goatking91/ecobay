@@ -22,21 +22,4 @@ public class BoardServiceImpl implements BoardService {
 		return dao.faqList();
 	}
 
-	@Override
-	public FaqVO faqLoad(int faq_idx) throws Exception {
-
-		return dao.faqLoad(faq_idx);
-	}
-
-	@Override
-	public void faqUpdate(FaqVO vo) throws Exception {
-		System.out.println(vo.getFaq_idx());
-		dao.faqUpdate(vo);
-	}
-
-	@Override
-	public void faqDelete(int faq_idx) throws Exception {
-		dao.faqDelete(faq_idx);
-	}
-
 }

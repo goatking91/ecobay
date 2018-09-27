@@ -19,25 +19,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		FROM faq
 	</select>
 	
-	<select id="selectFaqOne" parameterType="int" resultType="FaqVO">
-		SELECT * 
-		FROM faq 
-		WHERE faq_idx = #{faq_idx}
-	</select>
-	
-	<update id="updateFaq" parameterType="FaqVO">
-		UPDATE faq SET
-			title = #{title},
-			content = #{content},
-			moddate = now()
-		WHERE faq_idx = #{faq_idx}
-		
-	</update>
-	
-	<delete id="deleteFaq" parameterType="int">
-		DELETE FROM faq 
-		WHERE faq_idx = #{faq_idx}
-	</delete>
  	
 </mapper>
 

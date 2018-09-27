@@ -3,33 +3,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
-<script>
-$(document).ready(function(){
-	
-	
-	$('.mod').click(function(event){
-		var nowId = $(this).attr("id");
-		var noIdx = nowId.replace(/[^0-9]/g,"");
-		var faqIdx = $('#faq'+noIdx).val();
-		
-		location.href="/admin/board/faqmod.do?idx="+faqIdx;
-		
-		
-	});
-	
-	$('.del').click(function(event){
-		var nowId = $(this).attr("id");
-		var noIdx = nowId.replace(/[^0-9]/g,"");
-		var faqIdx = $('#faq'+noIdx).val();
-		
-		location.href="/admin/board/faqdel.do?idx="+faqIdx;
-		
-		
-	});
-});
 
-		
-</script>
 
 <div class="content-wrapper">
 	<!-- 페이지 헤더(제목) -->
@@ -51,7 +25,7 @@ $(document).ready(function(){
 	
 		
 		<div class="col-md-12" >
-			<form name="myform" action="board/admin/faqlist.do">
+			<form name="myform" action="list.do">
 				<div class="form-group row">
 					<div class="col-sm-4">
 						<a href="/admin/faqreg.do"><button type="button" class="btn btn-success">FAQ 등 록</button></a>
@@ -94,10 +68,8 @@ $(document).ready(function(){
 			    	<td>${status.count }</td>
 			    	<td><a>${list.title}</a></td>
 			    	<td><fmt:formatDate value="${list.regDate}" pattern="yyyy-MM-dd"/></td>
-			    	<td>
-			    		<input type="hidden" id="faq${status.count }" value="${list.faq_idx }">
-			    		<a href="#"><button id="modBtn${status.count }" class="btn btn-sm btn-secondary mod">수정</button></a>
-			    		<a href="#"><button id="delBtn${status.count }" class="btn btn-sm btn-danger del">삭제</button></a>
+			    	<td><a href="#"><button class="btn btn-sm btn-secondary">수정</button></a>
+			    		<a href="#"><button class="btn btn-sm btn-danger">삭제</button></a>
 			    	</td>
 			    </tr>
 			    <tr class="collapse" id="data_${status.count }">
