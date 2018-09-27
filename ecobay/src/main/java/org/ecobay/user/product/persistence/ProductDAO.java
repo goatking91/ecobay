@@ -19,7 +19,9 @@ public interface ProductDAO {
 	public void deliInsert(DeliveryInfoVO delivo);
 	
 	public void delete(String product_cd) throws Exception;
-	public ProductVO selectDetail(String product_cd) throws Exception;
+	public ProductVO selectDetailProd(String product_cd) throws Exception;
+	public AuctionInfoVO selectDetailAuct(String product_cd) throws Exception;
+	public DeliveryInfoVO selectDetailDeli(String product_cd) throws Exception;
 	
 	public List<ProductVO> selectList(ProductVO vo) throws Exception;
 	public List<ProductVO> bigclassList() throws Exception;

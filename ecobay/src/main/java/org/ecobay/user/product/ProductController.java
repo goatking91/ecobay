@@ -64,8 +64,9 @@ public class ProductController {
     
     @RequestMapping(value = "/detail.do")
     public String detail(@RequestParam("product_cd") String product_cd, Model model) throws Exception {
-    	model.addAttribute("product", service.selectDetail(product_cd));
-    	
+    	model.addAttribute("prod", service.selectDetailProd(product_cd));
+    	model.addAttribute("auct", service.selectDetailAuct(product_cd));
+    	model.addAttribute("deli", service.selectDetailDeli(product_cd));
     	return "product/detail.page";
     }
     

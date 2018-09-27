@@ -116,10 +116,20 @@ public class ProductServiceImpl implements ProductService{
 	public void delete(String product_cd) throws Exception {
 		dao.delete(product_cd);
 	}
+	
+	@Override
+	public ProductVO selectDetailProd(String product_cd) throws Exception {
+		return dao.selectDetailProd(product_cd);
+	}
+	
+	@Override
+	public AuctionInfoVO selectDetailAuct(String product_cd) throws Exception {
+		return dao.selectDetailAuct(product_cd);
+	}
 
 	@Override
-	public ProductVO selectDetail(String product_cd) throws Exception {
-		return dao.selectDetail(product_cd);
+	public DeliveryInfoVO selectDetailDeli(String product_cd) throws Exception {
+		return dao.selectDetailDeli(product_cd);
 	}
 
 	@Override
@@ -154,4 +164,5 @@ public class ProductServiceImpl implements ProductService{
 	public List<ProductImageVO> selectImageList(String product_cd) throws Exception {
 		return dao.selectImageList(product_cd);
 	}
+	
 }

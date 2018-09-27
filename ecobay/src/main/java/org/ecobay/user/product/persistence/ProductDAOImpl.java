@@ -46,8 +46,18 @@ public class ProductDAOImpl implements ProductDAO {
 	}
 
 	@Override
-	public ProductVO selectDetail(String product_cd) throws Exception {
-		return session.selectOne(namespace + ".selectDetail", product_cd);
+	public ProductVO selectDetailProd(String product_cd) throws Exception {
+		return session.selectOne(namespace + ".selectDetailProd", product_cd);
+	}
+	
+	@Override
+	public AuctionInfoVO selectDetailAuct(String product_cd) throws Exception {
+		return session.selectOne(namespace + ".selectDetailAuct", product_cd);
+	}
+
+	@Override
+	public DeliveryInfoVO selectDetailDeli(String product_cd) throws Exception {
+		return session.selectOne(namespace + ".selectDetailDeli", product_cd);
 	}
 	
 	@Override
@@ -84,4 +94,6 @@ public class ProductDAOImpl implements ProductDAO {
 	public List<ProductImageVO> selectImageList(String product_cd) throws Exception {
 		return session.selectList(namespace + ".selectImageList",product_cd);
 	}
+	
+	
 }
