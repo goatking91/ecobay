@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
 import org.ecobay.user.product.domain.AuctionInfoVO;
-import org.ecobay.user.product.domain.BibInfoVO;
+import org.ecobay.user.product.domain.BidInfoVO;
 import org.ecobay.user.product.domain.DeliveryInfoVO;
 import org.ecobay.user.product.domain.ProductImageVO;
 import org.ecobay.user.product.domain.ProductVO;
@@ -86,7 +86,7 @@ public class ProductDAOImpl implements ProductDAO {
 	}
 
 	@Override
-	public List<BibInfoVO> selectBibList(String product_cd) throws Exception {
+	public List<BidInfoVO> selectBidList(String product_cd) throws Exception {
 		return session.selectList(namespace + ".selectBibList", product_cd);
 	}
 

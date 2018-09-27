@@ -9,7 +9,7 @@
 		<typeAlias type="org.ecobay.user.product.domain.ProductImageVO" alias="ProductImageVO"/>
 		<typeAlias type="org.ecobay.user.product.domain.AuctionInfoVO" alias="AuctionInfoVO"/>
 		<typeAlias type="org.ecobay.user.product.domain.DeliveryInfoVO" alias="DeliveryInfoVO"/>
-		<typeAlias type="org.ecobay.user.product.domain.BibInfoVO" alias="BibInfoVO"/>
+		<typeAlias type="org.ecobay.user.product.domain.BidInfoVO" alias="BidInfoVO"/>
 		
 		<typeAlias type="org.ecobay.admin.board.domain.FaqVO" alias="FaqVO"/>
 	</typeAliases>

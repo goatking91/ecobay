@@ -9,7 +9,7 @@ import java.util.List;
 import javax.annotation.Resource;
 
 import org.ecobay.user.product.domain.AuctionInfoVO;
-import org.ecobay.user.product.domain.BibInfoVO;
+import org.ecobay.user.product.domain.BidInfoVO;
 import org.ecobay.user.product.domain.DeliveryInfoVO;
 import org.ecobay.user.product.domain.ProductImageVO;
 import org.ecobay.user.product.domain.ProductVO;
@@ -156,8 +156,8 @@ public class ProductServiceImpl implements ProductService{
 	}
 
 	@Override
-	public List<BibInfoVO> selectBibList(String product_cd) throws Exception {
-		return dao.selectBibList(product_cd);
+	public List<BidInfoVO> selectBidList(String product_cd) throws Exception {
+		return dao.selectBidList(product_cd);
 	}
 
 	@Override

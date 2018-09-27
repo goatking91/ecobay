@@ -170,7 +170,7 @@
 	<!-- 제목(상품명) 출력영역 -->
 	<div class="container">
 		<div class="row">
-			<h4>${product.product_nm}</h4>
+			<h4>${prod.product_nm}</h4>
 		</div>
 	</div>
 
@@ -285,54 +285,62 @@
 			<!-- 상품정보 출력영역 -->
 			<div class="product-detail-spec col-sm-12 col-md-6">
 				<div class="table-responsive">
+					<label style="float:right;" id="remain"></label>
+					<input id="endTime" type="hidden" value="${auct.acutdate_end_str}"> 
 					<table class="table">
 						<tr>
-							<th style="text-align: right;"><h4>현재가</h4></th>
-							<td><input type="text" size="10" name="moneyBid" id="moneyBid" style="border: none;" readOnly value="입찰최고금액"></td>
-							<td style="text-align: right;"><button type="button" class="btn btn-secondary btn-sm" name="remainingTime" id="remainingTime">남은시간 <span id="remain">XX일 XX시 XX분 XX초</span></button></td>
+							<th class="detailTitle">현재가</th>
+							<td colspan="2"><input type="text" size="10" name="moneyBid" id="moneyBid" style="border: none;" readOnly 
+									<c:choose>
+										<c:when test="${prod.bid_max_money eq 0}">value='${auct.money_first}원'</c:when>
+										<c:otherwise>
+											value='${prod.bid_max_money}원'
+										</c:otherwise>
+									</c:choose>>
+							</td>
 						</tr>
 						
 						<tr>
 							<th class="detailTitle">상품번호</th>
-							<td colspan="2">${product.product_cd}</td>
+							<td colspan="2">${prod.product_cd}</td>
 						</tr>
 						
 						<tr>
 							<th class="detailTitle">경매기간</th>
-							<td colspan="2">${product.acutdate_start_str} ~ ${product.acutdate_end_str}</td>
+							<td colspan="2">${auct.acutdate_start_str} ~ ${auct.acutdate_end_str}</td>
 						</tr>
 						
 						<tr>
 							<th class="detailTitle">시작가</th>
-							<td colspan="2">${product.avo.money_first}</td>
+							<td colspan="2">${auct.money_first}원</td>
 						</tr>
 						<tr>
 							<th class="detailTitle">입찰단위</th>
-							<td colspan="2">${product.avo.money_unit}원</td>
+							<td colspan="2">${auct.money_unit}원</td>
 						</tr>
 						<tr>
 							<th class="detailTitle">즉시구매</th>
 							<td colspan="2">
 								<c:choose>
-									<c:when test="${product.avo.baynow_yn == true}">${product.avo.baynow_money}</c:when>
+									<c:when test="${auct.baynow_yn == true}">${auct.baynow_money}</c:when>
 									<c:otherwise>
-										<button type="button" class="btn btn-danger" name="baynow_money" id="baynow_money">즉시구매 불가능</button>
+										<button type="button" class="btn btn-danger btn-sm" name="baynow_money" id="baynow_money">즉시구매 불가능</button>
 									</c:otherwise>
 								</c:choose>
 							</td>
 						</tr>
 						<tr>
 							<th class="detailTitle">입찰수</th>
-							<td>${product.bib_cnt}명</td>
+							<td>${prod.bid_cnt}명</td>
 							<td style="text-align: center;"><button type="button" class="btn btn-outline-dark btn-sm" name="bidCnt" id="bidCnt">경매기록보기</button></td>
 						</tr>
 						<tr>
 							<th class="detailTitle">배송정보</th>
-							<td colspan="2">${product.dvo.deli_div_nm}</td>
+							<td colspan="2">${deli.deli_div_nm}</td>
 						</tr>
 						<tr>
 							<th class="detailTitle">판매자정보</th>
-							<td colspan="2">${product.member_id}</td>
+							<td colspan="2">${prod.member_id}</td>
 						</tr>
 						
 						<tr>
@@ -350,7 +358,7 @@
 					<a class="nav-item nav-link" id="nav-qna-tab" data-toggle="tab" href="#nav-qna" role="tab" aria-controls="nav-qna" aria-selected="false">상품문의</a>
 				</nav>
 				<div class="tab-content" id="nav-tabContent">
-					<div class="tab-pane fade show active" id="nav-content" role="tabpanel" aria-labelledby="nav-content-tab">상품설명</div>
+					<div class="tab-pane fade show active" id="nav-content" role="tabpanel" aria-labelledby="nav-content-tab">${prod.content}</div>
 					<div class="tab-pane fade" id="nav-qna" role="tabpanel" aria-labelledby="nav-qna-tab">
 						<%-- <c:import url="/WEB-INF/views/product/qna.jsp"></c:import> --%>
 					</div>
@@ -367,5 +375,38 @@
 		<form name="iform" class="form-horizontal" method="post">
 		</form>
 	</div>
+	
+	
+<script type="text/javascript">
+	
+	var endDateTime = new Date(document.getElementById("endTime").value+":00").getTime();
+	function auctTime(){
+		var dateTime = new Date().getTime();
+		
+		if(endDateTime > dateTime) {
+			var difference_ms = endDateTime - dateTime;
+			difference_ms = difference_ms / 1000;
+			var seconds = Math.floor(difference_ms % 60);
+			difference_ms = difference_ms / 60; 
+			var minutes = Math.floor(difference_ms % 60);
+			difference_ms = difference_ms / 60; 
+			var hours = Math.floor(difference_ms % 24);  
+			var days = Math.floor(difference_ms / 24);
+			
+			seconds = (seconds < 10) ? "0" + seconds : seconds;
+			minutes = (minutes < 10) ? "0" + minutes : minutes;
+			hours = (hours < 10) ? "0" + hours : hours;
+
+			document.getElementById("remain").innerHTML = "남은시간 : " + days + "일 " + hours + "시간 " + minutes + "분 " + seconds + "초";
+			setTimeout(auctTime, 1000);
+		}else {
+			document.getElementById("remain").innerHTML = "경매종료";
+		}
+	    
+	}
+	
+	auctTime();
+</script>
+	
 </body>
 </html>

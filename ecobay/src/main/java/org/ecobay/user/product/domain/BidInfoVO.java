@@ -2,20 +2,20 @@ package org.ecobay.user.product.domain;
 
 import java.util.Date;
 
-public class BibInfoVO {
+public class BidInfoVO {
 	private String product_cd;
 	private String member_id; // 입찰자ID
-	private long money_bit; // 입찰금액
+	private long money_bid; // 입찰금액
 	private Date regdate;
 	
-	public BibInfoVO() { 
+	public BidInfoVO() { 
 		
 	}
 	
-	public BibInfoVO(String product_cd, String member_id, long money_bit, Date regdate) {
+	public BidInfoVO(String product_cd, String member_id, long money_bid, Date regdate) {
 		this.product_cd = product_cd;
 		this.member_id = member_id;
-		this.money_bit = money_bit;
+		this.money_bid = money_bid;
 		this.regdate = regdate;
 	}
 
@@ -35,12 +35,12 @@ public class BibInfoVO {
 		this.member_id = member_id;
 	}
 
-	public long getMoney_bit() {
-		return money_bit;
+	public long getMoney_bid() {
+		return money_bid;
 	}
 
-	public void setMoney_bit(long money_bit) {
-		this.money_bit = money_bit;
+	public void setMoney_bid(long money_bid) {
+		this.money_bid = money_bid;
 	}
 
 	public Date getRegdate() {
@@ -56,7 +56,7 @@ public class BibInfoVO {
 		return "BibInfoVO ["
 				+ "product_cd=" + product_cd 
 				+ ", member_id=" + member_id 
-				+ ", money_bit=" + money_bit
+				+ ", money_bid=" + money_bid
 				+ ", regdate=" + regdate 
 				+ "]";
 	}

@@ -14,8 +14,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 	<select id="selectDetail" resultType="productVO">
 		SELECT    prod.PRODUCT_CD, prod.PRODUCT_NM, prod.MEMBER_ID, prod.STATE_CD, prod.STATE_NM, prod.VIEWCNT
-				, (SELECT COUNT(bid.PRODUCT_CD) FROM bidinfo bid WHERE bid.PRODUCT_CD = prod.PRODUCT_CD) as BIB_CNT
-				, IFNULL((SELECT MAX(bid.MONEY_BID) FROM bidinfo bid WHERE bid.PRODUCT_CD = prod.PRODUCT_CD), 0) as BIB_MAX_MONEY
+				, IFNULL(prod.CONTENT, '') as CONTENT
+				, (SELECT COUNT(bid.PRODUCT_CD) FROM bidinfo bid WHERE bid.PRODUCT_CD = prod.PRODUCT_CD) as BID_CNT
+				, IFNULL((SELECT MAX(bid.MONEY_BID) FROM bidinfo bid WHERE bid.PRODUCT_CD = prod.PRODUCT_CD), 0) as BID_MAX_MONEY
                 , IFNULL(auct.AUCTDATE_UNIT, 0) as AUCTDATE_UNIT
                 , IFNULL(DATE_FORMAT(auct.ACUTDATE_START, '%Y-%m-%d %H:%s'), '') as ACUTDATE_START_STR
                 , IFNULL(DATE_FORMAT(auct.ACUTDATE_END, '%Y-%m-%d %H:%s'), '') as ACUTDATE_END_STR
@@ -34,8 +35,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="selectDetailProd" resultType="productVO">
 		SELECT    prod.PRODUCT_CD, prod.PRODUCT_NM, prod.MEMBER_ID
                 , prod.STATE_CD, prod.STATE_NM, prod.VIEWCNT
-				, (SELECT COUNT(bid.PRODUCT_CD) FROM bidinfo bid WHERE bid.PRODUCT_CD = prod.PRODUCT_CD) as BIB_CNT
-				, IFNULL((SELECT MAX(bid.MONEY_BID) FROM bidinfo bid WHERE bid.PRODUCT_CD = prod.PRODUCT_CD), 0) as BIB_MAX_MONEY
+                , IFNULL(prod.CONTENT, '') as CONTENT
+				, (SELECT COUNT(bid.PRODUCT_CD) FROM bidinfo bid WHERE bid.PRODUCT_CD = prod.PRODUCT_CD) as BID_CNT
+				, IFNULL((SELECT MAX(bid.MONEY_BID) FROM bidinfo bid WHERE bid.PRODUCT_CD = prod.PRODUCT_CD), 0) as BID_MAX_MONEY
 		   FROM product prod
 		  WHERE prod.USE_YN = TRUE
 		    AND prod.product_cd = #{product_cd}
@@ -93,8 +95,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		(
 			 SELECT @rownum:=@rownum+1 as rn
 			 		, prod.PRODUCT_CD, prod.PRODUCT_NM, prod.MEMBER_ID, prod.STATE_CD, prod.STATE_NM, prod.VIEWCNT
-					, (SELECT COUNT(PRODUCT_CD) FROM bidinfo bid WHERE bid.PRODUCT_CD = prod.PRODUCT_CD) as BIB_CNT
-					, IFNULL((SELECT MAX(MONEY_BID) FROM bidinfo bid WHERE bid.PRODUCT_CD = prod.PRODUCT_CD), 0) as BIB_MAX_MONEY
+					, (SELECT COUNT(PRODUCT_CD) FROM bidinfo bid WHERE bid.PRODUCT_CD = prod.PRODUCT_CD) as BID_CNT
+					, IFNULL((SELECT MAX(MONEY_BID) FROM bidinfo bid WHERE bid.PRODUCT_CD = prod.PRODUCT_CD), 0) as BID_MAX_MONEY
 			        , IFNULL((SELECT prodimg.FILENAME_THUMB FROM productimg prodimg WHERE prodimg.PRODUCT_CD = prod.PRODUCT_CD ORDER BY prodimg.IMG_IDX ASC limit 1), '') as FILENAME_THUMB
 			        , CASE prod.STATE_CD
 						WHEN '5' THEN IFNULL((SELECT DATE_FORMAT(auct.ACUTDATE_END, '%Y-%m-%d %H:%s') FROM auctioninfo auct WHERE auct.PRODUCT_CD = prod.PRODUCT_CD), '')
@@ -121,8 +123,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		SELECT *
 		 FROM (
 				SELECT   prod.PRODUCT_CD, prod.PRODUCT_NM, prod.MEMBER_ID, prod.STATE_CD, prod.STATE_NM, prod.VIEWCNT
-						, (SELECT COUNT(PRODUCT_CD) FROM bidinfo bid WHERE bid.PRODUCT_CD = prod.PRODUCT_CD) as BIB_CNT
-						, IFNULL((SELECT MAX(MONEY_BID) FROM bidinfo bid WHERE bid.PRODUCT_CD = prod.PRODUCT_CD), 0) as BIB_MAX_MONEY
+						, (SELECT COUNT(PRODUCT_CD) FROM bidinfo bid WHERE bid.PRODUCT_CD = prod.PRODUCT_CD) as BID_CNT
+						, IFNULL((SELECT MAX(MONEY_BID) FROM bidinfo bid WHERE bid.PRODUCT_CD = prod.PRODUCT_CD), 0) as BID_MAX_MONEY
 				        , IFNULL((SELECT prodimg.FILENAME_THUMB FROM productimg prodimg WHERE prodimg.PRODUCT_CD = prod.PRODUCT_CD ORDER BY prodimg.IMG_IDX ASC limit 1), '') as FILENAME_THUMB
 				        , CASE prod.STATE_CD
 							WHEN '5' THEN IFNULL((SELECT DATE_FORMAT(ACUTDATE_END, '%Y-%m-%d %H:%s') FROM auctioninfo auct WHERE auct.PRODUCT_CD = prod.PRODUCT_CD), '')
@@ -133,7 +135,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 				  WHERE prod.USE_YN = TRUE
 				    AND prod.STATE_CD = '3'
 			 ) bestprod
-		 ORDER BY bestprod.BIB_CNT DESC, bestprod.VIEWCNT DESC
+		 ORDER BY bestprod.BID_CNT DESC, bestprod.VIEWCNT DESC
 		 	limit 6
 	</select>
 	
@@ -143,7 +145,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		 WHERE product_cd = #{product_cd}
 	</select>
 	
-	<select id="selectBibList" resultType="BibInfoVO">
+	<select id="selectBidList" resultType="BidInfoVO">
 		SELECT *
 		  FROM bidinfo
 		 WHERE product_cd = #{product_cd}

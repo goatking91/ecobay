@@ -3,7 +3,7 @@ package org.ecobay.user.product.service;
 import java.util.List;
 
 import org.ecobay.user.product.domain.AuctionInfoVO;
-import org.ecobay.user.product.domain.BibInfoVO;
+import org.ecobay.user.product.domain.BidInfoVO;
 import org.ecobay.user.product.domain.DeliveryInfoVO;
 import org.ecobay.user.product.domain.ProductImageVO;
 import org.ecobay.user.product.domain.ProductVO;
@@ -23,6 +23,6 @@ public interface ProductService {
 	public List<ProductVO> bigclassList() throws Exception;
 	public List<ProductVO> midclassList(String class_big_cd) throws Exception;
 	
-	public List<BibInfoVO> selectBibList(String product_cd) throws Exception;
+	public List<BidInfoVO> selectBidList(String product_cd) throws Exception;
 	public List<ProductImageVO> selectImageList(String product_cd) throws Exception;
 }

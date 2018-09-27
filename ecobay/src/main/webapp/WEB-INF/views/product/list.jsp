@@ -73,7 +73,7 @@
 							<p class="group inner list-group-item-text">${list.content}</p>
 							<div class="row">
 								<div class="col-xs-12 col-md-6">
-									<p class="lead"> ${list.bib_cnt}명 / ${list.bib_max_money}원</p>
+									<p class="lead"> ${list.bid_cnt}명 / ${list.bid_max_money}원</p>
 								</div>
 								<div class="col-xs-12 col-md-6">
 									<c:if test="${list.state_cd != '3'}">
@@ -119,7 +119,7 @@
 			    	 			str = str + "                <p class='group inner list-group-item-text'>"+arr.content+"</p>";
 			    	 			str = str + "                <div class='row'>";
 			    	 			str = str + "                    <div class='col-xs-12 col-md-6'>";
-			    	 			str = str + "                        <p class='lead'> "+arr.bib_cnt+"명 / "+arr.bib_max_money+"원</p>";
+			    	 			str = str + "                        <p class='lead'> "+arr.bid_cnt+"명 / "+arr.bid_max_money+"원</p>";
 			    	 			str = str + "                    </div>";
 			    	 			str = str + "                    <div class='col-xs-12 col-md-6'>";
 			    	 			if(arr.acutdate_start_str != '3') {
