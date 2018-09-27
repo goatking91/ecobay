@@ -18,12 +18,12 @@ public class AdminMemberController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(AdminMemberController.class);
 	
-	@RequestMapping(value="/list.do", method = RequestMethod.GET)
-    public String list(Model model) throws Exception {
+	@RequestMapping(value="/memberlist.do", method = RequestMethod.GET)
+    public String memberList(Model model) throws Exception {
     	//admin 회원리스트
     	model.addAttribute("mcnt", service.count());
     	model.addAttribute("list", service.listAll());
-    	return "admin/list.admin";
+    	return "admin/memberList.admin";
     }
 	
 }
