@@ -60,10 +60,10 @@
 		<div id="products" class="row view-group">
 			<c:forEach var="list" items="${productList}">
 				<div class="item col-xs-4 col-lg-4">
-					<div class="thumbnail card">
+					<div class="thumbnail card" data-src="${list.product_cd}">
 						<div class="img-event">
 							<img class="group list-group-image img-fluid"
-								 src="${list.filename_thumb}"
+								 src="/product/displayFile.do?fileName=${list.filename_thumb}"
 								 onerror="this.src='/resources/images/noimg.gif';"
 								 alt="" />
 						</div>
@@ -77,7 +77,7 @@
 								</div>
 								<div class="col-xs-12 col-md-6">
 									<c:if test="${list.state_cd != '3'}">
-										<label>${list.acutdate_start_str}</label>
+										<label>${list.acutdate_end_str}</label>
 									</c:if>
 								</div>
 							</div>
@@ -109,9 +109,9 @@
 			    	 		var str = "";
 			    	 		$.each(data.arr, function(index, arr) {
 			    	 			str = str + "<div class='item col-xs-4 col-lg-4'>";
-			    	 			str = str + "        <div class='thumbnail card'>";
+			    	 			str = str + "        <div class='thumbnail card' data-src='"+arr.product_cd+"'>";
 			    	 			str = str + "            <div class='img-event'>";
-			    	 			str = str + "                <img class='group list-group-image img-fluid' src='"+arr.filename_thumb+"' onerror=this.src='/resources/images/noimg.gif;' alt=''/>";
+			    	 			str = str + "                <img class='group list-group-image img-fluid' src='/product/displayFile.do?fileName="+arr.filename_thumb+"' onerror=this.src='/resources/images/noimg.gif;' alt=''/>";
 			    	 			str = str + "            </div>";
 			    	 			str = str + "            <div class='caption card-body'>";
 			    	 			str = str + "                <h4 class='group card-title inner list-group-item-heading'>";
@@ -142,6 +142,12 @@
 			    }
 			});
 		});
+		
+		$(".thumbnail").on("click", function() {
+			var datasrc = $(this).attr("data-src");
+			
+			location.href="/product/detail.do?product_cd=" + datasrc;
+		})
 	
 		$(function()
 		{

@@ -60,3 +60,8 @@ charset "UTF-8";
 {
     clear: both;
 }
+
+.img-event 
+{
+	text-align: center;
+}

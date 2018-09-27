@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
 import org.ecobay.user.product.domain.AuctionInfoVO;
+import org.ecobay.user.product.domain.BibInfoVO;
 import org.ecobay.user.product.domain.DeliveryInfoVO;
 import org.ecobay.user.product.domain.ProductImageVO;
 import org.ecobay.user.product.domain.ProductVO;
@@ -45,8 +46,18 @@ public class ProductDAOImpl implements ProductDAO {
 	}
 
 	@Override
-	public ProductVO select(String product_cd) throws Exception {
-		return session.selectOne(namespace + ".select", product_cd);
+	public ProductVO selectDetailProd(String product_cd) throws Exception {
+		return session.selectOne(namespace + ".selectDetailProd", product_cd);
+	}
+	
+	@Override
+	public AuctionInfoVO selectDetailAuct(String product_cd) throws Exception {
+		return session.selectOne(namespace + ".selectDetailAuct", product_cd);
+	}
+
+	@Override
+	public DeliveryInfoVO selectDetailDeli(String product_cd) throws Exception {
+		return session.selectOne(namespace + ".selectDetailDeli", product_cd);
 	}
 	
 	@Override
@@ -73,4 +84,16 @@ public class ProductDAOImpl implements ProductDAO {
 	public int maxImgCnt() {
 		return session.selectOne(namespace + ".maxImgCnt");
 	}
+
+	@Override
+	public List<BibInfoVO> selectBibList(String product_cd) throws Exception {
+		return session.selectList(namespace + ".selectBibList", product_cd);
+	}
+
+	@Override
+	public List<ProductImageVO> selectImageList(String product_cd) throws Exception {
+		return session.selectList(namespace + ".selectImageList",product_cd);
+	}
+	
+	
 }

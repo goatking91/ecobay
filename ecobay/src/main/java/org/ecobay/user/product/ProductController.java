@@ -3,8 +3,6 @@ package org.ecobay.user.product;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -12,7 +10,6 @@ import java.util.Map;
 import javax.annotation.Resource;
 
 import org.apache.commons.io.IOUtils;
-import org.ecobay.user.product.domain.AuctionInfoVO;
 import org.ecobay.user.product.domain.ProductVO;
 import org.ecobay.user.product.service.ProductService;
 import org.ecobay.user.util.MediaUtils;
@@ -45,6 +42,8 @@ public class ProductController {
 	@Resource(name = "uploadPath")
 	private String uploadPath;
 	
+	private int pageCount = 12;
+	
 	private static final Logger logger = LoggerFactory.getLogger(ProductController.class);
 	
 	@RequestMapping(value = "/reg.do", method = RequestMethod.GET)
@@ -65,8 +64,9 @@ public class ProductController {
     
     @RequestMapping(value = "/detail.do")
     public String detail(@RequestParam("product_cd") String product_cd, Model model) throws Exception {
-    	model.addAttribute("product", service.select(product_cd));
-    	
+    	model.addAttribute("prod", service.selectDetailProd(product_cd));
+    	model.addAttribute("auct", service.selectDetailAuct(product_cd));
+    	model.addAttribute("deli", service.selectDetailDeli(product_cd));
     	return "product/detail.page";
     }
     
@@ -89,7 +89,7 @@ public class ProductController {
 		model.addAttribute("bigclass", service.bigclassList());
 		
 		vo.setStart_num(1);
-		vo.setEnd_num(18);
+		vo.setEnd_num(pageCount);
 		model.addAttribute("productList", service.selectList(vo));
 
     	return "product/list.page";
@@ -99,8 +99,8 @@ public class ProductController {
     @RequestMapping(value = "/list.do/{page}", method = RequestMethod.POST)
     public Map<String, List<ProductVO>> listPOST(@PathVariable("page") int page, ProductVO vo) throws Exception {
     	
-		vo.setStart_num((page-1) * 3 + 1 );
-		vo.setEnd_num(page * 3);
+		vo.setStart_num((page-1) * pageCount + 1 );
+		vo.setEnd_num(page * pageCount);
 		
 		Map<String, List<ProductVO>> map = new HashMap<String, List<ProductVO>>();
     	

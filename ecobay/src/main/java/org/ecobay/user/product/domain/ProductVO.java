@@ -36,7 +36,8 @@ public class ProductVO {
 	private int bib_cnt; // 입찰수
 	private long bib_max_money; // 최대입찰금액
 	private String filename_thumb; // 썸네일파일명
-	private String acutdate_start_str; // 경매종료일시(String)
+	private String acutdate_start_str; // 경매시작일시(String)
+	private String acutdate_end_str; // 경매종료일시(String)
 	
 	public ProductVO() { 
 		
@@ -46,7 +47,7 @@ public class ProductVO {
 			String class_mid_cd, String class_mid_nm, String content, String state_cd, String state_nm, Date regdate,
 			Date moddate, Date deldate, Boolean use_yn, int viewcnt, List<ProductImageVO> ivo, AuctionInfoVO avo,
 			DeliveryInfoVO dvo, int rn, String searchVal, 
-			int bib_cnt, long bib_max_money, String filename_thumb, String acutdate_start_str) {
+			int bib_cnt, long bib_max_money, String filename_thumb, String acutdate_start_str, String acutdate_end_str) {
 		this.product_cd = product_cd;
 		this.product_nm = product_nm;
 		this.member_id = member_id;
@@ -71,6 +72,7 @@ public class ProductVO {
 		this.bib_max_money = bib_max_money;
 		this.filename_thumb = filename_thumb;
 		this.acutdate_start_str = acutdate_start_str;
+		this.acutdate_end_str = acutdate_end_str;
 	}
 
 	public String getProduct_cd() {
@@ -281,6 +283,14 @@ public class ProductVO {
 		this.acutdate_start_str = acutdate_start_str;
 	}
 
+	public String getAcutdate_end_str() {
+		return acutdate_end_str;
+	}
+
+	public void setAcutdate_end_str(String acutdate_end_str) {
+		this.acutdate_end_str = acutdate_end_str;
+	}
+	
 	@Override
 	public String toString() {
 		return "ProductVO [product_cd=" + product_cd + ", product_nm=" + product_nm + ", member_id=" + member_id
@@ -290,7 +300,9 @@ public class ProductVO {
 				+ use_yn + ", viewcnt=" + viewcnt + ", ivo=" + ivo + ", avo=" + avo + ", dvo=" + dvo + ", rn=" + rn
 				+ ", searchVal=" + searchVal 
 				+ ", bib_cnt=" + bib_cnt + ", bib_max_money=" + bib_max_money 
-				+ ", filename_thumb=" + filename_thumb + ", acutdate_start_str=" + acutdate_start_str 
+				+ ", filename_thumb=" + filename_thumb 
+				+ ", acutdate_start_str=" + acutdate_start_str 
+				+ ", acutdate_end_str=" + acutdate_end_str
 				+ "]";
 	}
 }

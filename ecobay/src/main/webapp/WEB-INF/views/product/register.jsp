@@ -34,7 +34,7 @@
 </head>
 <body>
 	<div class="container"> <!-- container-fluid -->
-		<form name="iform" class="form-horizontal" method="post">
+		<form id="iform" name="iform" class="form-horizontal" method="post">
 			<security:csrfInput/>
 			<div class="table-responsive">
 				<table class="table">

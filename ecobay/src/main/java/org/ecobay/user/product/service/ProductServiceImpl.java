@@ -9,6 +9,7 @@ import java.util.List;
 import javax.annotation.Resource;
 
 import org.ecobay.user.product.domain.AuctionInfoVO;
+import org.ecobay.user.product.domain.BibInfoVO;
 import org.ecobay.user.product.domain.DeliveryInfoVO;
 import org.ecobay.user.product.domain.ProductImageVO;
 import org.ecobay.user.product.domain.ProductVO;
@@ -115,22 +116,33 @@ public class ProductServiceImpl implements ProductService{
 	public void delete(String product_cd) throws Exception {
 		dao.delete(product_cd);
 	}
+	
+	@Override
+	public ProductVO selectDetailProd(String product_cd) throws Exception {
+		return dao.selectDetailProd(product_cd);
+	}
+	
+	@Override
+	public AuctionInfoVO selectDetailAuct(String product_cd) throws Exception {
+		return dao.selectDetailAuct(product_cd);
+	}
 
 	@Override
-	public ProductVO select(String product_cd) throws Exception {
-		return dao.select(product_cd);
+	public DeliveryInfoVO selectDetailDeli(String product_cd) throws Exception {
+		return dao.selectDetailDeli(product_cd);
 	}
 
 	@Override
 	public List<ProductVO> selectList(ProductVO vo) throws Exception {
-		List<ProductVO> list = new ArrayList<ProductVO>();
+		/*List<ProductVO> list = new ArrayList<ProductVO>();
 		
 		for(ProductVO temp : dao.selectList(vo)) {
 			String tmpPath = uploadPath+temp.getFilename_thumb();
+			System.out.println(tmpPath);
 			temp.setFilename_thumb(tmpPath);
 			list.add(temp);
-		}
-		return list;
+		}*/
+		return dao.selectList(vo);
 	}
 
 	@Override
@@ -142,4 +154,15 @@ public class ProductServiceImpl implements ProductService{
 	public List<ProductVO> midclassList(String class_big_cd) throws Exception {
 		return dao.midclassList(class_big_cd);
 	}
+
+	@Override
+	public List<BibInfoVO> selectBibList(String product_cd) throws Exception {
+		return dao.selectBibList(product_cd);
+	}
+
+	@Override
+	public List<ProductImageVO> selectImageList(String product_cd) throws Exception {
+		return dao.selectImageList(product_cd);
+	}
+	
 }
