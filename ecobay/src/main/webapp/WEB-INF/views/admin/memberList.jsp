@@ -13,7 +13,7 @@
 		<ol class="breadcrumb">
 			<li><a href="/admin/main.do"><i class="fa fa-dashboard"></i>Home</a></li>
 			<li><a href="#">Member</a></li>
-			<li class="active"><a href="/admin/list.do">List</a></li>
+			<li class="active"><a href="/admin/memberlist.do">List</a></li>
 		</ol>
 	</section>
 	<!-- /페이지 헤더(제목) -->

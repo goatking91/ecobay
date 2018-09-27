@@ -1,12 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1">
-<title>공지사항등록</title>
-	<link rel="stylesheet" type="text/css" href="resources/bootstrap/css/bootstrap.css">
-	
-	<style type="text/css">
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
+
+<script type="text/javascript" src="/resources/lib/ckeditor/ckeditor.js"></script>
+<script>
+$(function() {
+	CKEDITOR.replace( 'content' );
+});
+</script>
+<style type="text/css">
 		.colTitle
 		{
 			width:15%;
@@ -14,16 +16,37 @@
 			background-color: #F2F2F2; 
 			vertical-align: middle;
 		}
-	</style>
-</head>
-<body>
-	<div class="container">
-		<form name="iform" class="form-horizontal" method="post">
+</style>
+
+
+<div class="content-wrapper">
+	<!-- 페이지 헤더(제목) -->
+	<section class="content-header">
+		<h1>
+			게시글 관리
+			<small>공지사항-등록</small>
+		</h1>
+		<ol class="breadcrumb">
+			<li><a href="/admin/main.do"><i class="fa fa-dashboard"></i>Home</a></li>
+			<li class="active">Here</li>
+		</ol>
+	</section>
+	<!-- /페이지 헤더(제목) -->
+
+
+	<!-- 내용 -->
+	<section class="content container-fluid">
+	
+		
+		
+
+
+
+	<div class="container" style="margin-top: 50px;">
+		<form name="faqRegForm" action="/admin/noticereg.do" class="form-horizontal" method="post">
+			<security:csrfInput/><!-- 폼태그 처리시 시큐리티 태그라이브러리 -->
 			<div class="table-responsive">
 				<table class="table">
-					<tr>
-						<th>공지사항 등록</th>
-					</tr>
 
 					<tr>
 						<th class="colTitle">제목</th>
@@ -33,7 +56,7 @@
 					<tr>
 						<th class="colTitle">내용</th>
 						<td>
-							<textarea rows="15" class="form-control" name="content" placeholder="내용을 입력하세요."></textarea>
+							<textarea rows="15" class="form-control" id="content" name="content" placeholder="내용을 입력하세요."></textarea>
 						</td>
 					</tr>
 					
@@ -44,16 +67,28 @@
 							이미지파일은 [ JPG | GIF | BMP ] 형식만 가능합니다.(이미지 관련 안내문구 출력하기....) 
 						</td>
 					</tr>
+					
 				</table>
 			</div>
 
             <p>
             <div align="center" class="form-actions">
-	            <button type="submit" class="btn btn-default btn-primary"> 등  록 </button>&nbsp;
+	            <button type="submit" class="btn btn-primary"> 등  록 </button>&nbsp;
 	            <button type="button" class="btn btn-info"> 취  소 </button>
 			</div>
 		</form>
 	</div>
 	<br><br><br>
-</body>
-</html>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	
+	</section>
+	<!-- /내용 -->
+</div>

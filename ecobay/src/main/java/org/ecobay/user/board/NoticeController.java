@@ -11,11 +11,6 @@ public class NoticeController {
     public String list() {
     	return "board/notice/list.page";
     }
-
-    @RequestMapping("/reg.do")
-    public String regGET() {
-    	return "board/notice/register.page";
-    }
     
     @RequestMapping("/detail.do")
     public String detail() {

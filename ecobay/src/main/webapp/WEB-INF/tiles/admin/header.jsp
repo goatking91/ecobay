@@ -72,7 +72,7 @@
 						</span>
 					</a>
 					<ul class="treeview-menu">
-						<li><a href="/admin/list.do">회원현황</a></li>
+						<li><a href="/admin/memberlist.do">회원현황</a></li>
 						<li><a href="#">블랙리스트</a></li>
 					</ul>
 				</li>
@@ -84,8 +84,8 @@
 						</span>
 					</a>
 					<ul class="treeview-menu">
-						<li><a href="#">공지사항</a></li>
-						<li><a href="/admin/faqlist.do">FAQ</a></li>
+						<li><a href="/admin/board/noticelist.do">공지사항</a></li>
+						<li><a href="/admin/board/faqlist.do">FAQ</a></li>
 						<li><a href="#">1:1문의</a></li>
 					</ul>
 				</li>
