@@ -48,9 +48,9 @@ $(document).ready(function(){
 		var member_id3 = $('#member_id3').val();
 	       if(member_id2 == '선택'){
 	    	   $('#member_id3').attr("readonly", true);
-	       }else if(member_id2 == '직접입력'){
+	       } else if(member_id2 == '직접입력'){
 	    	   $('#member_id3').attr("readonly", false);
-	       }else{
+	       } else{
 	    	   $('#member_id3').attr("readonly", true);
 	       }
 	   });
@@ -84,26 +84,24 @@ $(document).ready(function(){
         	$('#myModal').modal('show');
         	$("#member_name").focus();
         	return false;
-         }if(!reg_name.test(member_name)){
+         }
+        if(!reg_name.test(member_name)){
         	 $('#message').find('h4').text("올바른 이름형식을 입력해주세요");
          	$('#myModal').modal('show');
          	$("#member_name").val("");
             $("#member_name").focus();
          	return false;
          } 
-        
-        if(member_id1.length == 0){
+         if(member_id1.length == 0){
         	$('#message').find('h4').text("아이디를 입력해주세요");
         	$('#myModal').modal('show');
         	$("#member_id1").focus();
         	return false;
          }   
-          
-          else if(member_id2 == '선택'){
+         if(member_id2 == '선택'){
             $('#message').find('h4').text('메일 주소를 선택해 주세요.');
             $('#myModal').modal('show');
             return false;
-            
          } else if(member_id2 == '직접입력' && member_id3.length == 0) {
             $('#message').find('h4').text('메일 주소를 입력해주세요');
             $('#myModal').modal('show');
@@ -131,56 +129,59 @@ $(document).ready(function(){
                }
                $('#member_id_join').val(member_id);
             }
-         }if(flag == false){
+         }
+         if(flag == false){
         	 $('#message').find('h4').text('아이디 중복체크 해주세요');
              $('#myModal').modal('show');
              return false;
-         }if(pwd.length == 0){
+         }
+         if(pwd.length == 0){
         	$('#message').find('h4').text("비밀번호를 입력해주세요");
         	$('#myModal').modal('show');
         	$("#member_pwd").focus();
         	return false;
-        }else if(!reg_pwd.test(pwd)){
+        } else if(!reg_pwd.test(pwd)){
         	$('#message').find('h4').text('영문, 숫자, 특수문자를 포함한 8~16자리 수를 입력해주세요');
             $('#myModal').modal('show');
             $("#member_pwd").val("");
             $("#member_pwd").focus();
             return false;
         }
-         
-         if(pwd != pwdck){
+        if(pwd != pwdck){
         	$('#message').find('h4').text("동일한 비밀번호를 입력해주세요");
         	$('#myModal').modal('show');
             $("#pwdck").val("");
             $("#pwdck").focus();
         	return false;
-        }if(birth.length == 0){
+        }
+        if(birth.length == 0){
         	$('#message').find('h4').text("생년월일을 입력해주세요");
         	$('#myModal').modal('show');
         	return false;
-        }if(phone2.length == 0){
+        }
+        if(phone2.length == 0){
         	$('#message').find('h4').text("번호 가운데자리를 입력해주세요");
         	$('#myModal').modal('show');
         	$("#phone2").focus();
         	return false;
-        }else if(phone3.length == 0){
+        } else if(phone3.length == 0){
         	$('#message').find('h4').text("번호 마지막자리를 입력해주세요");
         	$('#myModal').modal('show');
         	$("#phone3").focus();
         	return false;
-        }else if(!reg_phone.test(phone2)){
+        } else if(!reg_phone.test(phone2)){
         	$('#message').find('h4').text("번호 가운데 자리를 올바르게 입력해주세요");
         	$('#myModal').modal('show');
             $("#phone2").val("");
             $("#phone2").focus();
             return false;
-        }else if(!reg_phone.test(phone3)){
+        } else if(!reg_phone.test(phone3)){
         	$('#message').find('h4').text("번호 마지막 자리를 올바르게 입력해주세요");
         	$('#myModal').modal('show');
             $("#phone3").val("");
             $("#phone3").focus();
             return false;
-        }else{
+        } else{
         	phone = phone1 + "-" + phone2 + "-" + phone3;
         	$('#phone').val(phone);
         }
@@ -189,11 +190,12 @@ $(document).ready(function(){
         	$('#message').find('h4').text("우편번호를 입력해주세요");
         	$('#myModal').modal('show');
         	return false;
-        }if(addr1.length == 0){
+        }
+        if(addr1.length == 0){
         	$('#message').find('h4').text("주소를 입력해주세요");
         	$('#myModal').modal('show');
         	return false;
-        }else if(addr2.length == 0){
+        } else if(addr2.length == 0){
         	$('#message').find('h4').text("상세주소를 입력해주세요");
         	$('#myModal').modal('show');
         	$("#addr2").focus();
@@ -218,7 +220,7 @@ $(document).ready(function(){
 		    	$('#myModal').modal('show');
 		    	$("#member_id1").focus();
 		    	return false;
-		     }else if(member_id2 == '선택'){
+		     } else if(member_id2 == '선택'){
 		        $('#message').find('h4').text('메일 주소를 선택해 주세요.');
 		        $('#myModal').modal('show');
 		        return false;
