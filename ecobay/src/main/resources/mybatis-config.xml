@@ -12,5 +12,7 @@
 		<typeAlias type="org.ecobay.user.product.domain.BidInfoVO" alias="BidInfoVO"/>
 		
 		<typeAlias type="org.ecobay.admin.board.domain.FaqVO" alias="FaqVO"/>
+		<typeAlias type="org.ecobay.admin.board.domain.NoticeVO" alias="NoticeVO"/>
+		<typeAlias type="org.ecobay.admin.board.domain.NoticeImageVO" alias="NoticeImageVO"/>
 	</typeAliases>
 </configuration>

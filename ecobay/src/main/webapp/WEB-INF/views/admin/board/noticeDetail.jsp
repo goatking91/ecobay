@@ -1,10 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1">
-<title>공지사항등록</title>
-	<link rel="stylesheet" type="text/css" href="resources/bootstrap/css/bootstrap.css">
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 	
 	<style type="text/css">
 		.colTitle
@@ -15,52 +10,121 @@
 			vertical-align: middle;
 		}
 		
-		.contentDiv, imgDiv {
-			min-height: 500px;
-		}
-		
 	</style>
-</head>
-<body>
-	<div class="container">
-		<form name="iform" class="form-horizontal" method="post">
-			<div class="table-responsive">
-				<table class="table">
-					<tr>
-						<th>공지사항 보기</th>
-					</tr>
+	<script>
+		$(document).ready(function(){
+			
+			$('#delBtn').click(function(event){
+				$('#message').find('h5').text("삭제가 완료되었습니다.");
+				$('#myModal').modal('show');
+				
+			});
+			
+			$('#delConfirm').click(function(event){
+				var idx = $('#notice_idx').val();
+				location.href="/admin/board/noticedel.do?idx="+idx;
+			});
+			
+			
+			
+		});
+	
+	</script>
+	
+	<div class="content-wrapper">
+	<!-- 페이지 헤더(제목) -->
+	<section class="content-header">
+		<h1>
+			게시글 관리
+			<small>공지사항-상세</small>
+		</h1>
+		<ol class="breadcrumb">
+			<li><a href="/admin/main.do"><i class="fa fa-dashboard"></i>Home</a></li>
+			<li class="active">Here</li>
+		</ol>
+	</section>
+	<!-- /페이지 헤더(제목) -->
 
-					<tr>
-						<th class="colTitle">제목</th>
-						<td><label> 제목 </label></td>
-					</tr>
-					
-					<tr>
-						<th class="colTitle">내용</th>
-						<td>
-							<div class="contentDiv">
-								<label> 내용 </label>
-							</div>
-						</td>
-					</tr>
-					
-					<tr>
-						<th class="colTitle">이미지 등록</th>
-						<td>
-							<div class="imgDiv">
-								<label> 이미지 내용 </label>
-							</div>
-						</td>
-					</tr>
-				</table>
-			</div>
 
-            <p>
-            <div align="center" class="form-actions">
-	            <button type="button" class="btn btn-info"> 목록보기 </button>
-			</div>
-		</form>
+	<!-- 내용 -->
+	<section class="content container-fluid">
+	
+		
+		
+		<div class="container">
+			<form name="noticeDetailForm" action="/admin/board/noticemod.do" class="form-horizontal" method="get">
+				<input type="hidden" id="notice_idx" name="idx" value="${notice.notice_idx }">
+				<div class="table-responsive">
+					<table class="table">
+						<tr>
+							<th>공지사항 보기</th>
+						</tr>
+	
+						<tr>
+							<th class="colTitle">제목</th>
+							<td>${notice.title }</td>
+							<th>조회수</th>
+							<td>${notice.viewCNT }</td>
+						</tr>
+						
+						<tr>
+							<th class="colTitle">내용</th>
+							<td style="height: 350px;" colspan="3">
+								${notice.content }
+							</td>
+						</tr>
+						
+					</table>
+				</div>
+
+            	<p>
+	            <div align="center" class="form-actions">
+	                <c:url var="listURL" value="/admin/board/noticelist.do" />
+	            	<button type="submit" id="modBtn" class="btn btn-primary"> 수  정 </button>&nbsp;
+		            <button type="button" id="delBtn" class="btn btn-danger"> 삭  제 </button>&nbsp;
+		            <a href="${pageScope.listURL}"><button type="button" class="btn btn-info"> 목록보기 </button></a>
+		           
+				</div>
+		 </form>
 	</div>
 	<br><br><br>
-</body>
-</html>
+		
+		
+		
+	</section>
+	<!-- /내용 -->
+</div>
+
+
+
+<!-- 모달 -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModallabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modaltitle">안내</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form>
+	      	<div class="row">
+	      		<div class="col-md">
+		          <div id="message">
+					<h5 align="center"></h5>
+		          </div>
+		      </div>		      	
+		   </div>
+	      </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" id="delConfirm" class="btn btn-primary" data-dismiss="modal">확인</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+	

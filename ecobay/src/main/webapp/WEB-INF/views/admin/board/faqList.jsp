@@ -86,7 +86,7 @@ $(document).ready(function(){
 		            <th>번호</th>
 		            <th>제목</th>
 		            <th>등록일시</th>
-		            <th>비고</th>
+		            <th>관리</th>
 		        </tr>
 		    </thead>
 			<c:forEach var="list" items="${faqList}" varStatus="status">

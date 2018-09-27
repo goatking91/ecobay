@@ -23,13 +23,11 @@ public class FaqDAOImpl implements FaqDAO {
 
 	@Override
 	public List<FaqVO> faqList() throws Exception {
-		
 		return session.selectList(namespace + ".selectFaqList");	
 	}
 
 	@Override
 	public FaqVO faqLoad(int faq_idx) throws Exception {
-		
 		return session.selectOne(namespace + ".selectFaqOne", faq_idx);
 	}
 
@@ -40,7 +38,7 @@ public class FaqDAOImpl implements FaqDAO {
 
 	@Override
 	public void faqDelete(int faq_idx) throws Exception {
-		session.update(namespace + ".deleteFaq", faq_idx);
+		session.delete(namespace + ".deleteFaq", faq_idx);
 	}
 
 	

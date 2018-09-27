@@ -29,7 +29,7 @@ public class FaqController {
 	
 	@RequestMapping(value="/faqreg.do", method = RequestMethod.POST)
     public String faqRegPOST(FaqVO vo) throws Exception {
-		service.FaqRegist(vo);
+		service.faqRegist(vo);
 		
         return "redirect:/admin/board/faqlist.do";
     }

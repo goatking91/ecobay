@@ -24,7 +24,7 @@ $(function() {
 	<section class="content-header">
 		<h1>
 			게시글 관리
-			<small>공지사항-등록</small>
+			<small>공지사항-수정</small>
 		</h1>
 		<ol class="breadcrumb">
 			<li><a href="/admin/main.do"><i class="fa fa-dashboard"></i>Home</a></li>
@@ -43,20 +43,21 @@ $(function() {
 
 
 	<div class="container" style="margin-top: 50px;">
-		<form name="faqRegForm" action="/admin/board/noticereg.do" class="form-horizontal" method="post">
+		<form name="faqRegForm" action="/admin/board/noticemod.do" class="form-horizontal" method="post">
 			<security:csrfInput/><!-- 폼태그 처리시 시큐리티 태그라이브러리 -->
+			<input type="hidden" name="idx" value="${notice.notice_idx }">
 			<div class="table-responsive">
 				<table class="table">
 
 					<tr>
 						<th class="colTitle">제목</th>
-						<td><input class="form-control" type="text" name="title" placeholder="제목을 입력하세요."></td>
+						<td><input class="form-control" type="text" name="title"  value="${notice.title }"></td>
 					</tr>
 					
 					<tr>
 						<th class="colTitle">내용</th>
 						<td>
-							<textarea rows="15" class="form-control" id="content" name="content" placeholder="내용을 입력하세요."></textarea>
+							<textarea rows="15" class="form-control" id="content" name="content">${notice.content }</textarea>
 						</td>
 					</tr>
 					
