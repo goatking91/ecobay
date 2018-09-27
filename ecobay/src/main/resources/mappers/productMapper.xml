@@ -14,8 +14,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 	<select id="selectDetail" resultType="productVO">
 		SELECT    prod.PRODUCT_CD, prod.PRODUCT_NM, prod.MEMBER_ID, prod.STATE_CD, prod.STATE_NM, prod.VIEWCNT
-				, (SELECT COUNT(PRODUCT_CD) FROM bidinfo bid WHERE bid.PRODUCT_CD = prod.PRODUCT_CD) as BIB_CNT
-				, IFNULL((SELECT MAX(MONEY_BID) FROM bidinfo bid WHERE bid.PRODUCT_CD = prod.PRODUCT_CD), 0) as BIB_MAX_MONEY
+				, (SELECT COUNT(bid.PRODUCT_CD) FROM bidinfo bid WHERE bid.PRODUCT_CD = prod.PRODUCT_CD) as BIB_CNT
+				, IFNULL((SELECT MAX(bid.MONEY_BID) FROM bidinfo bid WHERE bid.PRODUCT_CD = prod.PRODUCT_CD), 0) as BIB_MAX_MONEY
                 , IFNULL(auct.AUCTDATE_UNIT, 0) as AUCTDATE_UNIT
                 , IFNULL(DATE_FORMAT(auct.ACUTDATE_START, '%Y-%m-%d %H:%s'), '') as ACUTDATE_START_STR
                 , IFNULL(DATE_FORMAT(auct.ACUTDATE_END, '%Y-%m-%d %H:%s'), '') as ACUTDATE_END_STR
@@ -23,12 +23,43 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
                 , IFNULL(auct.MONEY_UNIT, 0) as MONEY_UNIT
                 , auct.BAYNOW_YN
                 , IFNULL(auct.BAYNOW_MONEY, 0) as BAYNOW_MONEY
-                , IFNULL((SELECT DELI_DIV_CD FROM deliveryinfo deli WHERE deli.PRODUCT_CD = prod.PRODUCT_CD), '') as DELI_DIV_CD
-                , IFNULL((SELECT DELI_DIV_NM FROM deliveryinfo deli WHERE deli.PRODUCT_CD = prod.PRODUCT_CD), '') as DELI_DIV_NM
+                , IFNULL((SELECT deli.DELI_DIV_CD FROM deliveryinfo deli WHERE deli.PRODUCT_CD = prod.PRODUCT_CD), '') as DELI_DIV_CD
+                , IFNULL((SELECT deli.DELI_DIV_NM FROM deliveryinfo deli WHERE deli.PRODUCT_CD = prod.PRODUCT_CD), '') as DELI_DIV_NM
 		   FROM product prod LEFT JOIN  auctioninfo auct
              ON prod.PRODUCT_CD = auct.PRODUCT_CD
 		  WHERE prod.USE_YN = TRUE
 		    AND prod.product_cd = #{product_cd}
+	</select>
+	
+	<select id="selectDetailProd" resultType="productVO">
+		SELECT    prod.PRODUCT_CD, prod.PRODUCT_NM, prod.MEMBER_ID
+                , prod.STATE_CD, prod.STATE_NM, prod.VIEWCNT
+				, (SELECT COUNT(bid.PRODUCT_CD) FROM bidinfo bid WHERE bid.PRODUCT_CD = prod.PRODUCT_CD) as BIB_CNT
+				, IFNULL((SELECT MAX(bid.MONEY_BID) FROM bidinfo bid WHERE bid.PRODUCT_CD = prod.PRODUCT_CD), 0) as BIB_MAX_MONEY
+		   FROM product prod
+		  WHERE prod.USE_YN = TRUE
+		    AND prod.product_cd = #{product_cd}
+	</select>
+	
+	<select id="selectDetailAuct" resultType="AuctionInfoVO">
+		SELECT    auct.PRODUCT_CD
+                , IFNULL(auct.AUCTDATE_UNIT, 0) as AUCTDATE_UNIT
+                , IFNULL(DATE_FORMAT(auct.ACUTDATE_START, '%Y-%m-%d %H:%s'), '') as ACUTDATE_START_STR
+                , IFNULL(DATE_FORMAT(auct.ACUTDATE_END, '%Y-%m-%d %H:%s'), '') as ACUTDATE_END_STR
+				, IFNULL(auct.MONEY_FIRST, 0) as MONEY_FIRST
+                , IFNULL(auct.MONEY_UNIT, 0) as MONEY_UNIT
+                , auct.BAYNOW_YN
+                , IFNULL(auct.BAYNOW_MONEY, 0) as BAYNOW_MONEY
+		   FROM auctioninfo auct
+		  WHERE auct.product_cd = #{product_cd}
+	</select>
+	
+	<select id="selectDetailDeli" resultType="DeliveryInfoVO">
+		SELECT    deli.PRODUCT_CD
+                , IFNULL(deli.DELI_DIV_CD, '') as DELI_DIV_CD
+                , IFNULL(deli.DELI_DIV_NM, '') as DELI_DIV_NM
+		   FROM deliveryinfo deli
+		  WHERE deli.product_cd = #{product_cd}
 	</select>
 	
 	<insert id="insert" parameterType="ProductVO">
@@ -57,7 +88,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		 WHERE product_cd = #{product_cd}
 	</update>
 	
-	<select id="selectList" resultType="org.ecobay.user.product.domain.ProductVO">
+	<select id="selectList" resultType="ProductVO">
 		SELECT * FROM
 		(
 			 SELECT @rownum:=@rownum+1 as rn
@@ -86,7 +117,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		where prodlist.rn between #{start_num} and #{end_num}
 	</select>
 	
-	<select id="selectListBest" resultType="org.ecobay.user.product.domain.ProductVO">
+	<select id="selectListBest" resultType="ProductVO">
 		SELECT *
 		 FROM (
 				SELECT   prod.PRODUCT_CD, prod.PRODUCT_NM, prod.MEMBER_ID, prod.STATE_CD, prod.STATE_NM, prod.VIEWCNT
@@ -106,19 +137,19 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		 	limit 6
 	</select>
 	
-	<select id="selectImageList" resultType="org.ecobay.user.product.domain.ProductVO">
+	<select id="selectImageList" resultType="ProductImageVO">
 		SELECT *
 		  FROM productimg
 		 WHERE product_cd = #{product_cd}
 	</select>
 	
-	<select id="selectBibList" resultType="org.ecobay.user.product.domain.BibInfoVO">
+	<select id="selectBibList" resultType="BibInfoVO">
 		SELECT *
 		  FROM bidinfo
 		 WHERE product_cd = #{product_cd}
 	</select>
 
-	<select id="bigclassList" resultType="org.ecobay.user.product.domain.ProductVO">
+	<select id="bigclassList" resultType="ProductVO">
 		SELECT CLASS_BIG_CD, CLASS_NM as CLASS_BIG_NM
 		  FROM class
 		 WHERE USE_YN = TRUE
@@ -126,7 +157,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	  ORDER BY CLASS_BIG_CD ASC
 	</select>
 
-	<select id="midclassList" resultType="org.ecobay.user.product.domain.ProductVO">
+	<select id="midclassList" resultType="ProductVO">
 		SELECT CLASS_MID_CD, CLASS_NM as CLASS_MID_NM
 		  FROM class
 		 WHERE USE_YN = TRUE
