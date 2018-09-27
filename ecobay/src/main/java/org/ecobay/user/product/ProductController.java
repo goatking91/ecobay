@@ -92,7 +92,7 @@ public class ProductController {
 	@RequestMapping(value = "/list.do", method = RequestMethod.GET)
     public String list(ProductVO vo, Model model) throws Exception {
 		model.addAttribute("bigclass", service.bigclassList());
-		
+		System.out.println(vo.getSearchVal());
 		vo.setStart_num(1);
 		vo.setEnd_num(pageCount);
 		model.addAttribute("productList", service.selectList(vo));
@@ -103,7 +103,6 @@ public class ProductController {
     @ResponseBody
     @RequestMapping(value = "/list.do/{page}", method = RequestMethod.POST)
     public Map<String, List<ProductVO>> listPOST(@PathVariable("page") int page, ProductVO vo) throws Exception {
-    	
 		vo.setStart_num((page-1) * pageCount + 1 );
 		vo.setEnd_num(page * pageCount);
 		

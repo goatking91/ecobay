@@ -31,9 +31,11 @@
 				<div class="col-sm-6">
 					<div class="input-group">
 						<input type="text" class="form-control"
-							placeholder="검색내용을 입력하세요...">
+							placeholder="검색내용을 입력하세요..." id="searchVal" name="searchVal">
+							
+							
 						<div class="input-group-append">
-							<button class="btn btn-secondary">검색</button>
+							<button class="btn btn-secondary" id="searchProduct">검색</button>
 						</div>
 					</div>
 				</div>
@@ -148,26 +150,35 @@
 			
 			location.href="/product/detail.do?product_cd=" + datasrc;
 		})
-	
-		$(function()
-		{
-			$("select[name='class_big_cd']").change(function(){  // 셀렉트 박스가 체인지 될때 이벤트  - "select[name=classBig]"
-				var valBig = $(this).val(); // 현재 선택된 값
-	
-				if(valBig == "" || valBig == null) {
+		
+		
+		
+		$('#searchProduct').click(function() {
+			var class_big_cd = $("#class_big_cd").val(); // 대분류(selectBox)
+			var class_mid_cd = $("#class_mid_cd").val(); // 중분류(selectBox)
+			var searchVal = $("#searchVal").val(); // 물품명 - 제목
+			
+			location.href="/product/list.do?searchVal=" + searchVal + "&class_big_cd=" + class_big_cd + "&class_mid_cd=" + class_mid_cd;
+		
+		});
+		
+
+		$("select[name='class_big_cd']").change(function(){  // 셀렉트 박스가 체인지 될때 이벤트  - "select[name=classBig]"
+			var valBig = $(this).val(); // 현재 선택된 값
+
+			if(valBig == "" || valBig == null) {
+				$("select[name='class_mid_cd'] option").remove();
+				$("select[name='class_mid_cd']").append("<option value='XX'>-중분류 선택-</option>");
+			}
+			else {
+				$.getJSON("/product/midclass.do/" + valBig, function(data) {
 					$("select[name='class_mid_cd'] option").remove();
 					$("select[name='class_mid_cd']").append("<option value='XX'>-중분류 선택-</option>");
-				}
-				else {
-					$.getJSON("/product/midclass.do/" + valBig, function(data) {
-						$("select[name='class_mid_cd'] option").remove();
-						$("select[name='class_mid_cd']").append("<option value='XX'>-중분류 선택-</option>");
-						$.each(data, function(i, d) {
-							$("select[name=class_mid_cd]").append('<option value="' + d.class_mid_cd + '">' + d.class_mid_nm + '</option>'); 
-						}); 
-					});
-				}
-			});
+					$.each(data, function(i, d) {
+						$("select[name=class_mid_cd]").append('<option value="' + d.class_mid_cd + '">' + d.class_mid_nm + '</option>'); 
+					}); 
+				});
+			}
 		});
 	</script>
 </body>
