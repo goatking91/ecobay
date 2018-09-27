@@ -27,6 +27,22 @@ public class FaqDAOImpl implements FaqDAO {
 		return session.selectList(namespace + ".selectFaqList");	
 	}
 
+	@Override
+	public FaqVO faqLoad(int faq_idx) throws Exception {
+		
+		return session.selectOne(namespace + ".selectFaqOne", faq_idx);
+	}
+
+	@Override
+	public void faqUpdate(FaqVO vo) throws Exception {
+		session.update(namespace + ".updateFaq", vo);
+	}
+
+	@Override
+	public void faqDelete(int faq_idx) throws Exception {
+		session.update(namespace + ".deleteFaq", faq_idx);
+	}
+
 	
 	
 }
