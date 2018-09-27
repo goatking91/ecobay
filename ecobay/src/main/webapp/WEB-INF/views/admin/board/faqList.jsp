@@ -51,10 +51,10 @@ $(document).ready(function(){
 	
 		
 		<div class="col-md-12" >
-			<form name="myform" action="board/admin/faqlist.do">
+			<form name="myform" action="/admin/board/faqlist.do">
 				<div class="form-group row">
 					<div class="col-sm-4">
-						<a href="/admin/faqreg.do"><button type="button" class="btn btn-success">FAQ 등 록</button></a>
+						<a href="/admin/board/faqreg.do"><button type="button" class="btn btn-success">FAQ 등 록</button></a>
 					</div>
 					<div class="col-sm-3">
 						<div class="input-group">

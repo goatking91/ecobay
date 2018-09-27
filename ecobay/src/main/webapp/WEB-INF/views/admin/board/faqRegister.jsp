@@ -46,7 +46,7 @@ $(function() {
 
 
 	<div class="container" style="margin-top: 50px;">
-		<form name="faqRegForm" action="/admin/faqreg.do" class="form-horizontal" method="post">
+		<form name="faqRegForm" action="/admin/board/faqreg.do" class="form-horizontal" method="post">
 			<security:csrfInput/><!-- 폼태그 처리시 시큐리티 태그라이브러리 -->
 			<div class="table-responsive">
 				<table class="table">
