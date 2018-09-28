@@ -2,16 +2,21 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
 
-<script type="text/javascript" src="/resources/lib/ckeditor/ckeditor.js"></script>
+<!-- <script type="text/javascript" src="/resources/lib/ckeditor/ckeditor.js"></script> -->
+<script type="text/javascript" src="/resources/lib/summernote/summernote-bs4.min.js"></script>
+<link rel="stylesheet" href="/resources/lib/summernote/summernote-bs4.css" />
 <script>
 $(function() {
-	CKEDITOR.replace( 'content' );
+	$('#content').summernote({
+		lang: 'ko-KR',
+        height: 350
+      });
 });
 </script>
 <style type="text/css">
 		.colTitle
 		{
-			width:15%;
+			width:10%;
 			text-align:right; 
 			background-color: #F2F2F2; 
 			vertical-align: middle;
@@ -43,7 +48,7 @@ $(function() {
 
 
 	<div class="container" style="margin-top: 50px;">
-		<form name="faqRegForm" action="/admin/noticereg.do" class="form-horizontal" method="post">
+		<form name="faqRegForm" action="/admin/board/noticereg.do" class="form-horizontal" method="post">
 			<security:csrfInput/><!-- 폼태그 처리시 시큐리티 태그라이브러리 -->
 			<div class="table-responsive">
 				<table class="table">
@@ -56,15 +61,7 @@ $(function() {
 					<tr>
 						<th class="colTitle">내용</th>
 						<td>
-							<textarea rows="15" class="form-control" id="content" name="content" placeholder="내용을 입력하세요."></textarea>
-						</td>
-					</tr>
-					
-					<tr>
-						<th class="colTitle">이미지 등록</th>
-						<td>
-							<textarea rows="15" class="form-control" name="fileupload" placeholder="차후 이미지 등록기능 구현 예정임...."></textarea>
-							이미지파일은 [ JPG | GIF | BMP ] 형식만 가능합니다.(이미지 관련 안내문구 출력하기....) 
+							<textarea rows="15" class="form-control" id="content" name="content"></textarea>
 						</td>
 					</tr>
 					

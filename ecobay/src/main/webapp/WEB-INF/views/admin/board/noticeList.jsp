@@ -1,15 +1,41 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
 
+<script>
+$(document).ready(function(){
+	
+	
+	$('.mod').click(function(event){
+		var nowId = $(this).attr("id");
+		var noIdx = nowId.replace(/[^0-9]/g,"");
+		
+		location.href="/admin/board/noticemod.do?idx="+noIdx;
+		
+		
+	});
+	
+	$('.del').click(function(event){
+		var nowId = $(this).attr("id");
+		var noIdx = nowId.replace(/[^0-9]/g,"");
+		
+		location.href="/admin/board/noticedel.do?idx="+noIdx;
+		
+		
+	});
+});
+
+		
+</script>
 
 <div class="content-wrapper">
 	<!-- 페이지 헤더(제목) -->
 	<section class="content-header">
 		<h1>
-			Page Header
-			<small>Optional description</small>
+			게시글 관리
+			<small>공지사항</small>
 		</h1>
 		<ol class="breadcrumb">
 			<li><a href="/admin/main.do"><i class="fa fa-dashboard"></i>Home</a></li>
@@ -52,32 +78,34 @@
 		<table class="table table-striped table-hover">
 		    <thead>
 		        <tr>
-		            <th>번호</th><th>제목</th>
-		            <th>작성자</th><th>등록일시</th><th>파일</th><th>조회수</th>
+		            <th>번호</th>
+		            <th>제목</th>
+		            <th>작성자</th>
+		            <th>등록일시</th>
+		            <th>조회수</th>
+		            <th>관리</th>
 		        </tr>
 		    </thead>		    
-			<%-- <c:forEach var="dto" items="${dto}"> --%>
-			    <tr>
-				   <td>1</td>
-				   <td>공지사항입니다</td>
+			<c:forEach var="notice" items="${noticeList}" varStatus="status">
+				<tr>
+				   <td>${status.count }</td>
+				   <td><a href="/admin/board/noticedetail.do?idx=${notice.notice_idx }">${notice.title }</a></td>
 				   <td>관리자</td>
-				   <td>2018-09-14</td>
-				   <td></td>
-				   <td>2345</td>
+				   <td><fmt:formatDate value="${notice.regDate}" pattern="yyyy-MM-dd"/></td>
+				   <td>${notice.viewCNT }</td>
+				   <td>
+			    		<a href="#"><button id="modBtn${notice.notice_idx }" class="btn btn-sm btn-secondary mod">수정</button></a>
+			    		<a href="#"><button id="delBtn${notice.notice_idx }" class="btn btn-sm btn-danger del">삭제</button></a>
+				   </td>
 			    </tr>
-			    <tr>
-				   <td>2</td>
-				   <td>공지사항입니다</td>
-				   <td>관리자</td>
-				   <td>2018-09-14</td>
-				   <td></td>
-				   <td>2345</td>
-			    </tr>
-			<%-- </c:forEach> --%>
-	        <div align="center">
+			    
+			</c:forEach>
+			
+			
+	       <%--  <div align="center">
 				<tr>
 					<td colspan="6">
-						<%-- <c:if test="${startpage>10}">
+						<c:if test="${startpage>10}">
 							<a href="#" class="btn btn-light">이전</a>
 						</c:if>
 						<c:forEach var="i" begin="${startpage}" end="${endpage}">
@@ -85,10 +113,10 @@
 						</c:forEach>
 						<c:if test="${endpage<pagecount}">
 							<a href="#" class="btn btn-light">다음</a>
-						</c:if> --%>
+						</c:if>
 					</td>
 				</tr>
-			</div>
+			</div> --%>
 		</table>
 		
 		

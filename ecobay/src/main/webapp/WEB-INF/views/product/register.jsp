@@ -11,7 +11,8 @@
 <title>상품등록</title>
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 	<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-	<script type="text/javascript" src="/resources/lib/ckeditor/ckeditor.js"></script>
+	<script type="text/javascript" src="/resources/lib/summernote/summernote-bs4.min.js"></script>
+	<link rel="stylesheet" href="/resources/lib/summernote/summernote-bs4.css" />
 
 	<script src="/resources/js/productRegister.js"></script>
 	
@@ -145,8 +146,8 @@
 					<tr>
 						<th class="colTitle">*즉시구매</th>
 						<td colspan="2">
-							<input class="checkbox" type="checkbox" name="avo.baynow_yn" id="baynow_yn" value="baynow_yn">&nbsp;&nbsp;
-							<input class="form-control inline" style="width: 30%;" type="number" name="avo.baynow_money" id="baynow_money" disabled>(원)
+							<input class="checkbox" type="checkbox" name="avo.baynow_yn" id="baynow_yn">&nbsp;&nbsp;
+							<input class="form-control inline" style="width: 30%;" type="number" name="avo.baynow_money" id="baynow_money" disabled>원
 						</td>
 					</tr>
 				</table>

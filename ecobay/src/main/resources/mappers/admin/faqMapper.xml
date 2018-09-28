@@ -17,6 +17,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="selectFaqList" resultType="FaqVO">
 		SELECT * 
 		FROM faq
+		ORDER BY regdate DESC
 	</select>
 	
 	<select id="selectFaqOne" parameterType="int" resultType="FaqVO">
