@@ -36,6 +36,20 @@ public class MemberController {
     
     private static final Logger logger = LoggerFactory.getLogger(MemberController.class);
     
+    @RequestMapping(value = "/payment.do", method = RequestMethod.GET)
+    public String paymentGET() {
+    	return "member/payment.page";
+    }
+/*    @RequestMapping(value = "/payment.do", method = RequestMethod.POST)
+    public String paymentPOST() {
+    	return "member/mailCheck.page";
+    }*/
+    @RequestMapping(value = "/paymentEnd.do", method = RequestMethod.GET)
+    public String paymentEndGET() {
+    	return "member/paymentEnd.page";
+    }
+    
+    
     @RequestMapping(value = "/idcheck.do", method = RequestMethod.POST)
     @ResponseBody
     public Map<Object, Object> idcheck(@RequestBody String member_id) throws Exception {
@@ -69,10 +83,10 @@ public class MemberController {
 	            String from = "ecobaymasters@gmail.com";
 	            String to = vo.getMember_id();
 	            String subject = "ECObay 가입 확인 메일";
-	            sb.append("<h1>메일인증<h1>");
+	            sb.append("<h1>이메일인증<h1>");
 				sb.append("<a href='http://localhost:7080/member/verify.do?member_id=" + vo.getMember_id()
 					+"&birth=" + vo.getBirth());
-				sb.append("' target='blank'>이메일 인증 확인 </a>");      
+				sb.append("' target='blank'>이메일 인증 확인 </a>");    
 				
 				String text = sb.toString();
 				
