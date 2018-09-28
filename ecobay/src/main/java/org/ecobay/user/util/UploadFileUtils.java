@@ -19,6 +19,16 @@ public class UploadFileUtils {
 	
 	private static final Logger logger = LoggerFactory.getLogger(UploadFileUtils.class);
 	
+	private static Integer WIDTH_SIZE = 100;
+	
+	public static Integer getWIDTH_SIZE() {
+		return WIDTH_SIZE;
+	}
+
+	public static void setWIDTH_SIZE(Integer wIDTH_SIZE) {
+		WIDTH_SIZE = wIDTH_SIZE;
+	}
+
 	public static String uploadFile(String uploadPath, String originalName, byte[] fileData) throws Exception {
 		
 		String formatName = originalName.substring(originalName.lastIndexOf(".")+1);
@@ -44,8 +54,27 @@ public class UploadFileUtils {
 		}
 			
 		return retVal;
+	}
+	
+	public static String editUploadFile(String uploadPath, String originalName, byte[] fileData) throws Exception {
 		
+		UUID uid = UUID.randomUUID();
+		String savedName = uid.toString() + "_" + originalName;
 		
+		String savedPath = calcPath(uploadPath);
+		
+		File target = new File(uploadPath + savedPath, savedName);
+		FileCopyUtils.copy(fileData, target);
+		
+		String uploadFileName = makeIcon(uploadPath, savedPath, savedName);
+		
+		return uploadFileName;
+	}
+	
+	private static String makeIcon(String uploadPath, String savedPath, String savedName) {
+		String iconName = uploadPath + savedPath + File.separator + savedName;
+		return iconName.substring(uploadPath.length()).replace(File.separatorChar, '/');
+
 	}
 	
 	private static String calcPath(String uploadPath) {

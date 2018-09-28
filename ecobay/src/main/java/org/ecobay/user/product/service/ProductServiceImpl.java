@@ -12,6 +12,7 @@ import org.ecobay.user.product.domain.AuctionInfoVO;
 import org.ecobay.user.product.domain.BidInfoVO;
 import org.ecobay.user.product.domain.DeliveryInfoVO;
 import org.ecobay.user.product.domain.ProductImageVO;
+import org.ecobay.user.product.domain.ProductQnaVO;
 import org.ecobay.user.product.domain.ProductVO;
 import org.ecobay.user.product.persistence.ProductDAO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -164,5 +165,19 @@ public class ProductServiceImpl implements ProductService{
 	public List<ProductImageVO> selectImageList(String product_cd) throws Exception {
 		return dao.selectImageList(product_cd);
 	}
-	
+
+	@Override
+	public void prodQnaInsert(ProductQnaVO vo) {
+		dao.prodQnaInsert(vo);
+	}
+
+	@Override
+	public void prodQnaDelete(String qna_idx) throws Exception {
+		dao.prodQnaDelete(qna_idx);
+	}
+
+	@Override
+	public List<ProductQnaVO> selectProdQnaList(ProductQnaVO vo) throws Exception {
+		return dao.selectProdQnaList(vo);
+	}
 }

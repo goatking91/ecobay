@@ -216,7 +216,7 @@
 	      </div>
 	      <div class="d-flex justify-content-between align-items-center">
 		      <div align="left">
-		      	<a href="/member/reg.do">회원가입</a>
+		      	<a href="/member/join.do">회원가입</a>
 		      </div>
 		      <div align="right">	
 		      	<input type="button" style="padding-right:0" class="btn btn-link" id="idfind" value="아이디 ·">

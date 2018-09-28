@@ -11,13 +11,15 @@ public class ProductQnaVO {
 	private String title;
 	private String content;
 	private Date regdate;
+	
+	private int start_num;
+	private int end_num;
 
 	public ProductQnaVO() {
 	}
-	
+
 	public ProductQnaVO(int qna_idx, String qna_div, String product_cd, String member_id, String title, String content,
-			Date regdate) {
-		super();
+			Date regdate, int start_num, int end_num) {
 		this.qna_idx = qna_idx;
 		this.qna_div = qna_div;
 		this.product_cd = product_cd;
@@ -25,6 +27,8 @@ public class ProductQnaVO {
 		this.title = title;
 		this.content = content;
 		this.regdate = regdate;
+		this.start_num = start_num;
+		this.end_num = end_num;
 	}
 
 	public int getQna_idx() {
@@ -82,12 +86,29 @@ public class ProductQnaVO {
 	public void setRegdate(Date regdate) {
 		this.regdate = regdate;
 	}
+	
+	public int getStart_num() {
+		return start_num;
+	}
+
+	public void setStart_num(int start_num) {
+		this.start_num = start_num;
+	}
+
+	public int getEnd_num() {
+		return end_num;
+	}
+
+	public void setEnd_num(int end_num) {
+		this.end_num = end_num;
+	}
 
 	@Override
 	public String toString() {
 		return "ProductQnaVO ["
 				+ "qna_idx=" + qna_idx + ", qna_div=" + qna_div + ", product_cd=" + product_cd
 				+ ", member_id=" + member_id + ", title=" + title + ", content=" + content + ", regdate=" + regdate
+				+ ", start_num=" + start_num + ", end_num=" + end_num 
 				+ "]";
 	}
 }

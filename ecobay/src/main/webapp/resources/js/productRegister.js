@@ -51,7 +51,7 @@ $(function() {
 		formData.append("file", file);
 		 
 		$.ajax({
-			url: "/product/uploadAjax.do",
+			url: "/uploadAjax.do",
 			data: formData,
 			dataType: "text",
 			processData: false,
@@ -66,7 +66,7 @@ $(function() {
 				var thumbName = data;
 				
 				if(checkImageType(data)) {
-					str = "<div style='display:inline;' class='uploadData'><img width=100 height=100 src='/product/displayFile.do?fileName=" + thumbName + "'/>"
+					str = "<div style='display:inline;' class='uploadData'><img width=100 height=100 src='/displayFile.do?fileName=" + thumbName + "'/>"
 						+ "<small data-src=" + thumbName + "><button type='button' class='btn btn-outline-danger btn-sm'>삭제</button></small>"
 						+ "<input style='display:none;' type='hidden' name='filename' value='" + fileName + "'>"
 						+ "<input style='display:none;' type='hidden' name='filename_org' value='" + originalName + "'>"
@@ -90,10 +90,7 @@ $(function() {
 	
 	$(window).on("drop", function(event) {
 		event.preventDefault();
-		$('#message').find('h4').text("이미지를 등록하는 부분에 드래그 해주세요.");
-    	$('#myModal').modal('show');
     	
-    	return false;
 	});
 	
 	function checkImageType(fileName) {
@@ -134,7 +131,7 @@ $(function() {
 		var that = $(this);
 		
 		$.ajax({
-			url: "/product/deleteFile.do",
+			url: "/deleteFile.do",
 			type: "post",
 			data: {fileName:$(this).attr("data-src")},
 			dataType: "text",
@@ -170,8 +167,39 @@ $(function() {
 	/*======================================================================================*/
 	$('#content').summernote({
 		lang: 'ko-KR',
-	    height: 350
+	    height: 350, 
+	    minHeight: null,
+        maxHeight: null,
+        focus: true,
+        callbacks: {
+        	onImageUpload: function(files, editor, welEditable) {
+        		for (var i = files.length - 1; i >= 0; i--) {
+        			sendFile(files[i], this);
+        		}
+        	}
+        }
 	});
+	
+	function sendFile(file, el) {
+	      var form_data = new FormData();
+	      form_data.append('file', file);
+	      $.ajax({
+	        data: form_data,
+	        type: "POST",
+	        url: '/editUploadAjax.do',
+	        cache: false,
+	        contentType: false,
+	        enctype: 'multipart/form-data',
+	        processData: false,
+	        success: function(url) {
+	          $(el).summernote('editor.insertImage', url);
+	          $('#imageBoard > ul').append('<li><img src="'+url+'" width="480" height="auto"/></li>');
+	        }
+	      });
+	    }
+
+
+	출처: http://devofhwb.tistory.com/90 [이든의 생활코딩]
 	/*======================================================================================*/
 	
 	/*======================================================================================*/
@@ -200,6 +228,7 @@ $(function() {
     	minDate: 'today',
     	enableTime: true,
     	time_24hr: true,
+    	locale: "ko",
         dateFormat: 'Y-m-d H:i',
         onReady: function (selectedDates, dateStr, instance) {
             $('#acutdate_start_str input').val(
@@ -216,7 +245,7 @@ $(function() {
 		var class_big_cd = $("#class_big_cd").val(); // 대분류(selectBox)
 		var class_mid_cd = $("#class_mid_cd").val(); // 중분류(selectBox)
 		var product_nm = $("#product_nm").val(); // 물품명 - 제목
-		var content = CKEDITOR.instances.content.getData(); // 물품설명 - CKEdit 값 가져오기.
+		var content = $("#content").summernote('code'); // 물품설명 - CKEdit 값 가져오기.
 		
 		var money_first = $("#money_first").val(); // 시작가(최소 100원)
 		var money_unit = $("#money_unit").val(); // 입찰단위(selectBox) - 최소 100원
