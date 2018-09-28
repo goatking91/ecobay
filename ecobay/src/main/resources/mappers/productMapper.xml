@@ -64,42 +64,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		  WHERE deli.product_cd = #{product_cd}
 	</select>
 	
-	<insert id="insert" parameterType="ProductVO">
-		INSERT INTO product 
-		     VALUES (#{product_cd}, #{product_nm}, #{member_id}, #{class_big_cd}, #{class_mid_cd}, #{content}, '1', '요청', now(), now(), null, TRUE, 0)
-	</insert>
-	
-	<insert id="imageInsert" parameterType="ProductImageVO">
-		INSERT INTO productimg 
-		    VALUES (#{img_cd}, #{img_idx}, #{product_cd}, #{filename}, #{filename_org}, #{filename_thumb}, now())
-	</insert>
-	
-	<insert id="auctInsert" parameterType="AuctionInfoVO">
-		INSERT INTO auctioninfo 
-		    VALUES (#{product_cd}, #{money_first}, 0, #{money_unit}, #{auctdate_unit}, #{acutdate_start}, #{acutdate_end}, #{baynow_yn}, #{baynow_money}, now(), #{bay_member_id})
-	</insert>
-
-	<insert id="deliInsert" parameterType="DeliveryInfoVO">
-		INSERT INTO deliveryinfo
-		    VALUES (#{product_cd}, #{deli_div_cd}, #{deli_div_nm}, now())
-	</insert>
-	
-	<insert id="prodQnaInsert" parameterType="ProductQnaVO">
-		INSERT INTO productqna
-		    VALUES (#{qna_idx}, #{product_cd}, #{qna_div}, #{member_id}, #{title}, #{content}, now())
-	</insert>
-
-	<delete id="prodQnaDelete"  parameterType="ProductQnaVO">
-		DELETE FROM productqna
-		 WHERE QNA_IDX = #{qna_idx}
-	</delete>
-	
-	<update id="delete">
-		UPDATE product
-		   SET USE_YN = FALSE
-		 WHERE product_cd = #{product_cd}
-	</update>
-	
 	<select id="selectList" resultType="ProductVO">
 		SELECT * FROM
 		(
@@ -160,6 +124,25 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		  FROM bidinfo
 		 WHERE product_cd = #{product_cd}
 	</select>
+	
+	<select id="selectProdQnaList" resultType="ProductQnaVO">
+		SELECT prodqna.*
+		  FROM ( SELECT   @rownum:=@rownum+1 as rn
+						, qna.QNA_IDX
+						, qna.PRODUCT_CD
+						, qna.QNA_DIV
+						, IFNULL(qna.MEMBER_ID, '') as MEMBER_ID
+						, IFNULL(qna.TITLE, '') as TITLE
+						, IFNULL(qna.CONTENT, '') as CONTENT
+						, qna.REGDATE
+				 FROM ( SELECT *
+						  FROM productqna
+					     WHERE product_cd = #{product_cd}
+				  	  ORDER BY QNA_IDX DESC, QNA_DIV DESC
+					) qna, (select @rownum:=0) tmp
+				) prodqna
+		 WHERE prodqna.rn between #{start_num} and #{end_num}
+	</select>
 
 	<select id="bigclassList" resultType="ProductVO">
 		SELECT CLASS_BIG_CD, CLASS_NM as CLASS_BIG_NM
@@ -193,4 +176,40 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		SELECT IFNULL(MAX(QNA_IDX), 0) +1 as maxQnaCnt
 		  FROM productqna
 	</select>
+	
+	<insert id="insert" parameterType="ProductVO">
+		INSERT INTO product 
+		     VALUES (#{product_cd}, #{product_nm}, #{member_id}, #{class_big_cd}, #{class_mid_cd}, #{content}, '1', '요청', now(), now(), null, TRUE, 0)
+	</insert>
+	
+	<insert id="imageInsert" parameterType="ProductImageVO">
+		INSERT INTO productimg 
+		    VALUES (#{img_cd}, #{img_idx}, #{product_cd}, #{filename}, #{filename_org}, #{filename_thumb}, now())
+	</insert>
+	
+	<insert id="auctInsert" parameterType="AuctionInfoVO">
+		INSERT INTO auctioninfo 
+		    VALUES (#{product_cd}, #{money_first}, 0, #{money_unit}, #{auctdate_unit}, #{acutdate_start}, #{acutdate_end}, #{baynow_yn}, #{baynow_money}, now(), #{bay_member_id})
+	</insert>
+
+	<insert id="deliInsert" parameterType="DeliveryInfoVO">
+		INSERT INTO deliveryinfo
+		    VALUES (#{product_cd}, #{deli_div_cd}, #{deli_div_nm}, now())
+	</insert>
+	
+	<insert id="prodQnaInsert" parameterType="ProductQnaVO">
+		INSERT INTO productqna
+		    VALUES (#{qna_idx}, #{product_cd}, #{qna_div}, #{member_id}, #{title}, #{content}, now())
+	</insert>
+
+	<delete id="prodQnaDelete">
+		DELETE FROM productqna
+		 WHERE QNA_IDX = #{qna_idx}
+	</delete>
+	
+	<update id="delete">
+		UPDATE product
+		   SET USE_YN = FALSE
+		 WHERE product_cd = #{product_cd}
+	</update>
 </mapper>
