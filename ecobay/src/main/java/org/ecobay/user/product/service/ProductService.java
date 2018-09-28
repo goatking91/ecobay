@@ -30,4 +30,6 @@ public interface ProductService {
 	public void prodQnaInsert(ProductQnaVO vo);
 	public void prodQnaDelete(String qna_idx) throws Exception;
 	public List<ProductQnaVO> selectProdQnaList(ProductQnaVO vo) throws Exception;
+	
+	public List<ProductVO> selectListBest(ProductVO vo) throws Exception;
 }

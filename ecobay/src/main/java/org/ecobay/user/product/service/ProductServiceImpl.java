@@ -1,7 +1,6 @@
 package org.ecobay.user.product.service;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -179,5 +178,10 @@ public class ProductServiceImpl implements ProductService{
 	@Override
 	public List<ProductQnaVO> selectProdQnaList(ProductQnaVO vo) throws Exception {
 		return dao.selectProdQnaList(vo);
+	}
+
+	@Override
+	public List<ProductVO> selectListBest(ProductVO vo) throws Exception {
+		return dao.selectListBest(vo);
 	}
 }

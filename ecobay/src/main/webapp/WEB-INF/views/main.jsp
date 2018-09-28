@@ -67,87 +67,40 @@
 		<div class="carousel-item active">
 			<div class="container">
 				<div class="row">
-					<div class="item col-xs-4 col-lg-4">
-						<div class="thumbnail card" data-src="${list.product_cd}">
-							<div class="img-event">
-								<img class="group list-group-image img-fluid"
-									 src="/displayFile.do?fileName=${list.filename_thumb}"
-									 onerror="this.src='/resources/images/noimg.gif';"
-									 alt="" />
-							</div>
-							<div class="caption card-body">
-								<h4 class="group card-title inner list-group-item-heading">
-									${list.product_nm}</h4>
-								<p class="group inner list-group-item-text">${list.content}</p>
-								<div class="row">
-									<div class="col-xs-12 col-md-6">
-										<p class="lead"> ${list.bib_cnt}명 / ${list.bib_max_money}원</p>
-									</div>
-									<div class="col-xs-12 col-md-6">
-										<c:if test="${list.state_cd != '3'}">
-											<label>${list.acutdate_start_str}</label>
-										</c:if>
+					<c:forEach var="list" items="${list1 }">
+						<div class="item col-xs-4 col-lg-4">
+							<div class="thumbnail card" data-src="${list.product_cd}">
+								<div class="img-event">
+									<img class="group list-group-image img-fluid"
+										 src="/displayFile.do?fileName=${list.filename_thumb}"
+										 onerror="this.src='/resources/images/noimg.gif';"
+										 alt="" />
+								</div>
+								<div class="caption card-body">
+									<h4 class="group card-title inner list-group-item-heading">
+										${list.product_nm}</h4>
+									<p class="group inner list-group-item-text">${list.content}</p>
+									<div class="row">
+										<div class="col-xs-12 col-md-6">
+											<p class="lead"> ${list.bid_cnt}명 / ${list.bid_max_money}원</p>
+										</div>
+										<div class="col-xs-12 col-md-6">
+											<c:if test="${list.state_cd != '3'}">
+												<label>${list.acutdate_start_str}</label>
+											</c:if>
+										</div>
 									</div>
 								</div>
 							</div>
 						</div>
-					</div>
-					<div class="item col-xs-4 col-lg-4">
-						<div class="thumbnail card" data-src="${list.product_cd}">
-							<div class="img-event">
-								<img class="group list-group-image img-fluid"
-									 src="/displayFile.do?fileName=${list.filename_thumb}"
-									 onerror="this.src='/resources/images/noimg.gif';"
-									 alt="" />
-							</div>
-							<div class="caption card-body" >
-								<h4 class="group card-title inner list-group-item-heading">
-									${list.product_nm}</h4>
-								<p class="group inner list-group-item-text">${list.content}</p>
-								<div class="row">
-									<div class="col-xs-12 col-md-6">
-										<p class="lead"> ${list.bib_cnt}명 / ${list.bib_max_money}원</p>
-									</div>
-									<div class="col-xs-12 col-md-6">
-										<c:if test="${list.state_cd != '3'}">
-											<label>${list.acutdate_start_str}</label>
-										</c:if>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="item col-xs-4 col-lg-4">
-						<div class="thumbnail card" data-src="${list.product_cd}">
-							<div class="img-event">
-								<img class="group list-group-image img-fluid"
-									 src="/displayFile.do?fileName=${list.filename_thumb}"
-									 onerror="this.src='/resources/images/noimg.gif';"
-									 alt="" />
-							</div>
-							<div class="caption card-body">
-								<h4 class="group card-title inner list-group-item-heading">
-									${list.product_nm}</h4>
-								<p class="group inner list-group-item-text">${list.content}</p>
-								<div class="row">
-									<div class="col-xs-12 col-md-6">
-										<p class="lead"> ${list.bib_cnt}명 / ${list.bib_max_money}원</p>
-									</div>
-									<div class="col-xs-12 col-md-6">
-										<c:if test="${list.state_cd != '3'}">
-											<label>${list.acutdate_start_str}</label>
-										</c:if>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
+					</c:forEach>
 				</div>
 			</div>
 		</div>
 		<div class="carousel-item">
 			<div class="container">
 				<div class="row">
+					<c:forEach var="list" items="${list2 }">
 					<div class="item col-xs-4 col-lg-4">
 						<div class="thumbnail card" data-src="${list.product_cd}">
 							<div class="img-event">
@@ -162,7 +115,7 @@
 								<p class="group inner list-group-item-text">${list.content}</p>
 								<div class="row">
 									<div class="col-xs-12 col-md-6">
-										<p class="lead"> ${list.bib_cnt}명 / ${list.bib_max_money}원</p>
+										<p class="lead"> ${list.bid_cnt}명 / ${list.bid_max_money}원</p>
 									</div>
 									<div class="col-xs-12 col-md-6">
 										<c:if test="${list.state_cd != '3'}">
@@ -173,56 +126,7 @@
 							</div>
 						</div>
 					</div>
-					<div class="item col-xs-4 col-lg-4">
-						<div class="thumbnail card" data-src="${list.product_cd}">
-							<div class="img-event">
-								<img class="group list-group-image img-fluid"
-									 src="/displayFile.do?fileName=${list.filename_thumb}"
-									 onerror="this.src='/resources/images/noimg.gif';"
-									 alt="" />
-							</div>
-							<div class="caption card-body">
-								<h4 class="group card-title inner list-group-item-heading">
-									${list.product_nm}</h4>
-								<p class="group inner list-group-item-text">${list.content}</p>
-								<div class="row">
-									<div class="col-xs-12 col-md-6">
-										<p class="lead"> ${list.bib_cnt}명 / ${list.bib_max_money}원</p>
-									</div>
-									<div class="col-xs-12 col-md-6">
-										<c:if test="${list.state_cd != '3'}">
-											<label>${list.acutdate_start_str}</label>
-										</c:if>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="item col-xs-4 col-lg-4">
-						<div class="thumbnail card" data-src="${list.product_cd}">
-							<div class="img-event">
-								<img class="group list-group-image img-fluid"
-									 src="/displayFile.do?fileName=${list.filename_thumb}"
-									 onerror="this.src='/resources/images/noimg.gif';"
-									 alt="" />
-							</div>
-							<div class="caption card-body">
-								<h4 class="group card-title inner list-group-item-heading">
-									${list.product_nm}</h4>
-								<p class="group inner list-group-item-text">${list.content}</p>
-								<div class="row">
-									<div class="col-xs-12 col-md-6">
-										<p class="lead"> ${list.bib_cnt}명 / ${list.bib_max_money}원</p>
-									</div>
-									<div class="col-xs-12 col-md-6">
-										<c:if test="${list.state_cd != '3'}">
-											<label>${list.acutdate_start_str}</label>
-										</c:if>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
+					</c:forEach>
 				</div>
 			</div>
 		</div>
@@ -237,3 +141,12 @@
 		</a>
 	</div>
 </div>
+<script type="text/javascript">
+	$(function() {
+		$(".thumbnail").on("click", function() {
+			var datasrc = $(this).attr("data-src");
+			
+			location.href="/product/detail.do?product_cd=" + datasrc;
+		});	
+	});
+</script>

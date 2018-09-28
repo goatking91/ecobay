@@ -115,4 +115,9 @@ public class ProductDAOImpl implements ProductDAO {
 	public int maxQnaCnt() {
 		return session.selectOne(namespace + ".maxQnaCnt");
 	}
+
+	@Override
+	public List<ProductVO> selectListBest(ProductVO vo) throws Exception {
+		return session.selectList(namespace + ".selectListBest", vo);
+	}
 }

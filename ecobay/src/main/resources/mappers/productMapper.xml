@@ -94,24 +94,27 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	<select id="selectListBest" resultType="ProductVO">
-		SELECT *
-		 FROM (
-				SELECT   prod.PRODUCT_CD, prod.PRODUCT_NM, prod.MEMBER_ID, prod.STATE_CD, prod.STATE_NM, prod.VIEWCNT
-						, (SELECT COUNT(PRODUCT_CD) FROM bidinfo bid WHERE bid.PRODUCT_CD = prod.PRODUCT_CD) as BID_CNT
-						, IFNULL((SELECT MAX(MONEY_BID) FROM bidinfo bid WHERE bid.PRODUCT_CD = prod.PRODUCT_CD), 0) as BID_MAX_MONEY
-				        , IFNULL((SELECT prodimg.FILENAME_THUMB FROM productimg prodimg WHERE prodimg.PRODUCT_CD = prod.PRODUCT_CD ORDER BY prodimg.IMG_IDX ASC limit 1), '') as FILENAME_THUMB
-				        , CASE prod.STATE_CD
-							WHEN '5' THEN IFNULL((SELECT DATE_FORMAT(ACUTDATE_END, '%Y-%m-%d %H:%s') FROM auctioninfo auct WHERE auct.PRODUCT_CD = prod.PRODUCT_CD), '')
-							WHEN '6' THEN IFNULL((SELECT DATE_FORMAT(ACUTDATE_END, '%Y-%m-%d %H:%s') FROM auctioninfo auct WHERE auct.PRODUCT_CD = prod.PRODUCT_CD), '')
-							ELSE '' END AS ACUTDATE_END_STR
-						, IFNULL((SELECT auct.MONEY_FIRST FROM auctioninfo auct WHERE auct.PRODUCT_CD = prod.PRODUCT_CD), 0) as MONEY_FIRST
-				   FROM product prod
-				  WHERE prod.USE_YN = TRUE
-				    AND prod.STATE_CD = '3'
-			 ) bestprod
-		 ORDER BY bestprod.BID_CNT DESC, bestprod.VIEWCNT DESC
-		 	limit 6
+		SELECT bestprod.* 
+  		FROM (SELECT @rownum:=@rownum+1 as rn, btprod.*
+       		  FROM ( SELECT btp.* 
+		              FROM( SELECT  prod.PRODUCT_CD, prod.PRODUCT_NM, prod.MEMBER_ID, prod.STATE_CD, prod.STATE_NM, prod.VIEWCNT
+		                       , (SELECT COUNT(PRODUCT_CD) FROM bidinfo bid WHERE bid.PRODUCT_CD = prod.PRODUCT_CD) as BID_CNT
+		                       , IFNULL((SELECT MAX(MONEY_BID) FROM bidinfo bid WHERE bid.PRODUCT_CD = prod.PRODUCT_CD), 0) as BID_MAX_MONEY
+		                       , IFNULL((SELECT prodimg.FILENAME_THUMB FROM productimg prodimg WHERE prodimg.PRODUCT_CD = prod.PRODUCT_CD ORDER BY prodimg.IMG_IDX ASC limit 1), '') as FILENAME_THUMB
+		                       , CASE prod.STATE_CD
+		                        WHEN '5' THEN IFNULL((SELECT DATE_FORMAT(ACUTDATE_END, '%Y-%m-%d %H:%s') FROM auctioninfo auct WHERE auct.PRODUCT_CD = prod.PRODUCT_CD), '')
+		                        WHEN '6' THEN IFNULL((SELECT DATE_FORMAT(ACUTDATE_END, '%Y-%m-%d %H:%s') FROM auctioninfo auct WHERE auct.PRODUCT_CD = prod.PRODUCT_CD), '')
+		                        ELSE '' END AS ACUTDATE_END_STR
+		                       , IFNULL((SELECT auct.MONEY_FIRST FROM auctioninfo auct WHERE auct.PRODUCT_CD = prod.PRODUCT_CD), 0) as MONEY_FIRST
+		                    FROM product prod
+		                   WHERE prod.USE_YN = TRUE
+		                     AND prod.STATE_CD = '3'
+		             ) btp
+              ORDER BY btp.BID_CNT DESC, btp.VIEWCNT DESC ) btprod , (select @rownum:=0) tmp
+      	) bestprod
+		WHERE bestprod.rn between #{start_num} and #{end_num}
 	</select>
+	
 	
 	<select id="selectImageList" resultType="ProductImageVO">
 		SELECT *
