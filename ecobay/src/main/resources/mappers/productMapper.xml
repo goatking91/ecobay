@@ -84,6 +84,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		    VALUES (#{product_cd}, #{deli_div_cd}, #{deli_div_nm}, now())
 	</insert>
 	
+	<insert id="prodQnaInsert" parameterType="ProductQnaVO">
+		INSERT INTO productqna
+		    VALUES (#{qna_idx}, #{product_cd}, #{qna_div}, #{member_id}, #{title}, #{content}, now())
+	</insert>
+
+	<delete id="prodQnaDelete"  parameterType="ProductQnaVO">
+		DELETE FROM productqna
+		 WHERE QNA_IDX = #{qna_idx}
+	</delete>
+	
 	<update id="delete">
 		UPDATE product
 		   SET USE_YN = FALSE
@@ -177,5 +187,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="maxImgCnt" resultType="int">
 		SELECT IFNULL(MAX(IMG_CD), 0) +1 as maxImgCnt
 		  FROM productimg
+	</select>
+	
+	<select id="maxQnaCnt" resultType="int">
+		SELECT IFNULL(MAX(QNA_IDX), 0) +1 as maxQnaCnt
+		  FROM productqna
 	</select>
 </mapper>

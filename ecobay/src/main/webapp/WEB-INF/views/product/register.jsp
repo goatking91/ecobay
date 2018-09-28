@@ -145,8 +145,8 @@
 					<tr>
 						<th class="colTitle">*즉시구매</th>
 						<td colspan="2">
-							<input class="checkbox" type="checkbox" name="avo.baynow_yn" id="baynow_yn" value="baynow_yn">&nbsp;&nbsp;
-							<input class="form-control inline" style="width: 30%;" type="number" name="avo.baynow_money" id="baynow_money" disabled>(원)
+							<input class="checkbox" type="checkbox" name="avo.baynow_yn" id="baynow_yn">&nbsp;&nbsp;
+							<input class="form-control inline" style="width: 30%;" type="number" name="avo.baynow_money" id="baynow_money" disabled>원
 						</td>
 					</tr>
 				</table>

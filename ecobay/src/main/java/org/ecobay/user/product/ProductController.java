@@ -55,6 +55,7 @@ public class ProductController {
 	
 	@RequestMapping(value = "/reg.do", method = RequestMethod.POST)
     public String regPOST(ProductVO vo) throws Exception {
+		System.out.println(1);
 		User user = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		vo.setMember_id(user.getUsername());
 		service.insert(vo);
