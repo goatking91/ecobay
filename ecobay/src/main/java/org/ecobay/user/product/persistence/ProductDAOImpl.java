@@ -7,6 +7,7 @@ import org.ecobay.user.product.domain.AuctionInfoVO;
 import org.ecobay.user.product.domain.BidInfoVO;
 import org.ecobay.user.product.domain.DeliveryInfoVO;
 import org.ecobay.user.product.domain.ProductImageVO;
+import org.ecobay.user.product.domain.ProductQnaVO;
 import org.ecobay.user.product.domain.ProductVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -94,6 +95,24 @@ public class ProductDAOImpl implements ProductDAO {
 	public List<ProductImageVO> selectImageList(String product_cd) throws Exception {
 		return session.selectList(namespace + ".selectImageList",product_cd);
 	}
-	
-	
+
+	@Override
+	public void prodQnaInsert(ProductQnaVO vo) {
+		session.insert(namespace + ".prodQnaInsert", vo);
+	}
+
+	@Override
+	public void prodQnaDelete(String qna_idx) throws Exception {
+		session.delete(namespace + ".prodQnaDelete", qna_idx);
+	}
+
+	@Override
+	public List<ProductQnaVO> selectProdQnaList(ProductQnaVO vo) throws Exception {
+		return session.selectList(namespace + ".selectProdQnaList",vo);
+	}
+
+	@Override
+	public int maxQnaCnt() {
+		return session.selectOne(namespace + ".maxQnaCnt");
+	}
 }
