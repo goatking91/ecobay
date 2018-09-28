@@ -35,6 +35,17 @@ public class UploadContoller {
 	    	return new ResponseEntity<String>(UploadFileUtils.uploadFile(uploadPath, file.getOriginalFilename(), file.getBytes()), HttpStatus.CREATED);
 	    }
 	    
+	 
+	 @RequestMapping(value = "/editUploadAjax.do", method = RequestMethod.POST, produces = "text/plain;charset=UTF-8")
+	    public ResponseEntity<String> editUploadAjax(MultipartFile file) throws Exception {
+	    	
+	    	logger.info("originalName: " + file.getOriginalFilename());
+	    	logger.info(uploadPath);
+	    	String uploadFileName = UploadFileUtils.editUploadFile(uploadPath, file.getOriginalFilename(), file.getBytes());
+	    	return ResponseEntity.ok().body("/displayFile.do?fileName=" + uploadFileName);
+	    }
+	 
+	 
 	    @ResponseBody
 		@RequestMapping(value = "/displayFile.do")
 		public ResponseEntity<byte[]> displayFile(String fileName) throws Exception {

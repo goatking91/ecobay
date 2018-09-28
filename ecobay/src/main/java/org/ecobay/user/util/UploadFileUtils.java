@@ -56,7 +56,7 @@ public class UploadFileUtils {
 		return retVal;
 	}
 	
-	public static String ckuploadFile(String uploadPath, String originalName, byte[] fileData) throws Exception {
+	public static String editUploadFile(String uploadPath, String originalName, byte[] fileData) throws Exception {
 		
 		UUID uid = UUID.randomUUID();
 		String savedName = uid.toString() + "_" + originalName;

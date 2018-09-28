@@ -71,7 +71,7 @@
 						<div class="thumbnail card" data-src="${list.product_cd}">
 							<div class="img-event">
 								<img class="group list-group-image img-fluid"
-									 src="/product/displayFile.do?fileName=${list.filename_thumb}"
+									 src="/displayFile.do?fileName=${list.filename_thumb}"
 									 onerror="this.src='/resources/images/noimg.gif';"
 									 alt="" />
 							</div>
@@ -96,7 +96,7 @@
 						<div class="thumbnail card" data-src="${list.product_cd}">
 							<div class="img-event">
 								<img class="group list-group-image img-fluid"
-									 src="/product/displayFile.do?fileName=${list.filename_thumb}"
+									 src="/displayFile.do?fileName=${list.filename_thumb}"
 									 onerror="this.src='/resources/images/noimg.gif';"
 									 alt="" />
 							</div>
@@ -121,7 +121,7 @@
 						<div class="thumbnail card" data-src="${list.product_cd}">
 							<div class="img-event">
 								<img class="group list-group-image img-fluid"
-									 src="/product/displayFile.do?fileName=${list.filename_thumb}"
+									 src="/displayFile.do?fileName=${list.filename_thumb}"
 									 onerror="this.src='/resources/images/noimg.gif';"
 									 alt="" />
 							</div>
@@ -152,7 +152,7 @@
 						<div class="thumbnail card" data-src="${list.product_cd}">
 							<div class="img-event">
 								<img class="group list-group-image img-fluid"
-									 src="/product/displayFile.do?fileName=${list.filename_thumb}"
+									 src="/displayFile.do?fileName=${list.filename_thumb}"
 									 onerror="this.src='/resources/images/noimg.gif';"
 									 alt="" />
 							</div>
@@ -177,7 +177,7 @@
 						<div class="thumbnail card" data-src="${list.product_cd}">
 							<div class="img-event">
 								<img class="group list-group-image img-fluid"
-									 src="/product/displayFile.do?fileName=${list.filename_thumb}"
+									 src="/displayFile.do?fileName=${list.filename_thumb}"
 									 onerror="this.src='/resources/images/noimg.gif';"
 									 alt="" />
 							</div>
@@ -202,7 +202,7 @@
 						<div class="thumbnail card" data-src="${list.product_cd}">
 							<div class="img-event">
 								<img class="group list-group-image img-fluid"
-									 src="/product/displayFile.do?fileName=${list.filename_thumb}"
+									 src="/displayFile.do?fileName=${list.filename_thumb}"
 									 onerror="this.src='/resources/images/noimg.gif';"
 									 alt="" />
 							</div>
