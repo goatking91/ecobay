@@ -5,7 +5,9 @@
 <head>
 <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1">
 <title>상품상세보기</title>
-<!-- 	<link rel="stylesheet" type="text/css" href="resources/bootstrap/css/bootstrap.css"> -->
+
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/bxslider/4.2.12/jquery.bxslider.css">
+	<script src="https://cdn.jsdelivr.net/bxslider/4.2.12/jquery.bxslider.min.js"></script>
 	<style type="text/css">
 		a 
 		{
@@ -88,80 +90,16 @@
 	</style>
 	
 	
-<!-- 	<script type="text/javascript">
-	var itemCnt = "8";
-	$(function()
-	{
-		if ($('#gallery-thumbs').length > 0) 
-		{
-			var thumb = $('#gallery-thumbs').find('.thumb');
-			var visibleThumbs = 5;
-			var gallerySlider = $('#gallery').bxSlider({
-				controls: false,
-				pager: false,
-				easing: 'easeInOutQuint',
-				infiniteLoop: true,
-				speed: 500,
-				auto: false,
-				adaptiveHeight : true,
-				onSlideAfter: function (currentSlideNumber) 
-				{
-					var currentSlideNumber = gallerySlider.getCurrentSlide();
-					thumb.removeClass('pager-active');
-					thumb.eq(currentSlideNumber).addClass('pager-active');
-				},
-				onSlideNext: function () 
-				{
-					var currentSlideNumber = gallerySlider.getCurrentSlide();
-					slideThumbs(currentSlideNumber, visibleThumbs);
-				},
-				onSlidePrev: function () 
-				{
-					var currentSlideNumber = gallerySlider.getCurrentSlide();
-					slideThumbs(currentSlideNumber, visibleThumbs);
-				},
-			});
-	
-			thumb.click(function (e) 
-			{
-				imageNum=$(this).closest('.thumb-item').index();
-				$(".zoomContainer").remove();
-				gallerySlider.goToSlide($(this).closest('.thumb-item').index());
-				e.preventDefault();
-			});
-			
-			var thumbsSlider = $('#gallery-thumbs').bxSlider({
-				controls: true,
-				pager: false,
-				easing: 'easeInOutQuint',
-				infiniteLoop: false,
-				hideControlOnEnd : true,
-				minSlides: 4,
-				maxSlides: 4,
-				slideWidth: itemCnt=="1"?150:itemCnt=="2"?120:itemCnt=="3"?114:itemCnt=="4"?110:108, 
-				slideMargin: 0,
-				nextSelector: '#slider-next',
-				prevSelector: '#slider-prev',
-				onSliderLoad: function(idx) {
-					//$(".bx-wrapper").css("max-width", "");
-				}
-			});
-	
-			function slideThumbs(currentSlideNumber, visibleThumbs) 
-			{
-				var m = Math.floor(currentSlideNumber / visibleThumbs);
-				var slideTo = m * visibleThumbs;
-				thumbsSlider.goToSlide(m);
-			}
-	
-			$('#gallery-thumbs').find('.thumb').click(function () 
-			{
-				$('#gallery-thumbs').find('.thumb').removeClass('pager-active');
-				$(this).addClass('pager-active');
-			});
-		}
-	});
-</script>  -->
+<script type="text/javascript">
+	$(function() {
+		$('.bxslider').bxSlider({
+			  auto: true,
+			  autoControls: true,
+			  stopAutoOnClick: true,
+			  pager: true
+		});
+	})
+</script>
 	
 	
 </head>
@@ -170,118 +108,23 @@
 	<!-- 제목(상품명) 출력영역 -->
 	<div class="container">
 		<div class="row">
-			<h4>${prod.product_nm}</h4>
+			
 		</div>
 	</div>
 
 	<!-- 상품상세내역 출력영역 -->
 	<div class="container">
-		<div id="product-detail-info" class="row" style="margin-bottom: 50px;"><!--  important; -->
+ 		<div id="product-detail-info" class="row"><!--  important; -->
 		
 			<!-- 이미지 출력 영역 시작 -->
-			<div class="product-detail-thum col-sm-12 col-md-6" style="padding-right: 40px;">
-			
-				<!-- 큰이미지 출력영역 -->
-				<div class="bx-wrapper" style="max-width: 100%; margin: 0px auto; position: relative;">
-					<div class="bx-viewport" style="width: 100%; overflow: hidden; position: relative; height: 400px;">
-						<div id="gallery" class="gallery-images" style="width: 1015%; position: relative; transition-duration: 0s; transform: translate3d(-400px, 0px, 0px);">
-							<div id="imgBig" class="imgBig" style="float: left; list-style: none; position: relative; width: 400px;">
-								<p><img src="" onerror="this.src='/resources/images/noimg.gif';" alt="" class="imgTypeW" data-zoom-image=""></p>
-							</div>
-							<div id="imgBig" class="imgBig" style="float: left; list-style: none; position: relative; width: 400px;">
-								<p><img src="" onerror="this.src='/resources/images/noimg.gif';" alt="" class="imgTypeW" data-zoom-image=""></p>
-							</div>
-							<div id="imgBig" class="imgBig" style="float: left; list-style: none; position: relative; width: 400px;">
-								<p><img src="" onerror="this.src='/resources/images/noimg.gif';"  alt="" class="imgTypeW" data-zoom-image=""></p>
-							</div>
-							<div id="imgBig" class="imgBig" style="float: left; list-style: none; position: relative; width: 400px;">
-								<p><img src="" onerror="this.src='/resources/images/noimg.gif';"  alt="" class="imgTypeW" data-zoom-image=""></p>
-							</div>
-							<div id="imgBig" class="imgBig" style="float: left; list-style: none; position: relative; width: 400px;">
-								<p><img src="" onerror="this.src='/resources/images/noimg.gif';"  alt="" class="imgTypeW" data-zoom-image=""></p>
-							</div>
-							<div id="imgBig" class="imgBig" style="float: left; list-style: none; position: relative; width: 400px;">
-								<p><img src="" onerror="this.src='/resources/images/noimg.gif';"  alt="" class="imgTypeW" data-zoom-image=""></p>
-							</div>
-							<div id="imgBig" class="imgBig" style="float: left; list-style: none; position: relative; width: 400px;">
-								<p><img src="" onerror="this.src='/resources/images/noimg.gif';"  alt="" class="imgTypeW" data-zoom-image=""></p>
-							</div>
-							<div id="imgBig" class="imgBig" style="float: left; list-style: none; position: relative; width: 400px;">
-								<p><img src="" onerror="this.src='/resources/images/noimg.gif';"  alt="" class="imgTypeW" data-zoom-image=""></p>
-							</div>
-							<div id="imgBig" class="imgBig" style="float: left; list-style: none; position: relative; width: 400px;">
-								<p><img src="" onerror="this.src='/resources/images/noimg.gif';"  alt="" class="imgTypeW" data-zoom-image=""></p>
-							</div>
-							<div id="imgBig" class="imgBig" style="float: left; list-style: none; position: relative; width: 400px;">
-								<p><img src="" onerror="this.src='/resources/images/noimg.gif';"  alt="" class="imgTypeW" data-zoom-image=""></p>
-							</div>
-						</div>
-					</div>
-				</div>
-
-				<!-- 작은이미지 출력영역 -->
-				<div class="gallery-thumbs-container">
-					<p id="slider-next" class="slider-next"><a class="bx-next" href="">Next</a></p>
-					<p id="slider-prev" class="slider-prev"><a class="bx-prev" href="">Prev</a></p>
-					<div class="bx-wrapper" style="max-width: 432px; margin: 0px auto;">
-						<div class="bx-viewport" style="width: 100%; overflow: hidden; position: relative; height: 105px;">
-							<ul id="gallery-thumbs" class="" style="width: 1015%; position: relative; transition-duration: 0s; transform: translate3d(-40px, 0px, 0px);">
-								<li class="thumb-item" style="float: left; list-style: none; position: relative; width: 90px;">
-									<div class="thumb pager-active">
-										<a href="#none">
-											<img src="" onerror="this.src='/resources/images/noimg_s.gif';" alt="" class="imgTypeW">
-										</a>
-									</div>
-								</li>
-								<li class="thumb-item" style="float: left; list-style: none; position: relative; width: 90px;">
-									<div class="thumb ">
-										<a href="#none">
-											<img src="" onerror="this.src='/resources/images/noimg_s.gif';" alt="" class="imgTypeW">
-										</a>
-									</div>
-								</li>
-								<li class="thumb-item" style="float: left; list-style: none; position: relative; width: 90px;">
-									<div class="thumb ">
-										<a href="#none">
-											<img src="" onerror="this.src='/resources/images/noimg_s.gif';" alt="" class="imgTypeW">
-										</a>
-									</div>
-								</li>
-								<li class="thumb-item" style="float: left; list-style: none; position: relative; width: 90px;">
-									<div class="thumb ">
-										<a href="#none">
-											<img src="" onerror="this.src='/resources/images/noimg_s.gif';" alt="" class="imgTypeW">
-										</a>
-									</div>
-								</li>
-								<li class="thumb-item" style="float: left; list-style: none; position: relative; width: 90px;">
-									<div class="thumb ">
-										<a href="#none">
-											<img src="" onerror="this.src='/resources/images/noimg_s.gif';" alt="" class="imgTypeW">
-										</a>
-									</div>
-								</li>
-								<li class="thumb-item" style="float: left; list-style: none; position: relative; width: 90px;">
-									<div class="thumb ">
-										<a href="#none">
-											<img src="" onerror="this.src='/resources/images/noimg_s.gif';" alt="" class="imgTypeW">
-										</a>
-									</div>
-								</li>
-								<li class="thumb-item" style="float: left; list-style: none; position: relative; width: 90px;">
-									<div class="thumb ">
-										<a href="#none">
-											<img src="" onerror="this.src='/resources/images/noimg_s.gif';" alt="" class="imgTypeW">
-										</a>
-									</div>
-								</li>
-							</ul>
-						</div>
-					</div>
+			<div class="product-detail-thum col-sm-12 col-md-6">
+				<h4>${prod.product_nm}</h4>
+ 				<div class="bxslider">
+					<c:forEach items="${img}" var="img">
+						<div><img src="/displayFile.do?fileName=${img.filename_thumb}" style="margin-left: auto; margin-right: auto; display: block;"></div>
+					</c:forEach>
 				</div>
 			</div>
-			<!--  이미지 출력영역 끝 -->
-
 			<!-- 상품정보 출력영역 -->
 			<div class="product-detail-spec col-sm-12 col-md-6">
 				<div class="table-responsive">
