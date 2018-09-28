@@ -11,6 +11,7 @@
 <title>join.jsp</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script src="https://npmcdn.com/flatpickr/dist/l10n/ko.js"></script>
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
 <script src="/resources/js/memberRegister.js"></script>
 <script>
@@ -18,6 +19,7 @@ $(function() {
     $( "#birth" ).flatpickr({
     	maxDate: 'today',
         dateFormat: 'Y-m-d',
+        locale: "ko",
         onReady: function (selectedDates, dateStr, instance) {
             $('#birth input').val(
                 instance.formatDate(new Date(), 'Y-m-d')

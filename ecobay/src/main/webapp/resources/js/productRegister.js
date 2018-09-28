@@ -200,6 +200,7 @@ $(function() {
     	minDate: 'today',
     	enableTime: true,
     	time_24hr: true,
+    	locale: "ko",
         dateFormat: 'Y-m-d H:i',
         onReady: function (selectedDates, dateStr, instance) {
             $('#acutdate_start_str input').val(
