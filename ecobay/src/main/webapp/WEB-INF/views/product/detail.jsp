@@ -358,7 +358,13 @@
 					<a class="nav-item nav-link" id="nav-qna-tab" data-toggle="tab" href="#nav-qna" role="tab" aria-controls="nav-qna" aria-selected="false">상품문의</a>
 				</nav>
 				<div class="tab-content" id="nav-tabContent">
-					<div class="tab-pane fade show active" id="nav-content" role="tabpanel" aria-labelledby="nav-content-tab">${prod.content}</div>
+					<div class="tab-pane fade show active" id="nav-content" role="tabpanel" aria-labelledby="nav-content-tab">
+						<div class="container">
+							${prod.content}
+						</div>
+							
+					
+					</div>
 					<div class="tab-pane fade" id="nav-qna" role="tabpanel" aria-labelledby="nav-qna-tab">
 						<%-- <c:import url="/WEB-INF/views/product/qna.jsp"></c:import> --%>
 					</div>

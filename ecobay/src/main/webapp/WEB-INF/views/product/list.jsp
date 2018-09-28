@@ -65,7 +65,7 @@
 					<div class="thumbnail card" data-src="${list.product_cd}">
 						<div class="img-event">
 							<img class="group list-group-image img-fluid"
-								 src="/product/displayFile.do?fileName=${list.filename_thumb}"
+								 src="/displayFile.do?fileName=${list.filename_thumb}"
 								 onerror="this.src='/resources/images/noimg.gif';"
 								 alt="" />
 						</div>
@@ -113,7 +113,7 @@
 			    	 			str = str + "<div class='item col-xs-4 col-lg-4'>";
 			    	 			str = str + "        <div class='thumbnail card' data-src='"+arr.product_cd+"'>";
 			    	 			str = str + "            <div class='img-event'>";
-			    	 			str = str + "                <img class='group list-group-image img-fluid' src='/product/displayFile.do?fileName="+arr.filename_thumb+"' onerror=this.src='/resources/images/noimg.gif;' alt=''/>";
+			    	 			str = str + "                <img class='group list-group-image img-fluid' src='/displayFile.do?fileName="+arr.filename_thumb+"' onerror=this.src='/resources/images/noimg.gif;' alt=''/>";
 			    	 			str = str + "            </div>";
 			    	 			str = str + "            <div class='caption card-body'>";
 			    	 			str = str + "                <h4 class='group card-title inner list-group-item-heading'>";

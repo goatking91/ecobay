@@ -51,7 +51,7 @@ $(function() {
 		formData.append("file", file);
 		 
 		$.ajax({
-			url: "/product/uploadAjax.do",
+			url: "/uploadAjax.do",
 			data: formData,
 			dataType: "text",
 			processData: false,
@@ -66,7 +66,7 @@ $(function() {
 				var thumbName = data;
 				
 				if(checkImageType(data)) {
-					str = "<div style='display:inline;' class='uploadData'><img width=100 height=100 src='/product/displayFile.do?fileName=" + thumbName + "'/>"
+					str = "<div style='display:inline;' class='uploadData'><img width=100 height=100 src='/displayFile.do?fileName=" + thumbName + "'/>"
 						+ "<small data-src=" + thumbName + "><button type='button' class='btn btn-outline-danger btn-sm'>삭제</button></small>"
 						+ "<input style='display:none;' type='hidden' name='filename' value='" + fileName + "'>"
 						+ "<input style='display:none;' type='hidden' name='filename_org' value='" + originalName + "'>"
@@ -134,7 +134,7 @@ $(function() {
 		var that = $(this);
 		
 		$.ajax({
-			url: "/product/deleteFile.do",
+			url: "/deleteFile.do",
 			type: "post",
 			data: {fileName:$(this).attr("data-src")},
 			dataType: "text",
