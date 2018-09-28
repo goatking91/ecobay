@@ -17,7 +17,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="selectNoticeList" resultType="NoticeVO">
 		SELECT * 
 		FROM notice
-		where use_yn = true
+		WHERE use_yn = true
+		ORDER BY regdate DESC
 	</select>
 	
 	<select id="selectNoticeOne" parameterType="int" resultType="NoticeVO">

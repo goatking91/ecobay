@@ -2,16 +2,21 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
 
-<script type="text/javascript" src="/resources/lib/ckeditor/ckeditor.js"></script>
+<!-- <script type="text/javascript" src="/resources/lib/ckeditor/ckeditor.js"></script> -->
+<script type="text/javascript" src="/resources/lib/summernote/summernote-bs4.min.js"></script>
+<link rel="stylesheet" href="/resources/lib/summernote/summernote-bs4.css" />
 <script>
 $(function() {
-	CKEDITOR.replace( 'content' );
+	$('#content').summernote({
+		lang: 'ko-KR',
+        height: 350
+      });
 });
 </script>
 <style type="text/css">
 		.colTitle
 		{
-			width:15%;
+			width:10%;
 			text-align:right; 
 			background-color: #F2F2F2; 
 			vertical-align: middle;
@@ -56,7 +61,7 @@ $(function() {
 					<tr>
 						<th class="colTitle">내용</th>
 						<td>
-							<textarea rows="15" class="form-control" id="content" name="content" placeholder="내용을 입력하세요."></textarea>
+							<textarea rows="15" class="form-control" id="content" name="content"></textarea>
 						</td>
 					</tr>
 					
