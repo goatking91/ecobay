@@ -14,8 +14,9 @@
 	<script src="https://npmcdn.com/flatpickr/dist/l10n/ko.js"></script>
 	<script type="text/javascript" src="/resources/lib/summernote/summernote-bs4.min.js"></script>
 	<link rel="stylesheet" href="/resources/lib/summernote/summernote-bs4.css" />
-
+	<script src="/resources/lib/summernote/lang/summernote-ko-KR.js"></script>
 	<script src="/resources/js/productRegister.js"></script>
+	
 	
 	<style type="text/css">
 		.colTitle

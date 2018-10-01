@@ -2,9 +2,9 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
 
-<!-- <script type="text/javascript" src="/resources/lib/ckeditor/ckeditor.js"></script> -->
 <script type="text/javascript" src="/resources/lib/summernote/summernote-bs4.min.js"></script>
 <link rel="stylesheet" href="/resources/lib/summernote/summernote-bs4.css" />
+<script src="/resources/lib/summernote/lang/summernote-ko-KR.js"></script>
 <script>
 $(function() {
 	$('#content').summernote({
