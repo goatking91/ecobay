@@ -13,6 +13,7 @@ import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMessage.RecipientType;
 import javax.mail.internet.MimeMultipart;
+import javax.servlet.ServletContext;
 
 import org.ecobay.user.member.domain.MemberVO;
 import org.ecobay.user.member.service.MemberService;
@@ -42,6 +43,9 @@ public class MemberController {
 	@Autowired
 	private JavaMailSenderImpl mailSender;
     
+	@Autowired
+	private ServletContext context;
+	
     private static final Logger logger = LoggerFactory.getLogger(MemberController.class);
     
     @RequestMapping(value = "/payment.do", method = RequestMethod.GET)
@@ -151,10 +155,12 @@ public class MemberController {
             
             // second part (the image)
             messageBodyPart = new MimeBodyPart();
-            DataSource fds = new FileDataSource("../../mail.png");
+            DataSource fds = new FileDataSource(context.getRealPath("/resources/images/mail.png"));//resources/images/mail.png
             messageBodyPart.setDataHandler(new DataHandler(fds));
             messageBodyPart.setHeader("Content-ID","<image>");
 
+            
+            
             // add it
             multipart.addBodyPart(messageBodyPart);
 
