@@ -151,7 +151,7 @@ public class MemberController {
             
             // second part (the image)
             messageBodyPart = new MimeBodyPart();
-            DataSource fds = new FileDataSource("C:\\Es\\mail.png");//메일에 첨부한 그림있는 경로-->resources/images/mail.png 로 그림 넣어놈
+            DataSource fds = new FileDataSource("../../mail.png");
             messageBodyPart.setDataHandler(new DataHandler(fds));
             messageBodyPart.setHeader("Content-ID","<image>");
 
