@@ -102,7 +102,7 @@ public class ProductDAOImpl implements ProductDAO {
 	}
 
 	@Override
-	public void prodQnaDelete(String qna_idx) throws Exception {
+	public void prodQnaDelete(int qna_idx) throws Exception {
 		session.delete(namespace + ".prodQnaDelete", qna_idx);
 	}
 
@@ -119,5 +119,10 @@ public class ProductDAOImpl implements ProductDAO {
 	@Override
 	public List<ProductVO> selectListBest(ProductVO vo) throws Exception {
 		return session.selectList(namespace + ".selectListBest", vo);
+	}
+
+	@Override
+	public int ProdQnaAllCnt(String product_cd) throws Exception {
+		return session.selectOne(namespace + ".ProdQnaAllCnt", product_cd);
 	}
 }

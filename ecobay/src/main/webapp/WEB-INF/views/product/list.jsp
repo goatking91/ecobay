@@ -75,7 +75,12 @@
 							<p class="group inner list-group-item-text">${list.content}</p>
 							<div class="row">
 								<div class="col-xs-12 col-md-6">
-									<p class="lead"> ${list.bid_cnt}명 / ${list.bid_max_money}원</p>
+									<p class="lead">${list.bid_cnt}명/
+										<c:choose>
+											<c:when test="${list.bid_max_money == '0'}">${list.money_first}원</c:when>
+											<c:otherwise>${list.bid_max_money}원</c:otherwise>
+										</c:choose>
+									</p>
 								</div>
 								<div class="col-xs-12 col-md-6">
 									<c:if test="${list.state_cd != '3'}">

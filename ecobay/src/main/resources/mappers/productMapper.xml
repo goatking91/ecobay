@@ -130,21 +130,29 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<select id="selectProdQnaList" resultType="ProductQnaVO">
 		SELECT prodqna.*
-		  FROM ( SELECT   @rownum:=@rownum+1 as rn
-						, qna.QNA_IDX
-						, qna.PRODUCT_CD
-						, qna.QNA_DIV
-						, IFNULL(qna.MEMBER_ID, '') as MEMBER_ID
-						, IFNULL(qna.TITLE, '') as TITLE
-						, IFNULL(qna.CONTENT, '') as CONTENT
-						, qna.REGDATE
-				 FROM ( SELECT *
-						  FROM productqna
-					     WHERE product_cd = #{product_cd}
-				  	  ORDER BY QNA_IDX DESC, QNA_DIV DESC
+		  FROM ( SELECT @rownum:=@rownum+1 as rowcnt, qna.*
+				 FROM ( SELECT   q.QNA_IDX
+							   , q.PRODUCT_CD
+							   , IFNULL(q.MEMBER_ID, '') as MEMBER_ID
+							   , IFNULL(q.TITLE, '') as TITLE
+							   , IFNULL(q.CONTENT, '') as CONTENT
+							   , IFNULL((SELECT qr.CONTENT FROM productqna qr WHERE qr.QNA_IDX = q.QNA_IDX AND qr.PRODUCT_CD = q.PRODUCT_CD AND qr.QNA_DIV = '2'), '') as QNA_REPLY
+                               , IFNULL((SELECT qr.MEMBER_ID FROM productqna qr WHERE qr.QNA_IDX = q.QNA_IDX AND qr.PRODUCT_CD = q.PRODUCT_CD AND qr.QNA_DIV = '2'), '') as MEMBER_ID_BAY
+							   , q.REGDATE
+						  FROM productqna q
+					     WHERE q.PRODUCT_CD = #{product_cd} 
+					       AND q.QNA_DIV = '1'
+				  	  ORDER BY q.QNA_IDX DESC
 					) qna, (select @rownum:=0) tmp
 				) prodqna
-		 WHERE prodqna.rn between #{start_num} and #{end_num}
+		 WHERE prodqna.rowcnt between #{start_num} and #{end_num}
+	</select>
+	
+	<select id="ProdQnaAllCnt" resultType="int">
+		SELECT COUNT(PRODUCT_CD)
+		  FROM productqna
+	     WHERE PRODUCT_CD = #{product_cd} 
+	       AND QNA_DIV = '1'
 	</select>
 
 	<select id="bigclassList" resultType="ProductVO">
@@ -205,7 +213,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		    VALUES (#{qna_idx}, #{product_cd}, #{qna_div}, #{member_id}, #{title}, #{content}, now())
 	</insert>
 
-	<delete id="prodQnaDelete">
+	<delete id="prodQnaDelete" parameterType="int">
 		DELETE FROM productqna
 		 WHERE QNA_IDX = #{qna_idx}
 	</delete>

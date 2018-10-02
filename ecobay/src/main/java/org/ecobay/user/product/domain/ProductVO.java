@@ -38,6 +38,7 @@ public class ProductVO {
 	private String filename_thumb; // 썸네일파일명
 	private String acutdate_start_str; // 경매시작일시(String)
 	private String acutdate_end_str; // 경매종료일시(String)
+	private long money_first; // 시작가
 	
 	public ProductVO() { 
 		
@@ -46,7 +47,8 @@ public class ProductVO {
 	public ProductVO(String product_cd, String product_nm, String member_id, String class_big_cd, String class_big_nm,
 			String class_mid_cd, String class_mid_nm, String content, String state_cd, String state_nm, Date regdate,
 			Date moddate, Date deldate, Boolean use_yn, int viewcnt, List<ProductImageVO> ivo, AuctionInfoVO avo,
-			DeliveryInfoVO dvo, int rn, String searchVal, int start_num, int end_num, int bid_cnt, long bid_max_money,
+			DeliveryInfoVO dvo, int rn, String searchVal, int start_num, int end_num, int bid_cnt, 
+			long bid_max_money, long money_first,
 			String filename_thumb, String acutdate_start_str, String acutdate_end_str) {
 		super();
 		this.product_cd = product_cd;
@@ -73,6 +75,7 @@ public class ProductVO {
 		this.end_num = end_num;
 		this.bid_cnt = bid_cnt;
 		this.bid_max_money = bid_max_money;
+		this.money_first = money_first;
 		this.filename_thumb = filename_thumb;
 		this.acutdate_start_str = acutdate_start_str;
 		this.acutdate_end_str = acutdate_end_str;
@@ -269,6 +272,16 @@ public class ProductVO {
 	public void setBid_max_money(long bid_max_money) {
 		this.bid_max_money = bid_max_money;
 	}
+	
+	
+	public long getMoney_first() {
+		return money_first;
+	}
+
+	public void setMoney_first(long money_first) {
+		this.money_first = money_first;
+	}
+	
 
 	public String getFilename_thumb() {
 		return filename_thumb;
@@ -296,13 +309,16 @@ public class ProductVO {
 
 	@Override
 	public String toString() {
-		return "ProductVO [product_cd=" + product_cd + ", product_nm=" + product_nm + ", member_id=" + member_id
+		return "ProductVO ["
+				+ "product_cd=" + product_cd + ", product_nm=" + product_nm + ", member_id=" + member_id
 				+ ", class_big_cd=" + class_big_cd + ", class_big_nm=" + class_big_nm + ", class_mid_cd=" + class_mid_cd
 				+ ", class_mid_nm=" + class_mid_nm + ", content=" + content + ", state_cd=" + state_cd + ", state_nm="
 				+ state_nm + ", regdate=" + regdate + ", moddate=" + moddate + ", deldate=" + deldate + ", use_yn="
 				+ use_yn + ", viewcnt=" + viewcnt + ", ivo=" + ivo + ", avo=" + avo + ", dvo=" + dvo + ", rn=" + rn
 				+ ", searchVal=" + searchVal + ", start_num=" + start_num + ", end_num=" + end_num + ", bid_cnt="
-				+ bid_cnt + ", bid_max_money=" + bid_max_money + ", filename_thumb=" + filename_thumb
-				+ ", acutdate_start_str=" + acutdate_start_str + ", acutdate_end_str=" + acutdate_end_str + "]";
+				+ bid_cnt + ", bid_max_money=" + bid_max_money + ", money_first=" + money_first
+				+ ", filename_thumb=" + filename_thumb
+				+ ", acutdate_start_str=" + acutdate_start_str + ", acutdate_end_str=" + acutdate_end_str 
+				+ "]";
 	}
 }
