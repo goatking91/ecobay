@@ -12,7 +12,7 @@
 	<security:http auto-config="true" use-expressions="true">
 		<security:intercept-url pattern="/main.do" access="permitAll" />
 		<security:intercept-url pattern="/login.do" access="permitAll" />
-		<security:intercept-url pattern="/member/payment.do" access="hasRole('ANONYMOUS')"/>
+		<security:intercept-url pattern="/member/payment.do" access="hasRole('ROLE_USER')"/>
 		<security:intercept-url pattern="/member/join.do" access="hasRole('ANONYMOUS')"/>
 		<security:intercept-url pattern="/member/reg.do" access="hasRole('ANONYMOUS')"/>
 		<security:intercept-url pattern="/member/idcheck.do" access="hasRole('ANONYMOUS')"/>

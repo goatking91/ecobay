@@ -4,6 +4,6 @@
 <hr>
 <div align="center">
 	<img src = "/resources/images/mail.png" style="width:15%;">
-	<h3>등록된 아이디로 가입 인증 메일이 발송되었습니다. 메일을 확인하세요</h3>
+	<h4>상품 주문이 완료되었습니다. 메일을 확인하세요</h4>
 	<a href="/main.do"><button class="btn btn-lg btn-primary btn-block" style="width:30%;">홈으로가기</button></a>
 </div>

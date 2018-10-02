@@ -12,6 +12,8 @@
 		<typeAlias type="org.ecobay.user.product.domain.DeliveryInfoVO" alias="DeliveryInfoVO"/>
 		<typeAlias type="org.ecobay.user.product.domain.BidInfoVO" alias="BidInfoVO"/>
 		<typeAlias type="org.ecobay.user.product.domain.ProductQnaVO" alias="ProductQnaVO"/>
+		<typeAlias type="org.ecobay.user.product.domain.PaymentVO" alias="PaymentVO"/>
+		<typeAlias type="org.ecobay.user.product.domain.DeliveryVO" alias="DeliveryVO"/>
 		
 		<typeAlias type="org.ecobay.admin.board.domain.FaqVO" alias="FaqVO"/>
 		<typeAlias type="org.ecobay.admin.board.domain.NoticeVO" alias="NoticeVO"/>
