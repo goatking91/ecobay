@@ -4,6 +4,9 @@ import javax.inject.Inject;
 
 import org.apache.ibatis.session.SqlSession;
 import org.ecobay.user.member.domain.MemberVO;
+import org.ecobay.user.product.domain.BidInfoVO;
+import org.ecobay.user.product.domain.DeliveryVO;
+import org.ecobay.user.product.domain.PaymentVO;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -63,6 +66,37 @@ public class MemberDAOImpl implements MemberDAO {
 	@Override
 	public void newpwd(MemberVO vo) throws Exception {
 		session.update(namespace + ".newpwd", vo);
+	}
+
+	@Override
+	public BidInfoVO selectBid(String member_id) throws Exception {
+		return session.selectOne(namespace + ".selectBid", member_id);
+	}
+
+	@Override
+	public String selectprod(String product_cd) throws Exception {
+		return session.selectOne(namespace + ".selectProd", product_cd);
+	}
+
+	@Override
+	public String selectimg(String product_cd) throws Exception {
+		return session.selectOne(namespace + ".selectImg", product_cd);
+	}
+
+	@Override
+	public void payment(PaymentVO pvo) throws Exception {
+		session.insert(namespace + ".payment", pvo);		
+	}
+
+	@Override
+	public void delivery(DeliveryVO dvo) throws Exception {
+		session.insert(namespace + ".delivery", dvo);
+	}
+
+	@Override
+	public void auctionInfo(String product_cd) throws Exception {
+		session.update(namespace + ".auctionInfo", product_cd); 
+		
 	}
 	
 }

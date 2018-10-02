@@ -129,7 +129,7 @@ $(function() {
 			<label class="col-sm-3 col-form-label text-right" for="phone1 phone2 phone3">번호</label>
 				<div class="col-sm-3">
 					<div class="input-group">				
-					<select class="form-control" id="phone1" name="phon1e">
+					<select class="form-control" id="phone1" name="phone1">
 						<option value="010">010</option>
 						<option value="011">011</option>
 						<option value="016">016</option>
