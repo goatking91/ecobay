@@ -6,6 +6,7 @@ import javax.inject.Inject;
 
 import org.apache.ibatis.session.SqlSession;
 import org.ecobay.admin.board.domain.FaqVO;
+import org.ecobay.admin.board.domain.NoticeFileVO;
 import org.ecobay.admin.board.domain.NoticeVO;
 import org.springframework.stereotype.Repository;
 
@@ -48,6 +49,22 @@ public class NoticeDAOImpl implements NoticeDAO {
 	public void noticeViewCnt(int notice_idx) throws Exception {
 		session.update(namespace + ".updateViewCnt", notice_idx);
 		
+	}
+
+	@Override
+	public void noticeFileInsert(NoticeFileVO vo) throws Exception {
+		session.insert(namespace + ".insertNoticeFile", vo);
+		
+	}
+
+	@Override
+	public int maxNoticeFileCnt() throws Exception {
+		return session.selectOne(namespace + ".maxNoticeFileCnt");
+	}
+
+	@Override
+	public int maxNoticeIDX() throws Exception {
+		return session.selectOne(namespace + ".maxNoticeIDX");
 	}
 	
 	
