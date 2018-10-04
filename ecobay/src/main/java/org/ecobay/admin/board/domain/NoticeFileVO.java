@@ -9,19 +9,26 @@ public class NoticeFileVO {
 	private int notice_idx;
 	private String filename;
 	private String filename_org;
+	private long fileSize;
 	private Date regdate;
+	
+	private double fileSizeByte;
 	
 	public NoticeFileVO() {
 	}
 
-	public NoticeFileVO(int file_cd, int file_idx, int notice_idx, String filename, String filename_org, Date regdate) {
+
+	public NoticeFileVO(int file_cd, int file_idx, int notice_idx, String filename, String filename_org, long fileSize,
+			Date regdate, double fileSizeByte) {
 		super();
 		this.file_cd = file_cd;
 		this.file_idx = file_idx;
 		this.notice_idx = notice_idx;
 		this.filename = filename;
 		this.filename_org = filename_org;
+		this.fileSize = fileSize;
 		this.regdate = regdate;
+		this.fileSizeByte = fileSizeByte;
 	}
 
 	public int getFile_cd() {
@@ -71,11 +78,33 @@ public class NoticeFileVO {
 	public void setRegdate(Date regdate) {
 		this.regdate = regdate;
 	}
+	
+
+	public long getFileSize() {
+		return fileSize;
+	}
+
+	public void setFileSize(long fileSize) {
+		this.fileSize = fileSize;
+	}
+
+	
+	
+	public double getFileSizeByte() {
+		return fileSizeByte;
+	}
+
+
+	public void setFileSizeByte(double fileSizeByte) {
+		this.fileSizeByte = fileSizeByte;
+	}
+
 
 	@Override
 	public String toString() {
-		return "NoticeFileVO [file_cd=" + file_cd + ", file_idx=" + file_idx + ", notice_idx=" + notice_idx + ", filename="
-				+ filename + ", filename_org=" + filename_org + ", regdate=" + regdate + "]";
+		return "NoticeFileVO [file_cd=" + file_cd + ", file_idx=" + file_idx + ", notice_idx=" + notice_idx
+				+ ", filename=" + filename + ", filename_org=" + filename_org + ", fileSize=" + fileSize + ", regdate="
+				+ regdate + ", fileSizeByte=" + fileSizeByte + "]";
 	}
 	
 	

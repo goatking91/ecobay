@@ -82,8 +82,7 @@ public class BoardServiceImpl implements BoardService {
 				
 				String savedPath = UploadFileUtils.calcPath(uploadPath);
 				
-				File temp = new File(uploadPath + savedPath + systemFileName);
-				
+				File temp = new File(uploadPath + savedPath, systemFileName);
 				FileCopyUtils.copy(file.getBytes(), temp);
 
 				NoticeFileVO noticeFile = new NoticeFileVO();
@@ -93,7 +92,8 @@ public class BoardServiceImpl implements BoardService {
 				maxNoticeFileCnt = noticeDao.maxNoticeFileCnt();
 				noticeFile.setFile_cd(maxNoticeFileCnt);
 				noticeFile.setFile_idx(maxNoticeFileCnt);
-
+				noticeFile.setFileSize(file.getSize());
+				
 				vo.addArticleFile(noticeFile);
 				
 				noticeDao.noticeFileInsert(noticeFile);
