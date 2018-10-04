@@ -147,7 +147,7 @@
 					<table class="table">
 						<tr>
 							<th class="detailTitle">현재가</th>
-							<td colspan="2"><input type="text" size="10" name="moneyBid" id="moneyBid" style="border: none;" readOnly 
+							<td colspan="2"><input type="text" size="10" name="moneyBid" id="moneyBid" style="border: none;" readOnly
 									<c:choose>
 										<c:when test="${prod.bid_max_money eq 0}">value='${auct.money_first}원'</c:when>
 										<c:otherwise>
@@ -177,21 +177,27 @@
 						</tr>
 						<tr>
 							<th class="detailTitle">즉시구매</th>
-							<td colspan="2">
-								<c:choose>
-									<c:when test="${auct.baynow_yn == true}">${auct.baynow_money}</c:when>
-									<c:otherwise>
-										<button type="button" class="btn btn-danger btn-sm" name="baynow_money" id="baynow_money">즉시구매 불가능</button>
-									</c:otherwise>
-								</c:choose>
-							</td>
+							<c:choose>
+								<c:when test="${auct.baynow_yn == true}">
+									<td name="baynow_money" id="baynow_money">${auct.baynow_money}원</td>
+									<td style="text-align: center;">
+										<button type="button" class="btn btn-danger btn-sm" name="baynow_money" id="baynowBtn">즉시구매하기</button>
+									</td>
+								</c:when>
+								<c:otherwise>
+									<td name="baynow_money" id="baynow_money">-원</td>
+									<td style="text-align: center;">
+										<button type="button" class="btn btn-danger btn-sm" name="baynow_money" id="baynowBtn" >즉시구매불가</button>
+									</td>
+								</c:otherwise>
+							</c:choose>
 						</tr>
 						<tr>
 							<th class="detailTitle">입찰수</th>
-							<td>${prod.bid_cnt}명</td>
+							<td id="bidMemberNum">${prod.bid_cnt}명</td>
 							<td style="text-align: center;">
 								<c:if test="${userid != null}">
-									<button type="button" class="btn btn-outline-dark btn-sm" name="bidCnt" id="bidCnt">경매기록보기</button>
+									<button type="button" class="btn btn-outline-dark btn-sm" id="bidList">입찰기록보기</button>
 								</c:if>
 							</td>
 						</tr>
@@ -201,7 +207,7 @@
 						</tr>
 						<tr>
 							<th class="detailTitle">판매자정보</th>
-							<td colspan="2"><!-- ${prod.member_id} -->
+							<td colspan="2">
 								<input type="text" style="border: 0;" id ="prodMember_id" name="prodMember_id" value="" readonly>
 							</td> 
 						</tr>
@@ -210,7 +216,7 @@
 							<td colspan="3" style="vertical-align: middle; text-align: center;">
 								<c:if test="${userid != null}">
 									<c:if test="${prod.state_cd == '3'}">
-										<button type="button" class="btn btn-primary" href="#none" onclick="" >입찰하기</button>
+										<button type="button" class="btn btn-primary" id=bidRegBtn>입찰하기</button>
 									</c:if>
 								</c:if>
 							</td>
@@ -243,86 +249,6 @@
 						</c:if>
 						
 						<table id="enters" class="table table-striped table-hover">
-						    <thead>
-						        <tr>
-						            <th style="width: 8%; text-align: center;">번호</th>
-						            <th style="width: 35%; text-align: center;">제목</th>
-						            <th style="width: 20%; text-align: center;">작성자</th>
-						            <th style="width: 20%; text-align: center;">등록일시</th>
-						            <th style="width: 17%; text-align: center;"></th>
-						        </tr>
-						    </thead>
-						    
-							<c:forEach var="qlist" items="${qnaList}">
-							    <tr data-toggle="collapse" data-target="#data_${qlist.qna_idx}">
-							    	<td style="text-align: center;">
-							    		${qlist.rowcnt}
-							    		<input type="hidden" style="display: none;" id='qna${qlist.qna_idx}"' value="${qlist.qna_idx}">
-							    	</td>
-							    	<td style="text-align: center;">
-							    		<a  id="qtitle${qlist.qna_idx}">${qlist.title}</a>
-							    	</td>
-							    	<td id="memberid${qlist.qna_idx}" style="text-align: center;"><a>${qlist.member_id}</a></td>
-							    	<td style="text-align: center;"><fmt:formatDate value="${qlist.regdate}" pattern="yyyy-MM-dd HH:mm"/></td>
-							    	<td  style="text-align: center;">
-	    								<c:if test="${userid != null}">
-	    									<c:if test="${userid == prod.member_id}">
-	    										<c:if test="${qlist.qna_reply == ''}">
-								    				<a href="#"><button id="replyBtn${qlist.qna_idx}" class="btn btn-sm btn-primary reply">답변</button></a>
-								    			</c:if>
-								    		</c:if>
-								    		
-								    		<c:if test="${userid == qlist.member_id}">
-								    			<a href="#"><button id="delBtn${qlist.qna_idx}" class="btn btn-sm btn-danger del">삭제</button></a>
-								    		</c:if>
-										</c:if>
-							    	</td>
-							    </tr>
-							    <tr class="collapse" id="data_${qlist.qna_idx}">
-							    	<td colspan="5">
-							    		<label class="form-control" style="border: 0px; background: transparent;" id="qcontent${qlist.qna_idx}">${qlist.content}</label>
-								    	<c:if test="${qlist.qna_reply != ''}">
-								    		<hr><input type="text" style="border: 0px;" value="${qlist.qna_reply}" readonly>
-									    </c:if>
-							    	</td>
-							    </tr>
-							</c:forEach>
-							
-							<!-- 페이징 시작 -->
-							<thead>
-						 		<tr align="center">
-									<td colspan="5">
-									<c:set value="1" var="PageNum" />
-									<c:if test="PageNum != 1"> <!-- [맨앞] 출력 여부 - [1]이면 출력하지 않기. --> iPageNum != 1
-										<a name="pagecount" qna-page-no="1" href="javascript:;">[처음]</a>
-									</c:if>
-									
-									<!-- // [이전] 출력 여부 - [11]부터 [이전]을 붙여줘야 하며 이동시 10씩 빼줘야 함. -->
-									<c:if test="${iStartPage > qnaPageCnt}">
-										<a name="pagecount" qna-page-no="${iStartPage-qnaPageCnt}" href="javascript:;">[이전]</a>
-									</c:if>
-									
-									<!-- // 페이지 번호 - iStartPage : 1 / iEndPage : 10 ==> [1][2] ~ [9][10] -->
-									<c:forEach var="i" begin="${iStartPage}" end="${iEndPage}" step="1" >
-										<c:choose>
-											<c:when test="${PageNum == i}"><font style='color:red;'>[${i}]</font></c:when>
-											<c:otherwise><a name="pagecount" qna-page-no="${i}" href="javascript:;">[${i}]</a></c:otherwise>
-										</c:choose>
-									</c:forEach>
-						
-									<!-- // [다음] 출력 여부 - 최종페이지가 아닌 경우 [다음]을 붙여줘야 하며 이동시 10씩 더해줘야 함. -->
-									<c:if test="${iEndPage < iPageTotalNum}">
-										<a name="pagecount" qna-page-no="${iStartPage+qnaPageCnt}" href="javascript:;">[다음]</a>
-									</c:if>
-									
-									<!-- // [맨뒤] 출력 여부 - 최대값이면 출력하지 않기. -->
-									<c:if test="${PageNum != iPageTotalNum && iPageTotalNum != 0}">
-										<a name="pagecount" qna-page-no="${iPageTotalNum}" href="javascript:;">[맨끝]</a>
-									</c:if>
-									</td>
-								</tr>
-							</thead>
-							<!-- 페이징 끝 -->
 						</table>
 					</div>
 				</div>
@@ -338,7 +264,7 @@
 	</div>
 	
 	<!-- 모달 창(문의하기) -->	
-	<div class="modal fade" id="qModal" tabindex="-1" role="dialog" aria-labelledby="myModallabel" aria-hidden="true">
+	<div class="modal fade" id="qModal" tabindex="-1" role="dialog" aria-labelledby="qModallabel" aria-hidden="true">
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
@@ -380,7 +306,7 @@
 	</div>
 	
 	<!-- 모달 창(답변하기) -->	
-	<div class="modal fade" id="aModal" tabindex="-1" role="dialog" aria-labelledby="myModallabel" aria-hidden="true">
+	<div class="modal fade" id="aModal" tabindex="-1" role="dialog" aria-labelledby="aModallabel" aria-hidden="true">
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
@@ -419,405 +345,655 @@
 			</div>
 		</div>
 	</div>
-
-<script type="text/javascript">
-	var endDateTime = new Date(document.getElementById("endTime").value+":00").getTime();
-	function auctTime(){
-		var dateTime = new Date().getTime();
-		
-		if(endDateTime > dateTime) {
-			var difference_ms = endDateTime - dateTime;
-			difference_ms = difference_ms / 1000;
-			var seconds = Math.floor(difference_ms % 60);
-			difference_ms = difference_ms / 60; 
-			var minutes = Math.floor(difference_ms % 60);
-			difference_ms = difference_ms / 60; 
-			var hours = Math.floor(difference_ms % 24);  
-			var days = Math.floor(difference_ms / 24);
+	
+	<!-- 모달 창(입찰기록보기 ==> 팝업 대신 모달사용) -->
+	<div class="modal fade" id="bidModal" tabindex="-1" role="dialog" aria-labelledby="bidModallabel" aria-hidden="true">
+		<div class="modal-dialog modal-lg" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="modalbidtitle">입찰내역</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close" id="bidclose">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<form id="modalbidform">
+						<div class="row">
+							<div class="col-md">
+								<label style="font-weight: bold;" name="title" id="bidtitle"></label>
+							</div>
+						</div>
+					
+						<table id="modalbidtable" class="table table-striped table-hover">
+						</table>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<!-- 모달 창 -->	
+	<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModallabel" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="modaltitle"></h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="myModalClose">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<form>
+						<input type="hidden" style="display: none;" class="form-control" id="myModal_div" name="myModal_div" value="">
+						<div class="row">
+							<div class="col-md">
+								<div id="message">
+									<h4 align="center"></h4>
+								</div>
+							</div>		      	
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary" data-dismiss="modal" id="myModalRegBtn">확인</button>
+					<button type="button" class="btn btn-primary" data-dismiss="modal" id="myModalCancelBtn">취소</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<script type="text/javascript">
+		var endDateTime = new Date(document.getElementById("endTime").value+":00").getTime();
+		function auctTime(){
+			var dateTime = new Date().getTime();
 			
-			seconds = (seconds < 10) ? "0" + seconds : seconds;
-			minutes = (minutes < 10) ? "0" + minutes : minutes;
-			hours = (hours < 10) ? "0" + hours : hours;
-
-			document.getElementById("remain").innerHTML = "남은시간 : " + days + "일 " + hours + "시간 " + minutes + "분 " + seconds + "초";
-			setTimeout(auctTime, 1000);
-		}else {
-			document.getElementById("remain").innerHTML = "경매종료";
+			if(endDateTime > dateTime) {
+				var difference_ms = endDateTime - dateTime;
+				difference_ms = difference_ms / 1000;
+				var seconds = Math.floor(difference_ms % 60);
+				difference_ms = difference_ms / 60; 
+				var minutes = Math.floor(difference_ms % 60);
+				difference_ms = difference_ms / 60; 
+				var hours = Math.floor(difference_ms % 24);  
+				var days = Math.floor(difference_ms / 24);
+				
+				seconds = (seconds < 10) ? "0" + seconds : seconds;
+				minutes = (minutes < 10) ? "0" + minutes : minutes;
+				hours = (hours < 10) ? "0" + hours : hours;
+	
+				document.getElementById("remain").innerHTML = "남은시간 : " + days + "일 " + hours + "시간 " + minutes + "분 " + seconds + "초";
+				setTimeout(auctTime, 1000);
+			}else {
+				document.getElementById("remain").innerHTML = "경매종료";
+				
+				$('#baynowBtn').text("즉시구매불가"); // 경매종료시 메세지 변경.
+				$("#bidRegBtn").css("visibility", "hidden"); // 입찰하기 버튼 비활성화
+			}
 		}
-	    
-	}
-	
-	auctTime();
-	
-	$(function(){
-		/*======================================================================================*/
-		// ajax처리시 권한 스크립트
-		/*======================================================================================*/
-		var token = $("meta[name='_csrf']").attr("content");
-		var header = $("meta[name='_csrf_header']").attr("content");
 		
-	    $(document).ajaxSend(function(e, xhr, options) {
-	        xhr.setRequestHeader(header, token);
-	    });
-	    /*======================================================================================*/
-      	var product_cd = "${prod.product_cd}";
-		var userid = "${userid}";
-		var memberId_sale = "${prod.member_id}";
+		auctTime();
 		
-		$("#prodMember_id").ready(function() {
-			var prodMember_id = "${prod.member_id}";
-			var sCov = idCov(prodMember_id);
+		$(function(){
+			/*======================================================================================*/
+			// ajax처리시 권한 스크립트
+			/*======================================================================================*/
+			var token = $("meta[name='_csrf']").attr("content");
+			var header = $("meta[name='_csrf_header']").attr("content");
 			
-			$("#prodMember_id").val(sCov);
-		});
-		
-		function idCov(memberid){
-			var covNum = memberid.indexOf("@");
-			var sCov = "";
+		    $(document).ajaxSend(function(e, xhr, options) {
+		        xhr.setRequestHeader(header, token);
+		    });
+		    /*======================================================================================*/
+	      	var product_cd = "${prod.product_cd}";
+			var userid = "${userid}";
+			var memberId_sale = "${prod.member_id}";
 			
-			for(var i=1; i<=memberid.length; i++) {
-				if(i > 2 && i <= covNum-1) {
-					sCov = sCov + "*"; 
+			// 문의내역 출력.
+			qnaListCall(1); // 상품문의 내용 출력(화면로딩시 출력되는 부분..)
+			
+			// 판매자정보 *처리 하기
+			$("#prodMember_id").ready(function() {
+				var prodMember_id = "${prod.member_id}";
+				var sCov = idCov(prodMember_id);
+				
+				$("#prodMember_id").val(sCov);
+			});
+			
+			// *처리 함수
+			function idCov(memberid){
+				var covNum = memberid.indexOf("@");
+				var sCov = "";
+				
+				for(var i=1; i<=memberid.length; i++) {
+					if(i > 2 && i <= covNum-1) {
+						sCov = sCov + "*"; 
+					}
+					else {
+						sCov = sCov + memberid.substring(i-1, i);
+					}
+				}
+				
+				return sCov;
+			}
+			
+			// 모달 - 취소버튼 클릭시
+			$('#myModalCancelBtn').on("click", function(){
+				$('#myModal_div').val("");
+				console.log("취소되었습니다.");
+			});
+			
+			// 모달 - 확인버튼 클릭시
+			$('#myModalRegBtn').on("click", function(){
+				var workingVal = $('#myModal_div').val();
+				
+				if(workingVal == 'bid') { // 입찰하기 이벤트 진행.
+					var money_first = "${auct.money_first}";
+					var money_unit = "${auct.money_unit}";
+
+					var sendData = JSON.stringify({
+							"product_cd" : product_cd,
+						    "money_first" : money_first, 
+						    "money_unit" : money_unit,
+						    "bay_member_id" : userid 
+						});
+					
+					$.ajax({
+						async: true,
+						type: 'POST',
+						url : "/product/bidReg.do",
+						data : sendData,
+						dataType : "json",
+						contentType: "application/json; charset=UTF-8",
+						success : function(data) {
+							$("#moneyBid").val(data.Max_money_bid + "원");
+							$("#bidMemberNum").text(data.Member_Cnt + "명");
+						},
+				        error: function(data) {
+							console.log("error :" + data);
+						}
+					});
+				}
+				else if(workingVal == 'baynow') { // 즉시구매 이벤트 진행.
+					alert("즉시구매하기 이벤트를 처리해야 합니다."); // 협의 후 진행처리하기.
+				}
+			});
+			
+			// 입찰기록보기 => 모달 - 리스트출력.
+			$("#bidList").on("click", function(){
+				bidListCall(1);
+			});
+			
+			// 입찰하기 => 모달 - 처리여부 확인메세지 출력 => 진행시 입찰처리되도록 하기.
+			$("#bidRegBtn").on("click", function(){
+				var dateTime = new Date().getTime(); // 현재시간
+				
+				if(endDateTime > dateTime) {
+    	 			$('#myModalCancelBtn').css("display", "");
+    	 			$('#myModal_div').val("bid");
+    	 			
+		            $('#myModal #message').find('h4').text("입찰하시겠습니까?");
+		        	$('#myModal').modal('show');
 				}
 				else {
-					sCov = sCov + memberid.substring(i-1, i);
-				}
-			}
-			
-			return sCov;
-		}
-	    
-		$("#btnQnaModal").on("click", function(){
-            //$('#message').find('h4').text("상품문의");
-            $('#qModal').css("zIndex", "999999");
-        	$('#qModal').modal('show');
-		});
-		
-		$("#qclose").on("click", function(){
-			$("#qtitle").val("");
-			$("#qcontent").val("");
-		});
-		
-		$("#aclose").on("click", function(){
-			$("#atitle").val("");
-			$("#acontent_bf").val("");
-			$("#acontent").val("");
-		});
-		
-		$("#qnaregBtn").on("click", function(){
-			var qqna_div = $("#qqna_div").val();
-			var qmember_id = $("#qmember_id").val(); // 작성자id(로그인한 사람) - //var amember_id = $("#amember_id").val(); // 판매자id
-			var qtitle = $("#qtitle").val();
-			var qcontent = $("#qcontent").val();
-			
-			if(qtitle == null || qtitle.length == 0) {
-				$("#qmsg").html("제목을 넣어주세요.");
-				$("#qtitle").focus();
-				
-				return false;
-			}
-			
-			if(qcontent == null || qcontent.length == 0) {
-				$("#qmsg").html("내용을 넣어주세요.");
-				$("#qcontent").focus();
-				
-				return false;
-			}
-
-			var form_data = $("#qnaform").serialize();
-			
-			$.ajax({
-				async: true,
-				type: 'POST',
-				url : "/product/qnaReg.do",
-				data: form_data,
-				success : function(data) {
-					//console.log(data);
-						qnaListCall(1);
-		        },
-		        error: function(data) {
-					console.log("error :" + data);
+					$("#bidRegBtn").css("visibility", "hidden"); // 입찰하기 버튼 비활성화(틀은 고정.)
+					$('#baynowBtn').text("즉시구매불가"); // 경매종료시 메세지 변경.
+					
+					$('#myModalCancelBtn').css("display", "none");
+    	 			$('#myModal_div').val("");
+		            $('#myModal #message').find('h4').text("경매가 종료되었습니다.");
+		        	$('#myModal').modal('show');
 				}
 			});
-		});
-		
-		$(document).on("click", '.reply', function(event){
-			var nowId = $(this).attr("id");
-			var noIdx = nowId.replace(/[^0-9]/g,"");
 			
-			if(noIdx == null || noIdx.length == 0) {
-				return false;
-			}
-
-			var nowtitle = $('#qtitle'+noIdx).text();
-			var nowcontent = $('#qcontent'+noIdx).text();
-			
-			$("#aqna_idx").val(noIdx); // 문의idx 전달.
-			$("#atitle").val("[답변] " + nowtitle);// 문의 제목 자동처리[답변] - 읽기전용
-			$("#acontent_bf").val("[문의] " + nowcontent);// 문의 내용 출력 - 읽기전용
-
-            $('#aModal').css("zIndex", "999999");
-        	$('#aModal').modal('show');
-		});
-		
-		// 문의 삭제 처리
-		$(document).on("click", ".del", function(){
-			var nowId = $(this).attr("id");
-			var qna_idx = nowId.replace(/[^0-9]/g,"");
-			
-			$.ajax({
-				async: true,
-				type: 'POST',
-				url : "/product/qnaDel.do/" + qna_idx,
-				success : function(data) {
-						qnaListCall(1);
-		        },
-		        error: function(data) {
-					console.log("error :" + data);
-				}
-			});
-		});
-		
-		// 문의 답변 등록 처리
-		$("#qnareplyBtn").on("click", function(){
-			var aqna_idx = $("#aqna_idx").val(); //qna_idx
-			var aqna_div = '2';
-			var amember_id = $("#amember_id").val(); // 작성자id(로그인한 사람) - //var amember_id = $("#amember_id").val(); // 판매자id
-			var atitle = $("#atitle").val();
-			var acontent = $("#acontent").val();
-			
-			if(acontent == null || acontent.length == 0) {
-				$("#qmsg").html("답변을 넣어주세요.");
-				$("#acontent").focus();
+			//즉시구매하기 클릭시 처리 
+			$("#baynowBtn").on("click", function(){
+				var val = $("#baynowBtn").text();
 				
-				return false;
-			}
-
-			var form_data = $("#replyform").serialize();
-			
-			$.ajax({
-				async: true,
-				type: 'POST',
-				url : "/product/qnaReply.do",
-				data: form_data,
-				success : function(data) {
-						qnaListCall(1);
-		        },
-		        error: function(data) {
-					console.log("error :" + data);
+				if(val == '즉시구매하기') {
+					var dateTime = new Date().getTime(); // 현재시간
+					
+					if(endDateTime > dateTime) {
+	    	 			$('#myModalCancelBtn').css("display", "");
+	    	 			$('#myModal_div').val("baynow");
+	    	 			
+			            $('#myModal #message').find('h4').text("즉시구매를 진행하시겠습니까?");
+			        	$('#myModal').modal('show');
+					}
+					else {
+						$("#bidRegBtn").css("visibility", "hidden"); // 입찰하기 버튼 비활성화(틀은 고정.)
+						$('#baynowBtn').text("즉시구매불가"); // 경매종료시 메세지 변경.
+						
+						$('#myModalCancelBtn').css("display", "none");
+	    	 			$('#myModal_div').val("");
+			            $('#myModal #message').find('h4').text("경매가 종료되었습니다.");
+			        	$('#myModal').modal('show');
+					}
+				}
+				else {
+					$('#myModal_div').val("");
 				}
 			});
-		});
-		
- 		// name="pagecount" 클릭이벤트 - 페이징 처리용.
-		$(document).on("click", "a[name='pagecount']", function(){
-			var pageVal = $(this).attr("qna-page-no");
-			qnaListCall(pageVal);
-		});
-		
-		function qnaListCall(pagenum){
-			$.ajax({
-				async: true,
-				type: 'POST',
-				url : "/product/prodqna.do/" + product_cd + "/" + pagenum,
-				dataType : "json",
-				contentType: "application/json; charset=UTF-8",
-				success : function(data) {
-	    	 		var str = "";
-	    	 		
-	    	 		$("#enters").empty();
-	    	 		
-	    	 		str = str + "<thead>";
-	    	 		str = str + "	<tr>";
-	    	 		str = str + "		<th style='width: 8%; text-align: center;'>번호</th>";
-	    	 		str = str + "		<th style='width: 35%; text-align: center;'>제목</th>";
-	    	 		str = str + "		<th style='width: 20%; text-align: center;'>작성자</th>";
-	    	 		str = str + "		<th style='width: 20%; text-align: center;'>등록일시</th>";
-	    	 		str = str + "		<th style='width: 17%; text-align: center;'></th>";
-	    	 		str = str + "	</tr>";
-	    	 		str = str + "</thead>";
-	    	 		
-	    	 		$.each(data.arr, function(index, arr) {
-	    	 			str = str + "<tr data-toggle='collapse' data-target='#data_" + arr.qna_idx + "'>";
-	    	 			str = str + "	<td style='text-align: center;'> " + arr.rowcnt;
-	    	 			str = str + "		<input type='hidden' style='display: none;' id='qna" + arr.qna_idx + "' value='" + arr.qna_idx + "'>";
-	    	 			str = str + "	</td>";
-	    	 			str = str + "	<td style='text-align: center;'><a id='qtitle" + arr.qna_idx + "'>" + arr.title + "</a></td>";
-	    	 			
-	    	 			//var qlist_member_id_val = idCov(arr.member_id); // 암호화 미적용함.
-	    	 			str = str + "	<td style='text-align: center;'><a>" + arr.member_id + "</a></td>";
-	    	 			
-	    	 			var date = new Date(arr.regdate);
-	    	 		    var y = date.getFullYear();
-	    	 		    var M = date.getMonth()+1;
-	    	 		    var d = date.getDate();
-	    	 		    var h = date.getHours(); // 0 - 23
-	    	 		    var m = date.getMinutes(); // 0 - 59
-	    	 		    
-	    	 		    M = (M < 10) ? "0" + M : M;
-	    	 		    d = (d < 10) ? "0" + d : d;
-	    	 		    h = (h < 10) ? "0" + h : h;
-	    	 		    m = (m < 10) ? "0" + m : m;
-	    	 			
-	    	 		    var regdate = y + '-' + M + '-' + d + ' ' + h + ':' + m;
-	    	 			
-	    	 			str = str + "	<td style='text-align: center;'>" + regdate + "</td>";
-	    	 			str = str + "	<td style='text-align: center;'>";
 
-	    	 			if(userid != null) {
-		    	 			if(userid == memberId_sale && arr.qna_reply == '') {
-		    	 				str = str + "		<a href='#'><button id='replyBtn" + arr.qna_idx + "' class='btn btn-sm btn-primary reply'>답변</button></a>";
+			// 문의하기 모달 호출.
+			$("#btnQnaModal").on("click", function(){
+	            $('#qModal').css("zIndex", "999999");
+	        	$('#qModal').modal('show');
+			});
+			
+			// 답변하기 모달 호출.
+			$(document).on("click", '.reply', function(event){
+				var nowId = $(this).attr("id");
+				var noIdx = nowId.replace(/[^0-9]/g,"");
+				
+				if(noIdx == null || noIdx.length == 0) {
+					return false;
+				}
+	
+				var nowtitle = $('#qtitle'+noIdx).text();
+				var nowcontent = $('#qcontent'+noIdx).text();
+				
+				$("#aqna_idx").val(noIdx); // 문의idx 전달.
+				$("#atitle").val("[답변] " + nowtitle);// 문의 제목 자동처리[답변] - 읽기전용
+				$("#acontent_bf").val("[문의] " + nowcontent);// 문의 내용 출력 - 읽기전용
+	
+	            $('#aModal').css("zIndex", "999999");
+				$('#aModal').modal('show');
+			});
+			
+			// 문의하기 모달 닫기버튼으로 종료시 값 초기화.
+			$(document).on("click", "#qclose", function(){
+				$("#qtitle").val("");
+				$("#qcontent").val("");
+			});
+			
+			// 답변하기 모달 닫기버튼으로 종료시 값 초기화.
+			$(document).on("click", "#aclose", function(){
+				$("#atitle").val("");
+				$("#acontent_bf").val("");
+				$("#acontent").val("");
+			});
+			
+			// 입찰내역 모달 닫기버튼으로 종료시 상품명 초기화.
+			$(document).on("click", "#bidclose", function(){
+				$("#bidtitle").val("");
+			});
+			
+			// 문의등록(모달) 처리
+			$("#qnaregBtn").on("click", function(){
+				var qqna_div = $("#qqna_div").val();
+				var qmember_id = $("#qmember_id").val(); // 작성자id(로그인한 사람) - //var amember_id = $("#amember_id").val(); // 판매자id
+				var qtitle = $("#qtitle").val();
+				var qcontent = $("#qcontent").val();
+				
+				if(qtitle == null || qtitle.length == 0) {
+					$("#qmsg").html("제목을 넣어주세요.");
+					$("#qtitle").focus();
+					
+					return false;
+				}
+				
+				if(qcontent == null || qcontent.length == 0) {
+					$("#qmsg").html("내용을 넣어주세요.");
+					$("#qcontent").focus();
+					
+					return false;
+				}
+	
+				var form_data = $("#qnaform").serialize();
+				
+				$.ajax({
+					async: true,
+					type: 'POST',
+					url : "/product/qnaReg.do",
+					data: form_data,
+					success : function(data) {
+							qnaListCall(1);
+			        },
+			        error: function(data) {
+						console.log("error :" + data);
+					}
+				});
+				
+				$("#qtitle").val("");
+				$("#qcontent").val("");
+			});
+			
+			// 문의리스트 삭제 처리
+			$(document).on("click", ".del", function(){
+				var nowId = $(this).attr("id");
+				var qna_idx = nowId.replace(/[^0-9]/g,"");
+				
+				$.ajax({
+					async: true,
+					type: 'POST',
+					url : "/product/qnaDel.do/" + qna_idx,
+					success : function(data) {
+							qnaListCall(1);
+			        },
+			        error: function(data) {
+						console.log("error :" + data);
+					}
+				});
+			});
+			
+			// 문의 답변 등록 처리
+			$("#qnareplyBtn").on("click", function(){
+				var aqna_idx = $("#aqna_idx").val(); //qna_idx
+				var aqna_div = '2';
+				var amember_id = $("#amember_id").val(); // 작성자id(로그인한 사람) - //var amember_id = $("#amember_id").val(); // 판매자id
+				var atitle = $("#atitle").val();
+				var acontent = $("#acontent").val();
+				
+				if(acontent == null || acontent.length == 0) {
+					$("#qmsg").html("답변을 넣어주세요.");
+					$("#acontent").focus();
+					
+					return false;
+				}
+	
+				var form_data = $("#replyform").serialize();
+				
+				$.ajax({
+					async: true,
+					type: 'POST',
+					url : "/product/qnaReply.do",
+					data: form_data,
+					success : function(data) {
+							qnaListCall(1);
+			        },
+			        error: function(data) {
+						console.log("error :" + data);
+					}
+				});
+				
+				$("#atitle").val("");
+				$("#acontent_bf").val("");
+				$("#acontent").val("");
+			});
+			
+	 		// name="qnapagecount" 클릭이벤트 - 페이징 처리용.
+			$(document).on("click", "a[name='qnapagecount']", function(){
+				var pageVal = $(this).attr("qna-page-no");
+				qnaListCall(pageVal);
+			});
+	 		
+	 		// name="bidpagecount" 클릭이벤트 - 페이징 처리용.
+			$(document).on("click", "a[name='bidpagecount']", function(){
+				var pageVal = $(this).attr("bid-page-no");
+				bidListCall(pageVal);
+			});
+			
+	 		// 문의리스트 출력 및 페이징 처리.
+			function qnaListCall(pagenum){
+				$.ajax({
+					async: true,
+					type: 'POST',
+					url : "/product/prodqna.do/" + product_cd + "/" + pagenum,
+					dataType : "json",
+					contentType: "application/json; charset=UTF-8",
+					success : function(data) {
+		    	 		var iProdQnaAllCnt = data.iProdQnaAllCnt;
+		    	 		var iPageTotalNum = data.iPageTotalNum;
+		    	 		var iStartPage = data.iStartPage;
+		    	 		var iEndPage = data.iEndPage;
+						var qnaPageCnt = data.qnaPageCnt;
+						
+						var str = "";
+		    	 		
+		    	 		$("#enters").empty();
+		    	 		
+		    	 		str = str + "<thead>";
+		    	 		str = str + "	<tr>";
+		    	 		str = str + "		<th style='width: 8%; text-align: center;'>번호</th>";
+		    	 		str = str + "		<th style='width: 35%; text-align: center;'>제목</th>";
+		    	 		str = str + "		<th style='width: 20%; text-align: center;'>작성자</th>";
+		    	 		str = str + "		<th style='width: 20%; text-align: center;'>등록일시</th>";
+		    	 		str = str + "		<th style='width: 17%; text-align: center;'></th>";
+		    	 		str = str + "	</tr>";
+		    	 		str = str + "</thead>";
+		    	 		
+		    	 		$.each(data.arr, function(index, arr) {
+		    	 			str = str + "<tr>";
+		    	 			str = str + "	<td data-toggle='collapse' data-target='#data_" + arr.qna_idx + "'  style='text-align: center;'> " + arr.rowcnt;
+		    	 			str = str + "		<input type='hidden' style='display: none;' id='qna" + arr.qna_idx + "' value='" + arr.qna_idx + "'>";
+		    	 			str = str + "	</td>";
+		    	 			str = str + "	<td data-toggle='collapse' data-target='#data_" + arr.qna_idx + "' style='text-align: center;'><a id='qtitle" + arr.qna_idx + "'>" + arr.title + "</a></td>";
+		    	 			
+		    	 			var qlist_member_id_val = idCov(arr.member_id);
+		    	 			str = str + "	<td data-toggle='collapse' data-target='#data_" + arr.qna_idx + "' id='memberid" + arr.qna_idx + "' style='text-align: center;'><a>" + qlist_member_id_val + "</a></td>";
+		    	 			
+		    	 			var date = new Date(arr.regdate);
+		    	 		    var y = date.getFullYear();
+		    	 		    var M = date.getMonth()+1;
+		    	 		    var d = date.getDate();
+		    	 		    var h = date.getHours(); // 0 - 23
+		    	 		    var m = date.getMinutes(); // 0 - 59
+		    	 		    
+		    	 		    M = (M < 10) ? "0" + M : M;
+		    	 		    d = (d < 10) ? "0" + d : d;
+		    	 		    h = (h < 10) ? "0" + h : h;
+		    	 		    m = (m < 10) ? "0" + m : m;
+		    	 			
+		    	 		    var regdate = y + '-' + M + '-' + d + ' ' + h + ':' + m;
+		    	 			
+		    	 			str = str + "	<td data-toggle='collapse' data-target='#data_" + arr.qna_idx + "' style='text-align: center;'>" + regdate + "</td>";
+		    	 			str = str + "	<td style='text-align: center;'>";
+	
+		    	 			if(userid != null) {
+			    	 			if(userid == memberId_sale && arr.qna_reply == '') {
+			    	 				str = str + "		<a href='javascript:void(0);'><button id='replyBtn" + arr.qna_idx + "' class='btn btn-sm btn-primary reply'>답변</button></a>";
+		    	 				}
+			    	 			
+			    	 			if(userid == arr.member_id) {
+			    	 				str = str + "		<a href='javascript:void(0);'><button id='delBtn" + arr.qna_idx + "' class='btn btn-sm btn-danger del'>삭제</button></a>";
+			    	 			}
 	    	 				}
 		    	 			
-		    	 			if(userid == arr.member_id) {
-		    	 				str = str + "		<a href='#'><button id='delBtn" + arr.qna_idx + "' class='btn btn-sm btn-danger del'>삭제</button></a>";
+		    	 			str = str + "	</td>";
+		    	 			str = str + "</tr>";
+		    	 			str = str + "<tr class='collapse' id='data_" + arr.qna_idx + "'>";
+		    	 			str = str + "	<td colspan='5'>";
+		    	 			str = str + "		<label class='form-control' style='border: 0px; background: transparent;' id='qcontent" + arr.qna_idx + "'>" + arr.content + "</label>";
+		    	 			
+		    	 			if(arr.qna_reply != '') {
+		    	 				//str = str + "		<hr><input type='text' style='border: 0px;' value='" + arr.qna_reply + "' readonly>";
+		    	 				str = str + "		<hr><label class='form-control' style='border: 0px; background: transparent;'>" + arr.qna_reply + "</label>";
 		    	 			}
-    	 				}
-	    	 			
-	    	 			str = str + "	</td>";
-	    	 			str = str + "</tr>";
-	    	 			str = str + "<tr class='collapse' id='data_" + arr.qna_idx + "'>";
-	    	 			str = str + "	<td colspan='5'>";
-	    	 			str = str + arr.content;
-	    	 			
-	    	 			if(arr.qna_reply != '') {
-	    	 				str = str + "		<hr>" + arr.qna_reply;
-	    	 			}
-	    	 			
-	    	 			str = str + "	</td>";
-	    	 			str = str + "</tr>";
-					});
-	    	 		
-	    	 		// 페이징 처리
-	    	 		str = str + "<thead>";
-	    	 		str = str + "	<tr align='center'>";
-	    	 		str = str + "		<td colspan='5'>";
-
-	    	 		// [맨앞] 출력 여부 - [1]이면 출력하지 않기. - iPageNum
-	    	 		if(pagenum != 1) {
-	    	 			str = str + "		<a name='pagecount' qna-page-no='1' href='javascript:;'>[처음]</a>";
-	    	 		}
-
-	    	 		// [이전] 출력 여부 - [11]부터 [이전]을 붙여줘야 하며 이동시 10씩 빼줘야 함.
-	    	 		if("${iStartPage}" > "${qnaPageCnt}") {
-	    	 			str = str + "		<a name='pagecount' qna-page-no='" + "${iStartPage - qnaPageCnt}" + "' href='javascript:;'>[이전]</a>";
-	    	 		}
-	    	 		
-	    	 		// 페이지 번호 - iStartPage : 1 / iEndPage : 10 ==> [1][2] ~ [9][10]
-	    	 		for(var i = "${iStartPage}"; i<="${iEndPage}"; i++) {
-	    	 			if(pagenum == i) {
-	    	 				str = str + "			<font style='color:red;'>[" + i + "]</font>";
-	    	 			}
-	    	 			else {
-	    	    	 		str = str + "			<a name='pagecount' qna-page-no='" + i + "' href='javascript:;'>[" + i + "]</a>";
-	    	 			}
-	    	 		}
-
-	    	 		// [다음] 출력 여부 - 최종페이지가 아닌 경우 [다음]을 붙여줘야 하며 이동시 10씩 더해줘야 함.
-	    	 		if("${iEndPage}" < "${iPageTotalNum}") {
-	    	 			str = str + "		<a name='pagecount' qna-page-no='" + "${iStartPage + qnaPageCnt}" + "' href='javascript:;'>[다음]</a>";
-	    	 		}
-	    	 			
-	    	 		// [맨뒤] 출력 여부 - 최대값이면 출력하지 않기.
-	    	 		if(pagenum != "${iPageTotalNum}" && "${iPageTotalNum}" != 0) {
-	    	 			str = str + "		<a name='pagecount' qna-page-no='" + "${iPageTotalNum}" + "' href='javascript:;'>[맨끝]</a>";
-	    	 		}
-	    	 		str = str + "		</td>";
-	    	 		str = str + "	</tr>";
-	    	 		str = str + "<thead>";
-	    	 		
-	    	 		$("#enters").append(str);
-				},
-		        error: function(data) {
-					console.log("error :" + data);
-				}
-			});
-		}
-	});
+		    	 			
+		    	 			str = str + "	</td>";
+		    	 			str = str + "</tr>";
+						});
+		    	 		
+		    	 		// 페이징 처리
+		    	 		str = str + "<thead>";
+		    	 		str = str + "	<tr align='center'>";
+		    	 		str = str + "		<td colspan='5'>";
 	
-/*  		$("#enters").ready(function(){
-		//var qlist = "${qnaList.get(0).member_id}";
-	//var qlist_len = "${fn:length(qnaList)}"; 
+		    	 		// [맨앞] 출력 여부 - [1]이면 출력하지 않기. - iPageNum
+		    	 		if(pagenum != 1) {
+		    	 			//str = str + "		<a name='pagecount' qna-page-no='1' href='javascript:void(0);'>[처음]</a>";
+		    	 			str = str + "		<a style='text-decoration: none;' name='qnapagecount' qna-page-no='1' href='javascript:void(0);'>";
+		    	 			str = str + "			<button class='btn btn-sm btn-outline-secondary'>처음</button>";
+		    	 			str = str + "		</a>";
+		    	 		}
 	
-		var str = "";
-		
-		$("#enters").html("");
-		
-		str = str + "<thead>";
-		str = str + "	<tr>";
-		str = str + "		<th style='width: 8%; text-align: center;'>번호</th>";
-		str = str + "		<th style='width: 35%; text-align: center;'>제목</th>";
-		str = str + "		<th style='width: 20%; text-align: center;'>작성자</th>";
-		str = str + "		<th style='width: 20%; text-align: center;'>등록일시</th>";
-		str = str + "		<th style='width: 17%; text-align: center;'></th>";
-		str = str + "	</tr>";
-		str = str + "</thead>";
-		
-		var qnalist_len = "${fn:length(qnaList)}";
-		
-		if(qnalist_len > 0) {
-		<c:forEach var="qlist" items="${qnaList}">
-			console.log("${qlist.qna_idx}");
-			console.log("${qlist.member_id}");
-			
-			str = str + "<tr data-toggle='collapse' data-target='#data_" + "${qlist.qna_idx}" + "'>";
- 			str = str + "	<td style='text-align: center;'> " + "${qlist.rowcnt}";
- 			str = str + "		<input type='hidden' style='display: none;' id='qna" + "${qlist.qna_idx}" + "' value='" + "${qlist.qna_idx}" + "'>";
- 			str = str + "	</td>";
- 			str = str + "	<td style='text-align: center;'><a>" + "${qlist.title}" + "</a></td>";
- 			str = str + "	<td style='text-align: center;'><a>" + "${qlist.member_id}" + "</a></td>";
- 			
- 			var date_reg = new Date("${qlist.regdate}");
- 			console.log("${qlist.regdate}");
-
- 			
- 		    var y = date_reg.getFullYear();
- 		    var M = date_reg.getMonth()+1;
- 		    var d = date_reg.getDate();
- 		    var h = date_reg.getHours(); // 0 - 23
- 		    var m = date_reg.getMinutes(); // 0 - 59
- 		    
- 		    M = (M < 10) ? "0" + M : M;
- 		    d = (d < 10) ? "0" + d : d;
- 		    h = (h < 10) ? "0" + h : h;
- 		    m = (m < 10) ? "0" + m : m;
- 			
- 		    var regdate = y + '-' + M + '-' + d + ' ' + h + ':' + m;
- 			
- 			str = str + "	<td style='text-align: center;'>" + regdate + "</td>";
- 			str = str + "	<td style='text-align: center;'>";
-
- 			var qna_reply = "${qlist.qna_reply}";
- 			
- 			if(userid != null) {
-	 			if(userid == memberId_sale && qna_reply == '') { 
-	 				str = str + "		<a href='#'><button id='replyBtn" + "${qlist.qna_idx}" + "' class='btn btn-sm btn-primary reply'>답변</button></a>";
- 				}
-	 			
-	 			if(userid == "${qlist.member_id}") {
-	 				str = str + "		<a href='#'><button id='delBtn" + "${qlist.qna_idx}" + "' class='btn btn-sm btn-danger del'>삭제</button></a>";
-	 			}
-				}
- 			
- 			str = str + "	</td>";
- 			str = str + "</tr>";
- 			str = str + "<tr class='collapse' id='data_" + "${qlist.qna_idx}" + "'>";
- 			str = str + "	<td colspan='5'>";
- 			str = str + "${qlist.content}";
- 			
- 			if(qna_reply != '') {
- 				str = str + "		<hr>" + qna_reply;
- 			}
- 			
- 			str = str + "	</td>";
- 			str = str + "</tr>";
-		</c:forEach>
-		}
+		    	 		// [이전] 출력 여부 - [11]부터 [이전]을 붙여줘야 하며 이동시 10씩 빼줘야 함.
+		    	 		if(iStartPage > qnaPageCnt) {
+		    	 			//str = str + "		<a name='pagecount' qna-page-no='" + (iStartPage - qnaPageCnt) + "' href='javascript:void(0);'>[이전]</a>";
+		    	 			str = str + "		<a style='text-decoration: none;' name='qnapagecount' qna-page-no='" + (iStartPage - qnaPageCnt) + "' href='javascript:void(0);'>";
+		    	 			str = str + "			<button class='btn btn-sm btn-outline-secondary'>이전</button>";
+		    	 			str = str + "		</a>";
+		    	 		}
+		    	 		
+		    	 		// 페이지 번호 - iStartPage : 1 / iEndPage : 10 ==> [1][2] ~ [9][10]
+		    	 		for(var i = iStartPage; i<=iEndPage; i++) {
+		    	 			if(pagenum == i) {
+		    	 				//str = str + "			<font style='color:red;'>[" + i + "]</font>";
+			    	 			str = str + "			<button type='button' class='btn btn-sm btn-outline-secondary'>" + i + "</button>";
+		    	 			}
+		    	 			else {
+		    	    	 		//str = str + "			<a name='pagecount' qna-page-no='" + i + "' href='javascript:void(0);'>[" + i + "]</a>";
+			    	 			str = str + "		<a style='text-decoration: none;' name='qnapagecount' qna-page-no='" + i + "' href='javascript:void(0);'>";
+			    	 			str = str + "			<button class='btn btn-sm btn-outline-secondary'>" + i + "</button>";
+			    	 			str = str + "		</a>";
+		    	 			}
+		    	 		}
 	
-		$("#enters").append(str);
-}); */
-	
-</script>
+		    	 		// [다음] 출력 여부 - 최종페이지가 아닌 경우 [다음]을 붙여줘야 하며 이동시 10씩 더해줘야 함.
+		    	 		if(iEndPage < iPageTotalNum) {
+		    	 			//str = str + "		<a name='pagecount' qna-page-no='" + (iStartPage + qnaPageCnt) + "' href='javascript:void(0);'>[다음]</a>";
+		    	 			str = str + "		<a style='text-decoration: none;' name='qnapagecount' qna-page-no='" + (iStartPage + qnaPageCnt) + "' href='javascript:void(0);'>";
+		    	 			str = str + "			<button class='btn btn-sm btn-outline-secondary'>다음</button>";
+		    	 			str = str + "		</a>";
+		    	 		}
+		    	 			
+		    	 		// [맨뒤] 출력 여부 - 최대값이면 출력하지 않기.
+		    	 		if(pagenum != iPageTotalNum && iPageTotalNum > 0) {
+		    	 			//str = str + "		<a name='pagecount' qna-page-no='" + iPageTotalNum + "' href='javascript:void(0);'>[맨끝]</a>";
+		    	 			str = str + "		<a style='text-decoration: none;' name='qnapagecount' qna-page-no='" + iPageTotalNum + "' href='javascript:void(0);'>";
+		    	 			str = str + "			<button class='btn btn-sm btn-outline-secondary'>맨끝</button>";
+		    	 			str = str + "		</a>";
+		    	 		}
+		    	 		
+		    	 		str = str + "		</td>";
+		    	 		str = str + "	</tr>";
+		    	 		str = str + "<thead>";
+		    	 		
+		    	 		$("#enters").append(str);
+					},
+			        error: function(data) {
+						console.log("error :" + data);
+					}
+				});
+			}
+	 		
+	 		// 문의리스트 출력 및 페이징 처리.
+			function bidListCall(pageNum){
+				var sTitle = " * ${prod.product_nm} * "; // 제목
+				$("#bidtitle").text(sTitle);
+				
+				$.ajax({
+					async: true,
+					type: 'POST',
+					url : "/product/bidList.do/" + product_cd + "/" + pageNum,
+					success : function(data) {
+		    	 		var iProdQnaAllCnt = data.iProdQnaAllCnt;
+		    	 		var iPageTotalNum = data.iPageTotalNum;
+		    	 		var iStartPage = data.iStartPage;
+		    	 		var iEndPage = data.iEndPage;
+						var bidPageCnt = data.bidPageCnt;
+						var bidRowCnt = data.bidRowCnt;
+						
+						var str = "";
+						
+						$("#modalbidtable").empty();
+						
+		    	 		if(bidRowCnt > 0) {
+			    	 		str = str + "<thead>";
+			    	 		str = str + "	<tr>";
+			    	 		str = str + "		<th style='width: 8%; text-align: center;'>번호</th>";
+			    	 		str = str + "		<th style='width: 25%; text-align: center;'>입찰일시</th>";
+			    	 		str = str + "		<th style='width: 42%; text-align: center;'>입찰자</th>";
+			    	 		str = str + "		<th style='width: 25%; text-align: center;'>입찰금액</th>";
+			    	 		str = str + "	</tr>";
+			    	 		str = str + "</thead>";
+		    	 			
+			    	 		$.each(data.arr, function(index, arr) {
+			    	 			str = str + "<tr>";
+			    	 			str = str + "	<td style='text-align: center;'> " + arr.rowcnt + "</td>";
+			    	 			
+			    	 			var date = new Date(arr.regdate);
+			    	 		    var y = date.getFullYear();
+			    	 		    var M = date.getMonth()+1;
+			    	 		    var d = date.getDate();
+			    	 		    var h = date.getHours(); // 0 - 23
+			    	 		    var m = date.getMinutes(); // 0 - 59
+								var s = date.getSeconds(); // 초
+			    	 		    
+			    	 		    M = (M < 10) ? "0" + M : M;
+			    	 		    d = (d < 10) ? "0" + d : d;
+			    	 		    h = (h < 10) ? "0" + h : h;
+			    	 		    m = (m < 10) ? "0" + m : m;
+			    	 		    s = (s < 10) ? "0" + s : s;
+			    	 			
+			    	 		    var regdate = y + '-' + M + '-' + d + ' ' + h + ':' + m + ':' + s;
+			    	 			
+			    	 			str = str + "	<td style='text-align: center;'>" + regdate + "</td>";
+			    	 			
+			    	 			var qlist_member_id_val = idCov(arr.member_id);
+			    	 			str = str + "	<td style='text-align: center;'><a>" + qlist_member_id_val + "</a></td>";
+			    	 			str = str + "	<td style='text-align: center;'><a>" + arr.money_bid + " 원 </a></td>";
+			    	 			str = str + "</tr>";
+							});
+			    	 		
+			    	 		// 페이징 처리
+			    	 		str = str + "<thead>";
+			    	 		str = str + "	<tr align='center'>";
+			    	 		str = str + "		<td colspan='4'>";
+			    	 		
+			    	 		// [맨앞] 출력 여부 - [1]이면 출력하지 않기. - iPageNum
+			    	 		if(pageNum != 1) {
+			    	 			str = str + "		<a style='text-decoration: none;' name='bidpagecount' bid-page-no='1' href='javascript:void(0);'>";
+			    	 			str = str + "			<button class='btn btn-sm btn-outline-secondary'>처음</button>";
+			    	 			str = str + "		</a>";
+			    	 		}
+		
+			    	 		// [이전] 출력 여부 - [11]부터 [이전]을 붙여줘야 하며 이동시 10씩 빼줘야 함.
+			    	 		if(iStartPage > bidPageCnt) {
+			    	 			str = str + "		<a style='text-decoration: none;' name='bidpagecount' bid-page-no='" + (iStartPage - bidPageCnt) + "' href='javascript:void(0);'>";
+			    	 			str = str + "			<button class='btn btn-sm btn-outline-secondary'>이전</button>";
+			    	 			str = str + "		</a>";
+			    	 		}
+			    	 		
+			    	 		// 페이지 번호 - iStartPage : 1 / iEndPage : 10 ==> [1][2] ~ [9][10]
+			    	 		for(var i = iStartPage; i<=iEndPage; i++) {
+			    	 			if(pageNum == i) {
+			    	 				str = str + "		<button type='button' class='btn btn-sm btn-outline-secondary'>" + i + "</button>";
+			    	 			}
+			    	 			else {
+				    	 			str = str + "		<a style='text-decoration: none;' name='bidpagecount' bid-page-no='" + i + "' href='javascript:void(0);'>";
+				    	 			str = str + "			<button class='btn btn-sm btn-outline-secondary'>" + i + "</button>";
+				    	 			str = str + "		</a>";
+			    	 			}
+			    	 		}
+		
+			    	 		// [다음] 출력 여부 - 최종페이지가 아닌 경우 [다음]을 붙여줘야 하며 이동시 10씩 더해줘야 함.
+			    	 		if(iEndPage < iPageTotalNum) {
+			    	 			str = str + "		<a style='text-decoration: none;' name='bidpagecount' bid-page-no='" + (iStartPage + bidPageCnt) + "' href='javascript:void(0);'>";
+			    	 			str = str + "			<button class='btn btn-sm btn-outline-secondary'>다음</button>";
+			    	 			str = str + "		</a>";
+			    	 		}
+			    	 			
+			    	 		// [맨뒤] 출력 여부 - 최대값이면 출력하지 않기.
+			    	 		if(pageNum != iPageTotalNum && iPageTotalNum > 0) {
+			    	 			str = str + "		<a style='text-decoration: none;' name='bidpagecount' bid-page-no='" + iPageTotalNum + "' href='javascript:void(0);'>";
+			    	 			str = str + "			<button class='btn btn-sm btn-outline-secondary'>맨끝</button>";
+			    	 			str = str + "		</a>";
+			    	 		}
+			    	 		
+			    	 		str = str + "		</td>";
+			    	 		str = str + "	</tr>";
+			    	 		str = str + "</thead>";
+			    	 		
+			    	 		$("#modalbidtable").append(str);
+			    	 		
+				            $('#bidModal').css("zIndex", "999999");
+				        	$('#bidModal').modal('show');
+		    	 		}
+		    	 		else {
+		    	 			$('#myModalCancelBtn').css("display", "none");
+		    	 			
+				            $('#myModal #message').find('h4').text("입찰내역이 없습니다.");
+				        	$('#myModal').modal('show');
+		    	 		}
+			        },
+			        error: function(data) {
+						console.log("error :" + data);
+					}
+				});
+	 		}
+		});
+	</script>
 	
 </body>
 </html>

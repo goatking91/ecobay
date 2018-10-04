@@ -16,6 +16,7 @@ public interface ProductDAO {
 	public int maxQnaCnt(); // 상품문의코드의 최대값 구하기
 	
 	public int ProdQnaAllCnt(String product_cd) throws Exception; // 상품문의 총 갯수 구하기(페이징용)
+	public int BidAllCnt(String product_cd) throws Exception; // 입찰내역 총 갯수 구하기(페이징용)
 	
 	public void insert(ProductVO vo);
 	public void delete(String product_cd) throws Exception;
@@ -32,7 +33,10 @@ public interface ProductDAO {
 	public List<ProductVO> bigclassList() throws Exception;
 	public List<ProductVO> midclassList(String class_big_cd) throws Exception;
 	
-	public List<BidInfoVO> selectBidList(String product_cd) throws Exception;
+	public void bidInsert(BidInfoVO vo) throws Exception;
+	public BidInfoVO selectMaxMoneyBid(String product_cd) throws Exception;
+	public List<BidInfoVO> selectBidList(BidInfoVO vo) throws Exception;
+	
 	public List<ProductImageVO> selectImageList(String product_cd) throws Exception;
 	
 	public void prodQnaInsert(ProductQnaVO vo);

@@ -85,10 +85,15 @@ public class ProductDAOImpl implements ProductDAO {
 	public int maxImgCnt() {
 		return session.selectOne(namespace + ".maxImgCnt");
 	}
-
+	
 	@Override
-	public List<BidInfoVO> selectBidList(String product_cd) throws Exception {
-		return session.selectList(namespace + ".selectBibList", product_cd);
+	public int maxQnaCnt() {
+		return session.selectOne(namespace + ".maxQnaCnt");
+	}
+	
+	@Override
+	public List<BidInfoVO> selectBidList(BidInfoVO vo) throws Exception {
+		return session.selectList(namespace + ".selectBidList", vo);
 	}
 
 	@Override
@@ -112,11 +117,6 @@ public class ProductDAOImpl implements ProductDAO {
 	}
 
 	@Override
-	public int maxQnaCnt() {
-		return session.selectOne(namespace + ".maxQnaCnt");
-	}
-
-	@Override
 	public List<ProductVO> selectListBest(ProductVO vo) throws Exception {
 		return session.selectList(namespace + ".selectListBest", vo);
 	}
@@ -124,5 +124,20 @@ public class ProductDAOImpl implements ProductDAO {
 	@Override
 	public int ProdQnaAllCnt(String product_cd) throws Exception {
 		return session.selectOne(namespace + ".ProdQnaAllCnt", product_cd);
+	}
+
+	@Override
+	public int BidAllCnt(String product_cd) throws Exception {
+		return session.selectOne(namespace + ".BidAllCnt", product_cd);
+	}
+
+	@Override
+	public BidInfoVO selectMaxMoneyBid(String product_cd) throws Exception {
+		return session.selectOne(namespace + ".selectMaxMoneyBid", product_cd);
+	}
+
+	@Override
+	public void bidInsert(BidInfoVO vo) throws Exception {
+		session.insert(namespace + ".bidInsert", vo);
 	}
 }

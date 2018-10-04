@@ -156,11 +156,6 @@ public class ProductServiceImpl implements ProductService{
 	}
 
 	@Override
-	public List<BidInfoVO> selectBidList(String product_cd) throws Exception {
-		return dao.selectBidList(product_cd);
-	}
-
-	@Override
 	public List<ProductImageVO> selectImageList(String product_cd) throws Exception {
 		return dao.selectImageList(product_cd);
 	}
@@ -199,5 +194,25 @@ public class ProductServiceImpl implements ProductService{
 	@Override
 	public int ProdQnaAllCnt(String product_cd) throws Exception {
 		return dao.ProdQnaAllCnt(product_cd);
+	}
+
+	@Override
+	public int BidAllCnt(String product_cd) throws Exception {
+		return dao.BidAllCnt(product_cd);
+	}
+	
+	@Override
+	public List<BidInfoVO> selectBidList(BidInfoVO vo) throws Exception {
+		return dao.selectBidList(vo);
+	}
+
+	@Override
+	public BidInfoVO selectMaxMoneyBid(String product_cd) throws Exception {
+		return dao.selectMaxMoneyBid(product_cd);
+	}
+
+	@Override
+	public void bidInsert(BidInfoVO vo) throws Exception {
+		dao.bidInsert(vo);
 	}
 }

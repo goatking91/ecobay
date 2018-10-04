@@ -6,6 +6,8 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import org.ecobay.user.product.domain.AuctionInfoVO;
+import org.ecobay.user.product.domain.BidInfoVO;
 import org.ecobay.user.product.domain.ProductQnaVO;
 import org.ecobay.user.product.domain.ProductVO;
 import org.ecobay.user.product.service.ProductService;
@@ -36,9 +38,13 @@ public class ProductController {
 	@Resource(name = "uploadPath")
 	private String uploadPath;
 	
-	private final int pageCount = 12;
-	private final int qnaRowCnt = 10; // 한 페이지에 출력될 행갯수
-	private final int qnaPageCnt = 10; // 한 페이지에 출력될 페이지갯수
+	private final int pageCount = 12; // 상품리스트 - 페이지 행갯수
+	
+	private final int qnaRowCnt = 10; // qna - 한 페이지에 출력될 행갯수
+	private final int qnaPageCnt = 10; // qna - 한 페이지에 출력될 페이지갯수
+	
+	private final int bidRowCnt = 10;
+	private final int bidPageCnt = 10;
 	
 	private static final Logger logger = LoggerFactory.getLogger(ProductController.class);
 	
@@ -66,47 +72,6 @@ public class ProductController {
     		model.addAttribute("img", service.selectImageList(product_cd));
     		model.addAttribute("auct", service.selectDetailAuct(product_cd));
         	model.addAttribute("deli", service.selectDetailDeli(product_cd));
-
-        	ProductQnaVO qnaVO = new ProductQnaVO();
-        	
-        	qnaVO.setProduct_cd(product_cd);
-        	qnaVO.setStart_num(1);
-        	qnaVO.setEnd_num(10);
-        	List list = service.selectProdQnaList(qnaVO);
-        	
-        	model.addAttribute("qnaList", list);
-        	
-        	// 페이징 처리
-        	if(list.size() > 0) {
-        		int iPageNum = 1; // 게시판의 페이지번호
-        		int iPageTotalNum = 0; // 페이지 총 갯수(최종페이지번호) => 318 / 10 => 31 + 1 => 32
-        		int iStartPage = 0; // 화면에 출력될 시작 페이지번호
-        		int iEndPage = 0; // 화면에 출력될 종료 페이지번호
-            	int ProdQnaAllCnt = service.ProdQnaAllCnt(product_cd);
-            	
-            	
-            	
-        		// 총페이지번호 계산
-        		if(ProdQnaAllCnt % qnaRowCnt == 0) { 
-        			iPageTotalNum = ProdQnaAllCnt / qnaRowCnt; 
-        		}
-        		else { 
-        			iPageTotalNum = (ProdQnaAllCnt / qnaRowCnt) + 1; //나머지가 있는 경우 페이지수 +1 해줘야 함. 
-    			} 
-
-        		iStartPage = iPageNum - ((iPageNum-1) % qnaRowCnt); // 시작페이지번호 = 선택페이지번호 - ((선택페이지번호-1) % 페이지번호 크기); 
-        		iEndPage = iStartPage + (qnaRowCnt-1);
-        		
-        		if(iEndPage > iPageTotalNum) { 
-        			iEndPage = iPageTotalNum; // 종료페이지번호가 총페이지번호(최종페이지번호)보다 클 경우 최종페이지번호로 변경. 
-        		}
-            	
-            	model.addAttribute("ProdQnaAllCnt", ProdQnaAllCnt);
-            	model.addAttribute("iPageTotalNum", iPageTotalNum);
-            	model.addAttribute("iStartPage", iStartPage);
-            	model.addAttribute("iEndPage", iEndPage);
-            	model.addAttribute("qnaPageCnt", qnaPageCnt);
-        	}
     	}
     	
     	return "product/detail.page";
@@ -179,14 +144,14 @@ public class ProductController {
     		int iPageTotalNum = 0; // 페이지 총 갯수(최종페이지번호) => 318 / 10 => 31 + 1 => 32
     		int iStartPage = 0; // 화면에 출력될 시작 페이지번호
     		int iEndPage = 0; // 화면에 출력될 종료 페이지번호
-        	int ProdQnaAllCnt = service.ProdQnaAllCnt(product_cd);
+        	int iProdQnaAllCnt = service.ProdQnaAllCnt(product_cd);
         	
     		// 총페이지번호 계산
-    		if(ProdQnaAllCnt % qnaRowCnt == 0) { 
-    			iPageTotalNum = ProdQnaAllCnt / qnaRowCnt; 
+    		if(iProdQnaAllCnt % qnaRowCnt == 0) { 
+    			iPageTotalNum = iProdQnaAllCnt / qnaRowCnt; 
     		}
     		else { 
-    			iPageTotalNum = (ProdQnaAllCnt / qnaRowCnt) + 1; //나머지가 있는 경우 페이지수 +1 해줘야 함. 
+    			iPageTotalNum = (iProdQnaAllCnt / qnaRowCnt) + 1; //나머지가 있는 경우 페이지수 +1 해줘야 함. 
 			} 
 
     		iStartPage = iPageNum - ((iPageNum-1) % qnaRowCnt); // 시작페이지번호 = 선택페이지번호 - ((선택페이지번호-1) % 페이지번호 크기); 
@@ -196,13 +161,11 @@ public class ProductController {
     			iEndPage = iPageTotalNum; // 종료페이지번호가 총페이지번호(최종페이지번호)보다 클 경우 최종페이지번호로 변경. 
     		}
         	
-    		map.put("ProdQnaAllCnt", ProdQnaAllCnt);
+    		map.put("iProdQnaAllCnt", iProdQnaAllCnt);
     		map.put("iPageTotalNum", iPageTotalNum);
     		map.put("iStartPage", iStartPage);
     		map.put("iEndPage", iEndPage);
     		map.put("qnaPageCnt", qnaPageCnt);
-    		
-    		System.out.println(page);
     	}
 
     	return map;
@@ -243,7 +206,6 @@ public class ProductController {
     public ResponseEntity<String> qnaDelPOST(@PathVariable("qna_idx") int qna_idx) throws Exception {
     	ResponseEntity<String> entity = null;
     	try {
-    		
     		service.prodQnaDelete(qna_idx);
     		entity = new ResponseEntity<String>("SUCCESS", HttpStatus.OK);
     	} catch (Exception ex) {
@@ -252,5 +214,95 @@ public class ProductController {
 		}
     	
     	return entity;
+    }
+    
+    @ResponseBody
+    @RequestMapping(value = "/bidList.do/{product_cd}/{page}", method = RequestMethod.POST)
+    public Map<String, Object> bidListPOST(@PathVariable("product_cd") String product_cd, @PathVariable("page") int page) throws Exception {
+    	BidInfoVO vo = new BidInfoVO();
+    	vo.setProduct_cd(product_cd);
+		vo.setStart_num((page-1) * bidRowCnt + 1);
+		vo.setEnd_num(page * bidRowCnt);
+		
+		List<BidInfoVO> bidList = service.selectBidList(vo);
+
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		map.put("arr", bidList);
+		
+		int bidRowCnt = 0;
+		
+    	// 페이징 처리
+    	if(bidList != null && bidList.size() > 0) {
+    		int iPageNum = page; // 게시판의 페이지번호
+    		int iPageTotalNum = 0; // 페이지 총 갯수(최종페이지번호) => 318 / 10 => 31 + 1 => 32
+    		int iStartPage = 0; // 화면에 출력될 시작 페이지번호
+    		int iEndPage = 0; // 화면에 출력될 종료 페이지번호
+        	int iBidAllCnt = service.BidAllCnt(product_cd);
+        	
+        	bidRowCnt = bidList.size();
+        	
+    		// 총페이지번호 계산
+    		if(iBidAllCnt % bidRowCnt == 0) { 
+    			iPageTotalNum = iBidAllCnt / bidRowCnt; 
+    		}
+    		else { 
+    			iPageTotalNum = (iBidAllCnt / bidRowCnt) + 1; //나머지가 있는 경우 페이지수 +1 해줘야 함. 
+			} 
+
+    		iStartPage = iPageNum - ((iPageNum-1) % bidRowCnt); // 시작페이지번호 = 선택페이지번호 - ((선택페이지번호-1) % 페이지번호 크기); 
+    		iEndPage = iStartPage + (bidRowCnt-1);
+    		
+    		if(iEndPage > iPageTotalNum) { 
+    			iEndPage = iPageTotalNum; // 종료페이지번호가 총페이지번호(최종페이지번호)보다 클 경우 최종페이지번호로 변경. 
+    		}
+        	
+    		map.put("iBidAllCnt", iBidAllCnt);
+    		map.put("iPageTotalNum", iPageTotalNum);
+    		map.put("iStartPage", iStartPage);
+    		map.put("iEndPage", iEndPage);
+    		map.put("bidPageCnt", bidPageCnt);
+    		map.put("bidRowCnt", bidRowCnt);
+    	}
+
+    	return map;
+    }
+    
+    @ResponseBody
+    @RequestMapping(value = "/bidReg.do", method = RequestMethod.POST)
+    public Map<String, Object> bidRegPOST(@RequestBody AuctionInfoVO auctVo) throws Exception {
+    	String product_cd = auctVo.getProduct_cd();
+    	long money_first = auctVo.getMoney_first();
+    	long money_unit = auctVo.getMoney_unit();
+    	String member_id = auctVo.getBay_member_id();
+    	
+    	BidInfoVO bidVo = service.selectMaxMoneyBid(product_cd);
+    	
+    	long iMax_money_bid_bf = bidVo.getMoney_bid_max();
+    	int iMember_Cnt = bidVo.getMember_cnt();
+    	long iMax_money_bid_af = 0;
+    	
+    	if(iMax_money_bid_bf == 0) {
+    		iMax_money_bid_af = money_first + money_unit;
+    	}
+    	else {
+    		iMax_money_bid_af = iMax_money_bid_bf + money_unit;
+    	}
+    	
+    	iMember_Cnt = iMember_Cnt + 1;
+
+    	BidInfoVO vo = new BidInfoVO();
+    	vo.setProduct_cd(product_cd);
+    	vo.setMember_id(member_id);
+    	vo.setMoney_bid(iMax_money_bid_af);
+		
+		service.bidInsert(vo);
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		map.put("Max_money_bid", iMax_money_bid_af);
+		map.put("Member_Cnt", iMember_Cnt);
+		
+		return map;
     }
 }

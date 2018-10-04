@@ -72,14 +72,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 					, (SELECT COUNT(bid.PRODUCT_CD) FROM bidinfo bid WHERE bid.PRODUCT_CD = prod.PRODUCT_CD) as BID_CNT
 					, IFNULL((SELECT MAX(bid.MONEY_BID) FROM bidinfo bid WHERE bid.PRODUCT_CD = prod.PRODUCT_CD), 0) as BID_MAX_MONEY
 			        , IFNULL((SELECT prodimg.FILENAME_THUMB FROM productimg prodimg WHERE prodimg.PRODUCT_CD = prod.PRODUCT_CD ORDER BY prodimg.IMG_IDX ASC limit 1), '') as FILENAME_THUMB
-			        , CASE prod.STATE_CD
-						WHEN '5' THEN IFNULL((SELECT DATE_FORMAT(auct.ACUTDATE_END, '%Y-%m-%d %H:%s') FROM auctioninfo auct WHERE auct.PRODUCT_CD = prod.PRODUCT_CD), '')
-						WHEN '6' THEN IFNULL((SELECT DATE_FORMAT(auct.ACUTDATE_END, '%Y-%m-%d %H:%s') FROM auctioninfo auct WHERE auct.PRODUCT_CD = prod.PRODUCT_CD), '')
+			        , CASE 
+						WHEN (prod.STATE_CD != '3') THEN IFNULL((SELECT DATE_FORMAT(auct.ACUTDATE_END, '%Y-%m-%d %H:%s') FROM auctioninfo auct WHERE auct.PRODUCT_CD = prod.PRODUCT_CD), '')
 						ELSE '' END AS ACUTDATE_END_STR
 					, IFNULL((SELECT auct.MONEY_FIRST FROM auctioninfo auct WHERE auct.PRODUCT_CD = prod.PRODUCT_CD), 0) as MONEY_FIRST
 			   FROM product prod , (select @rownum:=0) tmp
 			  WHERE prod.USE_YN = TRUE
-			    AND prod.STATE_CD IN (3, 5, 6)
+			    AND prod.STATE_CD IN ('3', '5', '6', '7')
 			    <if test="class_big_cd != null and class_big_cd != ''">
 			    	AND prod.CLASS_BIG_CD = #{class_big_cd}
 			    	<if test="class_mid_cd != null and class_mid_cd != 'XX'">
@@ -101,10 +100,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		                       , (SELECT COUNT(PRODUCT_CD) FROM bidinfo bid WHERE bid.PRODUCT_CD = prod.PRODUCT_CD) as BID_CNT
 		                       , IFNULL((SELECT MAX(MONEY_BID) FROM bidinfo bid WHERE bid.PRODUCT_CD = prod.PRODUCT_CD), 0) as BID_MAX_MONEY
 		                       , IFNULL((SELECT prodimg.FILENAME_THUMB FROM productimg prodimg WHERE prodimg.PRODUCT_CD = prod.PRODUCT_CD ORDER BY prodimg.IMG_IDX ASC limit 1), '') as FILENAME_THUMB
-		                       , CASE prod.STATE_CD
-		                        WHEN '5' THEN IFNULL((SELECT DATE_FORMAT(ACUTDATE_END, '%Y-%m-%d %H:%s') FROM auctioninfo auct WHERE auct.PRODUCT_CD = prod.PRODUCT_CD), '')
-		                        WHEN '6' THEN IFNULL((SELECT DATE_FORMAT(ACUTDATE_END, '%Y-%m-%d %H:%s') FROM auctioninfo auct WHERE auct.PRODUCT_CD = prod.PRODUCT_CD), '')
-		                        ELSE '' END AS ACUTDATE_END_STR
+		                       , '' as ACUTDATE_END_STR
 		                       , IFNULL((SELECT auct.MONEY_FIRST FROM auctioninfo auct WHERE auct.PRODUCT_CD = prod.PRODUCT_CD), 0) as MONEY_FIRST
 		                    FROM product prod
 		                   WHERE prod.USE_YN = TRUE
@@ -115,7 +111,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		WHERE bestprod.rn between #{start_num} and #{end_num}
 	</select>
 	
-	
 	<select id="selectImageList" resultType="ProductImageVO">
 		SELECT *
 		  FROM productimg
@@ -123,9 +118,28 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	<select id="selectBidList" resultType="BidInfoVO">
-		SELECT *
+	  SELECT bid.* 
+		FROM ( SELECT  @rownum:=@rownum+1 as rowcnt, bi.*
+				FROM ( SELECT *
+						 FROM bidinfo
+				   	    WHERE product_cd = #{product_cd}
+					 ORDER BY REGDATE DESC
+					 ) bi, (select @rownum:=0) tmp 
+			  ) bid
+		WHERE bid.rowcnt between #{start_num} and #{end_num}
+	</select>
+	
+	<select id="selectMaxMoneyBid" resultType="BidInfoVO">
+		SELECT  IFNULL(max(MONEY_BID), 0) as MONEY_BID_MAX
+			  , IFNULL(count(MONEY_BID), 0) as MEMBER_CNT
 		  FROM bidinfo
 		 WHERE product_cd = #{product_cd}
+	</select>
+	
+	<select id="BidAllCnt" resultType="int">
+		SELECT COUNT(PRODUCT_CD)
+		  FROM bidinfo
+	     WHERE PRODUCT_CD = #{product_cd} 
 	</select>
 	
 	<select id="selectProdQnaList" resultType="ProductQnaVO">
@@ -211,6 +225,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<insert id="prodQnaInsert" parameterType="ProductQnaVO">
 		INSERT INTO productqna
 		    VALUES (#{qna_idx}, #{product_cd}, #{qna_div}, #{member_id}, #{title}, #{content}, now())
+	</insert>
+	
+	<insert id="bidInsert" parameterType="BidInfoVO">
+		INSERT INTO bidinfo
+		    VALUES (#{product_cd}, #{member_id}, #{money_bid}, now())
 	</insert>
 
 	<delete id="prodQnaDelete" parameterType="int">
