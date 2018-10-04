@@ -108,10 +108,8 @@ public class AdminNoticeController {
     @RequestMapping(value="/download.do", method = RequestMethod.GET)
     public ModelAndView noticeFileDownload(@RequestParam("fname") String fname, @RequestParam("fnameorg") String fnameOrg) throws Exception {
     	
-    	String savedPath = UploadFileUtils.calcPath(uploadPath);
     	ModelAndView mav = new ModelAndView();
  
-    	System.out.println("다운로드");
         mav.addObject("systemFileName", fname);
         mav.addObject("orgFileName", fnameOrg);
         mav.setViewName("downloadView");

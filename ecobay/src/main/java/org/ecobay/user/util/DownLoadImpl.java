@@ -11,6 +11,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.io.FileUtils;
 import org.springframework.web.servlet.view.AbstractView;
 
 public class DownLoadImpl extends AbstractView{
@@ -20,51 +21,26 @@ public class DownLoadImpl extends AbstractView{
 	
 	 @Override
 	 protected void renderMergedOutputModel(Map<String, Object> map, HttpServletRequest req, HttpServletResponse res) throws Exception {
-	 
-	        String fileName = null;
-	        
-	        
-	        String orgFileName = (String) map.get("orgFileName");
-	        String systemFileName = (String) map.get("systemFileName");
-	        
-	        String savedPath = UploadFileUtils.calcPath(uploadPath);
+		 
+		 	String originalFileName = (String) map.get("orgFileName");
+			String systemFileName = (String)map.get("systemFileName");
+			
+			String userAgent = req.getHeader("User-Agent");
+			
+			//브라우저 확인
+			if(userAgent.indexOf("Trident")!= -1){ //Chrome
+				originalFileName = new String(originalFileName.getBytes("utf-8"), "ISO-8859-1");
+			}else{ //IE
+				originalFileName = URLEncoder.encode(originalFileName, "utf-8");
+			}
+			
+			//binary
+			res.setContentType("application/octet-stream");
+			res.setHeader("Content-Disposition", "attachment; filename="+originalFileName+";");
+			
+			String savedPath = UploadFileUtils.calcPath(uploadPath);
 	        File file = new File(uploadPath + savedPath, systemFileName);
-	        
-	        
-	        res.setContentType("application/download;");
-	        int length = (int) file.length();
-	        res.setContentLength(length);
+			FileUtils.copyFile(file, res.getOutputStream());
 	 
-	        // 익스플로러 인지 확인
-	        String userAgent = req.getHeader("User-Agent");
-	        boolean ie = userAgent.indexOf("MSIE") > -1;
-	 
-	        if (ie) {
-	            fileName = URLEncoder.encode(file.getName(), "utf-8").replace("+",  "%20");
-	        } else {
-	            fileName = new String(file.getName().getBytes("utf-8"), "iso-8859-1").replace("+", "%20");
-	        }
-	 
-	        res.setHeader("Content-Disposition", "attachment;" + " filename=\"" + orgFileName + "\";");
-	        OutputStream out = res.getOutputStream();
-	        FileInputStream fis = null;
-	 
-	        try {
-	            int temp;
-	            fis = new FileInputStream(file);
-	            while ((temp = fis.read()) != -1) {
-	                out.write(temp);
-	            }
-	        } catch (Exception e) {
-	            e.printStackTrace();
-	        } finally {
-	            if (fis != null) {
-	                try {
-	                    fis.close();
-	                } catch (Exception e) {
-	                    e.printStackTrace();
-	                }
-	            }
-	        }
 	    }
 }
