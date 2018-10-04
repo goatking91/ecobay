@@ -17,6 +17,9 @@ import javax.servlet.ServletContext;
 
 import org.ecobay.user.member.domain.MemberVO;
 import org.ecobay.user.member.service.MemberService;
+import org.ecobay.user.product.domain.BidInfoVO;
+import org.ecobay.user.product.domain.DeliveryVO;
+import org.ecobay.user.product.domain.PaymentVO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,13 +52,77 @@ public class MemberController {
     private static final Logger logger = LoggerFactory.getLogger(MemberController.class);
     
     @RequestMapping(value = "/payment.do", method = RequestMethod.GET)
-    public String paymentGET() {
+    public String paymentGET(Model model) throws Exception{
+    	User user = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();  	
+    	model.addAttribute("member",service.read(user.getUsername()));
+    	System.out.println(user.getUsername());
+    	BidInfoVO bvo = service.selectBid(user.getUsername());
+    	
+    	model.addAttribute("bid", bvo);
+    	model.addAttribute("prod", service.selectprod(bvo.getProduct_cd()));
+    	model.addAttribute("img", service.selectimg(bvo.getProduct_cd()));
+    	
+    	System.out.println(service.selectprod(bvo.getProduct_cd()).toString());
+    	System.out.println(service.selectimg(bvo.getProduct_cd()).toString());
     	return "member/payment.page";
     }
-/*    @RequestMapping(value = "/payment.do", method = RequestMethod.POST)
-    public String paymentPOST() {
-    	return "member/mailCheck.page";
-    }*/
+    @RequestMapping(value = "/payment.do", method = RequestMethod.POST)
+    public String paymentPOST(PaymentVO pvo, DeliveryVO dvo,String product_cd) throws Exception {
+    	/*PaymentVO pvo = new PaymentVO();
+    	DeliveryVO dvo = new DeliveryVO();*/
+    	service.payment(pvo);
+    	service.delivery(dvo);
+    	service.auctionInfo(product_cd);
+    	System.out.println("pvo는 "+ pvo);
+    	System.out.println("dvo는 "+ dvo);
+    	System.out.println("product_cd는 "+ product_cd);
+    	
+    	
+    	User user = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    	mailSender.send(getMimeMessage2(mailSender.getSession(), user.getUsername()));
+    	
+    	return "member/mailCheckOrder.page";
+    }
+    
+    private MimeMessage getMimeMessage2(Session session, String member_id) throws Exception {
+        MimeMessage message = new MimeMessage(session);
+            message.setSubject("ECObay 가입 확인 메일","utf-8");
+            message.setRecipient(RecipientType.TO, new InternetAddress(member_id));
+
+            //
+            // This HTML mail have to 2 part, the BODY and the embedded image
+            //
+            MimeMultipart multipart = new MimeMultipart("related");
+
+            // first part  (the html)
+            BodyPart messageBodyPart = new MimeBodyPart();
+            
+            String htmlText = "";
+            htmlText += "<H1>주문완료</H1><img style='width:15%;' src=\"cid:image\">"; 
+            htmlText += "<h4>"+member_id + "님, 안녕하세요.<br>ECObay 주문이 완료되었습니다<br>";
+            htmlText += "이메일 인증을 하지 않을 경우 사이트 이용이 제한되오니<br>";
+            
+            messageBodyPart.setContent(htmlText, "text/html;charset=utf-8");
+
+            // add it
+            multipart.addBodyPart(messageBodyPart);
+            
+            // second part (the image)
+            messageBodyPart = new MimeBodyPart();
+            DataSource fds = new FileDataSource(context.getRealPath("/resources/images/mail.png"));//resources/images/mail.png
+            messageBodyPart.setDataHandler(new DataHandler(fds));
+            messageBodyPart.setHeader("Content-ID","<image>");
+
+            
+            
+            // add it
+            multipart.addBodyPart(messageBodyPart);
+
+            // put everything together
+            message.setContent(multipart);
+        
+        return message;
+    }
     @RequestMapping(value = "/paymentEnd.do", method = RequestMethod.GET)
     public String paymentEndGET() {
     	return "member/paymentEnd.page";

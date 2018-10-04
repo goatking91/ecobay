@@ -2,6 +2,10 @@ package org.ecobay.user.member.service;
 
 import org.ecobay.user.member.domain.MemberVO;
 import org.ecobay.user.member.persistence.MemberDAO;
+import org.ecobay.user.product.domain.AuctionInfoVO;
+import org.ecobay.user.product.domain.BidInfoVO;
+import org.ecobay.user.product.domain.DeliveryVO;
+import org.ecobay.user.product.domain.PaymentVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -72,6 +76,38 @@ public class MemberServiceImpl implements MemberService {
 			String encPassword = passwordEncoder.encode(vo.getPwd());
 			vo.setPwd(encPassword);
 			dao.newpwd(vo);
+	}
+
+	@Override
+	public BidInfoVO selectBid(String member_id) throws Exception {
+		return dao.selectBid(member_id);
+	}
+
+	@Override
+	public String selectprod(String product_cd) throws Exception {
+		return dao.selectprod(product_cd);
+	}
+
+	@Override
+	public String selectimg(String product_cd) throws Exception {
+		return dao.selectimg(product_cd);
+	}
+
+	@Override
+	public void payment(PaymentVO pvo) throws Exception {
+		dao.payment(pvo);;
+		
+	}
+
+	@Override
+	public void delivery(DeliveryVO dvo) throws Exception {
+		dao.delivery(dvo);
+		
+	}
+
+	@Override
+	public void auctionInfo(String product_cd) throws Exception {
+		dao.auctionInfo(product_cd);
 	}
 	
 }

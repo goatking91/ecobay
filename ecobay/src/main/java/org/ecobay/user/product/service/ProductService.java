@@ -15,6 +15,8 @@ public interface ProductService {
 	@Transactional(propagation=Propagation.REQUIRED)
 	public void insert(ProductVO vo);
 	public void delete(String product_cd) throws Exception;
+	
+	public int ProdQnaAllCnt(String product_cd) throws Exception; // 상품문의 총 갯수 구하기(페이징용)
 
 	public ProductVO selectDetailProd(String product_cd) throws Exception;
 	public AuctionInfoVO selectDetailAuct(String product_cd) throws Exception;
@@ -28,7 +30,8 @@ public interface ProductService {
 	public List<ProductImageVO> selectImageList(String product_cd) throws Exception;
 
 	public void prodQnaInsert(ProductQnaVO vo);
-	public void prodQnaDelete(String qna_idx) throws Exception;
+	public void prodQnaReplyInsert(ProductQnaVO vo);
+	public void prodQnaDelete(int qna_idx) throws Exception;
 	public List<ProductQnaVO> selectProdQnaList(ProductQnaVO vo) throws Exception;
 	
 	public List<ProductVO> selectListBest(ProductVO vo) throws Exception;

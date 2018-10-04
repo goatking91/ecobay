@@ -76,5 +76,39 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		moddate = now()
 		where member_id =#{member_id}	
 	</update>
+	
+	<select id="selectBid" resultType="BidInfoVO">
+		select product_cd, max(money_bid) as money_bid
+		from bidinfo
+		where member_id = #{member_id}
+	</select>
+	
+	<select id="selectProd" resultType="String">
+		select product_nm 
+		from product
+		where product_cd = #{product_cd}
+	</select>
+	
+	<select id="selectImg" resultType="String">
+		select filename_thumb 
+		from productimg
+		where product_cd = #{product_cd}
+	</select>
+	
+	<insert id="payment" parameterType="PaymentVO">
+		insert into payment
+		values(#{product_cd}, #{money_pay}, now())
+	</insert>
+	
+	<insert id="delivery" parameterType="DeliveryVO">
+		insert into delivery
+		values(#{product_cd}, #{deli_nm}, #{deli_zipcode}, #{deli_addr1}, #{deli_addr2}, now())
+	</insert>
+	
+	<update id="auctionInfo">
+		update auctioninfo set
+		payment_proc_cd = '2'
+		where product_cd = #{product_cd} 
+	</update>
 </mapper>
 

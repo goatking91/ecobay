@@ -175,13 +175,16 @@ $(document).ready(function(){
 		</div>
 				</div>
 				<div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">menu1 탭</div>
-				<div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">menu2 탭</div>
+				<div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">
+					<!-- 낙찰물품 리스트, 결제하기 버튼 -->
+				</div>
 			</div>
 		</div>
 		<!--탭 영역 끝-->
 	</div>
 </div>                
 
+<!-- 모달 -->
 
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModallabel" aria-hidden="true">
   <div class="modal-dialog" role="document">

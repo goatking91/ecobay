@@ -167,11 +167,22 @@ public class ProductServiceImpl implements ProductService{
 
 	@Override
 	public void prodQnaInsert(ProductQnaVO vo) {
+		int iMaxCnt = 0;
+		
+		iMaxCnt = dao.maxQnaCnt(); // 1. 일련번호 생성.
+		
+		vo.setQna_idx(iMaxCnt);
+		
 		dao.prodQnaInsert(vo);
+	}
+	
+	@Override
+	public void prodQnaReplyInsert(ProductQnaVO vo) {
+		dao.prodQnaInsert(vo); // service는 따로 사용하나, insert문은 동일하여 dao는 동일하게 사용.
 	}
 
 	@Override
-	public void prodQnaDelete(String qna_idx) throws Exception {
+	public void prodQnaDelete(int qna_idx) throws Exception {
 		dao.prodQnaDelete(qna_idx);
 	}
 
@@ -183,5 +194,10 @@ public class ProductServiceImpl implements ProductService{
 	@Override
 	public List<ProductVO> selectListBest(ProductVO vo) throws Exception {
 		return dao.selectListBest(vo);
+	}
+	
+	@Override
+	public int ProdQnaAllCnt(String product_cd) throws Exception {
+		return dao.ProdQnaAllCnt(product_cd);
 	}
 }

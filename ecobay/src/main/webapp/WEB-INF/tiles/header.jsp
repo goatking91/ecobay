@@ -80,6 +80,13 @@
 						<li>
 							<div class="row">
 								<div class="col-md-12">
+								
+									<div class="form-group">
+											<form class="mypage" role="mypage" method="get" action="/member/mypage.do" accept-charset="UTF-8" id="login-nav">
+												<security:csrfInput />
+												<button type="submit" class="btn btn-default btn-block">마이페이지</button>
+											</form>
+										</div>
 									
 										<div class="form-group">
 											<form class="logoutForm" role="logoutForm" method="post" action="/logout" accept-charset="UTF-8" id="login-nav">

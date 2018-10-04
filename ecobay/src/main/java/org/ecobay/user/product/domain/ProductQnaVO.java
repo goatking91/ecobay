@@ -12,6 +12,10 @@ public class ProductQnaVO {
 	private String content;
 	private Date regdate;
 	
+	private int rowcnt;
+	private String member_id_bay;
+	private String qna_reply;
+	
 	private int start_num;
 	private int end_num;
 
@@ -19,7 +23,7 @@ public class ProductQnaVO {
 	}
 
 	public ProductQnaVO(int qna_idx, String qna_div, String product_cd, String member_id, String title, String content,
-			Date regdate, int start_num, int end_num) {
+						 Date regdate, int rowcnt, String member_id_bay, String qna_reply, int start_num, int end_num) {
 		this.qna_idx = qna_idx;
 		this.qna_div = qna_div;
 		this.product_cd = product_cd;
@@ -27,6 +31,9 @@ public class ProductQnaVO {
 		this.title = title;
 		this.content = content;
 		this.regdate = regdate;
+		this.rowcnt = rowcnt;
+		this.member_id_bay = member_id_bay;
+		this.qna_reply = qna_reply;
 		this.start_num = start_num;
 		this.end_num = end_num;
 	}
@@ -87,6 +94,30 @@ public class ProductQnaVO {
 		this.regdate = regdate;
 	}
 	
+	public int getRowcnt() {
+		return rowcnt;
+	}
+
+	public void setRowcnt(int rowcnt) {
+		this.rowcnt = rowcnt;
+	}
+	
+	public String getMember_id_bay() {
+		return member_id_bay;
+	}
+	
+	public void setMember_id_bay(String member_id_bay) {
+		this.member_id_bay = member_id_bay;
+	}
+
+	public String getQna_reply() {
+		return qna_reply;
+	}
+
+	public void setQna_reply(String qna_reply) {
+		this.qna_reply = qna_reply;
+	}
+	
 	public int getStart_num() {
 		return start_num;
 	}
@@ -108,6 +139,7 @@ public class ProductQnaVO {
 		return "ProductQnaVO ["
 				+ "qna_idx=" + qna_idx + ", qna_div=" + qna_div + ", product_cd=" + product_cd
 				+ ", member_id=" + member_id + ", title=" + title + ", content=" + content + ", regdate=" + regdate
+				+ ", rowcnt=" + rowcnt + ", member_id_bay=" + member_id_bay + ", qna_reply=" + qna_reply
 				+ ", start_num=" + start_num + ", end_num=" + end_num 
 				+ "]";
 	}
