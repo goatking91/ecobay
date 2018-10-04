@@ -2,42 +2,42 @@ package org.ecobay.admin.board.domain;
 
 import java.util.Date;
 
-public class NoticeImageVO {
+public class NoticeFileVO {
 	
-	private int img_cd;
-	private int img_idx;
+	private int file_cd;
+	private int file_idx;
 	private int notice_idx;
 	private String filename;
 	private String filename_org;
 	private Date regdate;
 	
-	public NoticeImageVO() {
+	public NoticeFileVO() {
 	}
 
-	public NoticeImageVO(int img_cd, int img_idx, int notice_idx, String filename, String filename_org, Date regdate) {
+	public NoticeFileVO(int file_cd, int file_idx, int notice_idx, String filename, String filename_org, Date regdate) {
 		super();
-		this.img_cd = img_cd;
-		this.img_idx = img_idx;
+		this.file_cd = file_cd;
+		this.file_idx = file_idx;
 		this.notice_idx = notice_idx;
 		this.filename = filename;
 		this.filename_org = filename_org;
 		this.regdate = regdate;
 	}
 
-	public int getImg_cd() {
-		return img_cd;
+	public int getFile_cd() {
+		return file_cd;
 	}
 
-	public void setImg_cd(int img_cd) {
-		this.img_cd = img_cd;
+	public void setFile_cd(int file_cd) {
+		this.file_cd = file_cd;
 	}
 
-	public int getImg_idx() {
-		return img_idx;
+	public int getFile_idx() {
+		return file_idx;
 	}
 
-	public void setImg_idx(int img_idx) {
-		this.img_idx = img_idx;
+	public void setFile_idx(int file_idx) {
+		this.file_idx = file_idx;
 	}
 
 	public int getNotice_idx() {
@@ -74,7 +74,7 @@ public class NoticeImageVO {
 
 	@Override
 	public String toString() {
-		return "NoticeImageVO [img_cd=" + img_cd + ", img_idx=" + img_idx + ", notice_idx=" + notice_idx + ", filename="
+		return "NoticeFileVO [file_cd=" + file_cd + ", file_idx=" + file_idx + ", notice_idx=" + notice_idx + ", filename="
 				+ filename + ", filename_org=" + filename_org + ", regdate=" + regdate + "]";
 	}
 	

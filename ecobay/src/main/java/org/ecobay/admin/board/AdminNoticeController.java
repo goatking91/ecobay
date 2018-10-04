@@ -1,8 +1,13 @@
 package org.ecobay.admin.board;
 
-import org.ecobay.admin.board.domain.FaqVO;
+import java.util.List;
+
+import org.ecobay.admin.board.domain.NoticeFileVO;
 import org.ecobay.admin.board.domain.NoticeVO;
 import org.ecobay.admin.board.service.BoardService;
+import org.ecobay.user.util.UploadContoller;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,6 +18,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 @RequestMapping("/admin/board")
 public class AdminNoticeController {
+	
+	private static final Logger logger = LoggerFactory.getLogger(UploadContoller.class);
 	
 	@Autowired
 	BoardService service;
@@ -48,7 +55,6 @@ public class AdminNoticeController {
 	
     @RequestMapping(value="/noticemod.do", method = RequestMethod.POST)
     public String noticeModPOST(NoticeVO vo) throws Exception {
-    	System.out.println("컨트롤러"+vo.getNotice_idx());
 		service.noticeUpdate(vo);
 		
         return "redirect:/admin/board/noticelist.do";
@@ -71,7 +77,31 @@ public class AdminNoticeController {
     	
     	int idx = Integer.parseInt(notice_idx);
     	service.noticeViewCnt(idx);
-		model.addAttribute("notice", service.noticeLoad(idx));
+    	NoticeVO notice = service.noticeLoad(idx);
+    	logger.info("111"+notice.toString());
+    	
+    	
+    	List<NoticeFileVO> noticeFile = notice.getFileVOList();
+
+		model.addAttribute("notice", notice);
+		model.addAttribute("fileList", noticeFile);
+    	
+    	/*List<NoticeFileVO> noticeFile = null;
+    	int temp = notice.getListCount();
+    	
+    	if (temp > 0) {
+    		noticeFile = notice.getFileVOList();
+		}
+    	
+		model.addAttribute("notice", notice);
+		model.addAttribute("fileList", noticeFile);*/
+		
+		
+    	
+    	
+    	
+    	
+		
 		
     	return "admin/board/noticeDetail.admin";
     }

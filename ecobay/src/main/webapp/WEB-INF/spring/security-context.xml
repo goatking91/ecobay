@@ -26,7 +26,7 @@
 		<security:intercept-url pattern="/product/prodqna.do/**" access="permitAll"/>
 		<security:intercept-url pattern="/product/bidList.do/**" access="permitAll"/>
 		<security:intercept-url pattern="/displayFile.do/**" access="permitAll"/>
-		<security:intercept-url pattern="/admin/**" access="hasRole('ANONYMOUS')"/>
+		<security:intercept-url pattern="/admin/**" access="permitAll"/>
 		<!-- <security:intercept-url pattern="/admin/**" access="hasRole('ROLE_ADMIN')"/> -->
 		<!-- <security:intercept-url pattern="/member/**" access="hasRole('ANONYMOUS')"/> -->
 		<security:intercept-url pattern="/**" access="isAuthenticated()" /> 

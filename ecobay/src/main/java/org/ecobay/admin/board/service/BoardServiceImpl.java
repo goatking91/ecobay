@@ -1,16 +1,35 @@
 package org.ecobay.admin.board.service;
 
+import java.io.File;
+import java.text.DecimalFormat;
+import java.util.Calendar;
 import java.util.List;
+import java.util.UUID;
+
+import javax.annotation.Resource;
 
 import org.ecobay.admin.board.domain.FaqVO;
+import org.ecobay.admin.board.domain.NoticeFileVO;
 import org.ecobay.admin.board.domain.NoticeVO;
 import org.ecobay.admin.board.persistence.FaqDAO;
 import org.ecobay.admin.board.persistence.NoticeDAO;
+import org.ecobay.user.util.UploadFileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.FileCopyUtils;
+import org.springframework.web.multipart.MultipartFile;
 
 @Service
 public class BoardServiceImpl implements BoardService {
+	
+	@Resource(name = "uploadPath")
+	private String uploadPath;
+	
+	private static int COUNT = 1;
+	
+	
 	@Autowired
 	private FaqDAO faqDao;
 	
@@ -48,8 +67,41 @@ public class BoardServiceImpl implements BoardService {
 	
 	/* NOTICE */
 	@Override
+	@Transactional(propagation=Propagation.REQUIRED)
 	public void noticeRegist(NoticeVO vo) throws Exception {
+		int maxNoticeFileCnt;
+		vo.setNotice_idx(noticeDao.maxNoticeIDX());
+		
 		noticeDao.noticeRegist(vo);
+		
+		for (MultipartFile file : vo.getUpload()) {
+			UUID uid = UUID.randomUUID();
+			if (!file.isEmpty()) {
+				String originalFileName = file.getOriginalFilename();
+				String systemFileName = uid.toString() + "_" + originalFileName;
+				
+				String savedPath = UploadFileUtils.calcPath(uploadPath);
+				
+				File temp = new File(uploadPath + savedPath + systemFileName);
+				
+				FileCopyUtils.copy(file.getBytes(), temp);
+
+				NoticeFileVO noticeFile = new NoticeFileVO();
+				noticeFile.setNotice_idx(vo.getNotice_idx());
+				noticeFile.setFilename_org(originalFileName);
+				noticeFile.setFilename(systemFileName);
+				maxNoticeFileCnt = noticeDao.maxNoticeFileCnt();
+				noticeFile.setFile_cd(maxNoticeFileCnt);
+				noticeFile.setFile_idx(maxNoticeFileCnt);
+
+				vo.addArticleFile(noticeFile);
+				
+				noticeDao.noticeFileInsert(noticeFile);
+			}
+		}
+		
+		
+
 	}
 
 	@Override
@@ -78,5 +130,8 @@ public class BoardServiceImpl implements BoardService {
 	public void noticeViewCnt(int notice_idx) throws Exception {
 		noticeDao.noticeViewCnt(notice_idx);
 	}
+	
+	
+
 
 }

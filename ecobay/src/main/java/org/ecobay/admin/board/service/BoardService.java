@@ -3,6 +3,7 @@ package org.ecobay.admin.board.service;
 import java.util.List;
 
 import org.ecobay.admin.board.domain.FaqVO;
+import org.ecobay.admin.board.domain.NoticeFileVO;
 import org.ecobay.admin.board.domain.NoticeVO;
 
 public interface BoardService {
@@ -31,5 +32,6 @@ public interface BoardService {
 		public void noticeDelete(int notice_idx) throws Exception;
 		
 		public void noticeViewCnt (int notice_idx) throws Exception;
+		
 		
 }

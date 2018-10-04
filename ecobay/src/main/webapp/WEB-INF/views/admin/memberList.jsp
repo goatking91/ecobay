@@ -75,30 +75,6 @@
 			    	 </td>
 			    </tr>
 			</c:forEach>
-			<tr>
-			   <td>1</td>
-			   <td>les9311</td>
-			   <td>이은솔</td>
-			   <td>2018-09-17</td>
-			   <td>가입완료</td>
-			   <td></td>
-		    </tr>
-		    <tr>
-			   <td>2</td>
-			   <td>les9311</td>
-			   <td>이은솔</td>
-			   <td>2018-09-17</td>
-			   <td>가입완료</td>
-			   <td>탈퇴</td>
-		    </tr>
-		    <tr>
-			   <td>3</td>
-			   <td>llll</td>
-			   <td>이이이</td>
-			   <td>2018-09-17</td>
-			   <td>가입미완료</td>
-			   <td></td>
-		    </tr>
 		</table>
  
         

@@ -56,9 +56,6 @@
 				<input type="hidden" id="notice_idx" name="idx" value="${notice.notice_idx }">
 				<div class="table-responsive">
 					<table class="table">
-						<tr>
-							<th>공지사항 보기</th>
-						</tr>
 	
 						<tr>
 							<th class="colTitle">제목</th>
@@ -67,6 +64,22 @@
 							<td>${notice.viewCNT }</td>
 						</tr>
 						
+						<tr>
+							<th class="colTitle">첨부파일</th>
+							<td colspan="3">
+								<c:forEach var="filelist" items="${notice.fileVOList }">
+									<c:choose>
+										<c:when test="${filelist.filename_org ne null}">
+											${filelist.filename_org}
+											<br>
+										</c:when>
+										<c:otherwise>
+											첨부파일이 존재하지 않습니다.
+										</c:otherwise>
+									</c:choose>
+           						</c:forEach>								
+              				</td>
+						</tr>
 						<tr>
 							<th class="colTitle">내용</th>
 							<td style="height: 350px;" colspan="3">

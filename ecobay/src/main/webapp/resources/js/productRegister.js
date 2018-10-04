@@ -170,6 +170,7 @@ $(function() {
 	    height: 350, 
 	    minHeight: null,
         maxHeight: null,
+        disableDragAndDrop: true,
         focus: true,
         callbacks: {
         	onImageUpload: function(files, editor, welEditable) {
@@ -196,10 +197,9 @@ $(function() {
 	          $('#imageBoard > ul').append('<li><img src="'+url+'" width="480" height="auto"/></li>');
 	        }
 	      });
-	    }
+	 }
 
 
-	출처: http://devofhwb.tistory.com/90 [이든의 생활코딩]
 	/*======================================================================================*/
 	
 	/*======================================================================================*/

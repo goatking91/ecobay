@@ -77,7 +77,7 @@ public class UploadFileUtils {
 
 	}
 	
-	private static String calcPath(String uploadPath) {
+	public static String calcPath(String uploadPath) {
 		
 		Calendar cal = Calendar.getInstance();
 		
@@ -94,7 +94,7 @@ public class UploadFileUtils {
 		return datePath;
 	}
 	
-	private static void makeDir(String uploadPath, String... paths) {
+	public static void makeDir(String uploadPath, String... paths) {
 		if(new File(uploadPath + paths[paths.length-1]).exists()) {
 			return;
 		}
