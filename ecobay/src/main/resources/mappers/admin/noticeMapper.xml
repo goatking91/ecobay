@@ -36,6 +36,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			<result column="notice_idx" property="notice_idx" />
 			<result column="filename" property="filename" />
 			<result column="filename_org" property="filename_org" />
+			<result column="filesize" property="fileSize"/>
 			<result column="regdate" property="regdate" />
 		</collection>
 	</resultMap>
@@ -54,6 +55,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			t2.notice_idx as fNotice_idx,
 			t2.filename as fileName,
 			t2.filename_org as fileName_org,
+			t2.filesize as fileSize,
 			t2.regdate as fRegDate
 		FROM notice t1 LEFT JOIN noticefile t2
 		ON t1.notice_idx = t2.notice_idx
@@ -95,10 +97,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<insert id="insertNoticeFile" parameterType="NoticeFileVO">
 		INSERT INTO noticefile (
-			file_cd, file_idx, notice_idx, filename, filename_org, regdate
+			file_cd, file_idx, notice_idx, filename, filename_org, filesize, regdate
 		)
 		VALUES ( 
-			#{file_cd}, #{file_idx}, #{notice_idx}, #{filename}, #{filename_org}, now()
+			#{file_cd}, #{file_idx}, #{notice_idx}, #{filename}, #{filename_org}, #{fileSize}, now()
 		)
 	</insert>
 

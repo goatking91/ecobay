@@ -1,25 +1,34 @@
 package org.ecobay.admin.board;
 
+import java.io.File;
 import java.util.List;
+
+import javax.annotation.Resource;
 
 import org.ecobay.admin.board.domain.NoticeFileVO;
 import org.ecobay.admin.board.domain.NoticeVO;
 import org.ecobay.admin.board.service.BoardService;
 import org.ecobay.user.util.UploadContoller;
+import org.ecobay.user.util.UploadFileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 @RequestMapping("/admin/board")
 public class AdminNoticeController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(UploadContoller.class);
+	
+	@Resource(name = "uploadPath")
+	private String uploadPath;
 	
 	@Autowired
 	BoardService service;
@@ -47,8 +56,11 @@ public class AdminNoticeController {
     public String noticeModGET(@RequestParam("idx") String notice_idx, Model model) throws Exception {
 		
 		int idx = Integer.parseInt(notice_idx);
+		NoticeVO notice = service.noticeLoad(idx);
+		List<NoticeFileVO> noticeFile = notice.getFileVOList();
 		
-		model.addAttribute("notice", service.noticeLoad(idx));
+		model.addAttribute("notice", notice);
+		model.addAttribute("fileList", noticeFile);
 		
         return "admin/board/noticeModify.admin";
     }
@@ -78,31 +90,33 @@ public class AdminNoticeController {
     	int idx = Integer.parseInt(notice_idx);
     	service.noticeViewCnt(idx);
     	NoticeVO notice = service.noticeLoad(idx);
-    	logger.info("111"+notice.toString());
     	
     	
     	List<NoticeFileVO> noticeFile = notice.getFileVOList();
-
-		model.addAttribute("notice", notice);
-		model.addAttribute("fileList", noticeFile);
-    	
-    	/*List<NoticeFileVO> noticeFile = null;
-    	int temp = notice.getListCount();
-    	
-    	if (temp > 0) {
-    		noticeFile = notice.getFileVOList();
+    	for (NoticeFileVO file : noticeFile) {
+    		file.setFileSizeByte(file.getFileSize() / 1024 );
 		}
     	
 		model.addAttribute("notice", notice);
-		model.addAttribute("fileList", noticeFile);*/
-		
-		
-    	
-    	
-    	
-    	
-		
+		model.addAttribute("fileList", noticeFile);
+
+
 		
     	return "admin/board/noticeDetail.admin";
     }
+    
+    @RequestMapping(value="/download.do", method = RequestMethod.GET)
+    public ModelAndView noticeFileDownload(@RequestParam("fname") String fname, @RequestParam("fnameorg") String fnameOrg) throws Exception {
+    	
+    	ModelAndView mav = new ModelAndView();
+ 
+        mav.addObject("systemFileName", fname);
+        mav.addObject("orgFileName", fnameOrg);
+        mav.setViewName("downloadView");
+        return mav;
+
+
+    }
+    
+    
 }
