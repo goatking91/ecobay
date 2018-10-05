@@ -6,7 +6,7 @@ import javax.annotation.Resource;
 
 import org.ecobay.admin.board.domain.NoticeFileVO;
 import org.ecobay.admin.board.domain.NoticeVO;
-import org.ecobay.admin.board.service.BoardService;
+import org.ecobay.admin.board.service.BoardAdminService;
 import org.ecobay.user.util.UploadContoller;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,7 +28,7 @@ public class NoticeAdminController {
 	private String uploadPath;
 	
 	@Autowired
-	BoardService service;
+	BoardAdminService service;
 	
 	@RequestMapping(value="/noticelist.do", method = RequestMethod.GET)
     public String noticeList(Model model) throws Exception {
@@ -100,12 +100,28 @@ public class NoticeAdminController {
     }
     
     @RequestMapping(value="/download.do", method = RequestMethod.GET)
-    public ModelAndView noticeFileDownload(@RequestParam("fname") String fname, @RequestParam("fnameorg") String fnameOrg) throws Exception {
+    public ModelAndView noticeFileDownload(@RequestParam("fileidx") String fileidx, @RequestParam("noticeidx") String noticeidx) throws Exception {
+    	
+    	int notice_idx = Integer.parseInt(noticeidx);
+    	int file_idx = Integer.parseInt(fileidx);
+    	NoticeVO notice = service.noticeLoad(notice_idx);
+    	
+    	String systemFileName = "";
+    	String orgfileName = "";
+    	
+    	
+    	List<NoticeFileVO> noticeFile = notice.getFileVOList();
+    	for (NoticeFileVO file : noticeFile) {
+    		if (file_idx == file.getFile_idx()) {
+    			systemFileName = file.getFilename();
+    			orgfileName= file.getFilename_org();
+			}
+		}
     	
     	ModelAndView mav = new ModelAndView();
  
-        mav.addObject("systemFileName", fname);
-        mav.addObject("orgFileName", fnameOrg);
+        mav.addObject("systemFileName", systemFileName);
+        mav.addObject("orgFileName", orgfileName);
         mav.setViewName("downloadView");
         return mav;
 

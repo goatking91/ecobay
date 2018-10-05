@@ -11,7 +11,7 @@ import org.ecobay.admin.board.domain.NoticeVO;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class NoticeDAOImpl implements NoticeDAO {
+public class NoticeAdminDAOImpl implements NoticeAdminDAO {
 	
 	@Inject
 	private SqlSession session;

@@ -70,7 +70,7 @@
 								<c:forEach var="filelist" items="${notice.fileVOList }">
 									<c:choose>
 										<c:when test="${filelist.filename_org ne null}">
-											<a href="/admin/board/download.do?fname=${filelist.filename}&fnameorg=${filelist.filename_org}">${filelist.filename_org} </a>
+											<a href="/admin/board/download.do?fileidx=${filelist.file_idx}&noticeidx=${notice.notice_idx}">${filelist.filename_org} </a>
 											
 											<span style="font-size: 11px;">
 												(${filelist.fileSizeByte } KByte)

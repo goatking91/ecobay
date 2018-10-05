@@ -1,7 +1,7 @@
 package org.ecobay.admin.board;
 
 import org.ecobay.admin.board.domain.FaqVO;
-import org.ecobay.admin.board.service.BoardService;
+import org.ecobay.admin.board.service.BoardAdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,10 +11,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @RequestMapping("/admin/board")
-public class FaqController {
+public class FaqAdminController {
 	
 	@Autowired
-	BoardService service;
+	BoardAdminService service;
 	
 	@RequestMapping(value="/faqlist.do", method = RequestMethod.GET)
     public String faqList(Model model) throws Exception {

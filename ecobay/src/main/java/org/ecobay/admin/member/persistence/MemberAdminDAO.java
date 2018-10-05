@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.ecobay.user.member.domain.MemberVO;
 
-public interface AdminMemberDAO {
+public interface MemberAdminDAO {
 
 	public List<MemberVO> listAll() throws Exception;
 	

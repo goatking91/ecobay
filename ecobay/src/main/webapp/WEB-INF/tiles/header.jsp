@@ -118,7 +118,7 @@
 			<li class="nav-item"><a class="nav-link" href="/product/list.do">경매목록</a></li>
 			<li class="nav-item"><a class="nav-link" href="/product/reg.do">물품등록</a></li>
 			<li class="nav-item"><a class="nav-link" href="#">임시메뉴</a></li>
-			<li class="nav-item"><a class="nav-link" href="#">고객센터</a></li>
+			<li class="nav-item"><a class="nav-link" href="/support.do">고객센터</a></li>
 		</ul>
 	</div>
 </nav>

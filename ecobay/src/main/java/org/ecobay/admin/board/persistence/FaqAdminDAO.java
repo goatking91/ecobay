@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.ecobay.admin.board.domain.FaqVO;
 
-public interface FaqDAO {
+public interface FaqAdminDAO {
 	
 	public void regist(FaqVO vo) throws Exception;
 	

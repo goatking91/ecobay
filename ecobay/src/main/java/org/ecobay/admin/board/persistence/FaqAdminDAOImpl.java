@@ -9,7 +9,7 @@ import org.ecobay.admin.board.domain.FaqVO;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class FaqDAOImpl implements FaqDAO {
+public class FaqAdminDAOImpl implements FaqAdminDAO {
 	
 	@Inject
 	private SqlSession session;

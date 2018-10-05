@@ -36,8 +36,7 @@ public class DownLoadImpl extends AbstractView{
 			res.setContentType("application/octet-stream");
 			res.setHeader("Content-Disposition", "attachment; filename="+originalFileName+";");
 			
-			String savedPath = UploadFileUtils.calcPath(uploadPath);
-	        File file = new File(uploadPath + savedPath, systemFileName);
+	        File file = new File(uploadPath, systemFileName);
 			FileUtils.copyFile(file, res.getOutputStream());
 	 
 	    }

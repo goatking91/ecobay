@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -43,30 +46,22 @@
 		    <thead>
 		        <tr>
 		            <th>번호</th><th>제목</th>
-		            <th>작성자</th><th>등록일시</th><th>파일</th><th>조회수</th>
+		            <th>작성자</th><th>등록일시</th><th>조회수</th>
 		        </tr>
 		    </thead>		    
-			<c:forEach var="dto" items="${dto}">
-			    <tr>
-				   <td>1</td>
-				   <td>공지사항입니다</td>
+			<c:forEach var="notice" items="${noticeList}" varStatus="status">
+				<tr>
+				   <td>${status.index + 1}</td>
+				   <td><a href="/support/notice/noticedetail.do?idx=${notice.notice_idx }">${notice.title }</a></td>
 				   <td>관리자</td>
-				   <td>2018-09-14</td>
-				   <td></td>
-				   <td>2345</td>
+				   <td><fmt:formatDate value="${notice.regDate}" pattern="yyyy-MM-dd"/></td>
+				   <td>${notice.viewCNT }</td>
 			    </tr>
-			    <tr>
-				   <td>2</td>
-				   <td>공지사항입니다</td>
-				   <td>관리자</td>
-				   <td>2018-09-14</td>
-				   <td></td>
-				   <td>2345</td>
-			    </tr>
+			    
 			</c:forEach>
 		</table>
         </div>
-        <div align="center">
+        <%-- <div align="center">
 		<tr>
 			<td colspan="6">
 				<c:if test="${startpage>10}">
@@ -80,7 +75,7 @@
 				</c:if>
 			</td>
 		</tr>
-		</div>
+		</div> --%>
 </div>
 </body>
 </html>

@@ -1,8 +1,6 @@
 package org.ecobay.admin.board.service;
 
 import java.io.File;
-import java.text.DecimalFormat;
-import java.util.Calendar;
 import java.util.List;
 import java.util.UUID;
 
@@ -11,8 +9,10 @@ import javax.annotation.Resource;
 import org.ecobay.admin.board.domain.FaqVO;
 import org.ecobay.admin.board.domain.NoticeFileVO;
 import org.ecobay.admin.board.domain.NoticeVO;
-import org.ecobay.admin.board.persistence.FaqDAO;
-import org.ecobay.admin.board.persistence.NoticeDAO;
+import org.ecobay.admin.board.domain.QnaVO;
+import org.ecobay.admin.board.persistence.FaqAdminDAO;
+import org.ecobay.admin.board.persistence.NoticeAdminDAO;
+import org.ecobay.admin.board.persistence.QnaAdminDAO;
 import org.ecobay.user.util.UploadFileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,7 +22,7 @@ import org.springframework.util.FileCopyUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 @Service
-public class BoardServiceImpl implements BoardService {
+public class BoardAdminServiceImpl implements BoardAdminService {
 	
 	@Resource(name = "uploadPath")
 	private String uploadPath;
@@ -31,13 +31,18 @@ public class BoardServiceImpl implements BoardService {
 	
 	
 	@Autowired
-	private FaqDAO faqDao;
+	private FaqAdminDAO faqDao;
 	
 	@Autowired
-	private NoticeDAO noticeDao;
+	private NoticeAdminDAO noticeDao;
+	
+	@Autowired
+	private QnaAdminDAO qnaDao;
 	
 	
-	/* FAQ */
+	/* ============================================
+	 * FAQ
+	 * ============================================ */
 	@Override
 	public void faqRegist(FaqVO vo) throws Exception {
 		faqDao.regist(vo);
@@ -65,7 +70,9 @@ public class BoardServiceImpl implements BoardService {
 
 	
 	
-	/* NOTICE */
+	/* ============================================
+	 * NOTICE
+	 * ============================================ */
 	@Override
 	@Transactional(propagation=Propagation.REQUIRED)
 	public void noticeRegist(NoticeVO vo) throws Exception {
@@ -77,12 +84,13 @@ public class BoardServiceImpl implements BoardService {
 		for (MultipartFile file : vo.getUpload()) {
 			UUID uid = UUID.randomUUID();
 			if (!file.isEmpty()) {
-				String originalFileName = file.getOriginalFilename();
-				String systemFileName = uid.toString() + "_" + originalFileName;
 				
 				String savedPath = UploadFileUtils.calcPath(uploadPath);
 				
-				File temp = new File(uploadPath + savedPath, systemFileName);
+				String originalFileName = file.getOriginalFilename();
+				String systemFileName = savedPath + uid.toString() + "_" + originalFileName;
+				
+				File temp = new File(uploadPath, systemFileName);
 				FileCopyUtils.copy(file.getBytes(), temp);
 
 				NoticeFileVO noticeFile = new NoticeFileVO();
@@ -99,8 +107,6 @@ public class BoardServiceImpl implements BoardService {
 				noticeDao.noticeFileInsert(noticeFile);
 			}
 		}
-		
-		
 
 	}
 
@@ -129,6 +135,17 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public void noticeViewCnt(int notice_idx) throws Exception {
 		noticeDao.noticeViewCnt(notice_idx);
+	}
+	
+	
+	
+	
+	/* ============================================
+	 * QNA
+	 * ============================================ */
+	@Override
+	public List<QnaVO> qnaList() throws Exception {
+		return qnaDao.qnaList();
 	}
 	
 	

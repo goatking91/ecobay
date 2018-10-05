@@ -5,7 +5,7 @@ import java.util.List;
 import org.ecobay.admin.board.domain.NoticeFileVO;
 import org.ecobay.admin.board.domain.NoticeVO;
 
-public interface NoticeDAO {
+public interface NoticeAdminDAO {
 	
 	public void noticeRegist(NoticeVO vo) throws Exception;
 	

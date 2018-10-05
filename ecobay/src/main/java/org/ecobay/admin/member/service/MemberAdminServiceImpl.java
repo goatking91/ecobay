@@ -3,14 +3,14 @@ package org.ecobay.admin.member.service;
 import java.util.List;
 
 import org.ecobay.user.member.domain.MemberVO;
-import org.ecobay.admin.member.persistence.AdminMemberDAO;
+import org.ecobay.admin.member.persistence.MemberAdminDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class AdminMemberServiceImpl implements AdminMemberService {
+public class MemberAdminServiceImpl implements MemberAdminService {
 	@Autowired
-	private AdminMemberDAO dao;
+	private MemberAdminDAO dao;
 
 
 	@Override

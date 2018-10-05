@@ -9,7 +9,7 @@ import org.ecobay.user.member.domain.MemberVO;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class AdminMemberDAOImpl implements AdminMemberDAO {
+public class MemberAdminDAOImpl implements MemberAdminDAO {
 	
 	@Inject
 	private SqlSession session;
