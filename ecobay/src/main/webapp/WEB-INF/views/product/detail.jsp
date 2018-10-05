@@ -181,13 +181,17 @@
 								<c:when test="${auct.baynow_yn == true}">
 									<td name="baynow_money" id="baynow_money">${auct.baynow_money}원</td>
 									<td style="text-align: center;">
-										<button type="button" class="btn btn-danger btn-sm" name="baynow_money" id="baynowBtn">즉시구매하기</button>
+										<c:if test="${userid != null}">
+											<button type="button" class="btn btn-danger btn-sm" name="baynow_money" id="baynowBtn">즉시구매하기</button>
+										</c:if>
 									</td>
 								</c:when>
 								<c:otherwise>
 									<td name="baynow_money" id="baynow_money">-원</td>
 									<td style="text-align: center;">
-										<button type="button" class="btn btn-danger btn-sm" name="baynow_money" id="baynowBtn" >즉시구매불가</button>
+										<c:if test="${userid != null}">
+											<button type="button" class="btn btn-danger btn-sm" name="baynow_money" id="baynowBtn" >즉시구매불가</button>
+										</c:if>
 									</td>
 								</c:otherwise>
 							</c:choose>
@@ -549,6 +553,14 @@
 			$("#baynowBtn").on("click", function(){
 				var val = $("#baynowBtn").text();
 				
+				if(userid != null || userid != '') {
+					$('#myModalCancelBtn').css("display", "none");
+		            $('#myModal #message').find('h4').text("로그인 후 진행해주세요.");
+		        	$('#myModal').modal('show');
+					
+					return false;
+				}
+				
 				if(val == '즉시구매하기') {
 					var dateTime = new Date().getTime(); // 현재시간
 					
@@ -571,6 +583,8 @@
 				}
 				else {
 					$('#myModal_div').val("");
+					
+					return false;
 				}
 			});
 
