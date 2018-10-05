@@ -37,5 +37,7 @@ public interface BoardAdminService {
 		/* QNA */
 		public List<QnaVO> qnaList() throws Exception;
 		
+		public QnaVO qnaLoad(int qna_idx) throws Exception;
+		
 		
 }

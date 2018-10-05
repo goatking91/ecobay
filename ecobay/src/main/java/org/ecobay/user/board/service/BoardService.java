@@ -3,6 +3,7 @@ package org.ecobay.user.board.service;
 import java.util.List;
 
 import org.ecobay.admin.board.domain.NoticeVO;
+import org.ecobay.admin.board.domain.QnaVO;
 
 public interface BoardService {
 		
@@ -22,7 +23,9 @@ public interface BoardService {
 		
 		
 		/* QNA */
-		//public List<QnaVO> qnaList() throws Exception;
+		public void qnaRegist(QnaVO vo) throws Exception;
+		
+		
 		
 		
 }

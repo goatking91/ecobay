@@ -18,5 +18,6 @@
 		<typeAlias type="org.ecobay.admin.board.domain.FaqVO" alias="FaqVO"/>
 		<typeAlias type="org.ecobay.admin.board.domain.NoticeVO" alias="NoticeVO"/>
 		<typeAlias type="org.ecobay.admin.board.domain.NoticeFileVO" alias="NoticeFileVO"/>
+		<typeAlias type="org.ecobay.admin.board.domain.QnaVO" alias="QnaVO"/>
 	</typeAliases>
 </configuration>

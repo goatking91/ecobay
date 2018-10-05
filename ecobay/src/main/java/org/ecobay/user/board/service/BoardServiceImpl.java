@@ -3,7 +3,9 @@ package org.ecobay.user.board.service;
 import java.util.List;
 
 import org.ecobay.admin.board.domain.NoticeVO;
+import org.ecobay.admin.board.domain.QnaVO;
 import org.ecobay.user.board.persistence.NoticeDAO;
+import org.ecobay.user.board.persistence.QnaDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,8 +21,8 @@ public class BoardServiceImpl implements BoardService {
 	@Autowired
 	private NoticeDAO noticeDao;
 	
-	/*@Autowired
-	private QnaDAO qnaDao;*/
+	@Autowired
+	private QnaDAO qnaDao;
 	
 	
 	/* ============================================
@@ -52,13 +54,13 @@ public class BoardServiceImpl implements BoardService {
 
 	
 	
-	
 	/* ============================================
 	 * QNA
 	 * ============================================ */
-
 	
-	
-
+	@Override
+	public void qnaRegist(QnaVO vo) throws Exception {
+		qnaDao.qnaRegist(vo);
+	}
 
 }

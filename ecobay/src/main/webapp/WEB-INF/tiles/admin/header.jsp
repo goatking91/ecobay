@@ -86,7 +86,7 @@
 					<ul class="treeview-menu">
 						<li><a href="/admin/board/noticelist.do">공지사항</a></li>
 						<li><a href="/admin/board/faqlist.do">FAQ</a></li>
-						<li><a href="#">1:1문의</a></li>
+						<li><a href="/admin/board/qnalist.do">1:1문의</a></li>
 					</ul>
 				</li>
 				

@@ -148,6 +148,11 @@ public class BoardAdminServiceImpl implements BoardAdminService {
 		return qnaDao.qnaList();
 	}
 	
+	@Override
+	public QnaVO qnaLoad(int qna_idx) throws Exception {
+		return qnaDao.qnaLoad(qna_idx);
+	}
+	
 	
 
 

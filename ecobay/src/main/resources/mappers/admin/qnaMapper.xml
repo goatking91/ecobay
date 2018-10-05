@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.ecobay.admin.mapper.QnaMapper">
+	
+	<select id="selectQnaList" resultType="QnaVO">
+		SELECT * 
+		FROM qna
+		ORDER BY regdate DESC
+	</select>
+	
+	<select id="selectQnaOne" parameterType="int" resultType="QnaVO">
+		SELECT * 
+		FROM qna 
+		WHERE qna_idx = #{qna_idx}
+	</select>
+	
+</mapper>
+
