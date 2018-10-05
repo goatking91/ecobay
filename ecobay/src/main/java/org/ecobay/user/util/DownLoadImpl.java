@@ -2,8 +2,6 @@ package org.ecobay.user.util;
 
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.OutputStream;
 import java.net.URLEncoder;
 import java.util.Map;
 
