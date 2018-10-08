@@ -202,6 +202,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		  FROM productqna
 	</select>
 	
+	<select id="selectProdviewcnt" resultType="int">
+		SELECT IFNULL(VIEWCNT, 0) as VIEWCNT
+		  FROM product
+		 WHERE product_cd = #{product_cd}
+	</select>
+	
 	<insert id="insert" parameterType="ProductVO">
 		INSERT INTO product 
 		     VALUES (#{product_cd}, #{product_nm}, #{member_id}, #{class_big_cd}, #{class_mid_cd}, #{content}, '1', '요청', now(), now(), null, TRUE, 0)
@@ -214,7 +220,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<insert id="auctInsert" parameterType="AuctionInfoVO">
 		INSERT INTO auctioninfo 
-		    VALUES (#{product_cd}, #{money_first}, 0, #{money_unit}, #{auctdate_unit}, #{acutdate_start}, #{acutdate_end}, #{baynow_yn}, #{baynow_money}, now(), #{bay_member_id})
+		    VALUES (#{product_cd}, #{money_first}, 0, #{money_unit}, #{auctdate_unit}, #{acutdate_start}, #{acutdate_end}, #{baynow_yn}, #{baynow_money}, now(), #{bay_member_id}, #{payment_proc_cd})
 	</insert>
 
 	<insert id="deliInsert" parameterType="DeliveryInfoVO">
@@ -240,6 +246,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<update id="delete">
 		UPDATE product
 		   SET USE_YN = FALSE
+		 WHERE product_cd = #{product_cd}
+	</update>
+	
+	<update id="updateProdViewCnt">
+		UPDATE product
+		   SET VIEWCNT = #{viewcnt}
 		 WHERE product_cd = #{product_cd}
 	</update>
 </mapper>

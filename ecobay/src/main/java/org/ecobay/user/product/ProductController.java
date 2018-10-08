@@ -69,6 +69,8 @@ public class ProductController {
     	
     	model.addAttribute("prod", service.selectDetailProd(product_cd));
     	if(service.selectDetailProd(product_cd) != null) {
+    		service.updateProdViewCnt(product_cd);
+    		
     		model.addAttribute("img", service.selectImageList(product_cd));
     		model.addAttribute("auct", service.selectDetailAuct(product_cd));
         	model.addAttribute("deli", service.selectDetailDeli(product_cd));

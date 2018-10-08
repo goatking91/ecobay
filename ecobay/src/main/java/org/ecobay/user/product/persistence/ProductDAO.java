@@ -18,6 +18,9 @@ public interface ProductDAO {
 	public int ProdQnaAllCnt(String product_cd) throws Exception; // 상품문의 총 갯수 구하기(페이징용)
 	public int BidAllCnt(String product_cd) throws Exception; // 입찰내역 총 갯수 구하기(페이징용)
 	
+	public int selectProdviewcnt(String product_cd) throws Exception;
+	public void updateProdViewCnt(ProductVO vo) throws Exception;
+	
 	public void insert(ProductVO vo);
 	public void delete(String product_cd) throws Exception;
 	

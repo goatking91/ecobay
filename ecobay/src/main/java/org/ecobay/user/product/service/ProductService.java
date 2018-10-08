@@ -18,6 +18,8 @@ public interface ProductService {
 	
 	public int ProdQnaAllCnt(String product_cd) throws Exception; // 상품문의 총 갯수 구하기(페이징용)
 	public int BidAllCnt(String product_cd) throws Exception; // 입찰내역 총 갯수 구하기(페이징용)
+	
+	public void updateProdViewCnt(String product_cd) throws Exception; // 조회수 update
 
 	public ProductVO selectDetailProd(String product_cd) throws Exception;
 	public AuctionInfoVO selectDetailAuct(String product_cd) throws Exception;

@@ -140,4 +140,14 @@ public class ProductDAOImpl implements ProductDAO {
 	public void bidInsert(BidInfoVO vo) throws Exception {
 		session.insert(namespace + ".bidInsert", vo);
 	}
+
+	@Override
+	public int selectProdviewcnt(String product_cd) throws Exception {
+		return session.selectOne(namespace + ".selectProdviewcnt", product_cd);
+	}
+
+	@Override
+	public void updateProdViewCnt(ProductVO vo) throws Exception {
+		session.update(namespace + ".updateProdViewCnt", vo);
+	}
 }

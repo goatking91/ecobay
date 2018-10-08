@@ -518,7 +518,7 @@
 					});
 				}
 				else if(workingVal == 'baynow') { // 즉시구매 이벤트 진행.
-					alert("즉시구매하기 이벤트를 처리해야 합니다."); // 협의 후 진행처리하기.
+					location.href = "/member/payment.do/" + product_cd + "/1";
 				}
 			});
 			
@@ -553,14 +553,14 @@
 			$("#baynowBtn").on("click", function(){
 				var val = $("#baynowBtn").text();
 				
-				if(userid != null || userid != '') {
+				if(userid == null || userid == '') {
 					$('#myModalCancelBtn').css("display", "none");
 		            $('#myModal #message').find('h4').text("로그인 후 진행해주세요.");
 		        	$('#myModal').modal('show');
 					
 					return false;
 				}
-				
+
 				if(val == '즉시구매하기') {
 					var dateTime = new Date().getTime(); // 현재시간
 					

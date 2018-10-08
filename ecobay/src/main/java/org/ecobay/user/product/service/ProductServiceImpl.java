@@ -95,6 +95,7 @@ public class ProductServiceImpl implements ProductService{
 				auctVO.setProduct_cd(sProductCd);
 				auctVO.setAcutdate_start(dateStart);
 				auctVO.setAcutdate_end(dateEnd);
+				auctVO.setPayment_proc_cd("0");
 				
 				dao.auctInsert(auctVO);
 			}
@@ -214,5 +215,21 @@ public class ProductServiceImpl implements ProductService{
 	@Override
 	public void bidInsert(BidInfoVO vo) throws Exception {
 		dao.bidInsert(vo);
+	}
+
+	@Override
+	public void updateProdViewCnt(String product_cd) throws Exception {
+		int iProdviewCnt = 0;
+		
+		iProdviewCnt = dao.selectProdviewcnt(product_cd);
+		
+		iProdviewCnt = iProdviewCnt + 1;
+		
+		ProductVO prodVO = new ProductVO();
+		
+		prodVO.setProduct_cd(product_cd);
+		prodVO.setViewcnt(iProdviewCnt);
+		
+		dao.updateProdViewCnt(prodVO);
 	}
 }

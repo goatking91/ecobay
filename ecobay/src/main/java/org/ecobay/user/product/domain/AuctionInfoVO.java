@@ -17,6 +17,7 @@ public class AuctionInfoVO {
 	private long baynow_money;
 	private Date regdate;
 	private String bay_member_id;
+	private String payment_proc_cd;
 	
 	public AuctionInfoVO() {
 
@@ -24,7 +25,7 @@ public class AuctionInfoVO {
 
 	public AuctionInfoVO(String product_cd, long money_first, long money_last, long money_unit, int auctdate_unit,
 			String acutdate_start_str, String acutdate_end_str, Date acutdate_start, Date acutdate_end, 
-			boolean baynow_yn, long baynow_money, Date regdate, String bay_member_id) {
+			boolean baynow_yn, long baynow_money, Date regdate, String bay_member_id, String payment_proc_cd) {
 		this.product_cd = product_cd;
 		this.money_first = money_first;
 		this.money_last = money_last;
@@ -38,6 +39,7 @@ public class AuctionInfoVO {
 		this.baynow_money = baynow_money;
 		this.regdate = regdate;
 		this.bay_member_id = bay_member_id;
+		this.payment_proc_cd = payment_proc_cd;
 	}
 
 	public String getProduct_cd() {
@@ -144,13 +146,23 @@ public class AuctionInfoVO {
 		this.bay_member_id = bay_member_id;
 	}
 
+	public String getPayment_proc_cd() {
+		return payment_proc_cd;
+	}
+
+	public void setPayment_proc_cd(String payment_proc_cd) {
+		this.payment_proc_cd = payment_proc_cd;
+	}
+
 	@Override
 	public String toString() {
-		return "AuctionInfoVO [product_cd=" + product_cd + ", money_first=" + money_first + ", money_last=" + money_last
+		return "AuctionInfoVO ["
+				+ "product_cd=" + product_cd + ", money_first=" + money_first + ", money_last=" + money_last
 				+ ", money_unit=" + money_unit + ", auctdate_unit=" + auctdate_unit
 				+ ", acutdate_start_str=" + acutdate_start_str + ", acutdate_end_str=" + acutdate_end_str
 				+ ", acutdate_start=" + acutdate_start + ", acutdate_end_date=" + acutdate_end
 				+ ", baynow_yn=" + baynow_yn + ", baynow_money=" + baynow_money 
-				+ ", regdate=" + regdate + ", bay_member_id=" + bay_member_id + "]";
+				+ ", regdate=" + regdate + ", bay_member_id=" + bay_member_id + ", payment_proc_cd=" + payment_proc_cd 
+				+ "]";
 	}
 }
