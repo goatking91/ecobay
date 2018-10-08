@@ -71,7 +71,7 @@ $(function() {
 		var addr1 = $('#addr3').val();
 		var addr2 = $('#addr4').val();
 		var deli_zipcode = $('#deli_zipcode').val();
-		var money_bid = $('#money_bid').val();
+		var money_pay = $('#money_pay').val();
 		var product_nm = $('#product_nm').text();
 		var DELI_PHONENUM = $('#DELI_PHONENUM').val();
 		
@@ -106,7 +106,7 @@ $(function() {
 		    pg : 'kakao', // version 1.1.0부터 지원.
 		    merchant_uid : 'merchant_' + new Date().getTime(),//일시
 		    name : product_nm,//상품명
-		    amount : money_bid,//결제금액
+		    amount : money_pay,//결제금액
 		    buyer_email : member_id,
 		    buyer_name : member_name,
 		    buyer_tel : DELI_PHONENUM,
@@ -150,7 +150,7 @@ $(function() {
 	
 	$('#cancel').click(function(){
 		if(confirm("정말 구매를 취소하시겠습니까?") == true){
-			location.href="http://localhost:7080/main.do";
+			location.href="/main.do";
 		}else{
 			return false;
 		}
@@ -275,9 +275,9 @@ $(function() {
 			</div>
 			<div class="form-group row">
 				<div class="col-sm-3"><img src="/displayFile.do?fileName=${img}" style="margin-left: auto; margin-right: auto; display: block; width=30%"></div>
-				<div class="col-sm-3" id="product_cd">${bid.product_cd}</div>
-				<input type="hidden" name="product_cd" value="${bid.product_cd}">
- 				<div class="col-sm-6" id="product_nm">${prod}</div>
+				<div class="col-sm-3" id="product_cd">${auct.product_cd}</div>
+				<input type="hidden" name="product_cd" value="${auct.product_cd}">
+ 				<div class="col-sm-6" id="product_nm">${product_nm}</div>
  					 
 			</div>
 
@@ -296,7 +296,7 @@ $(function() {
 			<div style="font-size: 20pt" class="d-flex justify-content-between align-items-center">
 				<div class="col-sm-4" align="left">결제 예정금액</div>
 				<div class="col-sm-6"></div>
-				<input class="form-control border-0" id='money_bid' name="money_pay" style="color: red;background-color:white; align:right;" value='${bid.money_bid}' readonly>원
+				<input class="form-control border-0" id='money_pay' name="money_pay" style="color: red;background-color:white; align:right;" value='${payMoney}' readonly>원
 			</div>
 			
 					

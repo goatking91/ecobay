@@ -79,11 +79,6 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	public BidInfoVO selectBid(String member_id) throws Exception {
-		return dao.selectBid(member_id);
-	}
-
-	@Override
 	public String selectprod(String product_cd) throws Exception {
 		return dao.selectprod(product_cd);
 	}
@@ -95,7 +90,7 @@ public class MemberServiceImpl implements MemberService {
 
 	@Override
 	public void payment(PaymentVO pvo) throws Exception {
-		dao.payment(pvo);;
+		dao.payment(pvo);
 		
 	}
 
@@ -106,8 +101,13 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	public void auctionInfo(String product_cd) throws Exception {
-		dao.auctionInfo(product_cd);
+	public void auctionInfo(AuctionInfoVO avo) throws Exception {
+		dao.auctionInfo(avo);
+	}
+
+	@Override
+	public AuctionInfoVO selectAuct(String product_cd) throws Exception {
+		return dao.selectAuct(product_cd);
 	}
 	
 }

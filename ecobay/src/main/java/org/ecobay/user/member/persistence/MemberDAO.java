@@ -1,6 +1,7 @@
 package org.ecobay.user.member.persistence;
 
 import org.ecobay.user.member.domain.MemberVO;
+import org.ecobay.user.product.domain.AuctionInfoVO;
 import org.ecobay.user.product.domain.BidInfoVO;
 import org.ecobay.user.product.domain.DeliveryVO;
 import org.ecobay.user.product.domain.PaymentVO;
@@ -26,7 +27,7 @@ public interface MemberDAO {
 	
 	public void newpwd(MemberVO vo) throws Exception;
 	
-	public BidInfoVO selectBid(String member_id) throws Exception;
+	public AuctionInfoVO selectAuct(String product_cd) throws Exception;
 	
 	public String selectprod(String product_cd) throws Exception;
 	
@@ -36,5 +37,5 @@ public interface MemberDAO {
 	
 	public void delivery(DeliveryVO dvo) throws Exception;
 	
-	public void auctionInfo(String product_cd) throws Exception;
+	public void auctionInfo(AuctionInfoVO avo) throws Exception;
 }

@@ -77,10 +77,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		where member_id =#{member_id}	
 	</update>
 	
-	<select id="selectBid" resultType="BidInfoVO">
-		select product_cd, max(money_bid) as money_bid
-		from bidinfo
-		where member_id = #{member_id}
+	<select id="selectAuct" resultType="AuctionInfoVO">
+		SELECT  PRODUCT_CD 
+			  , IFNULL(BAY_MEMBER_ID, '') as BAY_MEMBER_ID
+			  , IFNULL(MONEY_LAST, 0) as MONEY_LAST
+			  , IFNULL(BAYNOW_MONEY, 0) as BAYNOW_MONEY
+		FROM auctioninfo
+		WHERE PRODUCT_CD = #{product_cd}
 	</select>
 	
 	<select id="selectProd" resultType="String">
@@ -106,8 +109,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</insert>
 	
 	<update id="auctionInfo">
-		update auctioninfo set
-		payment_proc_cd = '2'
+		update auctioninfo 
+		   set MONEY_LAST = #{money_last}
+		     , BAY_MEMBER_ID = #{bay_member_id}
+		     , payment_proc_cd = '2'
 		where product_cd = #{product_cd} 
 	</update>
 </mapper>

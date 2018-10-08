@@ -17,7 +17,7 @@ import javax.servlet.ServletContext;
 
 import org.ecobay.user.member.domain.MemberVO;
 import org.ecobay.user.member.service.MemberService;
-import org.ecobay.user.product.domain.BidInfoVO;
+import org.ecobay.user.product.domain.AuctionInfoVO;
 import org.ecobay.user.product.domain.DeliveryVO;
 import org.ecobay.user.product.domain.PaymentVO;
 import org.slf4j.Logger;
@@ -28,6 +28,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -51,35 +52,57 @@ public class MemberController {
 	
     private static final Logger logger = LoggerFactory.getLogger(MemberController.class);
     
-    @RequestMapping(value = "/payment.do", method = RequestMethod.GET)
-    public String paymentGET(Model model) throws Exception{
-    	User user = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();  	
-    	model.addAttribute("member",service.read(user.getUsername()));
-    	System.out.println(user.getUsername());
-    	BidInfoVO bvo = service.selectBid(user.getUsername());
+    @RequestMapping(value = "/payment.do/{product_cd}/{flag}", method = RequestMethod.GET)
+    public String paymentGET(@PathVariable("product_cd") String product_cd, @PathVariable("flag") int flag, Model model) throws Exception{
+    	User user = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    	String userid = user.getUsername();
+    	System.out.println(userid);
     	
-    	model.addAttribute("bid", bvo);
-    	model.addAttribute("prod", service.selectprod(bvo.getProduct_cd()));
-    	model.addAttribute("img", service.selectimg(bvo.getProduct_cd()));
+    	AuctionInfoVO auctVO = service.selectAuct(product_cd);
     	
-    	System.out.println(service.selectprod(bvo.getProduct_cd()).toString());
-    	System.out.println(service.selectimg(bvo.getProduct_cd()).toString());
+    	String prodcd = auctVO.getProduct_cd();
+    	//String memberid = auctVO.getBay_member_id();
+    	
+    	long payMoney = 0;
+    	
+    	// flag = 즉시구매(1) / 낙찰(2)
+    	if(flag == 1) {
+    		payMoney = auctVO.getBaynow_money();
+    	}
+    	else if(flag == 2) {
+    		payMoney = auctVO.getMoney_last();
+    	}
+    	
+		model.addAttribute("member", service.read(userid));
+    	model.addAttribute("auct", auctVO); //model.addAttribute("bid", bvo);
+    	model.addAttribute("payMoney", payMoney);
+    	model.addAttribute("product_nm", service.selectprod(prodcd));
+    	model.addAttribute("img", service.selectimg(prodcd));
+
     	return "member/payment.page";
     }
     @RequestMapping(value = "/payment.do", method = RequestMethod.POST)
-    public String paymentPOST(PaymentVO pvo, DeliveryVO dvo,String product_cd) throws Exception {
+    public String paymentPOST(PaymentVO pvo, DeliveryVO dvo, String product_cd) throws Exception {
     	/*PaymentVO pvo = new PaymentVO();
     	DeliveryVO dvo = new DeliveryVO();*/
+    	User user = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    	
+    	String userid = user.getUsername();
+    	long payMoney = pvo.getMoney_pay();
+    	    	
+    	AuctionInfoVO auctVO = new AuctionInfoVO();
+    	auctVO.setProduct_cd(product_cd);
+    	auctVO.setBay_member_id(userid);
+    	auctVO.setMoney_last(payMoney);
+    	
     	service.payment(pvo);
     	service.delivery(dvo);
-    	service.auctionInfo(product_cd);
+    	service.auctionInfo(auctVO);
     	System.out.println("pvo는 "+ pvo);
     	System.out.println("dvo는 "+ dvo);
     	System.out.println("product_cd는 "+ product_cd);
     	
-    	
-    	User user = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-    	mailSender.send(getMimeMessage2(mailSender.getSession(), user.getUsername()));
+    	mailSender.send(getMimeMessage2(mailSender.getSession(), userid));
     	
     	return "member/mailCheckOrder.page";
     }

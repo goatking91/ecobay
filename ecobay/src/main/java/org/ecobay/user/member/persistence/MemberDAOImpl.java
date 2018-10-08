@@ -4,6 +4,7 @@ import javax.inject.Inject;
 
 import org.apache.ibatis.session.SqlSession;
 import org.ecobay.user.member.domain.MemberVO;
+import org.ecobay.user.product.domain.AuctionInfoVO;
 import org.ecobay.user.product.domain.BidInfoVO;
 import org.ecobay.user.product.domain.DeliveryVO;
 import org.ecobay.user.product.domain.PaymentVO;
@@ -69,11 +70,6 @@ public class MemberDAOImpl implements MemberDAO {
 	}
 
 	@Override
-	public BidInfoVO selectBid(String member_id) throws Exception {
-		return session.selectOne(namespace + ".selectBid", member_id);
-	}
-
-	@Override
 	public String selectprod(String product_cd) throws Exception {
 		return session.selectOne(namespace + ".selectProd", product_cd);
 	}
@@ -94,9 +90,14 @@ public class MemberDAOImpl implements MemberDAO {
 	}
 
 	@Override
-	public void auctionInfo(String product_cd) throws Exception {
-		session.update(namespace + ".auctionInfo", product_cd); 
+	public void auctionInfo(AuctionInfoVO avo) throws Exception {
+		session.update(namespace + ".auctionInfo", avo); 
 		
+	}
+
+	@Override
+	public AuctionInfoVO selectAuct(String product_cd) throws Exception {
+		return session.selectOne(namespace + ".selectAuct", product_cd);
 	}
 	
 }
