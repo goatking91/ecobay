@@ -292,8 +292,8 @@ $(function() {
 			<div style="font-size: 20pt" class="d-flex justify-content-between align-items-center">
 				<div class="col-sm-4" align="left">결제 예정금액</div>
 				<div class="col-sm-6"></div>
-				<input class="form-control border-0" id='money_pay' name="money_pay" style="color: red;background-color:white; align:right;" value='${payMoney}' readonly>원
-			</div>
+                <label id='money_pay' name="money_pay" style="color: red; align:right;">${payMoney}</label>원
+           </div>
 			
 					
 			<div class="form-group row">
