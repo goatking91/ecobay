@@ -236,6 +236,7 @@ public class MemberController {
             htmlText += "번거로우시더라도 아래 이메일 인증하기 버튼을 클릭하셔서<br>";
             htmlText += "인증절차를 완료해 주시기 바랍니다</h4>";
             htmlText += "<a href='http://localhost:7080/member/verify.do?member_id=" + vo.getMember_id() + "&birth=" + vo.getBirth();
+            //htmlText += "<a href='http://13.125.157.90:7080/member/verify.do?member_id=" + vo.getMember_id() + "&birth=" + vo.getBirth();
             htmlText += "' target='blank'><button style='background-color:#007bff;border-color:#007bff;color:white;font-size:16pt;'>이메일 인증 확인</button> </a>";			
 
             messageBodyPart.setContent(htmlText, "text/html;charset=utf-8");
