@@ -237,6 +237,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		INSERT INTO bidinfo
 		    VALUES (#{product_cd}, #{member_id}, #{money_bid}, now())
 	</insert>
+	
+	<insert id="prodWishInsert" parameterType="ProductVO">
+		INSERT INTO productwish
+		    VALUES (#{product_cd}, #{member_id}, now())
+	</insert>
 
 	<delete id="prodQnaDelete" parameterType="int">
 		DELETE FROM productqna

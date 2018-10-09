@@ -221,6 +221,7 @@
 								<c:if test="${userid != null}">
 									<c:if test="${prod.state_cd == '3'}">
 										<button type="button" class="btn btn-primary" id=bidRegBtn>입찰하기</button>
+										<button type="button" class="btn btn-primary" id=bidWishBtn>관심상품</button>
 									</c:if>
 								</c:if>
 							</td>
@@ -432,6 +433,7 @@
 				
 				$('#baynowBtn').text("즉시구매불가"); // 경매종료시 메세지 변경.
 				$("#bidRegBtn").css("visibility", "hidden"); // 입찰하기 버튼 비활성화
+				$("#bidWishBtn").css("visibility", "hidden"); // 관심상품 등록 버튼 비활성화(틀은 고정.)
 			}
 		}
 		
@@ -540,6 +542,39 @@
 				}
 				else {
 					$("#bidRegBtn").css("visibility", "hidden"); // 입찰하기 버튼 비활성화(틀은 고정.)
+					$("#bidWishBtn").css("visibility", "hidden"); // 관심상품 등록 버튼 비활성화(틀은 고정.)
+					$('#baynowBtn').text("즉시구매불가"); // 경매종료시 메세지 변경.
+					
+					$('#myModalCancelBtn').css("display", "none");
+    	 			$('#myModal_div').val("");
+		            $('#myModal #message').find('h4').text("경매가 종료되었습니다.");
+		        	$('#myModal').modal('show');
+				}
+			});
+			
+			// 관심상품 등록하기 => 모달
+			$("#bidWishBtn").on("click", function(){
+				var dateTime = new Date().getTime(); // 현재시간
+				
+				if(endDateTime > dateTime) {
+					$.ajax({
+						async: true,
+						type: 'POST',
+						url : "/product/prodWish.do/" + product_cd,
+						success : function() {
+		    	 			$('#myModalCancelBtn').css("display", "none");
+		    	 			$('#myModal_div').val("");
+				            $('#myModal #message').find('h4').text("관심상품 등록되었습니다.");
+				        	$('#myModal').modal('show');
+				        },
+				        error: function(data) {
+							console.log("error :" + data);
+						}
+					});
+				}
+				else {
+					$("#bidRegBtn").css("visibility", "hidden"); // 입찰하기 버튼 비활성화(틀은 고정.)
+					$("#bidWishBtn").css("visibility", "hidden"); // 관심상품 등록 버튼 비활성화(틀은 고정.)
 					$('#baynowBtn').text("즉시구매불가"); // 경매종료시 메세지 변경.
 					
 					$('#myModalCancelBtn').css("display", "none");
@@ -572,6 +607,7 @@
 			        	$('#myModal').modal('show');
 					}
 					else {
+						$("#bidWishBtn").css("visibility", "hidden"); // 관심상품 등록 버튼 비활성화(틀은 고정.)
 						$("#bidRegBtn").css("visibility", "hidden"); // 입찰하기 버튼 비활성화(틀은 고정.)
 						$('#baynowBtn').text("즉시구매불가"); // 경매종료시 메세지 변경.
 						

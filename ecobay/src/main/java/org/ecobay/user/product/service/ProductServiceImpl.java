@@ -232,4 +232,9 @@ public class ProductServiceImpl implements ProductService{
 		
 		dao.updateProdViewCnt(prodVO);
 	}
+
+	@Override
+	public void prodWishInsert(ProductVO vo) throws Exception {
+		dao.prodWishInsert(vo);
+	}
 }

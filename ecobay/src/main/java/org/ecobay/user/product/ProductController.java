@@ -307,4 +307,18 @@ public class ProductController {
 		
 		return map;
     }
+    
+    @ResponseBody
+    @RequestMapping(value = "/prodWish.do/{product_cd}", method = RequestMethod.POST)
+    public void prodWishPOST(@PathVariable("product_cd") String product_cd) throws Exception {
+//    	// 로그인아이디 Controller쪽에서 구하기.
+		User user = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		String userid = user.getUsername();
+    	
+    	ProductVO vo = new ProductVO();
+    	vo.setProduct_cd(product_cd);
+    	vo.setMember_id(userid);
+		
+		service.prodWishInsert(vo);
+    }
 }

@@ -28,6 +28,8 @@ public interface ProductDAO {
 	public void auctInsert(AuctionInfoVO auctvo);
 	public void deliInsert(DeliveryInfoVO delivo);
 	
+	public void prodWishInsert(ProductVO vo) throws Exception;
+	
 	public ProductVO selectDetailProd(String product_cd) throws Exception;
 	public AuctionInfoVO selectDetailAuct(String product_cd) throws Exception;
 	public DeliveryInfoVO selectDetailDeli(String product_cd) throws Exception;

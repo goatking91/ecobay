@@ -150,4 +150,9 @@ public class ProductDAOImpl implements ProductDAO {
 	public void updateProdViewCnt(ProductVO vo) throws Exception {
 		session.update(namespace + ".updateProdViewCnt", vo);
 	}
+
+	@Override
+	public void prodWishInsert(ProductVO vo) throws Exception {
+		session.insert(namespace + ".prodWishInsert", vo);
+	}
 }
