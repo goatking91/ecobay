@@ -15,7 +15,7 @@
 	
 	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 		<property name="driverClassName" value="com.mysql.cj.jdbc.Driver"></property>
-		<property name="url" value="jdbc:mysql://127.0.0.1:3306/ecobay?useSSL=false&amp;serverTimezone=Asia/Seoul&amp;allowPublicKeyRetrieval=true"></property>
+		<property name="url" value="jdbc:mysql://127.0.0.1:3306/ecobay?useSSL=false&amp;serverTimezone=Asia/Seoul&amp;allowPublicKeyRetrieval=true&amp;characterEncoding=UTF-8"></property>
 		<property name="username" value="ecobay"></property>
 		<property name="password" value="loto7777"></property>
 	</bean>
