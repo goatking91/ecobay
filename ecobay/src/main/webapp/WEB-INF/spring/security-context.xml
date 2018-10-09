@@ -28,7 +28,8 @@
 		<security:intercept-url pattern="/product/midclass.do/**" access="permitAll"/>
 		<security:intercept-url pattern="/product/prodqna.do/**" access="permitAll"/>
 		<security:intercept-url pattern="/product/bidList.do/**" access="permitAll"/>
-		<security:intercept-url pattern="/product/bidReg.do/**" access="permitAll"/>
+		<security:intercept-url pattern="/product/bidReg.do/**" access="hasRole('ROLE_USER')"/>
+		<security:intercept-url pattern="/product/prodWish.do/**" access="hasRole('ROLE_USER')"/>
 		<security:intercept-url pattern="/displayFile.do/**" access="permitAll"/>
 		<security:intercept-url pattern="/admin/**" access="permitAll"/>
 		<!-- <security:intercept-url pattern="/admin/**" access="hasRole('ROLE_ADMIN')"/> -->
