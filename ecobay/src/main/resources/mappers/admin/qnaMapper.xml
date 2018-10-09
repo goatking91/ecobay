@@ -7,14 +7,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<select id="selectQnaList" resultType="QnaVO">
 		SELECT * 
-		FROM qna
-		ORDER BY regdate DESC
+		FROM QNA
+		ORDER BY REGDATE DESC
 	</select>
 	
 	<select id="selectQnaOne" parameterType="int" resultType="QnaVO">
 		SELECT * 
-		FROM qna 
-		WHERE qna_idx = #{qna_idx}
+		FROM QNA 
+		WHERE QNA_IDX = #{qna_idx}
 	</select>
 	
 </mapper>

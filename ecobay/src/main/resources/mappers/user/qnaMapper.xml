@@ -6,8 +6,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <mapper namespace="org.ecobay.user.mapper.QnaMapper">
 	
 	<insert id="insertQna" parameterType="QnaVO">
-		INSERT INTO qna (
-			member_id, title, content, regdate
+		INSERT INTO QNA (
+			MEMBER_ID, TITLE, CONTENT, REGDATE
 		)
 		VALUES ( 
 			#{member_id}, #{title}, #{content}, now()

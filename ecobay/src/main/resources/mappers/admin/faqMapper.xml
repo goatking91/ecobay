@@ -6,8 +6,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <mapper namespace="org.ecobay.admin.mapper.FaqMapper">
 	
 	<insert id="insertFaq" parameterType="FaqVO">
-		INSERT INTO faq (
-			title, content, regdate, moddate
+		INSERT INTO FAQ (
+			TITLE, CONTENT, REGDATE, MODDATE
 		)
 		VALUES ( 
 			#{title}, #{content}, now(), now() 
@@ -16,28 +16,28 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<select id="selectFaqList" resultType="FaqVO">
 		SELECT * 
-		FROM faq
-		ORDER BY regdate DESC
+		FROM FAQ
+		ORDER BY REGDATE DESC
 	</select>
 	
 	<select id="selectFaqOne" parameterType="int" resultType="FaqVO">
 		SELECT * 
-		FROM faq 
-		WHERE faq_idx = #{faq_idx}
+		FROM FAQ 
+		WHERE FAQ_IDX = #{faq_idx}
 	</select>
 	
 	<update id="updateFaq" parameterType="FaqVO">
-		UPDATE faq SET
-			title = #{title},
-			content = #{content},
-			moddate = now()
-		WHERE faq_idx = #{faq_idx}
+		UPDATE FAQ SET
+			TITLE = #{title},
+			CONTENT = #{content},
+			MODDATE = now()
+		WHERE FAQ_IDX = #{faq_idx}
 		
 	</update>
 	
 	<delete id="deleteFaq" parameterType="int">
-		DELETE FROM faq 
-		WHERE faq_idx = #{faq_idx}
+		DELETE FROM FAQ 
+		WHERE FAQ_IDX = #{faq_idx}
 	</delete>
  	
 </mapper>

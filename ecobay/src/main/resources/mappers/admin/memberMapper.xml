@@ -6,11 +6,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <mapper namespace="org.ecobay.admin.mapper.MemberMapper">
 	
 	<select id="readAll" resultType="MemberVO">
-		select @rownum:=@rownum+1 as rn, m.* from member m, (select @rownum:=0) tmp
+		select @rownum:=@rownum+1 as rn, m.* from MEMBER m, (select @rownum:=0) tmp
 	</select>
 	
 	<select id="count" resultType="int">
-		select count(*) from member
+		select count(*) from MEMBER
  	</select>
  	
 </mapper>

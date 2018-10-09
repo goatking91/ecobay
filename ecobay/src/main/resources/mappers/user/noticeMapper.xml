@@ -7,71 +7,71 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<select id="selectNoticeList" resultType="NoticeVO">
 		SELECT * 
-		FROM notice
-		WHERE use_yn = true
-		ORDER BY regdate DESC
+		FROM NOTICE
+		WHERE USE_YN = true
+		ORDER BY REGDATE DESC
 	</select>
 	
 	
 	<resultMap type="NoticeVO" id="selectNoticeResultMap">
-		<id column="notice_idx" property="notice_idx" />
-		<result column="title" property="title" />
-		<result column="content" property="content" />
-		<result column="regdate" property="regDate" />
-		<result column="moddate" property="modDate" />
-		<result column="viewcnt" property="viewCNT" />
-		<result column="use_yn" property="use_YN" />
+		<id column="NOTICE_IDX" property="notice_idx" />
+		<result column="TITLE" property="title" />
+		<result column="CONTENT" property="content" />
+		<result column="REGDATE" property="regDate" />
+		<result column="MODDATE" property="modDate" />
+		<result column="VIEWCNT" property="viewCNT" />
+		<result column="USE_YN" property="use_YN" />
 		<collection property="fileVOList" javaType="list" ofType="NoticeFileVO">
-			<id column="file_cd" property="file_cd" />
-			<result column="file_idx" property="file_idx" />
-			<result column="notice_idx" property="notice_idx" />
-			<result column="filename" property="filename" />
-			<result column="filename_org" property="filename_org" />
-			<result column="filesize" property="fileSize"/>
-			<result column="regdate" property="regdate" />
+			<id column="FILE_CD" property="file_cd" />
+			<result column="FILE_IDX" property="file_idx" />
+			<result column="NOTICE_IDX" property="notice_idx" />
+			<result column="FILENAME" property="filename" />
+			<result column="FILENAME_ORG" property="filename_org" />
+			<result column="FILESIZE" property="fileSize"/>
+			<result column="REGDATE" property="regdate" />
 			<result column="fileSizeByte" property="fileSizeByte" />
 		</collection>
 	</resultMap>
 	<select id="selectNoticeOne" parameterType="int" resultMap="selectNoticeResultMap" statementType="PREPARED">
 		SELECT 
-			t1.notice_idx as notice_idx,
-			t1.title as title,
-			t1.content as content,
-			t1.regdate as regDate,
-			t1.moddate as modDate,
-			t1.viewcnt as viewCNT,
-			t1.use_yn as use_YN,
+			t1.NOTICE_IDX as notice_idx,
+			t1.TITLE as title,
+			t1.CONTENT as content,
+			t1.REGDATE as regDate,
+			t1.MODDATE as modDate,
+			t1.VIEWCNT as viewCNT,
+			t1.USE_YN as use_YN,
 			
-			t2.file_cd as file_cd,
-			t2.file_idx as file_idx,
-			t2.notice_idx as fNotice_idx,
-			t2.filename as fileName,
-			t2.filename_org as fileName_org,
-			t2.filesize as fileSize,
-			t2.regdate as fRegDate,
-			ROUND(t2.filesize/1024,1) as fileSizeByte
+			t2.FILE_CD as file_cd,
+			t2.FILE_IDX as file_idx,
+			t2.NOTICE_IDX as fNotice_idx,
+			t2.FILENAME as fileName,
+			t2.FILENAME_ORG as fileName_org,
+			t2.FILESIZE as fileSize,
+			t2.REGDATE as fRegDate,
+			ROUND(t2.FILESIZE/1024,1) as fileSizeByte
 
-		FROM notice t1 LEFT JOIN noticefile t2
-		ON t1.notice_idx = t2.notice_idx
-		WHERE t1.notice_idx = #{notice_idx}
+		FROM NOTICE t1 LEFT JOIN NOTICEFILE t2
+		ON t1.NOTICE_IDX = t2.NOTICE_IDX
+		WHERE t1.NOTICE_IDX = #{notice_idx}
 		
 	</select>
 
 	<update id="updateViewCnt" parameterType="NoticeVO">
-		UPDATE notice SET
-			viewcnt = viewcnt+1
-		WHERE notice_idx = #{notice_idx}
+		UPDATE NOTICE SET
+			VIEWCNT = viewcnt+1
+		WHERE NOTICE_IDX = #{notice_idx}
 	</update>
 	
 	
 	<select id="maxNoticeIDX" resultType="int">
-		SELECT IFNULL(MAX(notice_idx), 0) +1 as maxNoticeIDX
-		  FROM notice
+		SELECT IFNULL(MAX(NOTICE_IDX), 0) +1 as maxNoticeIDX
+		  FROM NOTICE
 	</select>
 	
 	<select id="maxNoticeFileCnt" resultType="int">
-		SELECT IFNULL(MAX(file_cd), 0) +1 as maxNoticeFileCnt
-		  FROM noticefile
+		SELECT IFNULL(MAX(FILE_CD), 0) +1 as maxNoticeFileCnt
+		  FROM NOTICEFILE
 	</select>
 	
 
