@@ -7,16 +7,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 	<select id="select" resultType="productVO">
 		SELECT  *
-		   FROM product
+		   FROM PRODUCT
 		  WHERE USE_YN = TRUE
-		    AND product_cd = #{product_cd}
+		    AND PRODUCT_CD = #{product_cd}
 	</select>
 
 	<select id="selectDetail" resultType="productVO">
 		SELECT    prod.PRODUCT_CD, prod.PRODUCT_NM, prod.MEMBER_ID, prod.STATE_CD, prod.STATE_NM, prod.VIEWCNT
 				, IFNULL(prod.CONTENT, '') as CONTENT
-				, (SELECT COUNT(bid.PRODUCT_CD) FROM bidinfo bid WHERE bid.PRODUCT_CD = prod.PRODUCT_CD) as BID_CNT
-				, IFNULL((SELECT MAX(bid.MONEY_BID) FROM bidinfo bid WHERE bid.PRODUCT_CD = prod.PRODUCT_CD), 0) as BID_MAX_MONEY
+				, (SELECT COUNT(bid.PRODUCT_CD) FROM BIDINFO bid WHERE bid.PRODUCT_CD = prod.PRODUCT_CD) as BID_CNT
+				, IFNULL((SELECT MAX(bid.MONEY_BID) FROM BIDINFO bid WHERE bid.PRODUCT_CD = prod.PRODUCT_CD), 0) as BID_MAX_MONEY
                 , IFNULL(auct.AUCTDATE_UNIT, 0) as AUCTDATE_UNIT
                 , IFNULL(DATE_FORMAT(auct.ACUTDATE_START, '%Y-%m-%d %H:%s'), '') as ACUTDATE_START_STR
                 , IFNULL(DATE_FORMAT(auct.ACUTDATE_END, '%Y-%m-%d %H:%s'), '') as ACUTDATE_END_STR
@@ -24,23 +24,23 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
                 , IFNULL(auct.MONEY_UNIT, 0) as MONEY_UNIT
                 , auct.BAYNOW_YN
                 , IFNULL(auct.BAYNOW_MONEY, 0) as BAYNOW_MONEY
-                , IFNULL((SELECT deli.DELI_DIV_CD FROM deliveryinfo deli WHERE deli.PRODUCT_CD = prod.PRODUCT_CD), '') as DELI_DIV_CD
-                , IFNULL((SELECT deli.DELI_DIV_NM FROM deliveryinfo deli WHERE deli.PRODUCT_CD = prod.PRODUCT_CD), '') as DELI_DIV_NM
-		   FROM product prod LEFT JOIN  auctioninfo auct
+                , IFNULL((SELECT deli.DELI_DIV_CD FROM DELIVERYINFO deli WHERE deli.PRODUCT_CD = prod.PRODUCT_CD), '') as DELI_DIV_CD
+                , IFNULL((SELECT deli.DELI_DIV_NM FROM DELIVERYINFO deli WHERE deli.PRODUCT_CD = prod.PRODUCT_CD), '') as DELI_DIV_NM
+		   FROM PRODUCT prod LEFT JOIN  AUCTIONINFO auct
              ON prod.PRODUCT_CD = auct.PRODUCT_CD
 		  WHERE prod.USE_YN = TRUE
-		    AND prod.product_cd = #{product_cd}
+		    AND prod.PRODUCT_CD = #{product_cd}
 	</select>
 	
 	<select id="selectDetailProd" resultType="productVO">
 		SELECT    prod.PRODUCT_CD, prod.PRODUCT_NM, prod.MEMBER_ID
                 , prod.STATE_CD, prod.STATE_NM, prod.VIEWCNT
                 , IFNULL(prod.CONTENT, '') as CONTENT
-				, (SELECT COUNT(bid.PRODUCT_CD) FROM bidinfo bid WHERE bid.PRODUCT_CD = prod.PRODUCT_CD) as BID_CNT
-				, IFNULL((SELECT MAX(bid.MONEY_BID) FROM bidinfo bid WHERE bid.PRODUCT_CD = prod.PRODUCT_CD), 0) as BID_MAX_MONEY
-		   FROM product prod
+				, (SELECT COUNT(bid.PRODUCT_CD) FROM BIDINFO bid WHERE bid.PRODUCT_CD = prod.PRODUCT_CD) as BID_CNT
+				, IFNULL((SELECT MAX(bid.MONEY_BID) FROM BIDINFO bid WHERE bid.PRODUCT_CD = prod.PRODUCT_CD), 0) as BID_MAX_MONEY
+		   FROM PRODUCT prod
 		  WHERE prod.USE_YN = TRUE
-		    AND prod.product_cd = #{product_cd}
+		    AND prod.PRODUCT_CD = #{product_cd}
 	</select>
 	
 	<select id="selectDetailAuct" resultType="AuctionInfoVO">
@@ -52,16 +52,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
                 , IFNULL(auct.MONEY_UNIT, 0) as MONEY_UNIT
                 , auct.BAYNOW_YN
                 , IFNULL(auct.BAYNOW_MONEY, 0) as BAYNOW_MONEY
-		   FROM auctioninfo auct
-		  WHERE auct.product_cd = #{product_cd}
+		   FROM AUCTIONINFO auct
+		  WHERE auct.PRODUCT_CD = #{product_cd}
 	</select>
 	
 	<select id="selectDetailDeli" resultType="DeliveryInfoVO">
 		SELECT    deli.PRODUCT_CD
                 , IFNULL(deli.DELI_DIV_CD, '') as DELI_DIV_CD
                 , IFNULL(deli.DELI_DIV_NM, '') as DELI_DIV_NM
-		   FROM deliveryinfo deli
-		  WHERE deli.product_cd = #{product_cd}
+		   FROM DELIVERYINFO deli
+		  WHERE deli.PRODUCT_CD = #{product_cd}
 	</select>
 	
 	<select id="selectList" resultType="ProductVO">
@@ -69,14 +69,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		(
 			 SELECT @rownum:=@rownum+1 as rn
 			 		, prod.PRODUCT_CD, prod.PRODUCT_NM, prod.MEMBER_ID, prod.STATE_CD, prod.STATE_NM, prod.VIEWCNT
-					, (SELECT COUNT(bid.PRODUCT_CD) FROM bidinfo bid WHERE bid.PRODUCT_CD = prod.PRODUCT_CD) as BID_CNT
-					, IFNULL((SELECT MAX(bid.MONEY_BID) FROM bidinfo bid WHERE bid.PRODUCT_CD = prod.PRODUCT_CD), 0) as BID_MAX_MONEY
-			        , IFNULL((SELECT prodimg.FILENAME_THUMB FROM productimg prodimg WHERE prodimg.PRODUCT_CD = prod.PRODUCT_CD ORDER BY prodimg.IMG_IDX ASC limit 1), '') as FILENAME_THUMB
+					, (SELECT COUNT(bid.PRODUCT_CD) FROM BIDINFO bid WHERE bid.PRODUCT_CD = prod.PRODUCT_CD) as BID_CNT
+					, IFNULL((SELECT MAX(bid.MONEY_BID) FROM BIDINFO bid WHERE bid.PRODUCT_CD = prod.PRODUCT_CD), 0) as BID_MAX_MONEY
+			        , IFNULL((SELECT prodimg.FILENAME_THUMB FROM PRODUCTIMG prodimg WHERE prodimg.PRODUCT_CD = prod.PRODUCT_CD ORDER BY prodimg.IMG_IDX ASC limit 1), '') as FILENAME_THUMB
 			        , CASE 
-						WHEN (prod.STATE_CD != '3') THEN IFNULL((SELECT DATE_FORMAT(auct.ACUTDATE_END, '%Y-%m-%d %H:%s') FROM auctioninfo auct WHERE auct.PRODUCT_CD = prod.PRODUCT_CD), '')
+						WHEN (prod.STATE_CD != '3') THEN IFNULL((SELECT DATE_FORMAT(auct.ACUTDATE_END, '%Y-%m-%d %H:%s') FROM AUCTIONINFO auct WHERE auct.PRODUCT_CD = prod.PRODUCT_CD), '')
 						ELSE '' END AS ACUTDATE_END_STR
-					, IFNULL((SELECT auct.MONEY_FIRST FROM auctioninfo auct WHERE auct.PRODUCT_CD = prod.PRODUCT_CD), 0) as MONEY_FIRST
-			   FROM product prod , (select @rownum:=0) tmp
+					, IFNULL((SELECT auct.MONEY_FIRST FROM AUCTIONINFO auct WHERE auct.PRODUCT_CD = prod.PRODUCT_CD), 0) as MONEY_FIRST
+			   FROM PRODUCT prod , (SELECT @rownum:=0) tmp
 			  WHERE prod.USE_YN = TRUE
 			    AND prod.STATE_CD IN ('3', '5', '6', '7')
 			    <if test="class_big_cd != null and class_big_cd != ''">
@@ -89,7 +89,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 				AND prod.PRODUCT_NM like CONCAT('%',#{searchVal},'%')
 				</if>
 		) prodlist
-		where prodlist.rn between #{start_num} and #{end_num}
+		WHERE prodlist.rn BETWEEN #{start_num} AND #{end_num}
 	</select>
 	
 	<select id="selectListBest" resultType="ProductVO">
@@ -97,48 +97,48 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   		FROM (SELECT @rownum:=@rownum+1 as rn, btprod.*
        		  FROM ( SELECT btp.* 
 		              FROM( SELECT  prod.PRODUCT_CD, prod.PRODUCT_NM, prod.MEMBER_ID, prod.STATE_CD, prod.STATE_NM, prod.VIEWCNT
-		                       , (SELECT COUNT(PRODUCT_CD) FROM bidinfo bid WHERE bid.PRODUCT_CD = prod.PRODUCT_CD) as BID_CNT
-		                       , IFNULL((SELECT MAX(MONEY_BID) FROM bidinfo bid WHERE bid.PRODUCT_CD = prod.PRODUCT_CD), 0) as BID_MAX_MONEY
-		                       , IFNULL((SELECT prodimg.FILENAME_THUMB FROM productimg prodimg WHERE prodimg.PRODUCT_CD = prod.PRODUCT_CD ORDER BY prodimg.IMG_IDX ASC limit 1), '') as FILENAME_THUMB
+		                       , (SELECT COUNT(PRODUCT_CD) FROM BIDINFO bid WHERE bid.PRODUCT_CD = prod.PRODUCT_CD) as BID_CNT
+		                       , IFNULL((SELECT MAX(MONEY_BID) FROM BIDINFO bid WHERE bid.PRODUCT_CD = prod.PRODUCT_CD), 0) as BID_MAX_MONEY
+		                       , IFNULL((SELECT prodimg.FILENAME_THUMB FROM PRODUCTIMG prodimg WHERE prodimg.PRODUCT_CD = prod.PRODUCT_CD ORDER BY prodimg.IMG_IDX ASC limit 1), '') as FILENAME_THUMB
 		                       , '' as ACUTDATE_END_STR
-		                       , IFNULL((SELECT auct.MONEY_FIRST FROM auctioninfo auct WHERE auct.PRODUCT_CD = prod.PRODUCT_CD), 0) as MONEY_FIRST
-		                    FROM product prod
+		                       , IFNULL((SELECT auct.MONEY_FIRST FROM AUCTIONINFO auct WHERE auct.PRODUCT_CD = prod.PRODUCT_CD), 0) as MONEY_FIRST
+		                    FROM PRODUCT prod
 		                   WHERE prod.USE_YN = TRUE
 		                     AND prod.STATE_CD = '3'
 		             ) btp
-              ORDER BY btp.BID_CNT DESC, btp.VIEWCNT DESC ) btprod , (select @rownum:=0) tmp
+              ORDER BY btp.BID_CNT DESC, btp.VIEWCNT DESC ) btprod , (SELECT @rownum:=0) tmp
       	) bestprod
-		WHERE bestprod.rn between #{start_num} and #{end_num}
+		WHERE bestprod.rn BETWEEN #{start_num} AND #{end_num}
 	</select>
 	
 	<select id="selectImageList" resultType="ProductImageVO">
 		SELECT *
-		  FROM productimg
-		 WHERE product_cd = #{product_cd}
+		  FROM PRODUCTIMG
+		 WHERE PRODUCT_CD = #{product_cd}
 	</select>
 	
 	<select id="selectBidList" resultType="BidInfoVO">
 	  SELECT bid.* 
 		FROM ( SELECT  @rownum:=@rownum+1 as rowcnt, bi.*
 				FROM ( SELECT *
-						 FROM bidinfo
-				   	    WHERE product_cd = #{product_cd}
+						 FROM BIDINFO
+				   	    WHERE PRODUCT_CD = #{product_cd}
 					 ORDER BY REGDATE DESC
-					 ) bi, (select @rownum:=0) tmp 
+					 ) bi, (SELECT @rownum:=0) tmp 
 			  ) bid
-		WHERE bid.rowcnt between #{start_num} and #{end_num}
+		WHERE bid.rowcnt BETWEEN #{start_num} AND #{end_num}
 	</select>
 	
 	<select id="selectMaxMoneyBid" resultType="BidInfoVO">
-		SELECT  IFNULL(max(MONEY_BID), 0) as MONEY_BID_MAX
-			  , IFNULL(count(MONEY_BID), 0) as MEMBER_CNT
-		  FROM bidinfo
-		 WHERE product_cd = #{product_cd}
+		SELECT  IFNULL(MAX(MONEY_BID), 0) as MONEY_BID_MAX
+			  , IFNULL(COUNT(MONEY_BID), 0) as MEMBER_CNT
+		  FROM BIDINFO
+		 WHERE PRODUCT_CD = #{product_cd}
 	</select>
 	
 	<select id="BidAllCnt" resultType="int">
 		SELECT COUNT(PRODUCT_CD)
-		  FROM bidinfo
+		  FROM BIDINFO
 	     WHERE PRODUCT_CD = #{product_cd} 
 	</select>
 	
@@ -150,28 +150,28 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 							   , IFNULL(q.MEMBER_ID, '') as MEMBER_ID
 							   , IFNULL(q.TITLE, '') as TITLE
 							   , IFNULL(q.CONTENT, '') as CONTENT
-							   , IFNULL((SELECT qr.CONTENT FROM productqna qr WHERE qr.QNA_IDX = q.QNA_IDX AND qr.PRODUCT_CD = q.PRODUCT_CD AND qr.QNA_DIV = '2'), '') as QNA_REPLY
-                               , IFNULL((SELECT qr.MEMBER_ID FROM productqna qr WHERE qr.QNA_IDX = q.QNA_IDX AND qr.PRODUCT_CD = q.PRODUCT_CD AND qr.QNA_DIV = '2'), '') as MEMBER_ID_BAY
+							   , IFNULL((SELECT qr.CONTENT FROM PRODUCTQNA qr WHERE qr.QNA_IDX = q.QNA_IDX AND qr.PRODUCT_CD = q.PRODUCT_CD AND qr.QNA_DIV = '2'), '') as QNA_REPLY
+                               , IFNULL((SELECT qr.MEMBER_ID FROM PRODUCTQNA qr WHERE qr.QNA_IDX = q.QNA_IDX AND qr.PRODUCT_CD = q.PRODUCT_CD AND qr.QNA_DIV = '2'), '') as MEMBER_ID_BAY
 							   , q.REGDATE
-						  FROM productqna q
+						  FROM PRODUCTQNA q
 					     WHERE q.PRODUCT_CD = #{product_cd} 
 					       AND q.QNA_DIV = '1'
 				  	  ORDER BY q.QNA_IDX DESC
-					) qna, (select @rownum:=0) tmp
+					) qna, (SELECT @rownum:=0) tmp
 				) prodqna
-		 WHERE prodqna.rowcnt between #{start_num} and #{end_num}
+		 WHERE prodqna.rowcnt BETWEEN #{start_num} AND #{end_num}
 	</select>
 	
 	<select id="ProdQnaAllCnt" resultType="int">
 		SELECT COUNT(PRODUCT_CD)
-		  FROM productqna
+		  FROM PRODUCTQNA
 	     WHERE PRODUCT_CD = #{product_cd} 
 	       AND QNA_DIV = '1'
 	</select>
 
 	<select id="bigclassList" resultType="ProductVO">
 		SELECT CLASS_BIG_CD, CLASS_NM as CLASS_BIG_NM
-		  FROM class
+		  FROM CLASS
 		 WHERE USE_YN = TRUE
 		   AND CLASS_DIV = 'B'
 	  ORDER BY CLASS_BIG_CD ASC
@@ -179,7 +179,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 	<select id="midclassList" resultType="ProductVO">
 		SELECT CLASS_MID_CD, CLASS_NM as CLASS_MID_NM
-		  FROM class
+		  FROM CLASS
 		 WHERE USE_YN = TRUE
 		   AND CLASS_DIV = 'M'
 		   AND CLASS_BIG_CD = #{class_big_cd}
@@ -187,9 +187,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 
 	<select id="maxCnt" parameterType="String" resultType="int">
-		SELECT IFNULL(MAX(CAST(SUBSTRING(product_cd, 11, 4) as unsigned)), 0) +1 as maxCnt
-		  FROM product
-		 WHERE SUBSTRING(product_cd, 1, 10) = #{searchVal}
+		SELECT IFNULL(MAX(CAST(SUBSTRING(PRODUCT_CD, 11, 4) as UNSIGNED)), 0) +1 as maxCnt
+		  FROM PRODUCT
+		 WHERE SUBSTRING(PRODUCT_CD, 1, 10) = #{searchVal}
 	</select>
 	
 	<select id="maxImgCnt" resultType="int">
@@ -199,64 +199,64 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<select id="maxQnaCnt" resultType="int">
 		SELECT IFNULL(MAX(QNA_IDX), 0) +1 as maxQnaCnt
-		  FROM productqna
+		  FROM PRODUCTQNA
 	</select>
 	
 	<select id="selectProdviewcnt" resultType="int">
 		SELECT IFNULL(VIEWCNT, 0) as VIEWCNT
-		  FROM product
-		 WHERE product_cd = #{product_cd}
+		  FROM PRODUCT
+		 WHERE PRODUCT_CD = #{product_cd}
 	</select>
 	
 	<insert id="insert" parameterType="ProductVO">
-		INSERT INTO product 
+		INSERT INTO PRODUCT 
 		     VALUES (#{product_cd}, #{product_nm}, #{member_id}, #{class_big_cd}, #{class_mid_cd}, #{content}, '1', '요청', now(), now(), null, TRUE, 0)
 	</insert>
 	
 	<insert id="imageInsert" parameterType="ProductImageVO">
-		INSERT INTO productimg 
+		INSERT INTO PRODUCTIMG 
 		    VALUES (#{img_cd}, #{img_idx}, #{product_cd}, #{filename}, #{filename_org}, #{filename_thumb}, now())
 	</insert>
 	
 	<insert id="auctInsert" parameterType="AuctionInfoVO">
-		INSERT INTO auctioninfo 
+		INSERT INTO AUCTIONINFO 
 		    VALUES (#{product_cd}, #{money_first}, 0, #{money_unit}, #{auctdate_unit}, #{acutdate_start}, #{acutdate_end}, #{baynow_yn}, #{baynow_money}, now(), #{bay_member_id}, #{payment_proc_cd})
 	</insert>
 
 	<insert id="deliInsert" parameterType="DeliveryInfoVO">
-		INSERT INTO deliveryinfo
+		INSERT INTO DELIVERYINFO
 		    VALUES (#{product_cd}, #{deli_div_cd}, #{deli_div_nm}, now())
 	</insert>
 	
 	<insert id="prodQnaInsert" parameterType="ProductQnaVO">
-		INSERT INTO productqna
+		INSERT INTO PRODUCTQNA
 		    VALUES (#{qna_idx}, #{product_cd}, #{qna_div}, #{member_id}, #{title}, #{content}, now())
 	</insert>
 	
 	<insert id="bidInsert" parameterType="BidInfoVO">
-		INSERT INTO bidinfo
+		INSERT INTO BIDINFO
 		    VALUES (#{product_cd}, #{member_id}, #{money_bid}, now())
 	</insert>
 	
 	<insert id="prodWishInsert" parameterType="ProductVO">
-		INSERT INTO productwish
+		INSERT INTO PRODUCTWISH
 		    VALUES (#{product_cd}, #{member_id}, now())
 	</insert>
 
 	<delete id="prodQnaDelete" parameterType="int">
-		DELETE FROM productqna
+		DELETE FROM PRODUCTQNA
 		 WHERE QNA_IDX = #{qna_idx}
 	</delete>
 	
 	<update id="delete">
-		UPDATE product
+		UPDATE PRODUCT
 		   SET USE_YN = FALSE
-		 WHERE product_cd = #{product_cd}
+		 WHERE PRODUCT_CD = #{product_cd}
 	</update>
 	
 	<update id="updateProdViewCnt">
-		UPDATE product
+		UPDATE PRODUCT
 		   SET VIEWCNT = #{viewcnt}
-		 WHERE product_cd = #{product_cd}
+		 WHERE PRODUCT_CD = #{product_cd}
 	</update>
 </mapper>
