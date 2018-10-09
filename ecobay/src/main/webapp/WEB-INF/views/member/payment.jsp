@@ -137,7 +137,7 @@ $(function() {
 	
 	
 	$('#same').click(function(){//주문자정보와 배송지 정보 동일시
-		var member_name = $('#member_name').val($('#member_name2').val());//배송지정보
+		var member_name = $('#member_name').val($('#member_name2').text());//배송지정보
 		var deli_zipcode = $('#deli_zipcode').val($('#zipcode').val());
 		var phone = $('#phone').val();
 		var phone4 = $('#phone4').val(phone.substring(0,3));
@@ -172,13 +172,13 @@ $(function() {
 				<label class="col-sm-3 col-form-label text-right" for="member_name2">이름</label>
 				<div class="col-sm-4">
 					<security:csrfInput/>
-					<input class="form-control border-0" style="background-color:white" id="member_name2" type="text" value="${member.member_name}" readonly>
+					<label id="member_name2" name="member_name2" >${member.member_name}</label>
 				</div>
 			</div>
         	<div class="form-group row">
-          		<label class="col-sm-3 col-form-label text-right text-right" for="member_id2">ID</label>
+          		<label class="col-sm-3 col-form-label text-right text-right" for="member_id">ID</label>
 		        <div class="col-sm-3">
-					<input class="form-control border-0" style="background-color:white" id="member_id2" type="text" value="${member.member_id}" readonly>
+					<label id="member_id" name="member_id" >${member.member_id}</label>
 				</div>		
         	</div>
 			
@@ -186,15 +186,11 @@ $(function() {
 			<label class="col-sm-3 col-form-label text-right" for="phone1 phone2 phone3">번호</label>
 				<div class="col-sm-3">
 					<div class="input-group">				
-					<input class="form-control" id="phone1" value="${member.phone.substring(0,3)}" readonly>
-					<div class="input-g roup-append">
-    						<span class="input-group-text" id="basic-addon2">-</span>
-  					</div>
-					<input class="form-control" id="phone2" value="${member.phone.substring(4,8)}" readonly>
-					<div class="input-group-append">
-    						<span class="input-group-text" id="basic-addon2">-</span>
-  					</div>					
-					<input class="form-control" id="phone3" value="${member.phone.substring(9,13)}" readonly>
+					<label id="phone1">${member.phone.substring(0,3)}</label>
+					-
+					<label id="phone2">${member.phone.substring(4,8)}</label>
+					-					
+					<label id="phone3">${member.phone.substring(9,13)}</label>
 					<input class="form-control" id="phone" name="phone" type="hidden" value="${member.phone}">
 				</div>
 				</div>	
@@ -296,7 +292,7 @@ $(function() {
 			<div style="font-size: 20pt" class="d-flex justify-content-between align-items-center">
 				<div class="col-sm-4" align="left">결제 예정금액</div>
 				<div class="col-sm-6"></div>
-				<label id='money_pay' name="money_pay" style="color: red; align:right;">${payMoney}</label>원
+				<input class="form-control border-0" id='money_pay' name="money_pay" style="color: red;background-color:white; align:right;" value='${payMoney}' readonly>원
 			</div>
 			
 					
