@@ -38,8 +38,8 @@
 		<table class="table table-striped table-hover">
 		    <thead>
 		        <tr>
-		            <th>번호</th>
-		            <th>제목</th>
+		            <th width="10%">번호</th>
+		            <th width="90%">제목</th>
 		        </tr>
 		    </thead>
 			<c:forEach var="list" items="${faqList}" varStatus="status">

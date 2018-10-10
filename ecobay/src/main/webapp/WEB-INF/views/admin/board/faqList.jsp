@@ -83,10 +83,10 @@ $(document).ready(function(){
 		<table class="table table-striped table-hover">
 		    <thead>
 		        <tr>
-		            <th>번호</th>
-		            <th>제목</th>
-		            <th>등록일시</th>
-		            <th>관리</th>
+		            <th width="10%">번호</th>
+		            <th width="65%">제목</th>
+		            <th width="10%">등록일시</th>
+		            <th width="15%">관리</th>
 		        </tr>
 		    </thead>
 			<c:forEach var="list" items="${faqList}" varStatus="status">

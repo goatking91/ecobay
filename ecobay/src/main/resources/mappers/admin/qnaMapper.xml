@@ -11,11 +11,55 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		ORDER BY REGDATE DESC
 	</select>
 	
-	<select id="selectQnaOne" parameterType="int" resultType="QnaVO">
-		SELECT * 
-		FROM QNA 
-		WHERE QNA_IDX = #{qna_idx}
+	
+	<resultMap type="QnaVO" id="selectQnaResultMap">
+		<id column="QNA_IDX" property="qna_idx" />
+		<result column="MEMBER_ID" property="member_id" />
+		<result column="TITLE" property="title" />
+		<result column="CONTENT" property="content" />
+		<result column="REGDATE" property="regDate" />
+		<collection property="qnaReplyList" javaType="list" ofType="QnaReplyVO">
+			<id column="QNARP_IDX" property="qnarp_idx" />
+			<result column="QNA_IDX" property="qna_idx" />
+			<result column="RECONTENT" property="content" />
+			<result column="ADMIN_ID" property="admin_id" />
+			<result column="REREGDATE" property="regDate" />
+		</collection>
+	</resultMap>
+	<select id="selectQnaOne" parameterType="int" resultMap="selectQnaResultMap" statementType="PREPARED">
+		SELECT 
+			t1.QNA_IDX as qna_idx,
+			t1.MEMBER_ID as member_id,
+			t1.TITLE as title,
+			t1.CONTENT as content,
+			t1.REGDATE as regDate,
+			
+			t2.QNARP_IDX as qnarp_idx,
+			t2.CONTENT as recontent,
+			t2.ADMIN_ID as admin_id,
+			t2.REGDATE as reregdate
+
+		FROM QNA t1 LEFT JOIN QNAREPLY t2
+		ON t1.QNA_IDX = t2.QNA_IDX
+		WHERE t1.QNA_IDX = #{QNA_IDX}
+		
 	</select>
+	
+	
+	<insert id="insertQnaReply" parameterType="QnaReplyVO">
+		INSERT INTO QNAREPLY (
+			QNA_IDX, CONTENT, ADMIN_ID, REGDATE
+		)
+		VALUES ( 
+			#{qna_idx}, #{content}, '관리자', now()
+		)
+	</insert>
+	
+	<delete id="deleteQnaReply" parameterType="int">
+		DELETE FROM QNAREPLY 
+		WHERE QNARP_IDX = #{qnarp_idx}
+	</delete>
+	
 	
 </mapper>
 

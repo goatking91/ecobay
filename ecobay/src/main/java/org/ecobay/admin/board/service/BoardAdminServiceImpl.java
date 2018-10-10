@@ -9,6 +9,7 @@ import javax.annotation.Resource;
 import org.ecobay.admin.board.domain.FaqVO;
 import org.ecobay.admin.board.domain.NoticeFileVO;
 import org.ecobay.admin.board.domain.NoticeVO;
+import org.ecobay.admin.board.domain.QnaReplyVO;
 import org.ecobay.admin.board.domain.QnaVO;
 import org.ecobay.admin.board.persistence.FaqAdminDAO;
 import org.ecobay.admin.board.persistence.NoticeAdminDAO;
@@ -151,6 +152,16 @@ public class BoardAdminServiceImpl implements BoardAdminService {
 	@Override
 	public QnaVO qnaLoad(int qna_idx) throws Exception {
 		return qnaDao.qnaLoad(qna_idx);
+	}
+
+	@Override
+	public void qnaReplyRegist(QnaReplyVO vo) throws Exception {
+		qnaDao.qnaReplyRegist(vo);
+	}
+
+	@Override
+	public void qnaReplyDelete(int qnarp_idx) throws Exception {
+		qnaDao.qnaReplyDelete(qnarp_idx);
 	}
 	
 	

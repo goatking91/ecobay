@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.ecobay.admin.board.domain.FaqVO;
 import org.ecobay.admin.board.domain.NoticeVO;
+import org.ecobay.admin.board.domain.QnaReplyVO;
 import org.ecobay.admin.board.domain.QnaVO;
 
 public interface BoardAdminService {
@@ -39,5 +40,9 @@ public interface BoardAdminService {
 		
 		public QnaVO qnaLoad(int qna_idx) throws Exception;
 		
+		//QnaReply
+		public void qnaReplyRegist(QnaReplyVO vo) throws Exception;
+		
+		public void qnaReplyDelete(int qnarp_idx) throws Exception;
 		
 }
