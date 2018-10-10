@@ -1,8 +1,10 @@
 package org.ecobay.user.member.persistence;
 
+import java.util.List;
+
+import org.ecobay.user.member.domain.MemberProductVO;
 import org.ecobay.user.member.domain.MemberVO;
 import org.ecobay.user.product.domain.AuctionInfoVO;
-import org.ecobay.user.product.domain.BidInfoVO;
 import org.ecobay.user.product.domain.DeliveryVO;
 import org.ecobay.user.product.domain.PaymentVO;
 
@@ -38,4 +40,6 @@ public interface MemberDAO {
 	public void delivery(DeliveryVO dvo) throws Exception;
 	
 	public void auctionInfo(AuctionInfoVO avo) throws Exception;
+	
+	public List<MemberProductVO> wishList(String member_id) throws Exception;
 }

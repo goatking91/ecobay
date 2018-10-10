@@ -6,75 +6,75 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <mapper namespace="org.ecobay.user.mapper.MemberMapper">
 
 	<insert id="create" parameterType="MemberVO">
-		insert into member 
-		(member_id,member_name,pwd,birth,zipcode,addr1,addr2,gender,phone,join_yn,regdate)
-		values(#{member_id},#{member_name},#{pwd},#{birth},#{zipcode},#{addr1},#{addr2},#{gender},#{phone},#{join_YN},now())
+		INSERT INTO MEMBER 
+		(MEMBER_ID,MEMBER_NAME,PWD,BIRTH,ZIPCODE,ADDR1,ADDR2,GENDER,PHONE,JOIN_YN,REGDATE)
+		values(#{member_id},#{member_name},#{pwd},#{birth},#{zipcode},#{addr1},#{addr2},#{gender},#{phone},#{join_yn},now())
 	</insert>
 	
 	<select id="read" parameterType="String" resultType="MemberVO">
-		select * from member where member_id = #{member_id}
+		SELECT * FROM MEMBER WHERE MEMBER_ID = #{member_id}
 	</select>
 	
 	<select id="readAll" resultType="MemberVO">
-		select @rownum:=@rownum+1 as rn, m.* from member m, (select @rownum:=0) tmp
+		SELECT @ROWNUM:=@ROWNUM+1 AS RN, M.* FROM MEMBER M, (SELECT @ROWNUM:=0) TMP
 	</select>
 	
 	<select id="count" resultType="int">
-		select count(*) from member
+		SELECT COUNT(*) FROM MEMBER
  	</select>
  	
  	<select id="idcount" resultType="int">
- 		select count(*) from member where member_id = #{member_id}
+ 		SELECT COUNT(*) FROM MEMBER WHERE MEMBER_ID = #{member_id}
  	</select>
  	
  	<select id="pwdcheck" resultType="String">
- 		select pwd from member where member_id = #{member_id}
+ 		SELECT PWD FROM MEMBER WHERE MEMBER_ID = #{member_id}
  	</select>
 	
 	<update id="verify" parameterType="MemberVO">
-		update member set
-		join_YN = true
-		where member_id = #{member_id}
-		and birth = #{birth}
+		UPDATE MEMBER SET
+		JOIN_YN = TRUE
+		WHERE MEMBER_ID = #{member_id}
+		AND BIRTH = #{birth}
 	</update>
 	
 	<update id="update" parameterType="MemberVO">
-		update member set
-		pwd = #{pwd},
-		zipcode = #{zipcode},
-		addr1 = #{addr1},
-		addr2 = #{addr2},
-		phone = #{phone},
-		moddate = now()
-		where member_id = #{member_id}			
+		UPDATE MEMBER SET
+		PWD = #{pwd},
+		ZIPCODE = #{zipcode},
+		ADDR1 = #{addr1},
+		ADDR2 = #{addr2},
+		PHONE = #{phone},
+		MODDATE = now()
+		WHERE MEMBER_ID = #{member_id}			
 	</update>
 	
 	<update id="delete" parameterType="String"><!-- 회원탈퇴 -->
-		update member set
-		join_yn = false,
-		use_yn = false
-		where member_id = #{member_id}	
+		UPDATE MEMBER SET
+		JOIN_YN = FALSE,
+		USE_YN = FALSE
+		WHERE MEMBER_ID = #{member_id}	
 	</update>
 	
 	<select id="idfind" parameterType="MemberVO" resultType="String">
-		select member_id from member where 
-		member_name = #{member_name} and
-		birth = #{birth} and
-		phone = #{phone}
+		SELECT MEMBER_ID FROM MEMBER WHERE 
+		MEMBER_NAME = #{member_name} AND
+		BIRTH = #{birth} AND
+		PHONE = #{phone}
 	</select>
 	
 	<select id="pwdfind" parameterType="MemberVO" resultType="String">
-		select pwd from member where 
-		member_name = #{member_name} and
-		birth = #{birth} and
-		member_id = #{member_id}
+		SELECT PWD FROM MEMBER WHERE 
+		MEMBER_NAME = #{member_name} AND
+		BIRTH = #{birth} AND
+		MEMBER_ID = #{member_id}
 	</select>
 	
 	<update id="newpwd" parameterType="MemberVO">
-		update member set
-		pwd = #{pwd},
-		moddate = now()
-		where member_id =#{member_id}	
+		UPDATE MEMBER SET
+		PWD = #{pwd},
+		MODDATE = now()
+		WHERE MEMBER_ID =#{member_id}	
 	</update>
 	
 	<select id="selectAuct" resultType="AuctionInfoVO">
@@ -87,33 +87,50 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	<select id="selectProd" resultType="String">
-		select product_nm 
-		from product
-		where product_cd = #{product_cd}
+		SELECT PRODUCT_NM 
+		FROM PRODUCT
+		WHERE PRODUCT_CD = #{product_cd}
 	</select>
 	
 	<select id="selectImg" resultType="String">
-		select filename_thumb 
-		from productimg
-		where product_cd = #{product_cd}
+		SELECT FILENAME_THUMB 
+		FROM PRODUCTIMG
+		WHERE PRODUCT_CD = #{product_cd}
 	</select>
 	
 	<insert id="payment" parameterType="PaymentVO">
-		insert into payment
-		values(#{product_cd}, #{money_pay}, now())
+		INSERT INTO PAYMENT
+		VALUES(#{product_cd}, #{money_pay}, now())
 	</insert>
 	
 	<insert id="delivery" parameterType="DeliveryVO">
-		insert into delivery
-		values(#{product_cd}, #{deli_nm}, #{deli_zipcode}, #{deli_addr1}, #{deli_addr2}, now())
+		INSERT INTO DELIVERY
+		VALUES(#{product_cd}, #{deli_nm}, #{deli_zipcode}, #{deli_addr1}, #{deli_addr2}, now())
 	</insert>
 	
 	<update id="auctionInfo">
-		update auctioninfo 
-		   set MONEY_LAST = #{money_last}
+		UPDATE AUCTIONINFO 
+		   SET MONEY_LAST = #{money_last}
 		     , BAY_MEMBER_ID = #{bay_member_id}
-		     , payment_proc_cd = '2'
-		where product_cd = #{product_cd} 
+		     , PAYMENT_PROC_CD = '2'
+		WHERE PRODUCT_CD = #{product_cd} 
 	</update>
+	
+	<select id="wishList" resultType="MemberProductVO">
+		SELECT WISH.PRODUCT_CD, WISH.PRODUCT_NM, WISH.STATE_CD, WISH.STATE_NM, WISH.REGDATE
+		, IFNULL((SELECT DATE_FORMAT(AUCT.ACUTDATE_START, '%Y-%m-%d %H:%s') FROM AUCTIONINFO AUCT WHERE AUCT.PRODUCT_CD = WISH.PRODUCT_CD), '') AS ACUTDATE_START_STR
+		, IFNULL((SELECT DATE_FORMAT(AUCT.ACUTDATE_END, '%Y-%m-%d %H:%s') FROM AUCTIONINFO AUCT WHERE AUCT.PRODUCT_CD = WISH.PRODUCT_CD), '') AS ACUTDATE_END_STR
+		, IFNULL((SELECT PRODIMG.FILENAME_THUMB FROM PRODUCTIMG PRODIMG WHERE PRODIMG.PRODUCT_CD = WISH.PRODUCT_CD ORDER BY PRODIMG.IMG_IDX ASC LIMIT 1), '') AS FILENAME_THUMB
+ 		FROM
+ 		(
+			SELECT PRODWISH.PRODUCT_CD, PROD.PRODUCT_NM, PROD.STATE_CD, PROD.STATE_NM, PRODWISH.REGDATE
+			FROM PRODUCTWISH PRODWISH LEFT JOIN PRODUCT PROD 
+			ON PRODWISH.PRODUCT_CD = PROD.PRODUCT_CD
+			WHERE PRODWISH.MEMBER_ID = #{member_id}
+			AND prod.USE_YN = TRUE
+			AND PROD.STATE_CD IN ('3', '5', '6', '7')
+		) WISH
+		ORDER BY WISH.REGDATE DESC		
+	</select>
 </mapper>
 

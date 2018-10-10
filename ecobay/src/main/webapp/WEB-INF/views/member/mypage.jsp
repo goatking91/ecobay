@@ -5,20 +5,18 @@
 <head>
 	<meta id="_csrf" name="_csrf" content="${_csrf.token}"/>
 	<meta id="_csrf_header" name="_csrf_header" content="${_csrf.headerName}"/>
-	
-	<script type="text/javascript">
-		var token = $("meta[name='_csrf']").attr("content");
-		var header = $("meta[name='_csrf_header']").attr("content");
-		 
-		$(function() {
-		    $(document).ajaxSend(function(e, xhr, options) {
-		        xhr.setRequestHeader(header, token);
-		    });
-		});
-</script>
 </head>
 <script>
-$(document).ready(function(){	
+$(document).ready(function(){
+	var token = $("meta[name='_csrf']").attr("content");
+	var header = $("meta[name='_csrf_header']").attr("content");
+	 
+	$(function() {
+	    $(document).ajaxSend(function(e, xhr, options) {
+	        xhr.setRequestHeader(header, token);
+	    });
+	});
+	
 	$('#confirmpwd').click(function(event){
 		/* $('#myModal').css('z-index',99999); */
 		$('#enter').text("");
@@ -59,6 +57,62 @@ $(document).ready(function(){
 		var pwd = $('#pwd').val();//입력받은값
         $('#pwdModal').modal('show');
 	});
+	
+	$('#wishList-tap').click(function(){
+		var member_id = $('#member_id').val();
+		
+		$.ajax({
+			async: true,
+			type: "POST",
+			data: member_id,
+			url : "/member/wishList.do/",
+			dataType : "json",
+			contentType: "application/json; charset=UTF-8",
+			success : function(data) {
+				console.log("1");
+				
+				$('#wishList').empty();
+
+				var str = "";
+				str = str + "<h3>관심 상품</h3>";
+				str = str + "<div class='bg-light border-top border-bottom' style='padding:15px; margin:10px'>";
+				str = str + "	<label class='checkbox'>";
+				str = str + "		<input type='checkbox' id ='chK_all' name='chK_all'>";
+				str = str + "	</label>";
+				str = str + "	<input type='button' class='btn btn-default' value='선택상품 삭제'>";
+				str = str + "</div>";
+				console.log(str);
+				
+				$.each(data.arr, function(index, arr){
+					var state_cd = arr.state_cd;
+					if(state_cd == '3'){
+						state_cd = "진행중";
+					}else{
+						state_cd = "경매종료";
+					}
+					
+					str = str + "<div class='form-group row col-sm-12' style='padding:15px; margin:10px'>";
+					str = str + "	<div class='col-sm-1' style='padding-top:35px'>";
+					str = str + "		<input type='checkbox'>";
+					str = str + "	</div>";	
+					str = str + "	<div class='col-sm-3'><img src='/displayFile.do?fileName=" + arr.filename_thumb + "' style='margin-left: auto; margin-right: auto; display: block; width:60%;'></div>";
+					str = str + "	<div class='col-sm-5' id='form-inline' style='padding-top:10px'>";
+					str = str + "		<div style='font-size:8pt'>" + arr.acutdate_start_str + "~" + arr.acutdate_end_str + "</div>";
+					str = str + "		<div><a style='color:grey; text-decoration: none' href='/product/detail.do?product_cd=" + arr.product_cd + "'>"+ arr.product_cd + "</a></div>";
+					str = str + "		<div id='product_nm'>" + arr.product_nm + "</div>";
+					str = str + "	</div>";
+					str = str + "	<div id='' class='col-sm-3' align='right' style='padding-top:35px'>" + state_cd + "</div>";
+					str = str + "</div>";
+				});
+				console.log(str);
+				$('#wishList').append(str);
+	        },
+	        error: function(data) {
+				console.log("error :" + data);
+			}
+		});  
+		
+	})
 })
 </script>
 
@@ -99,12 +153,13 @@ $(document).ready(function(){
 		<!-- 탭 영역 -->
 		<div class="col-sm-9">
 			<nav class="nav nav-tabs" id="myTab" role="tablist">
-				<a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">내 정보</a>
-				<a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">판매</a>
-				<a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-contact" role="tab" aria-controls="nav-contact" aria-selected="false">구매</a>
+				<a class="nav-item nav-link active" id="myinfo-tap" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">내 정보</a>
+				<a class="nav-item nav-link" id="sell-tap" data-toggle="tab" href="#sell" role="tab" aria-controls="nav-profile" aria-selected="false">판매</a>
+				<a class="nav-item nav-link" id="buy-tap" data-toggle="tab" href="#buy" role="tab" aria-controls="nav-contact" aria-selected="false">구매</a>
+				<a class="nav-item nav-link" id="wishList-tap" data-toggle="tab" href="#wishList" role="tab" aria-controls="nav-contact" aria-selected="false">관심상품리스트</a>
 			</nav>
 			<div class="tab-content" id="nav-tabContent">
-				<div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+				<div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="myinfo-tap">
 					<div class="form-group row">
 					<h2>&nbsp;&nbsp;${member.member_name}</h2>&nbsp;&nbsp; <h6 style="padding-top:15px">님의 정보입니다</h6>
 				</div>
@@ -174,12 +229,69 @@ $(document).ready(function(){
 			</form>
 		</div>
 				</div>
-				<div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">menu1 탭</div>
-				<div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">
-					<!-- 낙찰물품 리스트, 결제하기 버튼 -->
+		<div class="tab-pane fade" id="sell" role="tabpanel" aria-labelledby="sell">
+			<!-- 판매상품 등록 -->
+			<div id=""><!-- 어떤 항목 보여줄지/ 상품썸네일, 상품이름, 상품코드, 입찰현황? -->
+				<div class="form-group row">
+					<div><img src=""></div>
+					<div id="product_cd">상품코드</div>
+					<div id="product_nm">상품이름</div>
+					<div></div>
 				</div>
 			</div>
 		</div>
+		<div class="tab-pane fade" id="buy" role="tabpanel" aria-labelledby="buy">
+			<!-- 낙찰물품 리스트, 결제하기 버튼 -->
+			<h3>낙찰물품 리스트</h3>
+			<div id=>
+				<div class="bg-light border-top border-bottom" style="padding:15px; margin:10px">
+					<label class="checkbox">
+						<input type="checkbox" id ="chK_all" name="chK_all">
+					</label>
+					<input type="button" class="btn btn-default" value="선택상품 삭제">
+				</div>
+				<%-- <c:forEach var="list"  > --%>
+					<div class="form-group row col-sm-12" style="padding:15px; margin:10px">
+						<div class="col-sm-1" style="padding-top:35px">
+							<input type="checkbox">
+						</div>
+						<div class="col-sm-3"><img src="/resources/images/noimg_s.gif"></div>
+						<div class="col-sm-4" id="form-inline" style="padding-top:35px">
+							<div id="product_cd">상품코드</div>
+							<div id="product_nm">상품명</div>
+						</div>
+						<div id="" class="col-sm-4" align="right" style="padding-top:35px">입찰/진행상태</div>
+					</div>
+			<%-- 	</c:forEach> --%>
+			</div>
+		</div>
+		<div style="margin:10px" class="tab-pane fade" id="wishList" role="tabpanel" aria-labelledby="whishList">
+			<!-- 관심상품 등록 -->
+			<%-- <h3>관심 상품</h3>
+			<div id=>
+				<div class="bg-light border-top border-bottom" style="padding:15px; margin:10px">
+					<label class="checkbox">
+						<input type="checkbox" id ="chK_all" name="chK_all">
+					</label>
+					<input type="button" class="btn btn-default" value="선택상품 삭제">
+				</div>
+				<c:forEach var="wishList" items="${wishList}">
+					<div class="form-group row col-sm-12" style="padding:15px; margin:10px">
+						<div class="col-sm-1" style="padding-top:35px">
+							<input type="checkbox">
+						</div>
+						<div class="col-sm-3"><img src="/displayFile.do?fileName=${wishList.filename_thumb}" style="margin-left: auto; margin-right: auto; display: block; width=30%"></div>
+						<div class="col-sm-4" id="form-inline" style="padding-top:35px">
+							<div id="product_cd" value="${wishList.product_cd}"></div>
+							<div id="product_nm" value="${wishList.prosuct_nm}"></div>
+						</div>
+						<div id="" class="col-sm-4" align="right" style="padding-top:35px">입찰/진행상태</div>
+					</div>
+				</c:forEach>
+			</div> --%>
+		</div>
+	</div>
+</div>
 		<!--탭 영역 끝-->
 	</div>
 </div>                
