@@ -1,5 +1,11 @@
 @charset "UTF-8";
 
+@font-face { 
+	font-family: 'Binggrae2'; 
+	src: url('fonts/Binggrae2.ttf');
+	font-weight: normal;
+	font-style: normal;
+} 
 
 /* 시간표시 */
 .clock {
@@ -13,6 +19,7 @@
 }
 .navbar-brand{
     font-weight: 600;
+    font-family: 'Binggrae2';
 }
 .navbar-brand img{
     width: 20%;
@@ -52,6 +59,7 @@
     font-size: 13px;
     cursor: pointer;
 }
+
 
 /* searchBar */
 #searchBar {
