@@ -1,5 +1,5 @@
-CREATE DEFINER=`ecobay`@`%` PROCEDURE `USP_AuctionDeadline`(OUT retVal INT)
-    COMMENT '\n	parameter : OUT retVal INT                    -- 리턴 값\n	return value :\n		 0 = 에러가 없습니다.\n		-1 = 예상하지 않은 런 타임 오류가 발생하였습니다.\n	description :  USP_auction_deadline => 경매종료일이 넘은 상품 마감처리하기 -- call USP_auction_deadline();\n		** 경매종료일이 현재날짜보다 작거나 같은 상품의 개수 구하기\n		 => 1개 이상인 경우에 select해서 해당 상품의 상품코드 리스트 구하기\n		  1. 해당 상품에 입찰내역에서 최대 입찰가 구하기\n		  1.1. 0원인 경우 -> 입찰내역이 없는 경우이므로 (6 - 유찰) 처리하기\n		  1.2. 0원보다 큰 경우 -> 입찰내역이 있는 경우이므로 (5 - 낙찰) 처리하기.\n			 - 최대 입찰가로 해당 회원정보 구하여 낙찰처리할 정보 생성하기. '
+CREATE DEFINER=`ecobay`@`%` PROCEDURE `USP_auctionDeadline`()
+    COMMENT ' description :  USP_auction_deadline => 경매종료일이 넘은 상품 마감처리하기 -- call USP_auction_deadline();\n		** 경매종료일이 현재날짜보다 작거나 같은 상품의 개수 구하기\n		 => 1개 이상인 경우에 select해서 해당 상품의 상품코드 리스트 구하기\n		  1. 해당 상품에 입찰내역에서 최대 입찰가 구하기\n		  1.1. 0원인 경우 -> 입찰내역이 없는 경우이므로 (6 - 유찰) 처리하기\n		  1.2. 0원보다 큰 경우 -> 입찰내역이 있는 경우이므로 (5 - 낙찰) 처리하기.\n			 - 최대 입찰가로 해당 회원정보 구하여 낙찰처리할 정보 생성하기. '
 BEGIN
 	DECLARE m_Done INT DEFAULT 0;
 	DECLARE productcd VARCHAR(50) DEFAULT '';
@@ -17,8 +17,6 @@ BEGIN
 
 	DECLARE CONTINUE HANDLER FOR NOT FOUND SET m_Done=1; /* 데이터가 없으면 m_Done에 1 */
     
-    SET retVal = 0;
-
 	SET m_Done = 0;
 	SET nowdate = now();
 	SET totalcnt = 0;
@@ -72,13 +70,7 @@ BEGIN
 								 , MODDATE = now()
 							 WHERE PRODUCT_CD = productcd;
 						END IF;
-						
-						IF M_ERR > 0 THEN -- /* SQL에러가 발생하면 반복 종료하기 */
-							SET retVal = -1;
-							LEAVE curRepeat;
-						END IF;
 					END IF;
-					SET retVal = 0;
 			UNTIL m_Done END REPEAT; -- /* => m_Done이 1이 될때까지 반복 합니다. */
 		CLOSE m_Cursor; -- /* 커서 종료 */
 	END IF;
