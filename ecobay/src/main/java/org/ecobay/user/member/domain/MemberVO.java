@@ -14,8 +14,8 @@ public class MemberVO {
 	private String addr2;
 	private String gender;
 	private String phone;
-	private boolean join_YN;
-	private boolean use_YN;
+	private boolean join_yn;
+	private boolean use_yn;
 	private Date regDate;
 	private Date modDate;
 	private Date delDate;
@@ -29,7 +29,7 @@ public class MemberVO {
 	
 
 	public MemberVO(int rn, String member_id, String member_name, String pwd, String birth, String zipcode,
-			String addr1, String addr2, String gender, String phone, boolean join_YN, boolean use_YN, Date regDate,
+			String addr1, String addr2, String gender, String phone, boolean join_yn, boolean use_yn, Date regDate,
 			Date modDate, Date delDate) {
 		super();
 		this.rn = rn;
@@ -42,8 +42,8 @@ public class MemberVO {
 		this.addr2 = addr2;
 		this.gender = gender;
 		this.phone = phone;
-		this.join_YN = join_YN;
-		this.use_YN = use_YN;
+		this.join_yn = join_yn;
+		this.use_yn = use_yn;
 		this.regDate = regDate;
 		this.modDate = modDate;
 		this.delDate = delDate;
@@ -110,17 +110,17 @@ public class MemberVO {
 	public void setPhone(String phone) {
 		this.phone = phone;
 	}
-	public boolean getJoin_YN() {
-		return join_YN;
+	public boolean getjoin_yn() {
+		return join_yn;
 	}
-	public void setJoin_YN(boolean join_YN) {
-		this.join_YN = join_YN;
+	public void setjoin_yn(boolean join_yn) {
+		this.join_yn = join_yn;
 	}
-	public boolean getUse_YN() {
-		return use_YN;
+	public boolean getuse_yn() {
+		return use_yn;
 	}
-	public void setUse_YN(boolean use_YN) {
-		this.use_YN = use_YN;
+	public void setuse_yn(boolean use_yn) {
+		this.use_yn = use_yn;
 	}
 	public Date getRegDate() {
 		return regDate;
@@ -145,7 +145,7 @@ public class MemberVO {
 	public String toString() {
 		return "MemberVO [rn=" + rn + ", member_id=" + member_id + ", member_name=" + member_name + ", pwd=" + pwd
 				+ ", birth=" + birth + ", zipcode=" + zipcode + ", addr1=" + addr1 + ", addr2=" + addr2 + ", gender="
-				+ gender + ", phone=" + phone + ", join_YN=" + join_YN + ", use_YN=" + use_YN + ", regDate=" + regDate
+				+ gender + ", phone=" + phone + ", join_yn=" + join_yn + ", use_yn=" + use_yn + ", regDate=" + regDate
 				+ ", modDate=" + modDate + ", delDate=" + delDate + "]";
 	}
 

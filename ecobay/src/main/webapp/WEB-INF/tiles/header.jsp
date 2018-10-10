@@ -82,10 +82,7 @@
 								<div class="col-md-12">
 								
 									<div class="form-group">
-											<form class="mypage" role="mypage" method="get" action="/member/mypage.do" accept-charset="UTF-8" id="login-nav">
-												<security:csrfInput />
-												<button type="submit" class="btn btn-default btn-block">마이페이지</button>
-											</form>
+											<a style="text-decoration: none" href="/member/mypage.do"><button class="btn btn-default btn-block" >마이페이지</button></a>
 										</div>
 									
 										<div class="form-group">

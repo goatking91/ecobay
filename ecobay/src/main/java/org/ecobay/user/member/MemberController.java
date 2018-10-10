@@ -1,6 +1,7 @@
 package org.ecobay.user.member;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.activation.DataHandler;
@@ -15,6 +16,7 @@ import javax.mail.internet.MimeMessage.RecipientType;
 import javax.mail.internet.MimeMultipart;
 import javax.servlet.ServletContext;
 
+import org.ecobay.user.member.domain.MemberProductVO;
 import org.ecobay.user.member.domain.MemberVO;
 import org.ecobay.user.member.service.MemberService;
 import org.ecobay.user.product.domain.AuctionInfoVO;
@@ -34,7 +36,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-
 
 
 @RequestMapping("/member")
@@ -105,6 +106,21 @@ public class MemberController {
     	mailSender.send(getMimeMessage2(mailSender.getSession(), userid));
     	
     	return "member/mailCheckOrder.page";
+    }  
+
+    
+    @ResponseBody
+    @RequestMapping(value = "/wishList.do", method = RequestMethod.POST)
+    public Map<String, Object> wishListPOST(@RequestBody String member_id) throws Exception {
+    	System.out.println(member_id);
+    	Map<String, Object> map = new HashMap<String, Object>();
+    	List<MemberProductVO> wishList = service.wishList(member_id);
+    	
+    	map.put("arr", wishList);
+    	System.out.println("wishList"+wishList);
+    	map.put("cnt", wishList.size());
+    	System.out.println("222");
+    	return map;
     }
     
     private MimeMessage getMimeMessage2(Session session, String member_id) throws Exception {

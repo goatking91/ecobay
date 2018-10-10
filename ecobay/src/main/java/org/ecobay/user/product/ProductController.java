@@ -100,7 +100,6 @@ public class ProductController {
 		vo.setStart_num(1);
 		vo.setEnd_num(pageCount);
 		model.addAttribute("productList", service.selectList(vo));
-
     	return "product/list.page";
     }
 	
@@ -111,9 +110,8 @@ public class ProductController {
 		vo.setEnd_num(page * pageCount);
 		
 		Map<String, List<ProductVO>> map = new HashMap<String, List<ProductVO>>();
-    	
 		map.put("arr", service.selectList(vo));
-    	return map;
+		return map;
     }
     
     @ResponseBody

@@ -1,16 +1,16 @@
 package org.ecobay.user.member.service;
 
+import java.util.List;
+
+import org.ecobay.user.member.domain.MemberProductVO;
 import org.ecobay.user.member.domain.MemberVO;
 import org.ecobay.user.member.persistence.MemberDAO;
 import org.ecobay.user.product.domain.AuctionInfoVO;
-import org.ecobay.user.product.domain.BidInfoVO;
 import org.ecobay.user.product.domain.DeliveryVO;
 import org.ecobay.user.product.domain.PaymentVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class MemberServiceImpl implements MemberService {
@@ -108,6 +108,11 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public AuctionInfoVO selectAuct(String product_cd) throws Exception {
 		return dao.selectAuct(product_cd);
+	}
+
+	@Override
+	public List<MemberProductVO> wishList(String member_id) throws Exception {
+		return dao.wishList(member_id);
 	}
 	
 }

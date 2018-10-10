@@ -1,11 +1,13 @@
 package org.ecobay.user.member.persistence;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
 import org.apache.ibatis.session.SqlSession;
+import org.ecobay.user.member.domain.MemberProductVO;
 import org.ecobay.user.member.domain.MemberVO;
 import org.ecobay.user.product.domain.AuctionInfoVO;
-import org.ecobay.user.product.domain.BidInfoVO;
 import org.ecobay.user.product.domain.DeliveryVO;
 import org.ecobay.user.product.domain.PaymentVO;
 import org.springframework.stereotype.Repository;
@@ -98,6 +100,11 @@ public class MemberDAOImpl implements MemberDAO {
 	@Override
 	public AuctionInfoVO selectAuct(String product_cd) throws Exception {
 		return session.selectOne(namespace + ".selectAuct", product_cd);
+	}
+
+	@Override
+	public List<MemberProductVO> wishList(String member_id) throws Exception {
+		return session.selectList(namespace + ".wishList", member_id);
 	}
 	
 }
