@@ -18,6 +18,12 @@ public class MainController {
 	@Autowired
 	ProductService productService;
 	
+	@RequestMapping(value="/", method = RequestMethod.GET)
+    public String rootMain() throws Exception {
+
+        return "redirect:/main.do";
+    }
+	
 	@RequestMapping(value="/main.do", method = RequestMethod.GET)
     public String main(Model model, ProductVO vo) throws Exception {
 		vo.setStart_num(1);
