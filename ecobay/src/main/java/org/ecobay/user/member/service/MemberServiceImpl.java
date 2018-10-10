@@ -111,8 +111,13 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	public List<MemberProductVO> wishList(String member_id) throws Exception {
-		return dao.wishList(member_id);
+	public List<MemberProductVO> wishList(MemberProductVO vo) throws Exception {
+		return dao.wishList(vo);
+	}
+
+	@Override
+	public int wishTotal(String member_id) throws Exception {
+		return dao.wishTotal(member_id);
 	}
 	
 }

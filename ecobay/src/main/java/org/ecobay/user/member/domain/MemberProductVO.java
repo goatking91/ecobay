@@ -33,9 +33,77 @@ public class MemberProductVO {
 	private String acutdate_start_str; // 경매시작일시(String)
 	private String acutdate_end_str; // 경매종료일시(String)
 	
+	private int start, end, page, startpage, endpage, pagecount, temp, total;
+/*	private String pnum, returnpage;*/
+	
 	public MemberProductVO() { 
 		
 	}
+
+	public int getStart() {
+		return start;
+	}
+
+	public void setStart(int start) {
+		this.start = start;
+	}
+
+	public int getEnd() {
+		return end;
+	}
+
+	public void setEnd(int end) {
+		this.end = end;
+	}
+
+	public int getPage() {
+		return page;
+	}
+
+	public void setPage(int page) {
+		this.page = page;
+	}
+
+	public int getStartpage() {
+		return startpage;
+	}
+
+	public void setStartpage(int startpage) {
+		this.startpage = startpage;
+	}
+
+	public int getEndpage() {
+		return endpage;
+	}
+
+	public void setEndpage(int endpage) {
+		this.endpage = endpage;
+	}
+
+	public int getPagecount() {
+		return pagecount;
+	}
+
+	public void setPagecount(int pagecount) {
+		this.pagecount = pagecount;
+	}
+
+	public int getTemp() {
+		return temp;
+	}
+
+	public void setTemp(int temp) {
+		this.temp = temp;
+	}
+
+	public int getTotal() {
+		return total;
+	}
+
+	public void setTotal(int total) {
+		this.total = total;
+	}
+
 
 	public String getProduct_cd() {
 		return product_cd;
@@ -213,21 +281,12 @@ public class MemberProductVO {
 		this.acutdate_end_str = acutdate_end_str;
 	}
 
-	@Override
-	public String toString() {
-		return "MemberProductVO [product_cd=" + product_cd + ", product_nm=" + product_nm + ", member_id=" + member_id
-				+ ", class_big_cd=" + class_big_cd + ", class_big_nm=" + class_big_nm + ", class_mid_cd=" + class_mid_cd
-				+ ", class_mid_nm=" + class_mid_nm + ", content=" + content + ", state_cd=" + state_cd + ", state_nm="
-				+ state_nm + ", regdate=" + regdate + ", moddate=" + moddate + ", deldate=" + deldate + ", use_yn="
-				+ use_yn + ", viewcnt=" + viewcnt + ", rn=" + rn + ", searchVal=" + searchVal + ", start_num="
-				+ start_num + ", end_num=" + end_num + ", filename_thumb=" + filename_thumb + ", acutdate_start_str="
-				+ acutdate_start_str + ", acutdate_end_str=" + acutdate_end_str + "]";
-	}
-
-	public MemberProductVO(String product_cd, String product_nm, String member_id, String class_big_cd, String class_big_nm,
-			String class_mid_cd, String class_mid_nm, String content, String state_cd, String state_nm, Date regdate,
-			Date moddate, Date deldate, Boolean use_yn, int viewcnt, int rn, String searchVal, int start_num,
-			int end_num, String filename_thumb, String acutdate_start_str, String acutdate_end_str) {
+	public MemberProductVO(String product_cd, String product_nm, String member_id, String class_big_cd,
+			String class_big_nm, String class_mid_cd, String class_mid_nm, String content, String state_cd,
+			String state_nm, Date regdate, Date moddate, Date deldate, Boolean use_yn, int viewcnt, int rn,
+			String searchVal, int start_num, int end_num, String filename_thumb, String acutdate_start_str,
+			String acutdate_end_str, int start, int end, int page, int startpage, int endpage, int pagecount,
+			int temp, int total) {
 		this.product_cd = product_cd;
 		this.product_nm = product_nm;
 		this.member_id = member_id;
@@ -250,7 +309,31 @@ public class MemberProductVO {
 		this.filename_thumb = filename_thumb;
 		this.acutdate_start_str = acutdate_start_str;
 		this.acutdate_end_str = acutdate_end_str;
+		this.start = start;
+		this.end = end;
+		this.page = page;
+		this.startpage = startpage;
+		this.endpage = endpage;
+		this.pagecount = pagecount;
+		this.temp = temp;
+		this.total = total;
 	}
+
+	@Override
+	public String toString() {
+		return "MemberProductVO [product_cd=" + product_cd + ", product_nm=" + product_nm + ", member_id=" + member_id
+				+ ", class_big_cd=" + class_big_cd + ", class_big_nm=" + class_big_nm + ", class_mid_cd=" + class_mid_cd
+				+ ", class_mid_nm=" + class_mid_nm + ", content=" + content + ", state_cd=" + state_cd + ", state_nm="
+				+ state_nm + ", regdate=" + regdate + ", moddate=" + moddate + ", deldate=" + deldate + ", use_yn="
+				+ use_yn + ", viewcnt=" + viewcnt + ", rn=" + rn + ", searchVal=" + searchVal + ", start_num="
+				+ start_num + ", end_num=" + end_num + ", filename_thumb=" + filename_thumb + ", acutdate_start_str="
+				+ acutdate_start_str + ", acutdate_end_str=" + acutdate_end_str + ", start=" + start + ", end=" + end
+				+ ", page=" + page + ", startpage=" + startpage + ", endpage=" + endpage + ", pagecount="
+				+ pagecount + ", temp=" + temp + ", total=" + total 
+				+ "]";
+	}
+
+	
 
 	
 }

@@ -103,8 +103,13 @@ public class MemberDAOImpl implements MemberDAO {
 	}
 
 	@Override
-	public List<MemberProductVO> wishList(String member_id) throws Exception {
-		return session.selectList(namespace + ".wishList", member_id);
+	public List<MemberProductVO> wishList(MemberProductVO vo) throws Exception {
+		return session.selectList(namespace + ".wishList", vo);
+	}
+
+	@Override
+	public int wishTotal(String member_id) throws Exception {
+		return session.selectOne(namespace + ".wishTotal", member_id);
 	}
 	
 }

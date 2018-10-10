@@ -41,5 +41,7 @@ public interface MemberDAO {
 	
 	public void auctionInfo(AuctionInfoVO avo) throws Exception;
 	
-	public List<MemberProductVO> wishList(String member_id) throws Exception;
+	public List<MemberProductVO> wishList(MemberProductVO vo) throws Exception;
+	
+	public int wishTotal(String member_id) throws Exception;
 }

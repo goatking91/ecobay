@@ -11,6 +11,9 @@ $(document).ready(function(){
 	var token = $("meta[name='_csrf']").attr("content");
 	var header = $("meta[name='_csrf_header']").attr("content");
 	 
+	var member_id = $('#member_id').val();
+	var page = 1;
+	
 	$(function() {
 	    $(document).ajaxSend(function(e, xhr, options) {
 	        xhr.setRequestHeader(header, token);
@@ -57,15 +60,24 @@ $(document).ready(function(){
 		var pwd = $('#pwd').val();//입력받은값
         $('#pwdModal').modal('show');
 	});
+	$(document).on("click", ".btnajax", function(){
+		listAjax($(this).val());
+	});
 	
 	$('#wishList-tap').click(function(){
-		var member_id = $('#member_id').val();
 		
+		listAjax(page);
+		
+		  
+		
+	});
+	
+	function listAjax(page) {
 		$.ajax({
 			async: true,
 			type: "POST",
 			data: member_id,
-			url : "/member/wishList.do/",
+			url : "/member/wishList.do/" + page,
 			dataType : "json",
 			contentType: "application/json; charset=UTF-8",
 			success : function(data) {
@@ -75,13 +87,15 @@ $(document).ready(function(){
 
 				var str = "";
 				str = str + "<h3>관심 상품</h3>";
-				str = str + "<div class='bg-light border-top border-bottom' style='padding:15px; margin:10px'>";
+				str = str + "<div class='bg-light border-top border-bottom form-inline col-sm-12' style='padding:15px; margin:10px'>";
 				str = str + "	<label class='checkbox'>";
 				str = str + "		<input type='checkbox' id ='chK_all' name='chK_all'>";
 				str = str + "	</label>";
 				str = str + "	<input type='button' class='btn btn-default' value='선택상품 삭제'>";
+				str = str + "<div class='col-sm-8'></div>"
+				str = str + "<div style='align:right'>관심상품수 "+ data.cnt +"</div>"
 				str = str + "</div>";
-				console.log(str);
+				console.log(data.arr);
 				
 				$.each(data.arr, function(index, arr){
 					var state_cd = arr.state_cd;
@@ -90,7 +104,6 @@ $(document).ready(function(){
 					}else{
 						state_cd = "경매종료";
 					}
-					
 					str = str + "<div class='form-group row col-sm-12' style='padding:15px; margin:10px'>";
 					str = str + "	<div class='col-sm-1' style='padding-top:35px'>";
 					str = str + "		<input type='checkbox'>";
@@ -102,17 +115,56 @@ $(document).ready(function(){
 					str = str + "		<div id='product_nm'>" + arr.product_nm + "</div>";
 					str = str + "	</div>";
 					str = str + "	<div id='' class='col-sm-3' align='right' style='padding-top:35px'>" + state_cd + "</div>";
-					str = str + "</div>";
+					str = str + "</div><hr>";
+					
+					
 				});
+				console.log(str);
+				var vo = JSON.parse(JSON.stringify(data.vo));
+
+				vo.pagecount
+				/* //페이징
+				var start, end, page, startpage, endpage, pagecount, temp, total;
+				
+				/ if(total/10>0){
+					pagecount = (total/10)+1;
+				}else{
+					pagecount = total/10;}
+				
+				start = ((page-1)*10)+1;
+				end = start*10;
+					
+				temp = (page-1)%10;
+				startpage =  page - temp;
+				endpage = startpage + 9; 
+				if(engpage>pagecount){endpage=pagecount;}		
+				
+ 				str = str + "int start, end, pagenum, startpage, endpage, pagecount, temp";
+				str = str + "String pnum, returnpage"; */
+	 			str = str + "<div align='center'>";
+				str = str + "	<tr>";
+				str = str + "		<td colspan='6'>";
+				if(vo.startpage>10){
+					str = str + "			<button class='btn btn-light btnajax' value='" + (vo.startpage-10) +"' >이전</button>";	
+				}
+				for(var i = vo.startpage; i <= vo.endpage; i++){
+					str = str + "			<button class='btn btn-light btnajax' value='"+ i +"'>" + i + "</button>";
+				}
+				if(vo.endpage<vo.pagecount){
+					str = str + "	<button class='btn btn-light btnajax' value='"+ (vo.startpage+10) +"' >다음</button>";	
+				}
+				str = str + "	</td>";
+				str = str + "</tr>";
+				str = str + "</div>";  
+				
 				console.log(str);
 				$('#wishList').append(str);
 	        },
 	        error: function(data) {
 				console.log("error :" + data);
 			}
-		});  
-		
-	})
+		});
+	}
 })
 </script>
 

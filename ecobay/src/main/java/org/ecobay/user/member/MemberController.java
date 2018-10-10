@@ -22,6 +22,7 @@ import org.ecobay.user.member.service.MemberService;
 import org.ecobay.user.product.domain.AuctionInfoVO;
 import org.ecobay.user.product.domain.DeliveryVO;
 import org.ecobay.user.product.domain.PaymentVO;
+import org.ecobay.user.product.domain.ProductVO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,6 +51,8 @@ public class MemberController {
     
 	@Autowired
 	private ServletContext context;
+	
+	private final int pcount = 1;
 	
     private static final Logger logger = LoggerFactory.getLogger(MemberController.class);
     
@@ -110,16 +113,40 @@ public class MemberController {
 
     
     @ResponseBody
-    @RequestMapping(value = "/wishList.do", method = RequestMethod.POST)
-    public Map<String, Object> wishListPOST(@RequestBody String member_id) throws Exception {
+    @RequestMapping(value = "/wishList.do/{page}", method = RequestMethod.POST)
+    public Map<String, Object> wishListPOST(@RequestBody String member_id, @PathVariable("page") int page, MemberProductVO vo) throws Exception{
+    	int total = service.wishTotal(member_id);
+    	int pagecount = 0;
+    	if(total%pcount == 0) {
+    		pagecount = total/10;
+    	} else {
+    		pagecount = (total/10) +1;
+    	}
+    	vo.setPagecount(pagecount);
+    	System.out.println("total="+total);
+    	vo.setPage(page);
+		vo.setStart(((page-1)*10)+1);
+		vo.setEnd(page*10);
+		vo.setTemp((page-1)%10);
+		vo.setStartpage(page - vo.getTemp());
+		if(vo.getStartpage() + 9 > pagecount) { vo.setEndpage(pagecount); }
+		else {
+			vo.setEndpage(vo.getStartpage() + 9);
+		}
+		vo.setMember_id(member_id);
     	System.out.println(member_id);
-    	Map<String, Object> map = new HashMap<String, Object>();
-    	List<MemberProductVO> wishList = service.wishList(member_id);
     	
+    	
+    	
+    	
+    	Map<String, Object> map = new HashMap<String, Object>();
+    	List<MemberProductVO> wishList = service.wishList(vo);
+    	
+    	System.out.println("wishList="+wishList);
+    	map.put("vo", vo);
+    	map.put("cnt", total);
     	map.put("arr", wishList);
-    	System.out.println("wishList"+wishList);
-    	map.put("cnt", wishList.size());
-    	System.out.println("222");
+    	/*System.out.println("size"+wishList.size());*/
     	return map;
     }
     
@@ -252,7 +279,7 @@ public class MemberController {
             htmlText += "번거로우시더라도 아래 이메일 인증하기 버튼을 클릭하셔서<br>";
             htmlText += "인증절차를 완료해 주시기 바랍니다</h4>";
             htmlText += "<a href='http://localhost:7080/member/verify.do?member_id=" + vo.getMember_id() + "&birth=" + vo.getBirth();
-            //htmlText += "<a href='http://13.125.157.90:7080/member/verify.do?member_id=" + vo.getMember_id() + "&birth=" + vo.getBirth();
+            //htmlText += "<a href='http://13.125.157.90:8080/member/verify.do?member_id=" + vo.getMember_id() + "&birth=" + vo.getBirth();
             htmlText += "' target='blank'><button style='background-color:#007bff;border-color:#007bff;color:white;font-size:16pt;'>이메일 인증 확인</button> </a>";			
 
             messageBodyPart.setContent(htmlText, "text/html;charset=utf-8");
