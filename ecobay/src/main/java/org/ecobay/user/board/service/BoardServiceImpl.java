@@ -2,8 +2,10 @@ package org.ecobay.user.board.service;
 
 import java.util.List;
 
+import org.ecobay.admin.board.domain.FaqVO;
 import org.ecobay.admin.board.domain.NoticeVO;
 import org.ecobay.admin.board.domain.QnaVO;
+import org.ecobay.user.board.persistence.FaqDAO;
 import org.ecobay.user.board.persistence.NoticeDAO;
 import org.ecobay.user.board.persistence.QnaDAO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,12 +26,18 @@ public class BoardServiceImpl implements BoardService {
 	@Autowired
 	private QnaDAO qnaDao;
 	
+	@Autowired
+	private FaqDAO faqDao;
+	
 	
 	/* ============================================
 	 * FAQ
 	 * ============================================ */
 	
-
+	@Override
+	public List<FaqVO> faqList() throws Exception {
+		return faqDao.faqList();
+	}
 	
 	
 	/* ============================================
@@ -53,7 +61,6 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	
-	
 	/* ============================================
 	 * QNA
 	 * ============================================ */
@@ -62,5 +69,7 @@ public class BoardServiceImpl implements BoardService {
 	public void qnaRegist(QnaVO vo) throws Exception {
 		qnaDao.qnaRegist(vo);
 	}
+
+	
 
 }

@@ -40,6 +40,7 @@
 	<div>
 		<a href="/support/notice/noticelist.do">공지사항 리스트</a><br>
 		<a href="/support/qna/qnareg.do">1:1문의 등록</a><br>
+		<a href="/support/faq/faqlist.do">자주묻는 질문(FAQ)</a><br>
 	</div>
 		
 </div>

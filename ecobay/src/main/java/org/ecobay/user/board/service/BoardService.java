@@ -2,16 +2,14 @@ package org.ecobay.user.board.service;
 
 import java.util.List;
 
+import org.ecobay.admin.board.domain.FaqVO;
 import org.ecobay.admin.board.domain.NoticeVO;
 import org.ecobay.admin.board.domain.QnaVO;
 
 public interface BoardService {
 		
 		/* FAQ */	
-		//public List<FaqVO> faqList() throws Exception;
-		
-		//public FaqVO faqLoad(int faq_idx) throws Exception;
-		
+		public List<FaqVO> faqList() throws Exception;
 		
 		
 		/* NOTICE */
