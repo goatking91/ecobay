@@ -23,6 +23,9 @@ public class MemberAdminServiceImpl implements MemberAdminService {
 		return dao.count();
 	}
 
-	
+	@Override
+	public void black(String member_id) throws Exception {
+		dao.black(member_id);
+	}
 	
 }

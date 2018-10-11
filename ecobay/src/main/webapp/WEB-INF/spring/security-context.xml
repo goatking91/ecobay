@@ -62,7 +62,7 @@
 		<security:authentication-provider>
 			<security:password-encoder hash="bcrypt" />
 			<security:jdbc-user-service data-source-ref="dataSource"
-				users-by-username-query="select member_id, pwd, join_YN from member where member_id = ? and join_YN = true"
+				users-by-username-query="select member_id, pwd, join_YN from member where member_id = ? and join_YN = true and use_YN = true"
 				authorities-by-username-query="select member_id, m_type from member where member_id = ?"
 			/>
 		</security:authentication-provider>

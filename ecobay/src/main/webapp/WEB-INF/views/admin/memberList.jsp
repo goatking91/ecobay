@@ -2,6 +2,10 @@
     pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@taglib prefix="security" uri="http://www.springframework.org/security/tags"%>
+
+<meta id="_csrf" name="_csrf" content="${_csrf.token}"/>
+<meta id="_csrf_header" name="_csrf_header" content="${_csrf.headerName}"/>
 
 <div class="content-wrapper">
 	<!-- 페이지 헤더(제목) -->
@@ -52,9 +56,10 @@
 		    <thead>
 		        <tr>
 		            <th>번호</th><th>회원아이디</th><th>이름</th>
-		            <th>등록일시</th><th>가입여부</th><th>사용여부</th>
+		            <th>등록일시</th><th>가입여부</th><th>사용여부</th><th>관리</th>
 		        </tr>
-		    </thead>		    
+		    </thead>
+		    <tbody id="tbody">		    
 			<c:forEach var="list" items="${list}">
 			    <tr>
 			    	<td>${list.rn}</td>
@@ -63,18 +68,22 @@
 			    	<td><fmt:formatDate value="${list.regDate}" pattern="yyyy-MM-dd"/></td>
 			    	<td>
 				    	<c:choose>
-				    		<c:when test="${list.join_YN}">Y</c:when>
+				    		<c:when test="${list.join_yn}">Y</c:when>
 				    		<c:otherwise>N</c:otherwise>
 				    	 </c:choose>
 					    	 </td>
 					    	 <td>
 				    	 <c:choose>
-				    	 	<c:when test="${list.use_YN}">Y</c:when>
+				    	 	<c:when test="${list.use_yn}">Y</c:when>
 				    	 	<c:otherwise>N</c:otherwise>
 				    	 </c:choose>
 			    	 </td>
+			    	 <td>
+			    	 	<button class="btn-sm btn-danger" id="blacklistbtn" data-src="${list.member_id }">정지</button>
+			    	 </td>
 			    </tr>
 			</c:forEach>
+			</tbody>
 		</table>
  
         
@@ -97,3 +106,69 @@
 	</section>
 	<!-- /내용 -->
 </div>
+
+<script type="text/javascript">
+	$(document).ready(function(){
+		var token = $("meta[name='_csrf']").attr("content");
+		var header = $("meta[name='_csrf_header']").attr("content");
+		
+	    $(document).ajaxSend(function(e, xhr, options) {
+	        xhr.setRequestHeader(header, token);
+	    });
+		
+		$(document).on("click", "#blacklistbtn", function() {
+			var id = $(this).attr("data-src");
+			console.log(id);
+			$.ajax({
+				async: true,
+				type: 'POST',
+				contentType:"applicataion/json; charset=UTF-8",
+				data: id,
+				url : "/admin/memberblack.do",
+				success : function(data) {
+					alert("수정되었습니다.");
+					$("#tbody").empty();
+					var str = loadMemberList(data);
+					$("#tbody").append(str);
+		        },
+		        error: function(data) {
+					console.log("error :" + data);
+				}
+			});
+		});
+		
+		function loadMemberList(data) {
+			var str = "";
+			$.each(data.list, function(index, list){ 
+				str += "<tr>";
+				str += "	<td>" + list.rn + "</td>";
+				str += "	<td>" + list.member_id +"</td>";
+				str += "	<td>" + list.member_name +"</td>";
+				
+				var date = new Date(list.regDate);
+				var y = date.getFullYear();
+			    var M = date.getMonth()+1;
+			    var d = date.getDate();
+			    M = (M < 10) ? "0" + M : M;
+			    d = (d < 10) ? "0" + d : d;
+			  	var day= y + "-" + M + "-" + d;
+				str += "	<td>" + day +"</td>";
+				
+				if(list.join_yn == true) {
+					str += "	<td>Y</td>";
+				}else {
+					str += "	<td>N</td>";
+				}
+				if(list.use_yn == true) {
+					str += "	<td>Y</td>";
+				}else {
+					str += "	<td>N</td>";
+				}
+				str += "<td>"
+	    	 	str += "<button class='btn-sm btn-danger' id='blacklistbtn' data-src='" + list.member_id + "'>정지</button>";
+				str += "</td>"
+			});
+			return str;
+		}
+	});
+</script>

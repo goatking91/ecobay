@@ -13,5 +13,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		select count(*) from MEMBER
  	</select>
  	
+ 	<update id="black" parameterType="String">
+ 		UPDATE MEMBER SET USE_YN = FALSE, MODDATE = NOW() WHERE MEMBER_ID = #{member_id};
+ 	</update>
+ 	
 </mapper>
 
