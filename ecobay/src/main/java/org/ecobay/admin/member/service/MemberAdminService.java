@@ -4,10 +4,12 @@ import java.util.List;
 
 import org.ecobay.user.member.domain.MemberVO;
 
-	public interface MemberAdminService {
+public interface MemberAdminService {
 	
 		public List<MemberVO> listAll() throws Exception;
 		
 		public int count() throws Exception;
+		
+		public void black(String member_id) throws Exception;
 
 }

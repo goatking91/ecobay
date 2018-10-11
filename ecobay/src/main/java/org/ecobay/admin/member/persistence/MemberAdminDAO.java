@@ -10,5 +10,5 @@ public interface MemberAdminDAO {
 	
 	public int count() throws Exception;
 	
-
+	public void black(String member_id) throws Exception;
 }

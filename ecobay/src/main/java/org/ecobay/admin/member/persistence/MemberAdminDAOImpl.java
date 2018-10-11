@@ -26,6 +26,10 @@ public class MemberAdminDAOImpl implements MemberAdminDAO {
 		return session.selectOne(namespace + ".count");
 	}
 
-	
+	@Override
+	public void black(String member_id) throws Exception {
+		System.out.println(member_id);
+		session.update(namespace + ".black", member_id);
+	}
 	
 }
