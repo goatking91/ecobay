@@ -1,8 +1,5 @@
 package org.ecobay.user.product.domain;
 
-import java.util.Date;
-import java.util.List;
-
 public class ProdSearchVO {
 	private String page;
 	private String searchVal; // 검색어

@@ -12,6 +12,7 @@
 }
 </style>
 <div>
+<security:csrfInput/>
 	<div id="carouselIndicators" class="carousel slide"
 		data-ride="carousel">
 		<ol class="carousel-indicators">
@@ -52,13 +53,13 @@
 </div>
 <div class="container">
 	<div align="center">
-		<a href="#"><img src="/resources/images/icons/fashion_ic.png"></a>
-		<a href="#"><img src="/resources/images/icons/living_ic.png"></a>
-		<a href="#"><img src="/resources/images/icons/homeItem_ic.png"></a>
-		<a href="#"><img src="/resources/images/icons/digital_ic.png"></a>
-		<a href="#"><img src="/resources/images/icons/culture_ic.png"></a>
-		<a href="#"><img src="/resources/images/icons/sports_ic.png"></a>
-		<a href="#"><img src="/resources/images/icons/collection_ic.png"></a>
+		<a class="icon" href="#"><img src="/resources/images/icons/fashion_ic.png" data-src="FS"></a>
+		<a class="icon" href="#"><img src="/resources/images/icons/living_ic.png" data-src="LV"></a>
+		<a class="icon" href="#"><img src="/resources/images/icons/homeItem_ic.png" data-src="LG"></a>
+		<a class="icon" href="#"><img src="/resources/images/icons/digital_ic.png" data-src="DG"></a>
+		<a class="icon" href="#"><img src="/resources/images/icons/culture_ic.png" data-src="CT"></a>
+		<a class="icon" href="#"><img src="/resources/images/icons/sports_ic.png" data-src="SP"></a>
+		<a class="icon" href="#"><img src="/resources/images/icons/collection_ic.png" data-src="CA"></a>
 	</div>
 </div>
 <p>
@@ -147,6 +148,40 @@
 			var datasrc = $(this).attr("data-src");
 			
 			location.href="/product/detail.do?product_cd=" + datasrc;
-		});	
+		});
+		
+		$(".icon").on("click", function() {
+			var datasrc = $(this).children().attr("data-src");
+			var form = document.createElement("form");
+			
+			var input1 = document.createElement("input");
+			var input2 = document.createElement("input");
+			var seq = document.createElement("input");
+				
+			var seqVal = $("input[name='_csrf']").val();
+			
+	        form.action = "/product/list.do";
+	        form.method = "post";
+            
+            input1.setAttribute("type", "hidden");
+            input1.setAttribute('name', "class_big_cd");
+            input1.setAttribute("value", datasrc);
+            
+            input2.setAttribute("type", "hidden");
+            input2.setAttribute('name', "class_mid_cd");
+            input2.setAttribute("value", "XX");
+            
+            seq.setAttribute("type", "hidden");
+            seq.setAttribute('name', "_csrf");
+            seq.setAttribute("value", seqVal);
+            
+            form.appendChild(input1);
+            form.appendChild(input2);
+            form.appendChild(seq);
+            
+	        document.body.appendChild(form);
+	        
+	        form.submit();
+		});
 	});
 </script>

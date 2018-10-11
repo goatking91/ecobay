@@ -19,9 +19,10 @@
 		
 			<!-- Search -->
 			<li id="searchBar">
-				<form class="form-inline my-2 my-lg-0">
+				<form class="form-inline my-2 my-lg-0" method="post" id="searchForm" action="/product/list.do">
 					<div class="input-group">
-						<input class="form-control form-control-sm input-primary" id="searchInput" type="search" placeholder="Search" aria-label="Search">
+						<security:csrfInput/>
+						<input class="form-control form-control-sm input-primary" name="searchVal" id="searchInput" type="search" placeholder="Search" aria-label="Search" value="${sVal}">
 				      	<button class="btn btn-outline-primary btn-sm input-group-append" type="button" id="searchBtn">
 	                        <i class="fa fa-search"></i>
 	                  	</button>
@@ -245,50 +246,56 @@
 
 
 <script type="text/javascript">
-function showTime(){
-    var date = new Date();
-    var y = date.getFullYear();
-    var M = date.getMonth()+1;
-    var d = date.getDate();
-    var h = date.getHours(); // 0 - 23
-    var m = date.getMinutes(); // 0 - 59
-    var s = date.getSeconds(); // 0 - 59
-    var session = "오전";
-    
-    if(h == 0){
-        h = 12;
-    }
-    
-    if(h == 12){
-        session = "오후";
-    }
-    
-    if(h > 12){
-        h = h - 12;
-        session = "오후";
-    }
-    
-    
-    y = y.toString().substr(2,2);
-    M = (M < 10) ? "0" + M : M;
-    d = (d < 10) ? "0" + d : d;
-    h = (h < 10) ? "0" + h : h;
-    m = (m < 10) ? "0" + m : m;
-    s = (s < 10) ? "0" + s : s;
-    
-    var day = y + "년 " + M + "월 " + d + "일";
-    var time = session + " " + h + ":" + m + ":" + s;
-    document.getElementById("MyDayDisplay").innerHTML = day;
-    document.getElementById("MyClockDisplay").innerHTML = time;
-    
-    /* document.getElementById("MyClockDisplay").textContent = time; */
-    
-    setTimeout(showTime, 1000);
-    
-}
-
-
-showTime();
+	function showTime(){
+	    var date = new Date();
+	    var y = date.getFullYear();
+	    var M = date.getMonth()+1;
+	    var d = date.getDate();
+	    var h = date.getHours(); // 0 - 23
+	    var m = date.getMinutes(); // 0 - 59
+	    var s = date.getSeconds(); // 0 - 59
+	    var session = "오전";
+	    
+	    if(h == 0){
+	        h = 12;
+	    }
+	    
+	    if(h == 12){
+	        session = "오후";
+	    }
+	    
+	    if(h > 12){
+	        h = h - 12;
+	        session = "오후";
+	    }
+	    
+	    
+	    y = y.toString().substr(2,2);
+	    M = (M < 10) ? "0" + M : M;
+	    d = (d < 10) ? "0" + d : d;
+	    h = (h < 10) ? "0" + h : h;
+	    m = (m < 10) ? "0" + m : m;
+	    s = (s < 10) ? "0" + s : s;
+	    
+	    var day = y + "년 " + M + "월 " + d + "일";
+	    var time = session + " " + h + ":" + m + ":" + s;
+	    document.getElementById("MyDayDisplay").innerHTML = day;
+	    document.getElementById("MyClockDisplay").innerHTML = time;
+	    
+	    /* document.getElementById("MyClockDisplay").textContent = time; */
+	    
+	    setTimeout(showTime, 1000);
+	    
+	}
+	
+	
+	showTime();
+	$("document").ready(function() {	
+		$("#searchBtn").on("click", function(e) {
+			e.preventDefault();
+			$('#searchForm')[0].submit();
+		});
+	});
 </script>
 
  
