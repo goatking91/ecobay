@@ -25,6 +25,7 @@
 		<security:intercept-url pattern="/member/newpwd.do" access="hasRole('ANONYMOUS')"/>
 		<security:intercept-url pattern="/member/wishList.do" access="hasRole('ROLE_USER')"/>
 		<security:intercept-url pattern="/product/list.do/**" access="permitAll"/>
+		<security:intercept-url pattern="/product/listAjax.do/**" access="permitAll"/>
 		<security:intercept-url pattern="/product/detail.do" access="permitAll"/>
 		<security:intercept-url pattern="/product/midclass.do/**" access="permitAll"/>
 		<security:intercept-url pattern="/product/prodqna.do/**" access="permitAll"/>

@@ -26,14 +26,13 @@
 <body>
 	<div class="container">
 		<p>
-		<form>
+		<form method="post">
+			<security:csrfInput/>
 			<div class="form-group row">
 				<div class="col-sm-6">
 					<div class="input-group">
 						<input type="text" class="form-control"
-							placeholder="검색내용을 입력하세요..." id="searchVal" name="searchVal">
-							
-							
+							placeholder="검색내용을 입력하세요..." id="searchVal" name="searchVal" value="${sVal}">
 						<div class="input-group-append">
 							<button class="btn btn-secondary" id="searchProduct">검색</button>
 						</div>
@@ -44,7 +43,16 @@
 						<select class="custom-select" name="class_big_cd" id="class_big_cd">
 							<option value="" selected="selected">-대분류 선택-</option>
 							<c:forEach var="bigcls" items="${bigclass}">
-								<option value="${bigcls.class_big_cd}">${bigcls.class_big_nm}</option>
+								<c:choose>
+									<c:when test="${clsbigcd == ''}">
+										<option value="${bigcls.class_big_cd}">${bigcls.class_big_nm}</option>
+									</c:when>
+									<c:otherwise>
+										<option value="${bigcls.class_big_cd}" 
+											<c:if test="${bigcls.class_big_cd == clsbigcd}">selected</c:if>
+										>${bigcls.class_big_nm}</option>
+									</c:otherwise>
+								</c:choose>
 							</c:forEach>
 						</select>
 					</div>
@@ -66,8 +74,7 @@
 						<div class="img-event">
 							<img class="group list-group-image img-fluid"
 								 src="/displayFile.do?fileName=${list.filename_thumb}"
-								 onerror="this.src='/resources/images/noimg.gif';"
-								 alt="" />
+								 onerror="this.src='/resources/images/noimg.gif';" />
 						</div>
 						<div class="caption card-body">
 							<h4 class="group card-title inner list-group-item-heading">
@@ -101,76 +108,44 @@
 		$("document").ready(function() {
 			var page = 1;
 			
+			createClsmid("${clsbigcd}", "${clsmidcd}"); // 검색시 중분류 고정시키기.
+
 			$(window).scroll(function() {
+				var searchVal = $('#searchVal').val();
+				var class_big_cd = $('#class_big_cd').val();
+				var class_mid_cd = $('#class_mid_cd').val();
+
 			    if ($(window).scrollTop() == $(document).height() - $(window).height()) {
 			    	++page;
-			      
-			      	$.ajax({
-			    	 	async: true,
-			    	 	type: "POST",
-			    	 	data: page,
-			    	 	url: "/product/list.do/" + page,
-			    	 	dataType: "json",
-			    	 	contentType: "application/json, charset=UTF-8",
-			    	 	success : function(data) {
-			    	 		var str = "";
-			    	 		$.each(data.arr, function(index, arr) {
-			    	 			str = str + "<div class='item col-xs-4 col-lg-4'>";
-			    	 			str = str + "        <div class='thumbnail card' data-src='"+arr.product_cd+"'>";
-			    	 			str = str + "            <div class='img-event'>";
-			    	 			str = str + "                <img class='group list-group-image img-fluid' src='/displayFile.do?fileName="+arr.filename_thumb+"' onerror=this.src='/resources/images/noimg.gif;' alt=''/>";
-			    	 			str = str + "            </div>";
-			    	 			str = str + "            <div class='caption card-body'>";
-			    	 			str = str + "                <h4 class='group card-title inner list-group-item-heading'>";
-			    	 			str = str + "                    "+arr.product_nm+"</h4>";
-			    	 			str = str + "                <p class='group inner list-group-item-text'>"+arr.content+"</p>";
-			    	 			str = str + "                <div class='row'>";
-			    	 			str = str + "                    <div class='col-xs-12 col-md-6'>";
-			    	 			str = str + "                        <p class='lead'> "+arr.bid_cnt+"명 / "+arr.bid_max_money+"원</p>";
-			    	 			str = str + "                    </div>";
-			    	 			str = str + "                    <div class='col-xs-12 col-md-6'>";
-			    	 			if(arr.acutdate_start_str != '3') {
-			    	 			    str = str + "                        <label>"+arr.acutdate_start_str+"</label>";
-			    	 			}	
-			    	 			str = str + "                    </div>";
-			    	 			str = str + "                </div>";
-			    	 			str = str + "            </div>";
-			    	 			str = str + "        </div>";
-			    	 			str = str + "    </div>";
-			    	 			str = str + "</div>";
-			    	 			$("#enters").append(str);
-							});
-			    	 		
-						}, 
-						error: function(error) {
-							console.log("error : " + error);
-						}
-			      	});
+			    
+			    	prodListSearch(page, searchVal, class_big_cd, class_mid_cd);
 			    }
 			});
-		});
-		
-		$(".thumbnail").on("click", function() {
-			var datasrc = $(this).attr("data-src");
 			
-			location.href="/product/detail.do?product_cd=" + datasrc;
-		})
-		
-		
-		
-		$('#searchProduct').click(function() {
-			var class_big_cd = $("#class_big_cd").val(); // 대분류(selectBox)
-			var class_mid_cd = $("#class_mid_cd").val(); // 중분류(selectBox)
-			var searchVal = $("#searchVal").val(); // 물품명 - 제목
+			$('#searchProduct').click(function() {
+				var searchVal = $("#searchVal").val(); // 물품명 - 제목
+				var class_big_cd = $("#class_big_cd").val(); // 대분류(selectBox)
+				var class_mid_cd = $("#class_mid_cd").val(); // 중분류(selectBox)
+				
+//				location.href="/product/list.do?page=1&searchVal=" + searchVal + "&class_big_cd=" + class_big_cd + "&class_mid_cd=" + class_mid_cd;
+				
+				prodListSearch(1, searchVal, class_big_cd, class_mid_cd);
+			});
 			
-			location.href="/product/list.do?searchVal=" + searchVal + "&class_big_cd=" + class_big_cd + "&class_mid_cd=" + class_mid_cd;
-		
+			$(".thumbnail").on("click", function() {
+				var datasrc = $(this).attr("data-src");
+				
+				location.href="/product/detail.do?product_cd=" + datasrc;
+			});
+	
+			$("select[name='class_big_cd']").change(function(){  // 셀렉트 박스가 체인지 될때 이벤트  - "select[name=classBig]"
+				var valBig = $(this).val(); // 현재 선택된 값
+
+				createClsmid(valBig, "XX");
+			});
 		});
-		
 
-		$("select[name='class_big_cd']").change(function(){  // 셀렉트 박스가 체인지 될때 이벤트  - "select[name=classBig]"
-			var valBig = $(this).val(); // 현재 선택된 값
-
+		function createClsmid(valBig, valMid){
 			if(valBig == "" || valBig == null) {
 				$("select[name='class_mid_cd'] option").remove();
 				$("select[name='class_mid_cd']").append("<option value='XX'>-중분류 선택-</option>");
@@ -180,11 +155,84 @@
 					$("select[name='class_mid_cd'] option").remove();
 					$("select[name='class_mid_cd']").append("<option value='XX'>-중분류 선택-</option>");
 					$.each(data, function(i, d) {
-						$("select[name=class_mid_cd]").append('<option value="' + d.class_mid_cd + '">' + d.class_mid_nm + '</option>'); 
-					}); 
+						if(d.class_mid_cd == valMid) {
+							$("select[name=class_mid_cd]").append('<option value="' + d.class_mid_cd + '" selected>' + d.class_mid_nm + '</option>'); 
+						}
+						else {
+							$("select[name=class_mid_cd]").append('<option value="' + d.class_mid_cd + '">' + d.class_mid_nm + '</option>'); 
+						}
+					});
 				});
 			}
-		});
+		}
+		
+		function prodListSearch(page, searchVal, class_big_cd, class_mid_cd){
+			console.log(page);
+			console.log(searchVal);
+			console.log(class_big_cd);
+			console.log(class_mid_cd);
+			var senddata = JSON.stringify({
+				"searchVal" : searchVal,
+				"class_big_cd" : class_big_cd,
+			    "class_mid_cd" : class_mid_cd
+	    	});
+			
+	      	$.ajax({
+	    	 	async: true,
+	    	 	type: "POST",
+	    	 	data: senddata,
+	    	 	url: "/product/listAjax.do/" + page,
+	    	 	dataType: "json",
+	    	 	contentType: "application/json; charset=UTF-8",
+	    	 	success : function(data) {
+	    	 		var str = "";
+	    	 		
+	    	 		console.log(data.arr);
+	    	 		
+	    	 		$.each(data.arr, function(index, arr) {
+	    	 			str = "";
+	    	 			str = str + "<div class='item col-xs-4 col-lg-4'>";
+	    	 			str = str + "	<div class='thumbnail card' data-src='" + arr.product_cd + "'>";
+	    	 			str = str + "		<div class='img-event'>";
+	    	 			str = str + "			<img class='group list-group-image img-fluid' src='/displayFile.do?fileName=" + arr.filename_thumb + "' onerror=this.src='/resources/images/noimg.gif;' />";
+	    	 			str = str + "		</div>";
+	    	 			str = str + "		<div class='caption card-body'>";
+	    	 			str = str + "			<h4 class='group card-title inner list-group-item-heading'>" + arr.product_nm + "</h4>";
+	    	 			str = str + "			<p class='group inner list-group-item-text'>" + arr.content + "</p>";
+	    	 			str = str + "			<div class='row'>";
+	    	 			str = str + "				<div class='col-xs-12 col-md-6'>";
+	    	 			str = str + "					<p class='lead'> " + arr.bid_cnt + "명/";
+	    	 			
+	    	 			if(arr.bid_max_money == 0) {
+	    	 				str = str + arr.money_first + "원</p>";
+	    	 			}
+	    	 			else {
+	    	 				str = str + arr.bid_max_money + "원</p>";
+	    	 			}
+
+	    	 			str = str + "				</div>";
+	    	 			str = str + "					<div class='col-xs-12 col-md-6'>";
+	    	 			
+	    	 			if(arr.state_cd != '3') {
+	    	 			    str = str + "					<label>" + arr.acutdate_end_str + "</label>";
+	    	 			}
+	    	 			
+	    	 			str = str + "					</div>";
+	    	 			str = str + "				</div>";
+	    	 			str = str + "			</div>";
+	    	 			str = str + "		</div>";
+	    	 			str = str + "	</div>";
+	    	 			str = str + "</div>";
+	    	 			$("#enters").append(str);
+					});
+	    	 		
+				}, 
+				error: function(error) {
+					console.log("error : " + error);
+				}
+	      	});
+		}
+		
 	</script>
 </body>
 </html>

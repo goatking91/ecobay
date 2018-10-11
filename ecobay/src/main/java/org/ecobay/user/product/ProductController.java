@@ -8,6 +8,7 @@ import javax.annotation.Resource;
 
 import org.ecobay.user.product.domain.AuctionInfoVO;
 import org.ecobay.user.product.domain.BidInfoVO;
+import org.ecobay.user.product.domain.ProdSearchVO;
 import org.ecobay.user.product.domain.ProductQnaVO;
 import org.ecobay.user.product.domain.ProductVO;
 import org.ecobay.user.product.service.ProductService;
@@ -16,7 +17,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.config.annotation.authentication.configurers.userdetails.DaoAuthenticationConfigurer;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
@@ -92,25 +92,63 @@ public class ProductController {
     	
     	return "redirect:/product/detail.do";
     }*/
-
-	@RequestMapping(value = "/list.do", method = RequestMethod.GET)
-    public String list(ProductVO vo, Model model) throws Exception {
+    
+    @RequestMapping(value = "/list.do", method = RequestMethod.GET)
+    public String listGET(ProductVO vo, Model model) throws Exception {
 		model.addAttribute("bigclass", service.bigclassList());
-		System.out.println(vo.getSearchVal());
 		vo.setStart_num(1);
 		vo.setEnd_num(pageCount);
+
+		model.addAttribute("sVal", vo.getSearchVal());
+		model.addAttribute("clsbigcd", vo.getClass_big_cd());
+		model.addAttribute("clsmidcd", vo.getClass_mid_cd());
+		
 		model.addAttribute("productList", service.selectList(vo));
+		
+    	return "product/list.page";
+    }
+    
+	@RequestMapping(value = "/list.do", method = RequestMethod.POST)
+    public String listPOST(ProductVO vo, Model model) throws Exception {
+		model.addAttribute("bigclass", service.bigclassList());
+		vo.setStart_num(1);
+		vo.setEnd_num(pageCount);
+
+		model.addAttribute("sVal", vo.getSearchVal());
+		model.addAttribute("clsbigcd", vo.getClass_big_cd());
+		model.addAttribute("clsmidcd", vo.getClass_mid_cd());
+		
+		model.addAttribute("productList", service.selectList(vo));
+		
     	return "product/list.page";
     }
 	
     @ResponseBody
-    @RequestMapping(value = "/list.do/{page}", method = RequestMethod.POST)
-    public Map<String, List<ProductVO>> listPOST(@PathVariable("page") int page, ProductVO vo) throws Exception {
-		vo.setStart_num((page-1) * pageCount + 1 );
-		vo.setEnd_num(page * pageCount);
+    @RequestMapping(value = "/listAjax.do/{page}", method = RequestMethod.POST)
+    public Map<String, Object> listAjaxPOST(  @PathVariable("page") int page
+    									 , @RequestBody ProdSearchVO vo) throws Exception {
+    	String searchVal = vo.getSearchVal();
+    	String class_big_cd = vo.getClass_big_cd();
+    	String class_mid_cd = vo.getClass_mid_cd();
+    	
+    	ProductVO prodVO = new ProductVO();
+    	
+    	prodVO.setStart_num((page-1) * pageCount + 1 );
+    	prodVO.setEnd_num(page * pageCount);
+
+    	prodVO.setSearchVal(searchVal);
+    	prodVO.setClass_big_cd(class_big_cd);
+    	prodVO.setClass_mid_cd(class_mid_cd);
 		
-		Map<String, List<ProductVO>> map = new HashMap<String, List<ProductVO>>();
-		map.put("arr", service.selectList(vo));
+		Map<String, Object> map = new HashMap<String, Object>();
+
+		map.put("page", page);
+		map.put("sVal", searchVal);
+		map.put("clsbigcd", class_big_cd);
+		map.put("clsmidcd", class_mid_cd);
+		
+		map.put("arr", service.selectList(prodVO));
+
 		return map;
     }
     
@@ -308,7 +346,7 @@ public class ProductController {
     
     @ResponseBody
     @RequestMapping(value = "/prodWish.do/{product_cd}", method = RequestMethod.POST)
-    public void prodWishPOST(@PathVariable("product_cd") String product_cd) throws Exception {
+    public int prodWishPOST(@PathVariable("product_cd") String product_cd) throws Exception {
 //    	// 로그인아이디 Controller쪽에서 구하기.
 		User user = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		String userid = user.getUsername();
@@ -317,6 +355,18 @@ public class ProductController {
     	vo.setProduct_cd(product_cd);
     	vo.setMember_id(userid);
 		
-		service.prodWishInsert(vo);
+    	int iProdWishCnt = 0;
+    	
+    	iProdWishCnt = service.checkProdWish(vo);
+
+    	System.out.println(product_cd);
+    	System.out.println(userid);
+    	System.out.println(String.valueOf(iProdWishCnt));
+
+    	if(iProdWishCnt == 0) {
+    		service.prodWishInsert(vo);
+    	}
+    	
+		return iProdWishCnt;
     }
 }

@@ -50,7 +50,6 @@ public class ProductVO {
 			DeliveryInfoVO dvo, int rn, String searchVal, int start_num, int end_num, int bid_cnt, 
 			long bid_max_money, long money_first,
 			String filename_thumb, String acutdate_start_str, String acutdate_end_str) {
-		super();
 		this.product_cd = product_cd;
 		this.product_nm = product_nm;
 		this.member_id = member_id;
@@ -307,6 +306,7 @@ public class ProductVO {
 		this.acutdate_end_str = acutdate_end_str;
 	}
 
+	
 	@Override
 	public String toString() {
 		return "ProductVO ["
@@ -318,7 +318,7 @@ public class ProductVO {
 				+ ", searchVal=" + searchVal + ", start_num=" + start_num + ", end_num=" + end_num + ", bid_cnt="
 				+ bid_cnt + ", bid_max_money=" + bid_max_money + ", money_first=" + money_first
 				+ ", filename_thumb=" + filename_thumb
-				+ ", acutdate_start_str=" + acutdate_start_str + ", acutdate_end_str=" + acutdate_end_str 
+				+ ", acutdate_start_str=" + acutdate_start_str + ", acutdate_end_str=" + acutdate_end_str
 				+ "]";
 	}
 }

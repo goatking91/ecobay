@@ -237,4 +237,9 @@ public class ProductServiceImpl implements ProductService{
 	public void prodWishInsert(ProductVO vo) throws Exception {
 		dao.prodWishInsert(vo);
 	}
+
+	@Override
+	public int checkProdWish(ProductVO vo) throws Exception {
+		return dao.checkProdWish(vo);
+	}
 }

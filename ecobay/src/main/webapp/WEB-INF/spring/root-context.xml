@@ -7,6 +7,7 @@
 	
 	<!-- Root Context: defines shared resources visible to all other web components -->
 	
+	<!-- jdbc:mysql://ecobay-db.cxpevmlstlik.ap-northeast-2.rds.amazonaws.com:3306 / 127.0.0.1:3306 -->
 	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 		<property name="driverClassName" value="com.mysql.cj.jdbc.Driver"></property>
 		<property name="url" value="jdbc:mysql://127.0.0.1:3306/ecobay?useSSL=false&amp;serverTimezone=Asia/Seoul&amp;allowPublicKeyRetrieval=true&amp;characterEncoding=UTF-8"></property>

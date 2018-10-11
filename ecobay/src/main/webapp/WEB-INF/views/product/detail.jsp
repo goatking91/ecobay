@@ -503,6 +503,8 @@
 						    "bay_member_id" : userid 
 						});
 					
+					console.log(sendData);
+					
 					$.ajax({
 						async: true,
 						type: 'POST',
@@ -561,11 +563,20 @@
 						async: true,
 						type: 'POST',
 						url : "/product/prodWish.do/" + product_cd,
-						success : function() {
+						success : function(data) {
+							var iProdWishCnt = data;
+							
 		    	 			$('#myModalCancelBtn').css("display", "none");
 		    	 			$('#myModal_div').val("");
-				            $('#myModal #message').find('h4').text("관심상품 등록되었습니다.");
-				        	$('#myModal').modal('show');
+		    	 			
+ 		    	 			if(iProdWishCnt == 0) {
+		    	 				$('#myModal #message').find('h4').text("관심상품 등록되었습니다.");
+		    	 			}
+		    	 			else {
+		    	 				$('#myModal #message').find('h4').text("이미 등록된 관심상품입니다.");
+		    	 			}
+				            
+				            $('#myModal').modal('show');
 				        },
 				        error: function(data) {
 							console.log("error :" + data);

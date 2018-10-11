@@ -155,4 +155,9 @@ public class ProductDAOImpl implements ProductDAO {
 	public void prodWishInsert(ProductVO vo) throws Exception {
 		session.insert(namespace + ".prodWishInsert", vo);
 	}
+
+	@Override
+	public int checkProdWish(ProductVO vo) throws Exception {
+		return session.selectOne(namespace + ".checkProdWish", vo);
+	}
 }
