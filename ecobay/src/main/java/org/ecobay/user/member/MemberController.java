@@ -26,6 +26,8 @@ import org.ecobay.user.product.domain.ProductVO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
@@ -56,6 +58,23 @@ public class MemberController {
 	
     private static final Logger logger = LoggerFactory.getLogger(MemberController.class);
     
+    @ResponseBody
+    @RequestMapping(value = "/checkDel.do", method = RequestMethod.POST)
+    public ResponseEntity<String> checkDelPOST(@RequestBody Object product_cd) throws Exception {
+    	List<String> list = (List<String>) product_cd;
+    	
+    	ResponseEntity<String> entity = null;
+    	try {
+    		service.chkDel(list);
+    		entity = new ResponseEntity<String>("SUCCESS", HttpStatus.OK);
+    	} catch (Exception ex) {
+			ex.printStackTrace();
+			entity = new ResponseEntity<String>(ex.getMessage(), HttpStatus.BAD_REQUEST);
+		}
+    	
+    	return entity;
+    }
+    
     @RequestMapping(value = "/payment.do/{product_cd}/{flag}", method = RequestMethod.GET)
     public String paymentGET(@PathVariable("product_cd") String product_cd, @PathVariable("flag") int flag, Model model) throws Exception{
     	User user = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -85,7 +104,7 @@ public class MemberController {
 
     	return "member/payment.page";
     }
-    @RequestMapping(value = "/payment.do", method = RequestMethod.POST)
+    @RequestMapping(value = "/payment.do/{product_cd}/{flag}", method = RequestMethod.POST)
     public String paymentPOST(PaymentVO pvo, DeliveryVO dvo, String product_cd) throws Exception {
     	/*PaymentVO pvo = new PaymentVO();
     	DeliveryVO dvo = new DeliveryVO();*/
@@ -99,14 +118,19 @@ public class MemberController {
     	auctVO.setBay_member_id(userid);
     	auctVO.setMoney_last(payMoney);
     	
-    	service.payment(pvo);
+    	String retVal = service.paymentPrs(pvo, dvo, auctVO);
+    	
+    	//오류시 ERR return
+    	if(retVal == "OK") {
+        	mailSender.send(getMimeMessage2(mailSender.getSession(), userid));
+    	}
+    	
+    	/*service.payment(pvo);
     	service.delivery(dvo);
-    	service.auctionInfo(auctVO);
+    	service.auctionInfo(auctVO);*/
     	System.out.println("pvo는 "+ pvo);
     	System.out.println("dvo는 "+ dvo);
     	System.out.println("product_cd는 "+ product_cd);
-    	
-    	mailSender.send(getMimeMessage2(mailSender.getSession(), userid));
     	
     	return "member/mailCheckOrder.page";
     }  
@@ -117,7 +141,7 @@ public class MemberController {
     public Map<String, Object> wishListPOST(@RequestBody String member_id, @PathVariable("page") int page, MemberProductVO vo) throws Exception{
     	int total = service.wishTotal(member_id);
     	int pagecount = 0;
-    	if(total%pcount == 0) {
+    	if(total%10 == 0) {
     		pagecount = total/10;
     	} else {
     		pagecount = (total/10) +1;
@@ -136,8 +160,7 @@ public class MemberController {
 		vo.setMember_id(member_id);
     	System.out.println(member_id);
     	
-    	
-    	
+    	System.out.println("vo="+vo.getPagecount());
     	
     	Map<String, Object> map = new HashMap<String, Object>();
     	List<MemberProductVO> wishList = service.wishList(vo);

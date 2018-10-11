@@ -63,7 +63,7 @@ $(function() {
 	});
     
     $('#payment').click(function(){
-		var member_id = $('#member_id2').val();
+		var member_id = $('#member_id2').text();
 		var phone4 = $('#phone4').val();
 		var phone5 = $('#phone5').val();
 		var phone6 = $('#phone6').val();
@@ -71,7 +71,7 @@ $(function() {
 		var addr1 = $('#addr3').val();
 		var addr2 = $('#addr4').val();
 		var deli_zipcode = $('#deli_zipcode').val();
-		var money_pay = $('#money_pay').val();
+		var money_pay = $('#money_pay').text();
 		var product_nm = $('#product_nm').text();
 		var DELI_PHONENUM = $('#DELI_PHONENUM').val();
 		
@@ -143,7 +143,7 @@ $(function() {
 		var phone4 = $('#phone4').val(phone.substring(0,3));
 		var phone5 = $('#phone5').val(phone.substring(4,8));
 		var phone6 = $('#phone6').val(phone.substring(9,13));
-		var DELI_PHONENUM = $('#DELI_PHONENUM').val(phone);
+		var deli_phonenum = $('#deli_phonenum').val(phone);
 		var addr1 = $('#addr3').val($('#addr1').val());
 		var addr2 = $('#addr4').val($('#addr2').val());
 	});
@@ -259,7 +259,7 @@ $(function() {
     						<span class="input-group-text" id="basic-addon2">-</span>
   					</div>					
 					<input class="form-control" id="phone6" type="text">
-					<input type="hidden" id="DELI_PHONENUM" name="DELI_PHONENUM" value="">
+					<input type="hidden" id="deli_phonenum" name="deli_phonenum" value="">
 					
 				</div>
 				</div>	

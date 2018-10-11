@@ -88,7 +88,7 @@ public class MemberServiceImpl implements MemberService {
 		return dao.selectimg(product_cd);
 	}
 
-	@Override
+	/*@Override
 	public void payment(PaymentVO pvo) throws Exception {
 		dao.payment(pvo);
 		
@@ -103,7 +103,7 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public void auctionInfo(AuctionInfoVO avo) throws Exception {
 		dao.auctionInfo(avo);
-	}
+	}*/
 
 	@Override
 	public AuctionInfoVO selectAuct(String product_cd) throws Exception {
@@ -118,6 +118,18 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public int wishTotal(String member_id) throws Exception {
 		return dao.wishTotal(member_id);
+	}
+
+	@Override
+	public void chkDel(List<String> list) throws Exception {
+		dao.chkDel(list);
+		
+	}
+
+	@Override
+	public String paymentPrs(PaymentVO pvo, DeliveryVO dvo, AuctionInfoVO auctVO) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 }

@@ -8,19 +8,21 @@ public class DeliveryVO {
 	private String deli_zipcode;
 	private String deli_addr1;
 	private String deli_addr2;
+	private String deli_phonenum;
 	private Date regdate;
 	
 	public DeliveryVO() {
 		
 	}
-
+	
 	public DeliveryVO(String product_cd, String deli_nm, String deli_zipcode, String deli_addr1, String deli_addr2,
-			Date regdate) {
+			String deli_phonenum, Date regdate) {
 		this.product_cd = product_cd;
 		this.deli_nm = deli_nm;
 		this.deli_zipcode = deli_zipcode;
 		this.deli_addr1 = deli_addr1;
 		this.deli_addr2 = deli_addr2;
+		this.deli_phonenum = deli_phonenum;
 		this.regdate = regdate;
 	}
 
@@ -64,6 +66,14 @@ public class DeliveryVO {
 		this.deli_addr2 = deli_addr2;
 	}
 
+	public String getDeli_phonenum() {
+		return deli_phonenum;
+	}
+
+	public void setDeli_phonenum(String deli_phonenum) {
+		this.deli_phonenum = deli_phonenum;
+	}
+
 	public Date getRegdate() {
 		return regdate;
 	}
@@ -72,12 +82,14 @@ public class DeliveryVO {
 		this.regdate = regdate;
 	}
 
+
+
 	@Override
 	public String toString() {
-		return "DeliveryInfoVO [product_cd=" + product_cd + ", deli_nm=" + deli_nm + ", deli_zipcode="
-				+ deli_zipcode + ",deli_addr1=" + deli_addr1 +",deli_addr2" + deli_addr2 + ", regdate=" + regdate + "]";
+		return "DeliveryVO [product_cd=" + product_cd + ", deli_nm=" + deli_nm + ", deli_zipcode=" + deli_zipcode
+				+ ", deli_addr1=" + deli_addr1 + ", deli_addr2=" + deli_addr2 + ", deli_phonenum=" + deli_phonenum
+				+ ", regdate=" + regdate + "]";
 	}
-	
-	
+
 	
 }

@@ -96,6 +96,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		SELECT FILENAME_THUMB 
 		FROM PRODUCTIMG
 		WHERE PRODUCT_CD = #{product_cd}
+		LIMIT 1;
 	</select>
 	
 	<insert id="payment" parameterType="PaymentVO">
@@ -105,7 +106,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<insert id="delivery" parameterType="DeliveryVO">
 		INSERT INTO DELIVERY
-		VALUES(#{product_cd}, #{deli_nm}, #{deli_zipcode}, #{deli_addr1}, #{deli_addr2}, now())
+		VALUES(#{product_cd}, #{deli_nm}, #{deli_zipcode}, #{deli_addr1}, #{deli_addr2}, #{deli_phonenum} , now())
 	</insert>
 	
 	<update id="auctionInfo">
@@ -139,5 +140,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		ORDER BY WISH.REGDATE DESC
 		)list where list.rn between #{start} and #{end}		
 	</select>
+	
+	<delete id="chkDel">
+		DELETE FROM PRODUCTWISH
+		WHERE PRODUCT_CD IN
+		<foreach collection="list" item="type" open="(" close=")" separator=",">
+			#{type}
+		</foreach>
+	</delete>
 </mapper>
 

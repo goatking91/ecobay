@@ -64,11 +64,36 @@ $(document).ready(function(){
 		listAjax($(this).val());
 	});
 	
+	$(document).on("click", "#chK_all", function(){
+		$('.check').prop('checked', this.checked);
+	});
+
+	$(document).on("click", "#delchk", function(){
+		/* $("input:checkbox[id=chk"+ +""]) */
+		var wishDel = [];
+		$('#checkBox:checked').each(function() {
+			wishDel.push($(this).val());
+		});
+		$.ajax({
+			async: true,
+			type: 'POST',
+			url : "/member/checkDel.do",
+			data: JSON.stringify(wishDel), 
+			contentType: "application/json; charset=UTF-8",
+			success : function(data) {
+				listAjax(1);
+				alert("관심상품이 삭제되었습니다");
+	        },
+	        error: function(data) {
+				console.log("error :" + data);
+			}
+		});  
+		
+	});
+	
 	$('#wishList-tap').click(function(){
 		
-		listAjax(page);
-		
-		  
+		listAjax(page);  
 		
 	});
 	
@@ -91,13 +116,14 @@ $(document).ready(function(){
 				str = str + "	<label class='checkbox'>";
 				str = str + "		<input type='checkbox' id ='chK_all' name='chK_all'>";
 				str = str + "	</label>";
-				str = str + "	<input type='button' class='btn btn-default' value='선택상품 삭제'>";
+				str = str + "	<input type='button' class='btn btn-default' id='delchk' value='선택상품 삭제'>";
 				str = str + "<div class='col-sm-8'></div>"
 				str = str + "<div style='align:right'>관심상품수 "+ data.cnt +"</div>"
 				str = str + "</div>";
 				console.log(data.arr);
-				
+				var num = 1;
 				$.each(data.arr, function(index, arr){
+					
 					var state_cd = arr.state_cd;
 					if(state_cd == '3'){
 						state_cd = "진행중";
@@ -106,7 +132,7 @@ $(document).ready(function(){
 					}
 					str = str + "<div class='form-group row col-sm-12' style='padding:15px; margin:10px'>";
 					str = str + "	<div class='col-sm-1' style='padding-top:35px'>";
-					str = str + "		<input type='checkbox'>";
+					str = str + "		<input type='checkbox' class='check' id='checkBox' value=" + arr.product_cd + ">";
 					str = str + "	</div>";	
 					str = str + "	<div class='col-sm-3'><img src='/displayFile.do?fileName=" + arr.filename_thumb + "' style='margin-left: auto; margin-right: auto; display: block; width:60%;'></div>";
 					str = str + "	<div class='col-sm-5' id='form-inline' style='padding-top:10px'>";
@@ -117,12 +143,11 @@ $(document).ready(function(){
 					str = str + "	<div id='' class='col-sm-3' align='right' style='padding-top:35px'>" + state_cd + "</div>";
 					str = str + "</div><hr>";
 					
-					
+					console.log("num="+num);
 				});
 				console.log(str);
 				var vo = JSON.parse(JSON.stringify(data.vo));
 
-				vo.pagecount
 				/* //페이징
 				var start, end, page, startpage, endpage, pagecount, temp, total;
 				
@@ -180,22 +205,18 @@ $(document).ready(function(){
 		<div class="col-sm-3">
 			<hr><br>
 			<ul class="list-group">
-            	<li class="list-group-item text-muted">Activity</li>
+            	<li class="list-group-item text-muted">내 정보</li>
             	<li class="list-group-item d-flex justify-content-between align-items-center">
-				    <strong>Shares</strong>
+				    내 판매상품
 				    <span class="badge badge-primary badge-pill">14</span>
 				</li>
 				<li class="list-group-item d-flex justify-content-between align-items-center">
-				    <strong>Likes</strong>
+				내 구매상품
 				    <span class="badge badge-primary badge-pill">13</span>
 				</li>
 				<li class="list-group-item d-flex justify-content-between align-items-center">
-				    <strong>Posts</strong>
+				    관심상품
 				    <span class="badge badge-primary badge-pill">37</span>
-				</li>
-				<li class="list-group-item d-flex justify-content-between align-items-center">
-				    <strong>Followers</strong>
-				    <span class="badge badge-primary badge-pill">78</span>
 				</li>
 			</ul> 
 		</div>
@@ -279,6 +300,8 @@ $(document).ready(function(){
 					</div>	
 				</div>     	
 			</form>
+			
+			
 		</div>
 				</div>
 		<div class="tab-pane fade" id="sell" role="tabpanel" aria-labelledby="sell">

@@ -111,5 +111,10 @@ public class MemberDAOImpl implements MemberDAO {
 	public int wishTotal(String member_id) throws Exception {
 		return session.selectOne(namespace + ".wishTotal", member_id);
 	}
+
+	@Override
+	public void chkDel(List<String> list) throws Exception {
+		session.delete(namespace + ".chkDel", list); 
+	}
 	
 }
