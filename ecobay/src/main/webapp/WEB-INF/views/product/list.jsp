@@ -79,7 +79,7 @@
 						<div class="caption card-body">
 							<h4 class="group card-title inner list-group-item-heading">
 								${list.product_nm}</h4>
-							<p class="group inner list-group-item-text">${list.content}</p>
+							<!-- <p class="group inner list-group-item-text">${list.content}</p>  -->
 							<div class="row">
 								<div class="col-xs-12 col-md-6">
 									<p class="lead">${list.bid_cnt}명/
@@ -90,9 +90,15 @@
 									</p>
 								</div>
 								<div class="col-xs-12 col-md-6">
-									<c:if test="${list.state_cd != '3'}">
-										<label>${list.acutdate_end_str}</label>
-									</c:if>
+									<c:choose>
+										<c:when test="${list.state_cd != '3'}">
+											<label>${list.acutdate_end_str}</label>
+										</c:when>
+										<c:otherwise>
+											<label>경매진행중</label>
+										</c:otherwise>
+									</c:choose>
+									
 								</div>
 							</div>
 						</div>
@@ -132,7 +138,7 @@
 				prodListSearch(1, searchVal, class_big_cd, class_mid_cd);
 			});
 			
-			$(".thumbnail").on("click", function() {
+			$(document).on("click", ".thumbnail", function() {
 				var datasrc = $(this).attr("data-src");
 				
 				location.href="/product/detail.do?product_cd=" + datasrc;
@@ -198,7 +204,7 @@
 	    	 			str = str + "		</div>";
 	    	 			str = str + "		<div class='caption card-body'>";
 	    	 			str = str + "			<h4 class='group card-title inner list-group-item-heading'>" + arr.product_nm + "</h4>";
-	    	 			str = str + "			<p class='group inner list-group-item-text'>" + arr.content + "</p>";
+	    	 			//str = str + "			<p class='group inner list-group-item-text'>" + arr.content + "</p>";
 	    	 			str = str + "			<div class='row'>";
 	    	 			str = str + "				<div class='col-xs-12 col-md-6'>";
 	    	 			str = str + "					<p class='lead'> " + arr.bid_cnt + "명/";
@@ -215,6 +221,9 @@
 	    	 			
 	    	 			if(arr.state_cd != '3') {
 	    	 			    str = str + "					<label>" + arr.acutdate_end_str + "</label>";
+	    	 			}
+	    	 			else {
+	    	 				str = str + "					<label>경매진행중</label>";
 	    	 			}
 	    	 			
 	    	 			str = str + "					</div>";
