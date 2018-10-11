@@ -35,11 +35,11 @@ public interface MemberDAO {
 	
 	public String selectimg(String product_cd) throws Exception;
 	
-	public void payment(PaymentVO pvo) throws Exception;
+	public void payment(PaymentVO pvo);
 	
-	public void delivery(DeliveryVO dvo) throws Exception;
+	public void delivery(DeliveryVO dvo);
 	
-	public void auctionInfo(AuctionInfoVO avo) throws Exception;
+	public void auctionInfo(AuctionInfoVO avo);
 	
 	public List<MemberProductVO> wishList(MemberProductVO vo) throws Exception;
 	

@@ -11,6 +11,8 @@ import org.ecobay.user.product.domain.PaymentVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class MemberServiceImpl implements MemberService {
@@ -127,9 +129,17 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
+	@Transactional(propagation=Propagation.REQUIRED)
 	public String paymentPrs(PaymentVO pvo, DeliveryVO dvo, AuctionInfoVO auctVO) {
-		// TODO Auto-generated method stub
-		return null;
+		String retVal = "ERR";
+		
+		dao.payment(pvo);
+		dao.delivery(dvo);
+		dao.auctionInfo(auctVO);
+		
+		retVal = "OK";
+		
+		return retVal;
 	}
 	
 }

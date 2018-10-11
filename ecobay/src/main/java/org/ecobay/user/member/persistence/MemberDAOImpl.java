@@ -82,17 +82,17 @@ public class MemberDAOImpl implements MemberDAO {
 	}
 
 	@Override
-	public void payment(PaymentVO pvo) throws Exception {
+	public void payment(PaymentVO pvo) {
 		session.insert(namespace + ".payment", pvo);		
 	}
 
 	@Override
-	public void delivery(DeliveryVO dvo) throws Exception {
+	public void delivery(DeliveryVO dvo) {
 		session.insert(namespace + ".delivery", dvo);
 	}
 
 	@Override
-	public void auctionInfo(AuctionInfoVO avo) throws Exception {
+	public void auctionInfo(AuctionInfoVO avo) {
 		session.update(namespace + ".auctionInfo", avo); 
 		
 	}

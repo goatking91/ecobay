@@ -79,7 +79,10 @@ public class MemberController {
     public String paymentGET(@PathVariable("product_cd") String product_cd, @PathVariable("flag") int flag, Model model) throws Exception{
     	User user = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     	String userid = user.getUsername();
+    	
+    	System.out.println(product_cd);
     	System.out.println(userid);
+    	System.out.println(String.valueOf(flag));
     	
     	AuctionInfoVO auctVO = service.selectAuct(product_cd);
     	
