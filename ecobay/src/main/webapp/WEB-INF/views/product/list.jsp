@@ -105,7 +105,6 @@
 					</div>
 				</div>
 			</c:forEach>
-			
 		</div>
 		<div id="enters" class='row view-group'></div>
 	</div>
@@ -173,10 +172,6 @@
 		}
 		
 		function prodListSearch(page, searchVal, class_big_cd, class_mid_cd){
-			console.log(page);
-			console.log(searchVal);
-			console.log(class_big_cd);
-			console.log(class_mid_cd);
 			var senddata = JSON.stringify({
 				"searchVal" : searchVal,
 				"class_big_cd" : class_big_cd,
@@ -241,7 +236,6 @@
 				}
 	      	});
 		}
-		
 	</script>
 </body>
 </html>

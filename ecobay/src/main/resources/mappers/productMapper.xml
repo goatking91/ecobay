@@ -66,31 +66,29 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<select id="selectList" resultType="ProductVO">
 		SELECT prodlist.* 
-		 FROM
-		(
-			 SELECT @rownum:=@rownum+1 as rn
-			 		, prod.PRODUCT_CD, prod.PRODUCT_NM, prod.MEMBER_ID, prod.STATE_CD, prod.STATE_NM, prod.VIEWCNT
-			 		, IFNULL(prod.CONTENT, '') as CONTENT
-					, (SELECT COUNT(bid.PRODUCT_CD) FROM BIDINFO bid WHERE bid.PRODUCT_CD = prod.PRODUCT_CD) as BID_CNT
-					, IFNULL((SELECT MAX(bid.MONEY_BID) FROM BIDINFO bid WHERE bid.PRODUCT_CD = prod.PRODUCT_CD), 0) as BID_MAX_MONEY
-			        , IFNULL((SELECT prodimg.FILENAME_THUMB FROM PRODUCTIMG prodimg WHERE prodimg.PRODUCT_CD = prod.PRODUCT_CD ORDER BY prodimg.IMG_IDX ASC limit 1), '') as FILENAME_THUMB
-			        , CASE 
-						WHEN (prod.STATE_CD != '3') THEN IFNULL((SELECT DATE_FORMAT(auct.ACUTDATE_END, '%Y-%m-%d %H:%s') FROM AUCTIONINFO auct WHERE auct.PRODUCT_CD = prod.PRODUCT_CD), '')
-						ELSE '' END AS ACUTDATE_END_STR
-					, IFNULL((SELECT auct.MONEY_FIRST FROM AUCTIONINFO auct WHERE auct.PRODUCT_CD = prod.PRODUCT_CD), 0) as MONEY_FIRST
-			   FROM PRODUCT prod , (SELECT @rownum:=0) tmp
-			  WHERE prod.USE_YN = TRUE
-			    AND prod.STATE_CD IN ('3', '5', '6', '7')
+		 FROM ( SELECT @rownum:=@rownum+1 as rn
+			 		 , prod.PRODUCT_CD, prod.PRODUCT_NM, prod.MEMBER_ID, prod.STATE_CD, prod.STATE_NM, prod.VIEWCNT
+			 		 , IFNULL(prod.CONTENT, '') as CONTENT
+					 , (SELECT COUNT(bid.PRODUCT_CD) FROM BIDINFO bid WHERE bid.PRODUCT_CD = prod.PRODUCT_CD) as BID_CNT
+					 , IFNULL((SELECT MAX(bid.MONEY_BID) FROM BIDINFO bid WHERE bid.PRODUCT_CD = prod.PRODUCT_CD), 0) as BID_MAX_MONEY
+			         , IFNULL((SELECT prodimg.FILENAME_THUMB FROM PRODUCTIMG prodimg WHERE prodimg.PRODUCT_CD = prod.PRODUCT_CD ORDER BY prodimg.IMG_IDX ASC limit 1), '') as FILENAME_THUMB
+			         , CASE 
+						 WHEN (prod.STATE_CD != '3') THEN IFNULL((SELECT DATE_FORMAT(auct.ACUTDATE_END, '%Y-%m-%d %H:%s') FROM AUCTIONINFO auct WHERE auct.PRODUCT_CD = prod.PRODUCT_CD), '')
+						 ELSE '' END AS ACUTDATE_END_STR
+					 , IFNULL((SELECT auct.MONEY_FIRST FROM AUCTIONINFO auct WHERE auct.PRODUCT_CD = prod.PRODUCT_CD), 0) as MONEY_FIRST
+			     FROM PRODUCT prod , (SELECT @rownum:=0) tmp
+			    WHERE prod.USE_YN = TRUE
+			      AND prod.STATE_CD IN ('3', '5', '6', '7')
 			    <if test="class_big_cd != null and class_big_cd != ''">
-			    	AND prod.CLASS_BIG_CD = #{class_big_cd}
+			      AND prod.CLASS_BIG_CD = #{class_big_cd}
 			    	<if test="class_mid_cd != null and class_mid_cd != 'XX'">
-				    AND prod.CLASS_MID_CD = #{class_mid_cd}
+				  AND prod.CLASS_MID_CD = #{class_mid_cd}
 				    </if>
 			    </if>
 				<if test="searchVal != null and searchVal != ''">
-				AND prod.PRODUCT_NM like CONCAT('%',#{searchVal},'%')
+				  AND prod.PRODUCT_NM like CONCAT('%',#{searchVal},'%')
 				</if>
-		) prodlist
+			) prodlist
 		WHERE prodlist.rn BETWEEN #{start_num} AND #{end_num}
 	</select>
 	
