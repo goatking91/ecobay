@@ -8,5 +8,7 @@ public interface FaqDAO {
 	
 	public List<FaqVO> faqList() throws Exception;
 	
+	public List<FaqVO> ajaxFaqTopList() throws Exception;
+	
 
 }

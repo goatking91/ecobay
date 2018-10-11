@@ -74,6 +74,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		  FROM NOTICEFILE
 	</select>
 	
-
+	
+	<select id="selectNoticeTopList" resultType="NoticeVO">
+		SELECT * 
+		FROM NOTICE 
+		ORDER BY VIEWCNT DESC 
+		LIMIT 10
+	</select>
+	
+	
 </mapper>
 

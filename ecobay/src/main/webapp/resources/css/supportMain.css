@@ -1,0 +1,66 @@
+@charset "UTF-8";
+
+.nav-filter {
+	background-color:#f3f3f3;
+	border: 1px;
+	border-style: solid;
+	font-weight: 600;
+	color: black;
+}
+
+.nav-pills>a:hover:not(.disabled) {
+	background-color: #0062cc;
+	color: white;
+}
+
+.nav-pills>a:link {
+	color: black;
+	text-decoration: none;
+}
+
+.nav-pills>a:visited {
+	color:black;
+	text-decoration: none;
+}
+
+.nav-pills .open>a, .nav-pills .open>a:active, .nav-pills .open>a:focus{
+	background-color: #0062cc;
+	color: white;
+}
+
+.disabled {
+	background-color:#6d6d6d;
+	width: 10px;
+}
+
+.search_box{
+	background-color:#f3f3f3;
+	padding-top: 35px;
+	padding-bottom: 25px;
+}
+
+.lists{
+	margin-top: 40px
+	
+}
+
+.faqlists, .noticelists {
+	padding-top: 15px;
+	border-top: 2px;
+	border-top-style: solid;
+}
+
+.more-read {
+	font-size: 18px;
+	color: black;
+	text-decoration: none;
+}
+
+#support-headr {
+	padding-top: 20px;
+	padding-bottom: 10px;
+}
+
+#faqTbody>tr>td>a, #noticeTbody>tr>td>a {
+	color: black;
+}

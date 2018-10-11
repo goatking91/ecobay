@@ -10,6 +10,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		FROM FAQ
 		ORDER BY REGDATE DESC
 	</select>
+	
+	<select id="selectFaqTopList" resultType="FaqVO">
+		SELECT * 
+		FROM FAQ 
+		ORDER BY VIEWCNT DESC 
+		LIMIT 10
+	</select>
 		
 </mapper>
 

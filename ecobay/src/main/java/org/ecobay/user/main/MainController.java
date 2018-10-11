@@ -40,9 +40,4 @@ public class MainController {
     	return "login.part";
     }
 	
-	@RequestMapping(value="/support.do", method = RequestMethod.GET)
-    public String supportMain(Model model) throws Exception {
-        return "support/supportMain.page";
-    }
-	
 }

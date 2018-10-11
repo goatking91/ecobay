@@ -11,6 +11,8 @@ public interface BoardService {
 		/* FAQ */	
 		public List<FaqVO> faqList() throws Exception;
 		
+		public List<FaqVO> LoadFaqTopList() throws Exception;
+		
 		
 		/* NOTICE */
 		public List<NoticeVO> noticeList() throws Exception;
@@ -18,6 +20,8 @@ public interface BoardService {
 		public NoticeVO noticeLoad(int notice_idx) throws Exception;
 		
 		public void noticeViewCnt (int notice_idx) throws Exception;
+		
+		public List<NoticeVO> LoadNoticeTopList() throws Exception;
 		
 		
 		/* QNA */

@@ -39,6 +39,11 @@ public class BoardServiceImpl implements BoardService {
 		return faqDao.faqList();
 	}
 	
+	@Override
+	public List<FaqVO> LoadFaqTopList() throws Exception {
+		return faqDao.ajaxFaqTopList();
+	}
+	
 	
 	/* ============================================
 	 * NOTICE
@@ -57,7 +62,11 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public void noticeViewCnt(int notice_idx) throws Exception {
 		noticeDao.noticeViewCnt(notice_idx);
-		
+	}
+	
+	@Override
+	public List<NoticeVO> LoadNoticeTopList() throws Exception {
+		return noticeDao.ajaxNoticeTopList();
 	}
 
 	
@@ -69,6 +78,7 @@ public class BoardServiceImpl implements BoardService {
 	public void qnaRegist(QnaVO vo) throws Exception {
 		qnaDao.qnaRegist(vo);
 	}
+
 
 	
 

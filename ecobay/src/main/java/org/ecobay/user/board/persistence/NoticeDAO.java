@@ -11,5 +11,7 @@ public interface NoticeDAO {
 	public NoticeVO noticeLoad(int notice_idx) throws Exception;
 
 	public void noticeViewCnt(int notice_idx) throws Exception;
+	
+	public List<NoticeVO> ajaxNoticeTopList() throws Exception;
 
 }

@@ -32,6 +32,11 @@ public class NoticeDAOImpl implements NoticeDAO {
 		
 	}
 
+	@Override
+	public List<NoticeVO> ajaxNoticeTopList() throws Exception {
+		return session.selectList(namespace + ".selectNoticeTopList");	
+	}
+
 
 	
 }

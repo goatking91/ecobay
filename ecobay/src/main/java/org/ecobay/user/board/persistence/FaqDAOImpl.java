@@ -22,4 +22,9 @@ public class FaqDAOImpl implements FaqDAO {
 		return session.selectList(namespace + ".selectFaqList");	
 	}
 
+	@Override
+	public List<FaqVO> ajaxFaqTopList() throws Exception {
+		return session.selectList(namespace + ".selectFaqTopList");
+	}
+
 }
