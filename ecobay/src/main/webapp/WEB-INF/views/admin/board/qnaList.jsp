@@ -14,16 +14,25 @@
 	    $(document).ajaxSend(function(e, xhr, options) {
 	        xhr.setRequestHeader(header, token);
 	    });
-	    
+	    var searchType = $("#searchType option:selected").val();
+		var keyWorld = $('#keyWorld').val();
 	    var nowPage = $('#curPage').val();
 	    //리스트 ajax LOAD
-		ajaxLoadQnaList(nowPage);
+		ajaxLoadQnaList(nowPage, searchType, keyWorld);
 		
 		//페이징 이동 버튼 클릭
 		$(document).on("click", ".pagingBtn", function(){
 			var movePage = $(this).val();
 			nowPage = movePage;
-			ajaxLoadQnaList(movePage);
+			ajaxLoadQnaList(movePage, searchType, keyWorld);
+		});
+		
+		//검색 버튼 클릭
+		$(document).on("click", "#searchBtn", function(){
+			searchType = $("#searchType option:selected").val();
+			keyWorld = $('#keyWorld').val();
+			
+			ajaxLoadQnaList(1, searchType, keyWorld);
 		});
 		
 		//삭제 버튼 클릭
@@ -54,7 +63,7 @@
 			    			$('.modal-footer').html(modalBtnHtml);
 			    			$('#myModal').modal('show');
 			    			
-			    			ajaxLoadQnaList(nowPage);
+			    			ajaxLoadQnaList(nowPage, searchType, keyWorld);
 						}
 			        },
 			        error : function(jqXHR) {
@@ -74,11 +83,13 @@
 	
 	
 	/** QNA 리스트 AJAX **/
-	function ajaxLoadQnaList(movePage) {
+	function ajaxLoadQnaList(movePage, searchType, keyWorld) {
 		$.ajax({
 			url : "/admin/board/ajaxqnalist.do",
 			data : {
-            	"movePage": movePage                                                                                                         
+            	"movePage": movePage,
+            	"searchType": searchType,
+            	"keyWorld": keyWorld
             },
 			dataType : "json",
 			contentType: "application/json; charset=UTF-8",
@@ -179,28 +190,28 @@
 		<!-- 검색 영역 -->
 		<div class="row">
 			<div class="col-md-12" >
-				<form name="myform" action="board/admin/qnalist.do">
-					<div class="form-group row">
-						<div class="col-sm-3">
-							<div class="input-group">
-								<select class="custom-select" name="keyfield">
-					 				<option value="all" selected>전체검색</option>
-					 				<option value="title" selected>제목검색</option>
-					 				<option value="content" selected>내용검색</option>
-								</select>
-							</div>
+				<div class="form-group row">
+					<div class="col-sm-3">
+						<div class="input-group">
+							<select class="custom-select" id="searchType" name="searchType">
+				 				<option value="all">전체검색</option>
+				 				<option value="title">제목</option>
+				 				<option value="content">내용</option>
+				 				<option value="writer">작성자</option>
+				 				<option value="tnc">제목+내용</option>
+				 				<option value="wnc">작성자+내용</option>
+							</select>
 						</div>
-						<div class="col-sm-9">
-							<div class="input-group">
-								<input type="text" class="form-control"
-									placeholder="검색내용을 입력하세요...">
-								<div class="input-group-append">
-									<button class="btn btn-primary">검색</button>
-								</div>
+					</div>
+					<div class="col-sm-9">
+						<div class="input-group">
+							<input type="text" class="form-control" id="keyWorld" name="keyWorld" placeholder="검색내용을 입력하세요...">
+							<div class="input-group-append">
+								<button type="button" id="searchBtn" class="btn btn-primary">검색</button>
 							</div>
 						</div>
 					</div>
-				</form>
+				</div>
 			</div>
 		</div>
 		
@@ -237,7 +248,7 @@
 		<!-- 페이징 영역 -->
 		<div class="row">
 			<div class="col-lg-3"></div>
-			<div class="col-lg-6">
+			<div class="col-lg-6" align="center">
 				<div id="pagination">
 					<input type="hidden" id="curPage" value="${pagination.curPage }">
 				</div>
