@@ -14,11 +14,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		)
 	</insert>
 	
-	<select id="selectNoticeList" resultType="NoticeVO">
+	<select id="selectNoticeList" resultType="NoticeVO"  parameterType="NoticeVO">
 		SELECT * 
 		FROM NOTICE
 		WHERE USE_YN = true
-		ORDER BY REGDATE DESC
+		AND NOTICE_IDX > 0
+		<include refid="search" />
+		ORDER BY NOTICE_IDX DESC, REGDATE DESC
+		LIMIT #{startIndex},#{cntPerPage}
 	</select>
 	
 	
@@ -106,6 +109,36 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			#{file_cd}, #{file_idx}, #{notice_idx}, #{filename}, #{filename_org}, #{fileSize}, now()
 		)
 	</insert>
+	
+	<select id="selectNoticeListCnt" resultType="int" parameterType="NoticeVO">
+		SELECT COUNT(NOTICE_IDX)
+        FROM NOTICE
+        WHERE NOTICE_IDX > 0
+        <include refid="search" />
+	</select>
+	
+	
+	
+	
+	<sql id="search">
+		<if test="keyWorld != null and keyWorld != ''">
+		  	<if test="searchType == 'all' or searchType == null">
+		  		AND TITLE like CONCAT('%',#{keyWorld},'%')
+			</if>
+			<if test="searchType == 'title'">
+		  		AND TITLE like CONCAT('%',#{keyWorld},'%')
+			</if>
+			<if test="searchType == 'content'">
+		  		AND CONTENT like CONCAT('%',#{keyWorld},'%')
+			</if>
+			<if test="searchType == 'tnc'">
+		  		AND (
+		  			TITLE like CONCAT('%',#{keyWorld},'%')
+		  			OR CONTENT like CONCAT('%',#{keyWorld},'%')
+		  		)
+			</if> 
+		</if>
+	</sql>
 
 </mapper>
 

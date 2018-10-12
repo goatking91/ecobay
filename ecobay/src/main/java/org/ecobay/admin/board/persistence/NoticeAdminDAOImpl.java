@@ -24,8 +24,8 @@ public class NoticeAdminDAOImpl implements NoticeAdminDAO {
 	}
 
 	@Override
-	public List<NoticeVO> noticeList() throws Exception {
-		return session.selectList(namespace + ".selectNoticeList");	
+	public List<NoticeVO> noticeList(NoticeVO noticeVO) throws Exception {
+		return session.selectList(namespace + ".selectNoticeList", noticeVO);	
 	}
 
 	@Override
@@ -65,6 +65,11 @@ public class NoticeAdminDAOImpl implements NoticeAdminDAO {
 	@Override
 	public int maxNoticeIDX() throws Exception {
 		return session.selectOne(namespace + ".maxNoticeIDX");
+	}
+
+	@Override
+	public int selectNoticeListCnt(NoticeVO vo) throws Exception {
+		return session.selectOne(namespace + ".selectNoticeListCnt", vo);
 	}
 	
 	

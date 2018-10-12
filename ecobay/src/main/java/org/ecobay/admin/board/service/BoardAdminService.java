@@ -24,7 +24,7 @@ public interface BoardAdminService {
 		/* NOTICE */
 		public void noticeRegist(NoticeVO vo) throws Exception;
 		
-		public List<NoticeVO> noticeList() throws Exception;
+		public List<NoticeVO> noticeList(NoticeVO noticeVO) throws Exception;
 		
 		public NoticeVO noticeLoad(int notice_idx) throws Exception;
 		
@@ -33,6 +33,8 @@ public interface BoardAdminService {
 		public void noticeDelete(int notice_idx) throws Exception;
 		
 		public void noticeViewCnt (int notice_idx) throws Exception;
+		
+		public int selectNoticeListCnt(NoticeVO noticeVO) throws Exception;
 		
 		
 		/* QNA */

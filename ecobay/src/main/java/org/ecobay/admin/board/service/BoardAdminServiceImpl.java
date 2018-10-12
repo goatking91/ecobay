@@ -70,7 +70,6 @@ public class BoardAdminServiceImpl implements BoardAdminService {
 	}
 
 	
-	
 	/* ============================================
 	 * NOTICE
 	 * ============================================ */
@@ -112,8 +111,8 @@ public class BoardAdminServiceImpl implements BoardAdminService {
 	}
 
 	@Override
-	public List<NoticeVO> noticeList() throws Exception {
-		return noticeDao.noticeList();
+	public List<NoticeVO> noticeList(NoticeVO noticeVO) throws Exception {
+		return noticeDao.noticeList(noticeVO);
 	}
 
 	@Override
@@ -138,7 +137,10 @@ public class BoardAdminServiceImpl implements BoardAdminService {
 		noticeDao.noticeViewCnt(notice_idx);
 	}
 	
-	
+	@Override
+	public int selectNoticeListCnt(NoticeVO noticeVO) throws Exception {
+		return noticeDao.selectNoticeListCnt(noticeVO);
+	}
 	
 	
 	/* ============================================
@@ -175,9 +177,6 @@ public class BoardAdminServiceImpl implements BoardAdminService {
 		return qnaDao.selectQnaListCnt(qnaVO);
 	}
 
-	
-	
-	
 
 
 }

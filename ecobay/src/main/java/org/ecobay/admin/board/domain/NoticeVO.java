@@ -17,13 +17,22 @@ public class NoticeVO {
 	private List<MultipartFile> upload;
 	private List<NoticeFileVO> fileVOList;
 	
+	/** 페이징 **/
+	private int startIndex;
+	private int cntPerPage;
+	
+	/** 검색 **/
+	private String searchType;
+	private String keyWorld;
+	
 	public NoticeVO() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-
+	
 	public NoticeVO(int notice_idx, String title, String content, Date regDate, Date modDate, int viewCNT,
-			boolean use_YN, List<MultipartFile> upload, List<NoticeFileVO> fileVOList) {
+			boolean use_YN, List<MultipartFile> upload, List<NoticeFileVO> fileVOList, int startIndex, int cntPerPage,
+			String searchType, String keyWorld) {
 		super();
 		this.notice_idx = notice_idx;
 		this.title = title;
@@ -34,6 +43,10 @@ public class NoticeVO {
 		this.use_YN = use_YN;
 		this.upload = upload;
 		this.fileVOList = fileVOList;
+		this.startIndex = startIndex;
+		this.cntPerPage = cntPerPage;
+		this.searchType = searchType;
+		this.keyWorld = keyWorld;
 	}
 
 	public int getNotice_idx() {
@@ -108,7 +121,39 @@ public class NoticeVO {
 		this.fileVOList = fileVOList;
 	}
 	
-	
+	public int getStartIndex() {
+		return startIndex;
+	}
+
+	public void setStartIndex(int startIndex) {
+		this.startIndex = startIndex;
+	}
+
+	public int getCntPerPage() {
+		return cntPerPage;
+	}
+
+	public void setCntPerPage(int cntPerPage) {
+		this.cntPerPage = cntPerPage;
+	}
+
+	public String getSearchType() {
+		return searchType;
+	}
+
+	public void setSearchType(String searchType) {
+		this.searchType = searchType;
+	}
+
+	public String getKeyWorld() {
+		return keyWorld;
+	}
+
+	public void setKeyWorld(String keyWorld) {
+		this.keyWorld = keyWorld;
+	}
+
+
 	/* addFileList*/
 	public void addArticleFile(NoticeFileVO noticeFile) {
 		
@@ -118,13 +163,12 @@ public class NoticeVO {
 	}
 
 	
-	
-	
 	@Override
 	public String toString() {
 		return "NoticeVO [notice_idx=" + notice_idx + ", title=" + title + ", content=" + content + ", regDate="
 				+ regDate + ", modDate=" + modDate + ", viewCNT=" + viewCNT + ", use_YN=" + use_YN + ", upload="
-				+ upload + ", fileVOList=" + fileVOList + "]";
+				+ upload + ", fileVOList=" + fileVOList + ", startIndex=" + startIndex + ", cntPerPage=" + cntPerPage
+				+ ", searchType=" + searchType + ", keyWorld=" + keyWorld + "]";
 	}
 
 
