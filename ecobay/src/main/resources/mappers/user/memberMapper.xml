@@ -140,7 +140,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		WHERE list.rn between #{start} and #{end}
 	</select>
 	
-	<select id="buyprod" resultType="MemberProductVO">
+	<select id="buyList" resultType="MemberProductVO">
 		SELECT buyprod.* 
 		  FROM ( SELECT   @rownum:=@rownum+1 as rn
 					    , bp.PRODUCT_CD, bp.PRODUCT_NM, bp.STATE_CD, bp.STATE_NM, bp.REGDATE, bp.PAYMENT_PROC_CD, bp.MEMBER_ID
@@ -157,11 +157,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	                        AND AUCT.PAYMENT_PROC_CD != '3'
 					   ORDER BY AUCT.ACUTDATE_END DESC
 					  ) bp, (SELECT @rownum:=0)tmp
-			  )buyprod 
+			  )buyprod d
 		WHERE buyprod.rn between #{start} and #{end}
 	</select>
 	
-	<select id="sellprod" resultType="MemberProductVO">
+	<select id="sellList" resultType="MemberProductVO">
 		SELECT sellprod.* 
 		  FROM ( SELECT   @rownum:=@rownum+1 as rn
 					    , sp.PRODUCT_CD, sp.PRODUCT_NM, sp.STATE_CD, sp.STATE_NM, sp.REGDATE, sp.PAYMENT_PROC_CD, sp.MEMBER_ID
@@ -181,6 +181,25 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		WHERE sellprod.rn between #{start} and #{end}
 	</select>
 	
+	<select id="sellCnt" resultType="int">
+		SELECT  COUNT(PROD.MEMBER_ID) as cnt
+   		FROM  PRODUCT PROD LEFT JOIN AUCTIONINFO AUCT
+   		 ON PROD.PRODUCT_CD = AUCT.PRODUCT_CD 
+ 		 WHERE PROD.MEMBER_ID = #{member_id}
+   		AND PROD.USE_YN = TRUE
+   		AND PROD.STATE_CD IN ('3', '5', '6', '7')
+	</select>
+	
+	<select id="buyCnt" resultType="int">
+	SELECT  COUNT(AUCT.BAY_MEMBER_ID) as MEMBER_ID
+	   FROM AUCTIONINFO AUCT LEFT JOIN PRODUCT PROD
+	    ON AUCT.PRODUCT_CD = PROD.PRODUCT_CD
+	  	WHERE AUCT.BAY_MEMBER_ID = #{member_id}
+	  	 AND PROD.USE_YN = TRUE
+	  	 AND PROD.STATE_CD IN ('5', '7')
+	  	 AND AUCT.PAYMENT_PROC_CD != '3'
+	</select>	
+	  	 
 	<delete id="chkDel">
 		DELETE FROM PRODUCTWISH
 		WHERE PRODUCT_CD IN
@@ -188,5 +207,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			#{type}
 		</foreach>
 	</delete>
+	
 </mapper>
 

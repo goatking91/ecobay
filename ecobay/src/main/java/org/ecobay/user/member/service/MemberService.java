@@ -37,15 +37,17 @@ import org.ecobay.user.product.domain.PaymentVO;
 	
 	public String selectimg(String product_cd) throws Exception;
 	
-	/*public void payment(PaymentVO pvo) throws Exception;
-	
-	public void delivery(DeliveryVO dvo) throws Exception;
-	
-	public void auctionInfo(AuctionInfoVO avo) throws Exception;*/
-	
 	public List<MemberProductVO> wishList(MemberProductVO vo) throws Exception;
 	
 	public int wishTotal(String member_id) throws Exception;
+	
+	public List<MemberProductVO> sellList(MemberProductVO vo) throws Exception;
+	
+	public int sellCnt(String member_id) throws Exception;
+	
+	public List<MemberProductVO> buyList(MemberProductVO vo) throws Exception;
+	
+	public int buyCnt(String member_id) throws Exception;
 	
 	public void chkDel(List<String> list) throws Exception;
 	

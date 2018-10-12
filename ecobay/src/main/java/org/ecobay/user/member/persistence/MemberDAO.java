@@ -46,4 +46,12 @@ public interface MemberDAO {
 	public int wishTotal(String member_id) throws Exception;
 	
 	public void chkDel(List<String> list) throws Exception;
+	
+	public List<MemberProductVO> sellList(MemberProductVO vo) throws Exception;
+	
+	public int sellCnt(String member_id) throws Exception;
+	
+	public List<MemberProductVO> buyList(MemberProductVO vo) throws Exception;
+	
+	public int buyCnt(String member_id) throws Exception;
 }

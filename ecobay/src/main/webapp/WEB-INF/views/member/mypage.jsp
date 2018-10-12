@@ -60,8 +60,16 @@ $(document).ready(function(){
 		var pwd = $('#pwd').val();//입력받은값
         $('#pwdModal').modal('show');
 	});
-	$(document).on("click", ".btnajax", function(){
-		listAjax($(this).val());
+	$(document).on("click", ".wbtnajax", function(){
+		wishListAjax($(this).val());
+	});
+	
+	$(document).on("click", ".sbtnajax", function(){
+		sellListAjax($(this).val());
+	});
+	
+	$(document).on("click", ".bbtnajax", function(){
+		buyListAjax($(this).val());
 	});
 	
 	$(document).on("click", "#chK_all", function(){
@@ -93,11 +101,21 @@ $(document).ready(function(){
 	
 	$('#wishList-tap').click(function(){
 		
-		listAjax(page);  
+		wishListAjax(page);  
+		
+	});
+	 $('#buyList-tap').click(function(){
+			
+		buyListAjax(page);  
+			
+	}); 
+	$('#sellList-tap').click(function(){
+		
+		sellListAjax(page);  
 		
 	});
 	
-	function listAjax(page) {
+	function wishListAjax(page) {
 		$.ajax({
 			async: true,
 			type: "POST",
@@ -121,7 +139,6 @@ $(document).ready(function(){
 				str = str + "<div style='align:right'>관심상품수 "+ data.cnt +"</div>"
 				str = str + "</div>";
 				console.log(data.arr);
-				var num = 1;
 				$.each(data.arr, function(index, arr){
 					
 					var state_cd = arr.state_cd;
@@ -143,7 +160,6 @@ $(document).ready(function(){
 					str = str + "	<div id='' class='col-sm-3' align='right' style='padding-top:35px'>" + state_cd + "</div>";
 					str = str + "</div><hr>";
 					
-					console.log("num="+num);
 				});
 				console.log(str);
 				var vo = JSON.parse(JSON.stringify(data.vo));
@@ -170,13 +186,13 @@ $(document).ready(function(){
 				str = str + "	<tr>";
 				str = str + "		<td colspan='6'>";
 				if(vo.startpage>10){
-					str = str + "			<button class='btn btn-light btnajax' value='" + (vo.startpage-10) +"' >이전</button>";	
+					str = str + "			<button class='btn btn-light wbtnajax' value='" + (vo.startpage-10) +"' >이전</button>";	
 				}
 				for(var i = vo.startpage; i <= vo.endpage; i++){
-					str = str + "			<button class='btn btn-light btnajax' value='"+ i +"'>" + i + "</button>";
+					str = str + "			<button class='btn btn-light wbtnajax' value='"+ i +"'>" + i + "</button>";
 				}
 				if(vo.endpage<vo.pagecount){
-					str = str + "	<button class='btn btn-light btnajax' value='"+ (vo.startpage+10) +"' >다음</button>";	
+					str = str + "	<button class='btn btn-light wbtnajax' value='"+ (vo.startpage+10) +"' >다음</button>";	
 				}
 				str = str + "	</td>";
 				str = str + "</tr>";
@@ -190,7 +206,271 @@ $(document).ready(function(){
 			}
 		});
 	}
-})
+		
+		function buyListAjax(page) {
+			$.ajax({
+				async: true,
+				type: "POST",
+				data: member_id,
+				url : "/member/buyList.do/" + page,
+				dataType : "json",
+				contentType: "application/json; charset=UTF-8",
+				success : function(data) {
+					console.log("1");
+					
+					$('#buyList').empty();
+
+					var str = "";
+					str = str + "<h3>구매 상품</h3>";
+					str = str + "<div class='bg-light border-top border-bottom form-inline col-sm-12' style='padding:15px; margin:10px'>";
+					str = str + "	<div class='col-sm-10'></div>"
+					str = str + "	<div style='align:right'>구매상품수 "+ data.cnt +"</div>"
+					str = str + "</div>";
+					console.log(data.arr);
+
+					$.each(data.arr, function(index, arr){
+						
+						str = str + "<div class='form-group row col-sm-12' style='padding:15px; margin:10px'>";
+						str = str + "	<div class='col-sm-1' style='padding-top:35px'>";
+						str = str + "		<input type='checkbox' class='check' id='checkBox' value=" + arr.product_cd + ">";
+						str = str + "	</div>";	
+						str = str + "	<div class='col-sm-3'><img src='/displayFile.do?fileName=" + arr.filename_thumb + "' style='margin-left: auto; margin-right: auto; display: block; width:60%;'></div>";
+						str = str + "	<div class='col-sm-5' id='form-inline' style='padding-top:10px'>";
+						str = str + "		<div style='font-size:8pt'>" + arr.acutdate_start_str + "~" + arr.acutdate_end_str + "</div>";
+						str = str + "		<div><a style='color:grey; text-decoration: none' href='/product/detail.do?product_cd=" + arr.product_cd + "'>"+ arr.product_cd + "</a></div>";
+						str = str + "		<div id='product_nm'>" + arr.product_nm + "</div>";
+						str = str + "	</div>";
+						str = str + "	<div>";
+						str = str + "		<div id='' class='col-sm-3' align='right' style='padding-top:35px'>" + arr.state_nm + "</div>";
+						//낙찰되었지만 구매아직안했을때 payment_proc_cd=1
+						if(arr.payment_proc_cd == '1'){
+							str = str + "		<a href='/member/payment.do/" + arr.product_cd + "/2'><buttton class='btn btn-info'>구매결제</buttton></a>";
+						}
+						str = str + "	</div>";
+						str = str + "</div><hr>";
+					});
+					console.log(str);
+					var vo = JSON.parse(JSON.stringify(data.vo));
+
+					/* //페이징
+					var start, end, page, startpage, endpage, pagecount, temp, total;
+					
+					/ if(total/10>0){
+						pagecount = (total/10)+1;
+					}else{
+						pagecount = total/10;}
+					
+					start = ((page-1)*10)+1;
+					end = start*10;
+						
+					temp = (page-1)%10;
+					startpage =  page - temp;
+					endpage = startpage + 9; 
+					if(engpage>pagecount){endpage=pagecount;}		
+					
+	 				str = str + "int start, end, pagenum, startpage, endpage, pagecount, temp";
+					str = str + "String pnum, returnpage"; */
+		 			str = str + "<div align='center'>";
+					str = str + "	<tr>";
+					str = str + "		<td colspan='6'>";
+					if(vo.startpage>10){
+						str = str + "			<button class='btn btn-light bbtnajax' value='" + (vo.startpage-10) +"' >이전</button>";	
+					}
+					for(var i = vo.startpage; i <= vo.endpage; i++){
+						str = str + "			<button class='btn btn-light bbtnajax' value='"+ i +"'>" + i + "</button>";
+					}
+					if(vo.endpage<vo.pagecount){
+						str = str + "	<button class='btn btn-light bbtnajax' value='"+ (vo.startpage+10) +"' >다음</button>";	
+					}
+					str = str + "	</td>";
+					str = str + "</tr>";
+					str = str + "</div>";  
+					
+					console.log(str);
+					$('#buyList').append(str);
+		        },
+		        error: function(data) {
+					console.log("error :" + data);
+				}
+			});
+	}
+		
+		function sellListAjax(page) {
+			$.ajax({
+				async: true,
+				type: "POST",
+				data: member_id,
+				url : "/member/sellList.do/" + page,
+				dataType : "json",
+				contentType: "application/json; charset=UTF-8",
+				success : function(data) {
+					console.log("1");
+					
+					$('#sellList').empty();
+
+					var str = "";
+					str = str + "<h3>판매 상품</h3>";
+					str = str + "<div class='bg-light border-top border-bottom form-inline col-sm-12' style='padding:15px; margin:10px'>";
+					str = str + "	<div class='col-sm-10'></div>"
+					str = str + "	<div style='align:right'>판매상품수 "+ data.cnt +"</div>"
+					str = str + "</div>";
+					console.log(data.arr);
+
+					$.each(data.arr, function(index, arr){
+						
+						var state_cd = arr.state_cd;
+						if(state_cd == '3'){
+							state_cd = "진행중";
+						}else{
+							state_cd = "경매종료";
+						}
+						str = str + "<div class='form-group row col-sm-12' style='padding:15px; margin:10px'>";
+						str = str + "	<div class='col-sm-1' style='padding-top:35px'>";
+						str = str + "		<input type='checkbox' class='check' id='checkBox' value=" + arr.product_cd + ">";
+						str = str + "	</div>";	
+						str = str + "	<div class='col-sm-3'><img src='/displayFile.do?fileName=" + arr.filename_thumb + "' style='margin-left: auto; margin-right: auto; display: block; width:60%;'></div>";
+						str = str + "	<div class='col-sm-5' id='form-inline' style='padding-top:10px'>";
+						str = str + "		<div style='font-size:8pt'>" + arr.acutdate_start_str + "~" + arr.acutdate_end_str + "</div>";
+						str = str + "		<div><a style='color:grey; text-decoration: none' href='/product/detail.do?product_cd=" + arr.product_cd + "'>"+ arr.product_cd + "</a></div>";
+						str = str + "		<div id='product_nm'>" + arr.product_nm + "</div>";
+						str = str + "	</div>";
+						str = str + "	<div id='' class='col-sm-3' align='right' style='padding-top:35px'>" + state_cd + "</div>";
+						str = str + "</div><hr>";
+
+					});
+					console.log(str);
+					var vo = JSON.parse(JSON.stringify(data.vo));
+
+					/* //페이징
+					var start, end, page, startpage, endpage, pagecount, temp, total;
+					
+					/ if(total/10>0){
+						pagecount = (total/10)+1;
+					}else{
+						pagecount = total/10;}
+					
+					start = ((page-1)*10)+1;
+					end = start*10;
+						
+					temp = (page-1)%10;
+					startpage =  page - temp;
+					endpage = startpage + 9; 
+					if(engpage>pagecount){endpage=pagecount;}		
+					
+	 				str = str + "int start, end, pagenum, startpage, endpage, pagecount, temp";
+					str = str + "String pnum, returnpage"; */
+		 			str = str + "<div align='center'>";
+					str = str + "	<tr>";
+					str = str + "		<td colspan='6'>";
+					if(vo.startpage>10){
+						str = str + "			<button class='btn btn-light sbtnajax' value='" + (vo.startpage-10) +"' >이전</button>";	
+					}
+					for(var i = vo.startpage; i <= vo.endpage; i++){
+						str = str + "			<button class='btn btn-light sbtnajax' value='"+ i +"'>" + i + "</button>";
+					}
+					if(vo.endpage<vo.pagecount){
+						str = str + "	<button class='btn btn-light sbtnajax' value='"+ (vo.startpage+10) +"' >다음</button>";	
+					}
+					str = str + "	</td>";
+					str = str + "</tr>";
+					str = str + "</div>";  
+					
+					console.log(str);
+					$('#sellList').append(str);
+		        },
+		        error: function(data) {
+					console.log("error :" + data);
+				}
+			});
+	}
+		$('#getout-tap').click(function(){
+			$('#outPwdModal').modal('show');
+		});
+		
+		
+		 $('#yes').click(function(){
+			 $.ajax({
+					async: true,
+					type: 'POST',
+					url : "/member/delete.do",
+					data: member_id,
+					contentType: "application/json; charset=UTF-8",
+					success : function(data) {
+						console.log(data);
+						$('#logoutMessage').find('h4').text("그동안 Ecobay를 이용해주셔서 감사합니다");
+						$('#logoutModal').modal('show');
+						setTimeout(function() {
+							logout();
+						}, 3000);
+						
+			        },
+			        error: function(data) {
+						console.log("error :" + data);
+					}
+				});  
+		}); 
+		 $('#logoutYes').click(function(){
+		 	logout();	 
+		 });
+		$('#outConfirmPwd').click(function(event){
+		 $('#myModall').css('z-index',99999); 
+			$('#outEnter').text("");
+			
+			var pwd = $('#outPwd').val();//입력받은값
+			console.log(pwd);
+			if(pwd.length == 0){
+				$('#outEnter').text("비밀번호를 입력하세요");
+		        return false;
+			}
+			$.ajax({
+				async: true,
+				type: 'POST',
+				url : "/member/pwdcheck.do",
+				data: pwd,
+				dataType : "json",
+				contentType: "application/json; charset=UTF-8",
+				success : function(data) {
+					console.log(data);
+					if(data.flag == false){
+						$('#outEnter').text("올바른 비밀번호가 아닙니다");
+						console.log(data);
+						console.log(data.flag);
+						return false;
+					}else{
+						$('#outPwdModal').modal('hide');
+						$('#outChkMessage').find('h4').text("정말 탈퇴하시겠습니까?");
+						$('#myModall').modal('show');
+						
+						//?member_id='+data.member_id
+					}
+		        },
+		        error: function(data) {
+					console.log("error :" + data);
+				}
+			});  
+		});
+		
+		function logout(){
+			var form = document.createElement("form");
+			
+			var seq = document.createElement("input");
+				
+			var seqVal = $("input[name='_csrf']").val();
+			
+	        form.action = "/logout";
+	        form.method = "post";
+	        
+            seq.setAttribute("type", "hidden");
+            seq.setAttribute('name', "_csrf");
+            seq.setAttribute("value", seqVal);
+            
+            form.appendChild(seq);
+            
+            document.body.appendChild(form);
+	        
+	        form.submit();
+		}
+});
 </script>
 
 <hr>
@@ -199,24 +479,35 @@ $(document).ready(function(){
 		<div class="col-sm-10"><h1>${member_name}</h1></div>
 		<div class="col-sm-2"></div>
 	</div>
-	
+
 	<div class="row">
 		<!-- 왼쪽 sub_nav -->
 		<div class="col-sm-3">
-			<hr><br>
 			<ul class="list-group">
-            	<li class="list-group-item text-muted">내 정보</li>
-            	<li class="list-group-item d-flex justify-content-between align-items-center">
+            	<li class="list-group-item text-muted">
+            	<a id="myinfo-tap" data-toggle="tab" href="#nav-home" role="tab">
+            	내 정보
+            	</a>
+            	</li>
+            	<li class="list-group-item d-flex justify-content-between align-items-center sell_buyList">
+				 <a id="sellList-tap" data-toggle="tab" href="#sellList" role="tab"> 
 				    내 판매상품
-				    <span class="badge badge-primary badge-pill">14</span>
+				    </a>
 				</li>
-				<li class="list-group-item d-flex justify-content-between align-items-center">
+				<li class="list-group-item d-flex justify-content-between align-items-center menu_buyList">
+				<a id="buyList-tap" data-toggle="tab" href="#buyList" role="tab">
 				내 구매상품
-				    <span class="badge badge-primary badge-pill">13</span>
+				</a>
 				</li>
-				<li class="list-group-item d-flex justify-content-between align-items-center">
+				<li class="list-group-item d-flex justify-content-between align-items-center menu_wish">
+				  <a id="wishList-tap" data-toggle="tab" href="#wishList" role="tab">  
 				    관심상품
-				    <span class="badge badge-primary badge-pill">37</span>
+				  </a> 
+				</li>
+				<li class="list-group-item d-flex justify-content-between align-items-center menu_getout">
+				  <a id="getout-tap" data-toggle="tab" href="#getout" role="tab">  
+				    탈퇴하기
+				  </a> 
 				</li>
 			</ul> 
 		</div>
@@ -225,148 +516,84 @@ $(document).ready(function(){
 		
 		<!-- 탭 영역 -->
 		<div class="col-sm-9">
-			<nav class="nav nav-tabs" id="myTab" role="tablist">
-				<a class="nav-item nav-link active" id="myinfo-tap" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">내 정보</a>
-				<a class="nav-item nav-link" id="sell-tap" data-toggle="tab" href="#sell" role="tab" aria-controls="nav-profile" aria-selected="false">판매</a>
-				<a class="nav-item nav-link" id="buy-tap" data-toggle="tab" href="#buy" role="tab" aria-controls="nav-contact" aria-selected="false">구매</a>
-				<a class="nav-item nav-link" id="wishList-tap" data-toggle="tab" href="#wishList" role="tab" aria-controls="nav-contact" aria-selected="false">관심상품리스트</a>
-			</nav>
+			
 			<div class="tab-content" id="nav-tabContent">
 				<div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="myinfo-tap">
 					<div class="form-group row">
-					<h2>&nbsp;&nbsp;${member.member_name}</h2>&nbsp;&nbsp; <h6 style="padding-top:15px">님의 정보입니다</h6>
-				</div>
-		<div class="col-sm-12">
-	        <form>
-	        	<div class="form-group row">
-					<label class="col-sm-3 col-form-label text-right" for="member_name">이름</label>
-					<div class="col-sm-4">
-						<security:csrfInput/>
-						<input class="form-control border-0 " style="background-color:white" id="member_name" name="member_name" type="text" value="${member.member_name}" readonly>
+						<h2>&nbsp;&nbsp;${member.member_name}</h2>&nbsp;&nbsp; <h6 style="padding-top:15px">님의 정보입니다</h6>
 					</div>
-				</div>
-	        	
-	        	<div class="form-group row">
-	          		<label class="col-sm-3 col-form-label text-right text-right" for="member_id">ID</label>
-			        <div class="col-sm-4">
-			        	<div class="input-group">
-							<input class="form-control border-0 " style="background-color:white" id="member_id" name="member_id" type="text" value="${member.member_id}" readonly>
-						</div>
-					</div>
-	        		<div class="col-sm-3"></div>
-	        	</div>
-				<div class="form-group row">
-					<label class="col-sm-3 col-form-label text-right" for="birth">생년월일</label>
-					<div class="col-sm-3">
-						<input class="form-control border-0 " style="background-color:white" id="birth" name="birth" type="text" value="${member.birth}" readonly>
-					</div>
-				</div>
-				
-				<div class="form-group row">
-					<label class="col-sm-3 col-form-label text-right" for="gender">성별</label>
-					<div class="col-sm-3">
-						<input class="form-control border-0 " style="background-color:white" id="gender" name="gender" type="text" value="${member.gender}" readonly>
-					</div>
-				</div>	
-				
-				<div class="form-group row">	
-				<label class="col-sm-3 col-form-label text-right" for="phone">번호</label>
-					<div class="col-sm-3">
-						<input class="form-control border-0 " style="background-color:white" id="phone" name="phone" type="text" value="${member.phone}" readonly>
-					</div>
-				</div>    		
-				<div class="form-group row">
-					<div class="col-sm-3"></div>
-					<div class="col-sm-3">
-						<input class="form-control border-0 " style="background-color:white" id="zipcode" name="zipcode" type="text" value="${member.zipcode}" readonly>	                  	
-					</div>
-				</div> 
-				<div class="form-group row">
-					<label class="col-sm-3 col-form-label text-right" for="addr1">주소</label>
-					<div class="col-sm-6">
-						<input class="form-control border-0 " style="background-color:white" id="addr1" name="addr1" type="text" value="${member.addr1}" readonly>
-					</div>
-				</div>
-				<div class="form-group row">
-					<div class="col-sm-3"></div>
-					<div class="col-sm-6">
-						<input class="form-control border-0 " style="background-color:white" id="addr2" name="addr2" type="text" value="${member.addr2}" readonly>
-					</div>	
-				</div>
+					<div class="col-sm-12">
+				        <form>
+				        	<div class="form-group row">
+								<label class="col-sm-3 col-form-label text-right" for="member_name">이름</label>
+								<div class="col-sm-4">
+									<security:csrfInput/>
+									<input class="form-control border-0 " style="background-color:white" id="member_name" name="member_name" type="text" value="${member.member_name}" readonly>
+								</div>
+							</div>
+				        	
+				        	<div class="form-group row">
+				          		<label class="col-sm-3 col-form-label text-right text-right" for="member_id">ID</label>
+						        <div class="col-sm-4">
+						        	<div class="input-group">
+										<input class="form-control border-0 " style="background-color:white" id="member_id" name="member_id" type="text" value="${member.member_id}" readonly>
+									</div>
+								</div>
+				        		<div class="col-sm-3"></div>
+				        	</div>
+							<div class="form-group row">
+								<label class="col-sm-3 col-form-label text-right" for="birth">생년월일</label>
+								<div class="col-sm-3">
+									<input class="form-control border-0 " style="background-color:white" id="birth" name="birth" type="text" value="${member.birth}" readonly>
+								</div>
+							</div>
 							
-				<div class="form-group row">
-					<div class="col-sm text-center">
-						<input type="button" id="edit_button" class="btn btn-lg btn-info" value="수정">
-					</div>	
-				</div>     	
-			</form>
-			
-			
-		</div>
+							<div class="form-group row">
+								<label class="col-sm-3 col-form-label text-right" for="gender">성별</label>
+								<div class="col-sm-3">
+									<input class="form-control border-0 " style="background-color:white" id="gender" name="gender" type="text" value="${member.gender}" readonly>
+								</div>
+							</div>	
+							
+							<div class="form-group row">	
+							<label class="col-sm-3 col-form-label text-right" for="phone">번호</label>
+								<div class="col-sm-3">
+									<input class="form-control border-0 " style="background-color:white" id="phone" name="phone" type="text" value="${member.phone}" readonly>
+								</div>
+							</div>    		
+							<div class="form-group row">
+								<div class="col-sm-3"></div>
+								<div class="col-sm-3">
+									<input class="form-control border-0 " style="background-color:white" id="zipcode" name="zipcode" type="text" value="${member.zipcode}" readonly>	                  	
+								</div>
+							</div> 
+							<div class="form-group row">
+								<label class="col-sm-3 col-form-label text-right" for="addr1">주소</label>
+								<div class="col-sm-6">
+									<input class="form-control border-0 " style="background-color:white" id="addr1" name="addr1" type="text" value="${member.addr1}" readonly>
+								</div>
+							</div>
+							<div class="form-group row">
+								<div class="col-sm-3"></div>
+								<div class="col-sm-6">
+									<input class="form-control border-0 " style="background-color:white" id="addr2" name="addr2" type="text" value="${member.addr2}" readonly>
+								</div>	
+							</div>
+										
+							<div class="form-group row">
+								<div class="col-sm text-center">
+									<input type="button" id="edit_button" class="btn btn-lg btn-info" value="수정">
+								</div>	
+							</div>     	
+						</form>
+					</div>
 				</div>
-		<div class="tab-pane fade" id="sell" role="tabpanel" aria-labelledby="sell">
-			<!-- 판매상품 등록 -->
-			<div id=""><!-- 어떤 항목 보여줄지/ 상품썸네일, 상품이름, 상품코드, 입찰현황? -->
-				<div class="form-group row">
-					<div><img src=""></div>
-					<div id="product_cd">상품코드</div>
-					<div id="product_nm">상품이름</div>
-					<div></div>
-				</div>
+				<!-- 리스트 들어가는 부분 -->
+				<div class="tab-pane fade" id="sellList" role="tabpanel" aria-labelledby="sellList"></div>
+				<div class="tab-pane fade" id="buyList" role="tabpanel" aria-labelledby="buyList"></div>
+				<div class="tab-pane fade" id="wishList" role="tabpanel" aria-labelledby="wishList"></div>
 			</div>
 		</div>
-		<div class="tab-pane fade" id="buy" role="tabpanel" aria-labelledby="buy">
-			<!-- 낙찰물품 리스트, 결제하기 버튼 -->
-			<h3>낙찰물품 리스트</h3>
-			<div id=>
-				<div class="bg-light border-top border-bottom" style="padding:15px; margin:10px">
-					<label class="checkbox">
-						<input type="checkbox" id ="chK_all" name="chK_all">
-					</label>
-					<input type="button" class="btn btn-default" value="선택상품 삭제">
-				</div>
-				<%-- <c:forEach var="list"  > --%>
-					<div class="form-group row col-sm-12" style="padding:15px; margin:10px">
-						<div class="col-sm-1" style="padding-top:35px">
-							<input type="checkbox">
-						</div>
-						<div class="col-sm-3"><img src="/resources/images/noimg_s.gif"></div>
-						<div class="col-sm-4" id="form-inline" style="padding-top:35px">
-							<div id="product_cd">상품코드</div>
-							<div id="product_nm">상품명</div>
-						</div>
-						<div id="" class="col-sm-4" align="right" style="padding-top:35px">입찰/진행상태</div>
-					</div>
-			<%-- 	</c:forEach> --%>
-			</div>
-		</div>
-		<div style="margin:10px" class="tab-pane fade" id="wishList" role="tabpanel" aria-labelledby="whishList">
-			<!-- 관심상품 등록 -->
-			<%-- <h3>관심 상품</h3>
-			<div id=>
-				<div class="bg-light border-top border-bottom" style="padding:15px; margin:10px">
-					<label class="checkbox">
-						<input type="checkbox" id ="chK_all" name="chK_all">
-					</label>
-					<input type="button" class="btn btn-default" value="선택상품 삭제">
-				</div>
-				<c:forEach var="wishList" items="${wishList}">
-					<div class="form-group row col-sm-12" style="padding:15px; margin:10px">
-						<div class="col-sm-1" style="padding-top:35px">
-							<input type="checkbox">
-						</div>
-						<div class="col-sm-3"><img src="/displayFile.do?fileName=${wishList.filename_thumb}" style="margin-left: auto; margin-right: auto; display: block; width=30%"></div>
-						<div class="col-sm-4" id="form-inline" style="padding-top:35px">
-							<div id="product_cd" value="${wishList.product_cd}"></div>
-							<div id="product_nm" value="${wishList.prosuct_nm}"></div>
-						</div>
-						<div id="" class="col-sm-4" align="right" style="padding-top:35px">입찰/진행상태</div>
-					</div>
-				</c:forEach>
-			</div> --%>
-		</div>
-	</div>
-</div>
 		<!--탭 영역 끝-->
 	</div>
 </div>                
@@ -400,6 +627,60 @@ $(document).ready(function(){
   </div>
 </div>
 
+<div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="myModallabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modaltitle">안내</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form>
+	      	<div class="row">
+	      		<div class="col-md">
+		          <div id="logoutMessage">
+					<h4 align="center"></h4>
+		          </div>
+		      </div>		      	
+		   </div>
+	      </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal" id="logoutYes">확인</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="myModall" tabindex="-1" role="dialog" aria-labelledby="myModallabell" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modaltitlee">안내</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form>
+	      	<div class="row">
+	      		<div class="col-md">
+		          <div id="outChkMessage">
+					<h4 align="center"></h4>
+		          </div>
+		      </div>		      	
+		   </div>
+	      </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal" id='yes'>확인</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 
 
 
@@ -407,7 +688,7 @@ $(document).ready(function(){
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="pwdModallabel">비밀번호를 입력해야 수정할 수 있습니다</h5>
+        <h5 class="modal-title" id="pwdModallabel">비밀번호를 입력해주세요</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -428,6 +709,36 @@ $(document).ready(function(){
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
         <button type="button" id="confirmpwd" class="btn btn-primary">확인</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="outPwdModal" tabindex="-1" role="dialog" aria-labelledby="findIdModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">비밀번호를 입력해주세요</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+	      <form>
+	      	<div class="row">
+		      	<div class="col-md">
+		          <div class="form-group">
+		            <label for="outPwd" class="col-form-label">비밀번호</label>
+		            <input id="outPwd" type="password" class="form-control">
+		            <span id="outEnter" style="color: red"></span>
+		          </div>
+		       </div>
+		   </div>
+	      </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" id="outConfirmPwd" class="btn btn-primary">확인</button>
       </div>
     </div>
   </div>

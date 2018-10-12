@@ -43,7 +43,7 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	public void delete(String member_id) throws Exception {
+	public void delete(String member_id) throws Exception {//회원탈퇴
 		dao.delete(member_id);
 	}
 
@@ -90,23 +90,6 @@ public class MemberServiceImpl implements MemberService {
 		return dao.selectimg(product_cd);
 	}
 
-	/*@Override
-	public void payment(PaymentVO pvo) throws Exception {
-		dao.payment(pvo);
-		
-	}
-
-	@Override
-	public void delivery(DeliveryVO dvo) throws Exception {
-		dao.delivery(dvo);
-		
-	}
-
-	@Override
-	public void auctionInfo(AuctionInfoVO avo) throws Exception {
-		dao.auctionInfo(avo);
-	}*/
-
 	@Override
 	public AuctionInfoVO selectAuct(String product_cd) throws Exception {
 		return dao.selectAuct(product_cd);
@@ -140,6 +123,26 @@ public class MemberServiceImpl implements MemberService {
 		retVal = "OK";
 		
 		return retVal;
+	}
+
+	@Override
+	public List<MemberProductVO> sellList(MemberProductVO vo) throws Exception {
+		return dao.sellList(vo);
+	}
+
+	@Override
+	public int sellCnt(String member_id) throws Exception {
+		return dao.sellCnt(member_id);
+	}
+
+	@Override
+	public List<MemberProductVO> buyList(MemberProductVO vo) throws Exception {
+		return dao.buyList(vo);
+	}
+
+	@Override
+	public int buyCnt(String member_id) throws Exception {
+		return dao.buyCnt(member_id);
 	}
 	
 }

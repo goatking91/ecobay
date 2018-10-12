@@ -36,7 +36,7 @@ public class MemberDAOImpl implements MemberDAO {
 	}
 
 	@Override
-	public void delete(String member_id) throws Exception {
+	public void delete(String member_id) throws Exception {//회원탈퇴
 		session.update(namespace + ".delete", member_id); 
 	}
 
@@ -115,6 +115,26 @@ public class MemberDAOImpl implements MemberDAO {
 	@Override
 	public void chkDel(List<String> list) throws Exception {
 		session.delete(namespace + ".chkDel", list); 
+	}
+
+	@Override
+	public List<MemberProductVO> sellList(MemberProductVO vo) throws Exception {
+		return session.selectList(namespace + ".sellList", vo);
+	}
+
+	@Override
+	public int sellCnt(String member_id) throws Exception {
+		return session.selectOne(namespace + ".sellCnt", member_id);
+	}
+
+	@Override
+	public List<MemberProductVO> buyList(MemberProductVO vo) throws Exception {
+		return session.selectList(namespace + ".buyList", vo);
+	}
+
+	@Override
+	public int buyCnt(String member_id) throws Exception {
+		return session.selectOne(namespace + ".buyCnt", member_id);
 	}
 	
 }
