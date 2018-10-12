@@ -50,11 +50,18 @@ public class QnaAdminController {
 	
 	@ResponseBody
 	@RequestMapping(value="/ajaxqnalist.do", method = RequestMethod.GET)
-    public Map<String, Object> ajaxQnaList(QnaVO qnaVO, @RequestParam(value="movePage") int movePage) throws Exception {
+    public Map<String, Object> ajaxQnaList(QnaVO qnaVO, 
+    		@RequestParam(value="movePage") int movePage,
+    		@RequestParam(value="keyWorld") String keyWorld,
+    		@RequestParam(value="searchType") String searchType) throws Exception {
 		
 		int listCnt = service.selectQnaListCnt(qnaVO);
 		Pagination pagination = new Pagination(listCnt, movePage);
 		
+		System.out.println(keyWorld);
+		System.out.println(searchType);
+		qnaVO.setKeyWorld(keyWorld);
+		qnaVO.setSearchType(searchType);
 		qnaVO.setStartIndex(pagination.getStartIndex());
 		qnaVO.setCntPerPage(pagination.getPageSize());
 		

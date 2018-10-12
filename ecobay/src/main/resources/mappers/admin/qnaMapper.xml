@@ -8,7 +8,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="selectQnaList" resultType="QnaVO" parameterType="QnaVO">
 		SELECT * 
 		FROM QNA
-		ORDER BY REGDATE DESC
+		WHERE QNA_IDX > 0
+		<include refid="search" />
+		ORDER BY QNA_IDX DESC, REGDATE DESC
 		LIMIT #{startIndex},#{cntPerPage}
 	</select>
 	
@@ -68,7 +70,40 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="selectQnaListCnt" resultType="int" parameterType="QnaVO">
 		SELECT COUNT(QNA_IDX)
         FROM QNA
+        WHERE QNA_IDX > 0
+        <include refid="search" />
 	</select>
+	
+	
+	
+	<sql id="search">
+		<if test="keyWorld != null and keyWorld != ''">
+		  	<if test="searchType == 'all' or searchType == null">
+		  		AND TITLE like CONCAT('%',#{keyWorld},'%')
+			</if>
+			<if test="searchType == 'title'">
+		  		AND TITLE like CONCAT('%',#{keyWorld},'%')
+			</if>
+			<if test="searchType == 'content'">
+		  		AND CONTENT like CONCAT('%',#{keyWorld},'%')
+			</if>
+			<if test="searchType == 'writer'">
+		  		AND MEMBER_ID like CONCAT('%',#{keyWorld},'%')
+			</if>
+			<if test="searchType == 'tnc'">
+		  		AND (
+		  			TITLE like CONCAT('%',#{keyWorld},'%')
+		  			OR CONTENT like CONCAT('%',#{keyWorld},'%')
+		  		)
+			</if> 
+			<if test="searchType == 'wnc'">
+		  		AND (
+		  			MEMBER_ID like CONCAT('%',#{keyWorld},'%')
+		  			OR CONTENT like CONCAT('%',#{keyWorld},'%')
+		  		)
+			</if>
+		</if>
+	</sql>
 	
 </mapper>
 

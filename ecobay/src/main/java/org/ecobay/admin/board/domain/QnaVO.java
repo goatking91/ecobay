@@ -16,14 +16,18 @@ public class QnaVO {
 	/** 페이징 **/
 	private int startIndex;
 	private int cntPerPage;
+	
+	/** 검색 **/
+	private String searchType;
+	private String keyWorld;
 
 	
 	public QnaVO() {
 		
 	}
-
+	
 	public QnaVO(int qna_idx, String member_id, String title, String content, Date regDate,
-			List<QnaReplyVO> qnaReplyList, int startIndex, int cntPerPage) {
+			List<QnaReplyVO> qnaReplyList, int startIndex, int cntPerPage, String searchType, String keyWorld) {
 		super();
 		this.qna_idx = qna_idx;
 		this.member_id = member_id;
@@ -33,6 +37,8 @@ public class QnaVO {
 		this.qnaReplyList = qnaReplyList;
 		this.startIndex = startIndex;
 		this.cntPerPage = cntPerPage;
+		this.searchType = searchType;
+		this.keyWorld = keyWorld;
 	}
 
 
@@ -114,13 +120,28 @@ public class QnaVO {
 	public void setCntPerPage(int cntPerPage) {
 		this.cntPerPage = cntPerPage;
 	}
+	
+	public String getSearchType() {
+		return searchType;
+	}
 
+	public void setSearchType(String searchType) {
+		this.searchType = searchType;
+	}
+
+	public String getKeyWorld() {
+		return keyWorld;
+	}
+
+	public void setKeyWorld(String keyWorld) {
+		this.keyWorld = keyWorld;
+	}
 
 	@Override
 	public String toString() {
 		return "QnaVO [qna_idx=" + qna_idx + ", member_id=" + member_id + ", title=" + title + ", content=" + content
 				+ ", regDate=" + regDate + ", qnaReplyList=" + qnaReplyList + ", startIndex=" + startIndex
-				+ ", cntPerPage=" + cntPerPage + "]";
+				+ ", cntPerPage=" + cntPerPage + ", searchType=" + searchType + ", keyWorld=" + keyWorld + "]";
 	}
 
 	
