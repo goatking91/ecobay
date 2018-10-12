@@ -11,15 +11,19 @@ public class QnaVO {
 	private String content;
 	private Date regDate;
 	private List<QnaReplyVO> qnaReplyList;
+	
+	
+	/** 페이징 **/
+	private int startIndex;
+	private int cntPerPage;
 
 	
 	public QnaVO() {
 		
 	}
 
-
 	public QnaVO(int qna_idx, String member_id, String title, String content, Date regDate,
-			List<QnaReplyVO> qnaReplyList) {
+			List<QnaReplyVO> qnaReplyList, int startIndex, int cntPerPage) {
 		super();
 		this.qna_idx = qna_idx;
 		this.member_id = member_id;
@@ -27,6 +31,8 @@ public class QnaVO {
 		this.content = content;
 		this.regDate = regDate;
 		this.qnaReplyList = qnaReplyList;
+		this.startIndex = startIndex;
+		this.cntPerPage = cntPerPage;
 	}
 
 
@@ -88,12 +94,33 @@ public class QnaVO {
 	public void setQnaReplyList(List<QnaReplyVO> qnaReplyList) {
 		this.qnaReplyList = qnaReplyList;
 	}
+	
+
+	public int getStartIndex() {
+		return startIndex;
+	}
+
+
+	public void setStartIndex(int startIndex) {
+		this.startIndex = startIndex;
+	}
+
+
+	public int getCntPerPage() {
+		return cntPerPage;
+	}
+
+
+	public void setCntPerPage(int cntPerPage) {
+		this.cntPerPage = cntPerPage;
+	}
 
 
 	@Override
 	public String toString() {
 		return "QnaVO [qna_idx=" + qna_idx + ", member_id=" + member_id + ", title=" + title + ", content=" + content
-				+ ", regDate=" + regDate + ", qnaReplyList=" + qnaReplyList + "]";
+				+ ", regDate=" + regDate + ", qnaReplyList=" + qnaReplyList + ", startIndex=" + startIndex
+				+ ", cntPerPage=" + cntPerPage + "]";
 	}
 
 	

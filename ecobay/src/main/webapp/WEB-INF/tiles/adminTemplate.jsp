@@ -27,15 +27,18 @@
 	      
 	 
      <style>
-        #adminHeader{            
+        #adminHeader {            
             width:100%;
         }
-        #adminMain{
+        #adminMain {
             width:100%;
-            /* min-height: 1000px; */
+            min-height: 880px;
         }
-        #adminFoot{
+        #adminFoot {
             width: 100%;           
+        }
+        .main-sidebar {
+        	min-height: 985px;
         }
     </style>
    

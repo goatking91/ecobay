@@ -13,6 +13,8 @@
 		<security:intercept-url pattern="/" access="permitAll" />
 		<security:intercept-url pattern="/main.do" access="permitAll" />
 		<security:intercept-url pattern="/login.do" access="permitAll" />
+		<security:intercept-url pattern="/ajaxfaqlist.do" access="permitAll" />
+		<security:intercept-url pattern="/ajaxnoticelist.do" access="permitAll" />
 		<security:intercept-url pattern="/support.do" access="permitAll" />
 		<security:intercept-url pattern="/support/**" access="permitAll" />
 		<security:intercept-url pattern="/member/payment.do" access="hasRole('ROLE_USER')"/>

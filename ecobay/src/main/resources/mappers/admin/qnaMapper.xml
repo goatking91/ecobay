@@ -5,10 +5,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 <mapper namespace="org.ecobay.admin.mapper.QnaMapper">
 	
-	<select id="selectQnaList" resultType="QnaVO">
+	<select id="selectQnaList" resultType="QnaVO" parameterType="QnaVO">
 		SELECT * 
 		FROM QNA
 		ORDER BY REGDATE DESC
+		LIMIT #{startIndex},#{cntPerPage}
 	</select>
 	
 	
@@ -45,6 +46,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		
 	</select>
 	
+	<delete id="qnaDelete" parameterType="int">
+		DELETE FROM QNA
+		WHERE QNA_IDX = #{qna_idx}
+	</delete>
 	
 	<insert id="insertQnaReply" parameterType="QnaReplyVO">
 		INSERT INTO QNAREPLY (
@@ -60,6 +65,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		WHERE QNARP_IDX = #{qnarp_idx}
 	</delete>
 	
+	<select id="selectQnaListCnt" resultType="int" parameterType="QnaVO">
+		SELECT COUNT(QNA_IDX)
+        FROM QNA
+	</select>
 	
 </mapper>
 

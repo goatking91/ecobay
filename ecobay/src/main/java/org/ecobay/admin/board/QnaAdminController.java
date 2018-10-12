@@ -7,6 +7,7 @@ import java.util.Map;
 import org.ecobay.admin.board.domain.QnaReplyVO;
 import org.ecobay.admin.board.domain.QnaVO;
 import org.ecobay.admin.board.service.BoardAdminService;
+import org.ecobay.user.util.Pagination;
 import org.ecobay.user.util.UploadContoller;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,18 +30,61 @@ public class QnaAdminController {
 	BoardAdminService service;
 	
 	@RequestMapping(value="/qnalist.do", method = RequestMethod.GET)
-    public String qnaList(Model model) throws Exception {
-		model.addAttribute("qnaList", service.qnaList());
+    public String qnaList(QnaVO qnaVO, @RequestParam(defaultValue="1") int curPage, Model model) throws Exception {
+		
+		
+		int listCnt = service.selectQnaListCnt(qnaVO);
+		
+		Pagination pagination = new Pagination(listCnt, curPage);
+		
+		qnaVO.setStartIndex(pagination.getStartIndex());
+		qnaVO.setCntPerPage(pagination.getPageSize());
+		
+		model.addAttribute("qnaList", service.qnaList(qnaVO));
+		model.addAttribute("listCnt", listCnt);
+		model.addAttribute("pagination", pagination);
+		
 		return "admin/board/qnaList.admin";
     }
 	
-	@RequestMapping(value="/qnadetail.do", method = RequestMethod.GET)
+	
+	@ResponseBody
+	@RequestMapping(value="/ajaxqnalist.do", method = RequestMethod.GET)
+    public Map<String, Object> ajaxQnaList(QnaVO qnaVO, @RequestParam(value="movePage") int movePage) throws Exception {
+		
+		int listCnt = service.selectQnaListCnt(qnaVO);
+		Pagination pagination = new Pagination(listCnt, movePage);
+		
+		qnaVO.setStartIndex(pagination.getStartIndex());
+		qnaVO.setCntPerPage(pagination.getPageSize());
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("qnaList", service.qnaList(qnaVO));
+		map.put("listCnt", listCnt);
+		map.put("pagination", pagination);
+		
+		return map;
+    }
+	
+	@RequestMapping(value="/qnadetail.do", method = RequestMethod.POST)
     public String qnaDetail(@RequestParam("idx") String notice_idx, Model model) throws Exception {
 		int idx = Integer.parseInt(notice_idx);
 		model.addAttribute("qna",service.qnaLoad(idx));
 		return "admin/board/qnaDetail.admin";
     }
 	
+	@ResponseBody
+	@RequestMapping(value="/ajaxqnadel.do", method = RequestMethod.POST)
+    public Map<String, Object> ajaxQnaDel(@RequestBody int qna_idx) throws Exception {
+		service.qnaDelete(qna_idx);
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("isSuccess", "true");
+		return map;
+    }
+	
+	
+	
+	//QNA 답글 처리 영역
 	@ResponseBody
 	@RequestMapping(value="/reqnareg.do", method = RequestMethod.POST)
     public Map<String, Object> reQnaRegPOST(QnaReplyVO vo, 

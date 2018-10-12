@@ -18,8 +18,8 @@ public class QnaAdminDAOImpl implements QnaAdminDAO {
 	private static String namespace = "org.ecobay.admin.mapper.QnaMapper";
 
 	@Override
-	public List<QnaVO> qnaList() throws Exception {
-		return session.selectList(namespace + ".selectQnaList");	
+	public List<QnaVO> qnaList(QnaVO qnaVO) throws Exception {
+		return session.selectList(namespace + ".selectQnaList", qnaVO);	
 	}
 	
 	@Override
@@ -35,6 +35,17 @@ public class QnaAdminDAOImpl implements QnaAdminDAO {
 	@Override
 	public void qnaReplyDelete(int qnarp_idx) throws Exception {
 		session.delete(namespace + ".deleteQnaReply", qnarp_idx);
+	}
+
+	@Override
+	public int selectQnaListCnt(QnaVO vo) throws Exception {
+		return session.selectOne(namespace + ".selectQnaListCnt", vo);
+	}
+
+	@Override
+	public void qnaDelete(int qna_idx) throws Exception {
+		session.delete(namespace + ".qnaDelete", qna_idx);
+		
 	}
 
 }

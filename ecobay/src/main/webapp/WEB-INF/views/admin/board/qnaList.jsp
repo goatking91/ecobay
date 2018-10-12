@@ -4,28 +4,156 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
 
+<meta id="_csrf" name="_csrf" content="${_csrf.token}"/>
+<meta id="_csrf_header" name="_csrf_header" content="${_csrf.headerName}"/>
+
 <script>
-$(document).ready(function(){
-	
-	
-	/* $('.answer').click(function(event){
-		var nowId = $(this).attr("id");
-		var noIdx = nowId.replace(/[^0-9]/g,"");
+	$(function(){
+		var token = $("meta[name='_csrf']").attr("content");
+		var header = $("meta[name='_csrf_header']").attr("content");
+	    $(document).ajaxSend(function(e, xhr, options) {
+	        xhr.setRequestHeader(header, token);
+	    });
+	    
+	    var nowPage = $('#curPage').val();
+	    //리스트 ajax LOAD
+		ajaxLoadQnaList(nowPage);
 		
-		location.href="/admin/board/qnaanswer.do?idx="+noIdx;
+		//페이징 이동 버튼 클릭
+		$(document).on("click", ".pagingBtn", function(){
+			var movePage = $(this).val();
+			nowPage = movePage;
+			ajaxLoadQnaList(movePage);
+		});
+		
+		//삭제 버튼 클릭
+		$(document).on("click", ".delBtn", function(){
+			var qna_idx = $(this).attr("id");
+			
+			var modalBtnHtml = "<button type='button' class='btn btn-secondary' data-dismiss='modal'>취소</button>";
+			modalBtnHtml += "<button id='modalConfirmBtn' type='button' class='btn btn-primary'>확인</button>";
+			
+			$('.modal-title').text("삭제 안내");
+			$('.modal-body').find('p').text("정말 삭제 하시겠습니까?");
+			$('.modal-footer').html(modalBtnHtml);
+			$('#myModal').modal('show');
+			
+			$('#modalConfirmBtn').click(function(event){
+				
+				$.ajax({
+					url : "/admin/board/ajaxqnadel.do",
+					data : qna_idx,
+					method : "POST",
+					dataType : "json",
+					contentType: "application/json; charset=UTF-8",
+			        success : function(data) {
+			        	if(data.isSuccess == 'true') {
+			        		modalBtnHtml = "<button type='button' class='btn btn-primary' data-dismiss='modal'>확인</button>";
+			        		$('.modal-title').text("삭제 완료");
+			    			$('.modal-body').find('p').text("삭제가 완료 되었습니다.");
+			    			$('.modal-footer').html(modalBtnHtml);
+			    			$('#myModal').modal('show');
+			    			
+			    			ajaxLoadQnaList(nowPage);
+						}
+			        },
+			        error : function(jqXHR) {
+			        	console.log("error :"+ jqXHR.status);
+			        }
+			     });
+				
+			});
+			
+		});
+		
+		
+		
 		
 		
 	});
 	
-	$('.del').click(function(event){
-		var nowId = $(this).attr("id");
-		var noIdx = nowId.replace(/[^0-9]/g,"");
-		
-		location.href="/admin/board/qnadel.do?idx="+noIdx;
-		
-		
-	}); */
-});
+	
+	/** QNA 리스트 AJAX **/
+	function ajaxLoadQnaList(movePage) {
+		$.ajax({
+			url : "/admin/board/ajaxqnalist.do",
+			data : {
+            	"movePage": movePage                                                                                                         
+            },
+			dataType : "json",
+			contentType: "application/json; charset=UTF-8",
+			method : "GET",
+		    success : function(data, movePage) {
+				var htmlStr = "";
+				
+				for (var i = 0; i < data.qnaList.length; i++) {
+					
+					/* 날짜 패턴 변경 */
+					var date = new Date(data.qnaList[i].regDate);
+					var y = date.getFullYear();
+				    var M = date.getMonth()+1;
+				    var d = date.getDate();
+				    M = (M < 10) ? "0" + M : M;
+				    d = (d < 10) ? "0" + d : d;
+				  	var day= y + "-" + M + "-" + d;
+					
+					
+					htmlStr += "<tr>";
+					htmlStr += 	"<td>" + data.qnaList[i].qna_idx + "</td>";
+					htmlStr += 	"<td><a href='/admin/board/qnadetail.do?idx=" + data.qnaList[i].qna_idx + "'>" + data.qnaList[i].title + "</a></td>";
+					htmlStr += 	"<td>" + data.qnaList[i].member_id + "</td>";
+					htmlStr += 	"<td>" + day + "</td>";
+					htmlStr += 	"<td>";
+					htmlStr += 		"<a href='#'><button type='button' id='" + data.qnaList[i].qna_idx + "' class='btn btn-sm btn-danger delBtn'>삭제</button></a>";
+					htmlStr += 	"</td>";
+					htmlStr += "</tr>";
+
+				}
+				
+				$('#qnaListTbody').empty();
+	            $('#qnaListTbody').append(htmlStr);             
+	            $('#qnaListTbody').val('');
+		            
+		            
+		        var htmlStr2 = "";
+		      		
+		        htmlStr2 += "<input type='hidden' id='curPage' value='" + movePage + "'>";
+		        
+		        if (data.pagination.curRange != 1 || data.pagination.curPage != 1) {
+					htmlStr2 += "<button type='button' class='btn pagingBtn' value='1'>처음</button>";
+					htmlStr2 += "<button type='button' class='btn pagingBtn' value='" + data.pagination.prevPage + "'>이전</button>";
+				} else {
+					htmlStr2 += "<button type='button' class='btn' value='1' disabled>처음</button>";
+					htmlStr2 += "<button type='button' class='btn' value='" + data.pagination.prevPage + "' disabled>이전</button>";
+				}
+		        
+	            for (var nowPage = data.pagination.startPage; nowPage <= data.pagination.endPage; nowPage++) {
+	            	if (nowPage == data.pagination.curPage) {
+	            		htmlStr2 += "<button type='button' class='btn btn-primary pagingBtn' value='"+ nowPage +"'>" + nowPage + "</button>";
+					}else if(nowPage != data.pagination.curPage) {
+						htmlStr2 += "<button type='button' class='btn pagingBtn' value='"+ nowPage +"'>" + nowPage + "</button>";
+					}
+	            }
+	            
+	            if (data.pagination.curRange != data.pagination.totalPage && data.pagination.totalPage > 0) {
+					htmlStr2 += "<button type='button' class='btn pagingBtn' value='" + data.pagination.nextPage + "'>다음</button>";
+					htmlStr2 += "<button type='button' class='btn pagingBtn' value='" + data.pagination.totalPage + "'>끝</button>";
+				} else {
+					htmlStr2 += "<button type='button' class='btn' value='" + data.pagination.nextPage + "' disabled>다음</button>";
+					htmlStr2 += "<button type='button' class='btn' value='" + data.pagination.totalPage + "' disabled>끝</button>";
+				}
+	            
+	            $('#pagination').empty();
+	            $('#pagination').append(htmlStr2);             
+	            $('#pagination').val('');
+	            
+		    },
+		    error : function(jqXHR, data) {
+		    	console.log("error : "+ jqXHR.status);
+		    	console.log("data : " + data);
+		    }
+		 });
+	}/* END QNA 리스트 AJAX */
 
 		
 </script>
@@ -48,75 +176,97 @@ $(document).ready(function(){
 	<!-- 내용 -->
 	<section class="content container-fluid">
 		
-		<div class="col-md-12" >
-			<form name="myform" action="board/admin/qnalist.do">
-				<div class="form-group row">
-					<div class="col-sm-3">
-						<div class="input-group">
-							<select class="custom-select" name="keyfield">
-				 				<option value="all" selected>전체검색</option>
-				 				<option value="title" selected>제목검색</option>
-				 				<option value="content" selected>내용검색</option>
-							</select>
+		<!-- 검색 영역 -->
+		<div class="row">
+			<div class="col-md-12" >
+				<form name="myform" action="board/admin/qnalist.do">
+					<div class="form-group row">
+						<div class="col-sm-3">
+							<div class="input-group">
+								<select class="custom-select" name="keyfield">
+					 				<option value="all" selected>전체검색</option>
+					 				<option value="title" selected>제목검색</option>
+					 				<option value="content" selected>내용검색</option>
+								</select>
+							</div>
 						</div>
-					</div>
-					<div class="col-sm-9">
-						<div class="input-group">
-							<input type="text" class="form-control"
-								placeholder="검색내용을 입력하세요...">
-							<div class="input-group-append">
-								<button class="btn btn-primary">검색</button>
+						<div class="col-sm-9">
+							<div class="input-group">
+								<input type="text" class="form-control"
+									placeholder="검색내용을 입력하세요...">
+								<div class="input-group-append">
+									<button class="btn btn-primary">검색</button>
+								</div>
 							</div>
 						</div>
 					</div>
-				</div>
-			</form>
-		</div>		 
-		<table class="table table-striped table-hover">
-		    <thead>
-		        <tr>
-		            <th>번호</th>
-		            <th>제목</th>
-		            <th>작성자</th>
-		            <th>등록일시</th>
-		            <th>관리</th>
-		        </tr>
-		    </thead>		    
-			<c:forEach var="qna" items="${qnaList}" varStatus="status">
-				<tr>
-				   <td>${status.index + 1 }</td>
-				   <td><a href="/admin/board/qnadetail.do?idx=${qna.qna_idx}">${qna.title }</a></td>
-				   <td>${qna.member_id}</td>
-				   <td><fmt:formatDate value="${qna.regDate}" pattern="yyyy-MM-dd"/></td>
-				   <td>
-			    		<a href="#"><button id="delBtn${qna.qna_idx}" class="btn btn-sm btn-danger del">삭제</button></a>
-				   </td>
-			    </tr>
-			    
-			</c:forEach>
-			
-			
-			
-	       <%--  <div align="center">
-				<tr>
-					<td colspan="6">
-						<c:if test="${startpage>10}">
-							<a href="#" class="btn btn-light">이전</a>
-						</c:if>
-						<c:forEach var="i" begin="${startpage}" end="${endpage}">
-							<a href="#" class="btn btn-primary">1</a>
+				</form>
+			</div>
+		</div>
+		
+		<!-- 리스트 영역 -->
+		<div class="row">
+			<div class="col-md-12">
+				<table class="table table-striped table-hover">
+				    <thead>
+				        <tr>
+				            <th width="10%">번호</th>
+				            <th width="60%">제목</th>
+				            <th width="10%">작성자</th>
+				            <th width="10%">등록일시</th>
+				            <th width="10%">관리</th>
+				        </tr>
+				    </thead>
+				    <tbody id="qnaListTbody"> 
+						<c:forEach var="qna" items="${qnaList}" varStatus="status">
+							<tr>
+							   <td>${status.index + 1 }</td>
+							   <td><a href="/admin/board/qnadetail.do?idx=${qna.qna_idx}">${qna.title }</a></td>
+							   <td>${qna.member_id}</td>
+							   <td><fmt:formatDate value="${qna.regDate}" pattern="yyyy-MM-dd"/></td>
+							   <td>
+						    		<a href="#"><button id="delBtn${qna.qna_idx}" class="btn btn-sm btn-danger del">삭제</button></a>
+							   </td>
+						    </tr>
 						</c:forEach>
-						<c:if test="${endpage<pagecount}">
-							<a href="#" class="btn btn-light">다음</a>
-						</c:if>
-					</td>
-				</tr>
-			</div> --%>
-		</table>
+					</tbody>
+				</table>
+			</div>
+		</div>
 		
-		
+		<!-- 페이징 영역 -->
+		<div class="row">
+			<div class="col-lg-3"></div>
+			<div class="col-lg-6">
+				<div id="pagination">
+					<input type="hidden" id="curPage" value="${pagination.curPage }">
+				</div>
+			</div>
+			<div class="col-lg-3"></div>
+		</div>
 	
 	</section>
 	<!-- /내용 -->
 
+</div>
+
+
+<!-- 모달 -->
+<div id="myModal" class="modal" tabindex="-1" role="dialog">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title">title</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<p>body text</p>
+			</div>
+			<div class="modal-footer">
+
+			</div>
+		</div>
+	</div>
 </div>

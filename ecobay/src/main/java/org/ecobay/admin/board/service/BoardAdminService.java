@@ -36,9 +36,13 @@ public interface BoardAdminService {
 		
 		
 		/* QNA */
-		public List<QnaVO> qnaList() throws Exception;
+		public List<QnaVO> qnaList(QnaVO qnaVO) throws Exception;
 		
 		public QnaVO qnaLoad(int qna_idx) throws Exception;
+		
+		public int selectQnaListCnt(QnaVO qnaVO) throws Exception;
+		
+		public void qnaDelete(int qna_idx) throws Exception;
 		
 		//QnaReply
 		public void qnaReplyRegist(QnaReplyVO vo) throws Exception;

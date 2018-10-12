@@ -23,6 +23,17 @@ public class SupportMainController {
     }
     
 	@ResponseBody
+	@RequestMapping(value="/ajaxfaqlist.do", method=RequestMethod.POST)
+	public Map<String, Object> ajaxFaqList() throws Exception{
+		
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("faqTopList", service.LoadFaqTopList());
+		
+		return map;
+	}
+	
+	@ResponseBody
 	@RequestMapping(value="/ajaxnoticelist.do", method=RequestMethod.POST)
 	public Map<String, Object> ajaxNoticeList() throws Exception{
 		
@@ -33,14 +44,4 @@ public class SupportMainController {
 		return map;
 	}
 	
-	@ResponseBody
-	@RequestMapping(value="/ajaxfaqlist.do", method=RequestMethod.POST)
-	public Map<String, Object> ajaxFaqList() throws Exception{
-		
-		
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("faqTopList", service.LoadFaqTopList());
-		
-		return map;
-	}
 }

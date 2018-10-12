@@ -145,8 +145,8 @@ public class BoardAdminServiceImpl implements BoardAdminService {
 	 * QNA
 	 * ============================================ */
 	@Override
-	public List<QnaVO> qnaList() throws Exception {
-		return qnaDao.qnaList();
+	public List<QnaVO> qnaList(QnaVO qnaVO) throws Exception {
+		return qnaDao.qnaList(qnaVO);
 	}
 	
 	@Override
@@ -154,6 +154,12 @@ public class BoardAdminServiceImpl implements BoardAdminService {
 		return qnaDao.qnaLoad(qna_idx);
 	}
 
+	@Override
+	public void qnaDelete(int qna_idx) throws Exception {
+		qnaDao.qnaDelete(qna_idx);
+		
+	}
+	
 	@Override
 	public void qnaReplyRegist(QnaReplyVO vo) throws Exception {
 		qnaDao.qnaReplyRegist(vo);
@@ -163,6 +169,13 @@ public class BoardAdminServiceImpl implements BoardAdminService {
 	public void qnaReplyDelete(int qnarp_idx) throws Exception {
 		qnaDao.qnaReplyDelete(qnarp_idx);
 	}
+
+	@Override
+	public int selectQnaListCnt(QnaVO qnaVO) throws Exception {
+		return qnaDao.selectQnaListCnt(qnaVO);
+	}
+
+	
 	
 	
 
