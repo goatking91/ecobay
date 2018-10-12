@@ -99,21 +99,53 @@ $(document).ready(function(){
 		
 	});
 	
-	$('#wishList-tap').click(function(){
+/* 	 $('#pwdChange-tap').click(function(){
 		
-		wishListAjax(page);  
+		 $('#pwdChange').empty();
+		 
+		 var str = "";
+		 str = str + "<h3>비밀번호변경</h3>";
+		 str = str + "	<div class='form-group row row center' style='align:center;''>";
+		 str = str + "		<label class='col-sm-3 col-form-label text-right text-right' id='pwdlabel' for='pwd'>비밀번호</label>";
+		 str = str + "		<div class='col-sm-5'>";
+		 str = str + "			<input class='form-control' id='cpwd' name='pwd' type='password' placeholder='비밀번호'>";
+		 str = str + "			<span id='warning' style='color: red'></span>";
+		 str = str + "		</div>";
+		 str = str + "	</div>";
+		 str = str + "	<div class='form-group row'>";
+		 str = str + "		<label class='col-sm-3 col-form-label text-right' id='pwdcklabel' for='pwdck'>비밀번호 확인</label>";
+		 str = str + "		<div class="col-sm-5">";
+		 str = str + "			<input class='form-control' id='cpwdck' name='cpwdck' type='password' placeholder="비밀번호 확인">";
+		 str = str + "			<span id="warning2" style="color: red"></span>";
+		 str = str + "		</div>";
+		 str = str + "	</div>";
+		 str = str + "	<div class="form-group row">";
+		 str = str + "				<div class="col-sm text-center">";
+		 str = str + "					<input type="button" id="change" class="btn btn-lg btn-info" value="확인">";
+		 str = str + "				</div>	";
+		 str = str + "	</div>    "; 
 		
-	});
-	 $('#buyList-tap').click(function(){
-			
-		buyListAjax(page);  
-			
-	}); 
+	});  */
+	
 	$('#sellList-tap').click(function(){
 		
 		sellListAjax(page);  
 		
 	});
+	
+	 $('#buyList-tap').click(function(){
+			
+		buyListAjax(page);  
+			
+	}); 
+	
+	$('#wishList-tap').click(function(){
+		
+		wishListAjax(page);  
+		
+	});
+	
+	
 	
 	function wishListAjax(page) {
 		$.ajax({
@@ -470,6 +502,120 @@ $(document).ready(function(){
 	        
 	        form.submit();
 		}
+		
+		$('#change').click(function(){
+			var pwd = $('#cpwd').val();//입력받은값
+			var pwdck = $('#cpwdck').val();
+			var retvalue = 0;
+			
+			
+			console.log(pwd);
+			if(pwd.length == 0){
+				$('#warning').text("비밀번호를 입력하세요");
+		        return false;
+			}else if(pwd.length != 0){
+				$('#warning').text("");
+			}
+			if(pwdck.length == 0){
+				$('#warning2').text("비밀번호를 확인해주세요");
+		        return false;
+			}else if(pwdck.length != 0){
+				$('#warning2').text("");
+			}
+			if(pwd != pwdck){
+				$('#warning2').text("동일한 비밀번호를 확인해주세요");
+		        return false;
+			}
+			$.ajax({
+				async: true,
+				type: 'POST',
+				url : "/member/pwdcheck.do",
+				data: pwd,
+				dataType : "json",
+				contentType: "application/json; charset=UTF-8",
+				success : function(data) {
+					if(data.flag == false){
+						$('#warning').text("올바른 비밀번호가 아닙니다");
+						return false;
+						
+					}else{
+						$('#pwdChange').empty();
+						
+						var str = "";
+						str = str + "<h3>비밀번호변경</h3>";
+						str = str + "<div class='form-group row row'>";
+						str = str + "	<label class='col-sm-3 col-form-label text-right text-right' for='newPwd'>새 비밀번호</label>";
+						str = str + "	<div class='col-sm-5'>";					
+						str = str + "		<input class='form-control' id='newPwd' name='newPwd' type='password' placeholder='새 비밀번호'>";					
+						str = str + "		<span id='warning3' style='color: red'></span>";
+						str = str + "	</div>";	
+						str = str + "</div>";	
+						str = str + "<div class='form-group row'>";	
+						str = str + "	<label class='col-sm-3 col-form-label text-right' for='newPwdck'>비밀번호 확인</label>";	
+						str = str + "	<div class='col-sm-5'>";	
+						str = str + "		<input class='form-control' id='newPwdck' name='newPwdck' type='password' placeholder='비밀번호 확인'>";	
+						str = str + "		<span id='warning4' style='color: red'></span>";	
+						str = str + "	</div>";	
+						str = str + "</div>";
+						str = str + "<div class='form-group row'>";
+						str = str + "	<div class='col-sm text-center'>";
+						str = str + "	<input type='button' id='update' class='btn btn-lg btn-info' value='새 비밀번호로 변경'>";
+						str = str + "	</div>";	
+						str = str + "</div>";
+						
+						$('#pwdChange').append(str);
+					}
+		        },
+		        error: function(data) {
+					console.log("error :" + data);
+				}
+			});
+
+		});
+		$(document).on("click", "#update", function(){
+			var pwd = $('#newPwd').val();
+			$.ajax({
+				async: true,
+    			type: 'POST',
+    			url : "/member/newpwd.do",
+    			data: {"member_id" : member_id, "pwd" : pwd},
+    			dataType : "text",
+				success : function(data) {
+					$('#message').find('h4').text("비밀번호가 변경되었습니다");
+					$('#myModal').modal('show');
+					$("#myinfo-tap").tab('show');
+					
+					$('#pwdChange').empty();
+					
+					var str = "";
+					str = str + "<h3>비밀번호변경</h3>";
+					str = str + "<div class='form-group row row'>";
+					str = str + "	<label class='col-sm-3 col-form-label text-right text-right' for='pwd'>비밀번호</label>";
+					str = str + "	<div class='col-sm-5'>";					
+					str = str + "		<input class='form-control' id='pwd' name='pwd' type='password' placeholder='비밀번호'>";					
+					str = str + "		<span id='warning3' style='color: red'></span>";
+					str = str + "	</div>";	
+					str = str + "</div>";	
+					str = str + "<div class='form-group row'>";	
+					str = str + "	<label class='col-sm-3 col-form-label text-right' for='newPwdck'>비밀번호 확인</label>";	
+					str = str + "	<div class='col-sm-5'>";	
+					str = str + "		<input class='form-control' id='pwdck' name='pwdck' type='password' placeholder='비밀번호 확인'>";	
+					str = str + "		<span id='warning4' style='color: red'></span>";	
+					str = str + "	</div>";	
+					str = str + "</div>";
+					str = str + "<div class='form-group row'>";
+					str = str + "	<div class='col-sm text-center'>";
+					str = str + "	<input type='button' id='change' class='btn btn-lg btn-info' value='확인'>";
+					str = str + "	</div>";	
+					str = str + "</div>";
+					
+					$('#pwdChange').append(str);
+		        },
+		        error: function(data) {
+					console.log("error :" + data);
+				}
+			});
+		});
 });
 </script>
 
@@ -483,31 +629,24 @@ $(document).ready(function(){
 	<div class="row">
 		<!-- 왼쪽 sub_nav -->
 		<div class="col-sm-3">
-			<ul class="list-group">
+			<ul class="list-group" id="myTab">
             	<li class="list-group-item text-muted">
-            	<a id="myinfo-tap" data-toggle="tab" href="#nav-home" role="tab">
-            	내 정보
-            	</a>
+            		<a id="myinfo-tap" data-toggle="tab" href="#nav-home" role="tab">내 정보</a>
             	</li>
             	<li class="list-group-item d-flex justify-content-between align-items-center sell_buyList">
-				 <a id="sellList-tap" data-toggle="tab" href="#sellList" role="tab"> 
-				    내 판매상품
-				    </a>
+            		<a id="pwdChange-tap" data-toggle="tab" href="#pwdChange" role="tab">비밀번호변경하기</a>
+				</li>
+            	<li class="list-group-item d-flex justify-content-between align-items-center sell_buyList">
+					<a id="sellList-tap" data-toggle="tab" href="#sellList" role="tab">내 판매상품</a>
 				</li>
 				<li class="list-group-item d-flex justify-content-between align-items-center menu_buyList">
-				<a id="buyList-tap" data-toggle="tab" href="#buyList" role="tab">
-				내 구매상품
-				</a>
+					<a id="buyList-tap" data-toggle="tab" href="#buyList" role="tab">내 구매상품</a>
 				</li>
 				<li class="list-group-item d-flex justify-content-between align-items-center menu_wish">
-				  <a id="wishList-tap" data-toggle="tab" href="#wishList" role="tab">  
-				    관심상품
-				  </a> 
+					<a id="wishList-tap" data-toggle="tab" href="#wishList" role="tab">관심상품</a> 
 				</li>
 				<li class="list-group-item d-flex justify-content-between align-items-center menu_getout">
-				  <a id="getout-tap" data-toggle="tab" href="#getout" role="tab">  
-				    탈퇴하기
-				  </a> 
+					<a id="getout-tap" data-toggle="tab" href="#getout" role="tab">탈퇴하기</a> 
 				</li>
 			</ul> 
 		</div>
@@ -589,6 +728,28 @@ $(document).ready(function(){
 					</div>
 				</div>
 				<!-- 리스트 들어가는 부분 -->
+				<div class="tab-pane fade" id="pwdChange" role="tabpanel" aria-labelledby="pwdChange">
+					<h3>비밀번호변경</h3>
+					<div class="form-group row row center" style="align:center;">
+						<label class="col-sm-3 col-form-label text-right text-right" id="pwdlabel" for="pwd">비밀번호</label>
+						<div class="col-sm-5">
+							<input class="form-control" id="cpwd" name="pwd" type="password" placeholder="비밀번호">
+							<span id="warning" style="color: red"></span>
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="col-sm-3 col-form-label text-right" id="pwdcklabel" for="pwdck">비밀번호 확인</label>
+						<div class="col-sm-5">
+							<input class="form-control" id="cpwdck" name="cpwdck" type="password" placeholder="비밀번호 확인">
+							<span id="warning2" style="color: red"></span>
+						</div>
+					</div>
+					<div class="form-group row">
+								<div class="col-sm text-center">
+									<input type="button" id="change" class="btn btn-lg btn-info" value="확인">
+								</div>	
+					</div>    
+				</div>
 				<div class="tab-pane fade" id="sellList" role="tabpanel" aria-labelledby="sellList"></div>
 				<div class="tab-pane fade" id="buyList" role="tabpanel" aria-labelledby="buyList"></div>
 				<div class="tab-pane fade" id="wishList" role="tabpanel" aria-labelledby="wishList"></div>
