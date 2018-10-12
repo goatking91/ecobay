@@ -17,6 +17,7 @@
 		<security:intercept-url pattern="/ajaxnoticelist.do" access="permitAll" />
 		<security:intercept-url pattern="/support.do" access="permitAll" />
 		<security:intercept-url pattern="/support/**" access="permitAll" />
+		<security:intercept-url pattern="/member/delete.do" access="hasRole('ROLE_USER')"/>
 		<security:intercept-url pattern="/member/payment.do" access="hasRole('ROLE_USER')"/>
 		<security:intercept-url pattern="/member/join.do" access="hasRole('ANONYMOUS')"/>
 		<security:intercept-url pattern="/member/reg.do" access="hasRole('ANONYMOUS')"/>
