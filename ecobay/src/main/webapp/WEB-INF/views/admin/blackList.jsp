@@ -12,12 +12,12 @@
 	<section class="content-header">
 		<h1>
 			회원관리
-			<small>회원현황</small>
+			<small>블랙리스트현황</small>
 		</h1>
 		<ol class="breadcrumb">
 			<li><a href="/admin/main.do"><i class="fa fa-dashboard"></i>Home</a></li>
 			<li><a href="/admin/memberlist.do">Member</a></li>
-			<li class="active"><a href="/admin/memberlist.do">List</a></li>
+			<li class="active"><a href="/admin/blacklist.do">BlackList</a></li>
 		</ol>
 	</section>
 	<!-- /페이지 헤더(제목) -->
@@ -53,67 +53,32 @@
 			 
 		<table class="table table-striped table-hover">
 		    <thead>
-		    	<tr align="right"><td id="mcnt" colspan="6">count: ${cnt}</td></tr>
+		    	<tr align="right"><td id="bcnt" colspan="6">count: ${cnt}</td></tr>
 		        <tr>
 		            <th>번호</th><th>회원아이디</th><th>이름</th>
 		            <th>등록일시</th><th>등록사유</th><th>관리</th>
 		        </tr>
 		    </thead>
 		    <tbody id="tbody">		    
-				<c:forEach var="list" items="${list}">
-				    <tr>
-				    	<td>${list.rn}</td>
-				    	<td>${list.member_id}</td>
-				    	<td>${list.member_name}</td>
-				    	<td><fmt:formatDate value="${list.regDate}" pattern="yyyy-MM-dd"/></td>
-				    	
-				    	<c:choose>
-				    		<c:when test="${list.join_yn}"> 
-				    			<c:choose>
-				    				<c:when test="${list.use_yn}">
-				    					<td>
-				    						가입완료
-				    					</td>
-				    					<td>
-				    	 					<button class="btn-sm btn-danger" id="blackregbtn" data-src="${list.member_id }" data-src2="${list.member_name }">정지</button>
-				    	 				</td>
-				    				</c:when>
-				    				<c:otherwise>
-				    					<td>
-				    						블랙리스트
-				    					</td>
-				    					<td>
-				    	 				</td>
-				    				</c:otherwise>
-				    			</c:choose>
-				    		</c:when>
-				    		<c:otherwise>
-				    			<c:choose>
-					    			<c:when test="${list.use_yn}">
-					    				<td>
-					    					메일 미승인
-					    				</td>
-					    				<td>
-					    	 			</td>
-				    				</c:when>
-				    				<c:otherwise>
-				    					<td>
-					    					탈퇴
-					    				</td>
-					    				<td>
-					    					<button class="btn-sm btn-warning" id="rejoinbtn" data-src="${list.member_id }" data-src2="${list.member_name }">재가입승인</button>
-					    	 			</td>
-				    				</c:otherwise>
-			    				</c:choose>
-				    		</c:otherwise>
-				    	</c:choose>
-				    </tr>
-				</c:forEach>
+			<c:forEach var="list" items="${list}">
+			    <tr data-src="${list.member_id }" data-src2="${list.member_name }">
+			    	<td class="blacklisttd">${list.rn}</td>
+			    	<td class="blacklisttd">${list.member_id}</td>
+			    	<td class="blacklisttd">${list.member_name}</td>
+			    	<td class="blacklisttd"><fmt:formatDate value="${list.regdate}" pattern="yyyy-MM-dd"/></td>
+			    	<td class="blacklisttd">
+			    		${list.regcontent }
+		    	 	</td>
+		    	 	<td>
+		    	 		<button class='btn-sm btn-primary' id='blackcanbtn' data-src="${list.member_id }" data-src2="${list.member_name }">정지취소</button>
+		    	 	</td>
+			    </tr>
+			</c:forEach>
 			</tbody>
 		</table>
-		
-		<!-- 페이징 영역 -->
-		<div class="row">
+ 
+        <!-- 페이징 영역 -->
+        <div class="row">
 			<div class="col-lg-3"></div>
 			<div class="col-lg-6" align="center">
 				<div id="pagination">
@@ -124,14 +89,13 @@
 		</div>
 	</section>
 	<!-- /내용 -->
-	
 </div>
 
-<div class="modal fade" id="blackregModal" tabindex="-1" role="dialog" aria-labelledby="myModallabel" aria-hidden="true">
+<div class="modal fade" id="blackcanModal" tabindex="-1" role="dialog" aria-labelledby="myModallabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="blackregmodaltitle">블랙리스트 추가</h5>
+        <h5 class="modal-title" id="blackregmodaltitle">안내</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -143,28 +107,28 @@
 		          <div id="blackregmessage">
 					<h5 align="center"></h5>
 		          </div>
-		          <input id="data-idvalue" class="form-control" type="hidden" value="">
 		          <div>
-		          	등록 사유:
-					<textarea id="blackregtextArea" class="form-control" cols="3"></textarea>
+		          	<input id="data-idvalue" class="form-control" type="hidden" value="">
+		          	취소 사유:
+					<textarea id="blackcantextArea" class="form-control" cols="3"></textarea>
 		          </div>
 		      </div>		      	
 		   </div>
 	      </form>
       </div>
       <div class="modal-footer">
-        <button type="button" id="blackregmodalbtn" class="btn btn-primary" data-dismiss="modal">확인</button>
+        <button type="button" id="blackcanmodalbtn" class="btn btn-primary" data-dismiss="modal">확인</button>
         <button type="button" class="btn btn-primary" data-dismiss="modal">취소</button>
       </div>
     </div>
   </div>
 </div>
 
-<div class="modal fade" id="rejoinModal" tabindex="-1" role="dialog" aria-labelledby="myModallabel" aria-hidden="true">
+<div class="modal fade" id="blackcanModal" tabindex="-1" role="dialog" aria-labelledby="myModallabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="rejointitle">재가입 승인</h5>
+        <h5 class="modal-title" id="blackcanmodaltitle">블랙리스트 취소</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -173,24 +137,56 @@
         <form>
 	      	<div class="row">
 	      		<div class="col-md">
-		          <div id="rejoinmessage">
+		          <div id="blackcanmessage">
 					<h5 align="center"></h5>
-					<input id="rejoin-idvalue" class="form-control" type="hidden" value="">
+					<input id="data-idvalue" class="form-control" type="hidden" value="">
+		          </div>
+		          <div>
+		          	취소 사유:
+					<textarea id="blackcantextArea" class="form-control" cols="3"></textarea>
 		          </div>
 		      </div>		      	
 		   </div>
 	      </form>
       </div>
       <div class="modal-footer">
-        <button type="button" id="rejoinmodalbtn" class="btn btn-primary" data-dismiss="modal">확인</button>
+        <button type="button" id="blackcanmodalbtn" class="btn btn-primary" data-dismiss="modal">확인</button>
         <button type="button" class="btn btn-primary" data-dismiss="modal">취소</button>
       </div>
     </div>
   </div>
 </div>
 
+<div class="modal fade" id="blackcontextModal" tabindex="-1" role="dialog" aria-labelledby="myModallabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="blackcontextmodaltitle">블랙리스트 사유</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form>
+	      	<div class="row">
+	      		<div class="col-md">
+		          <div id="blackcontextmessage">
+					<h5 align="center"></h5>
+		          </div>
+		      </div>		      	
+		   </div>
+	      </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal">확인</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
 <script type="text/javascript">
-	$(function(){
+	$(document).ready(function(){
 		var token = $("meta[name='_csrf']").attr("content");
 		var header = $("meta[name='_csrf_header']").attr("content");
 		
@@ -203,50 +199,53 @@
 	    var nowPage = $('#curPage').val();
 	    
 	  	//초기 리스트 ajax LOAD
-		ajaxLoadMemberList(nowPage, searchType, keyWord);
+		ajaxLoadBlackList(nowPage, searchType, keyWord);
 	  	
 		//페이징 이동 버튼 클릭
 		$(document).on("click", ".pagingBtn", function(){
 			var movePage = $(this).val();
 			nowPage = movePage;
-			ajaxLoadMemberList(movePage, searchType, keyWord);
+			ajaxLoadBlackList(movePage, searchType, keyWord);
 		});
 		
 		//검색 버튼 클릭
 		$(document).on("click", "#searchBtn", function(){
 			searchType = $("#searchType option:selected").val();
 			keyWord = $('#keyWord').val();
+			console.log(keyWord);
 			
-			ajaxLoadMemberList(1, searchType, keyWord);
+			ajaxLoadBlackList(1, searchType, keyWord);
 		});
 		
-		$(document).on("click", "#blackregbtn", function() {
+		$(document).on("click", "#blackcanbtn", function() {
 			var id = $(this).attr("data-src");
 			var name = $(this).attr("data-src2");
-			$("#blackregmessage").find("h5").text(name + "님을 블랙리스트로 추가하시겠습니까?");
+			$("#blackcanmessage").find("h5").text(name + "님을 블랙리스트에서 삭제하시겠습니까?");
 			$("#data-idvalue").val("");
 			$("#data-idvalue").val(id);
-			$("#blackregModal").modal("show");
+			$("#blackcanModal").modal("show");
 		});
 	
-		$(document).on("click", "#blackregmodalbtn", function() {
+		$(document).on("click", "#blackcanmodalbtn", function() {
 			var id = $("#data-idvalue").val();
-			var text = $("#blackregtextArea").val();
+			var text = $("#blackcantextArea").val();
+			
+			console.log(id);
+			console.log(text);
+			
 			var blackvalue = JSON.stringify({
 				"member_id" : id,
-				"regcontent": text
+				"cancontent": text
 			});
-			
-			console.log(blackvalue);
 			
 			$.ajax({
 				async: true,
 				type: 'POST',
 				contentType: "application/json; charset=UTF-8",
 				data: blackvalue,
-				url : "/admin/memberblackreg.do",
+				url : "/admin/memberblackcan.do",
 				success : function(data) {
-					ajaxLoadMemberList(nowPage, searchType, keyWord); 
+					ajaxLoadBlackList(nowPage, searchType, keyWord);
 		        },
 		        error: function(data) {
 					console.log("error :" + data);
@@ -254,39 +253,68 @@
 			});
 			
 			$("#data-idvalue").val("");
-			$("#blackregtextArea").val("");
+			$("#blackcantextArea").val("");
 			
 		});
 		
-		$(document).on("click", "#rejoinbtn", function() {
-			var id = $(this).attr("data-src");
-			var name = $(this).attr("data-src2");
-			$("#rejoinmessage").find("h5").text(name + "님의 재가입을 승인하시겠습니까?");
-			$("#rejoin-idvalue").val("");
-			$("#rejoin-idvalue").val(id);
-			$("#rejoinModal").modal("show");
-		});
-		
-		$(document).on("click", "#rejoinmodalbtn", function() {
-			var id = $("#rejoin-idvalue").val();
+		$(document).on("click", ".blacklisttd", function() {
+			var member_id = $(this).parent().attr("data-src");
+			var name = $(this).parent().attr("data-src2");
+			
+			$("#blackcontextmodaltitle").text(name + "님의 블랙리스트 사유");
 			$.ajax({
-				async: true,
-				type: 'POST',
-				data: id,
+				url : "/admin/ajaxblackcontent.do",
+				data : member_id ,
 				contentType: "application/json; charset=UTF-8",
-				url : "/admin/memberrejoin.do",
-				success : function(data) {
-					ajaxLoadMemberList(nowPage, searchType, keyWord);
-		        },
-		        error: function(data) {
-					console.log("error :" + data);
-				}
+				method : "POST",
+			    success : function(data, movePage) {
+					var htmlStr = "";
+					
+					htmlStr += "<table class='table table-striped table-hover'>";
+					htmlStr += "	<thead>";
+					htmlStr += "    	<tr>";
+					htmlStr += "        	<th>번호</th><th>등록사유</th><th>취소사유</th><th>등록일자</th>";
+					htmlStr += "    	</tr>";
+					htmlStr += "	</thead>";
+					htmlStr += "	<tbody>";
+					
+					$.each(data.list, function(index, list){ 
+						htmlStr += "		<tr>";
+						htmlStr += "			<td>" + list.rn + "</td>";
+						htmlStr += "			<td>" + list.regcontent + "</td>";
+						
+					  	if(list.cancontent != null) {
+					  		htmlStr += "			<td>" + list.cancontent + "</td>";
+					  	}else {
+					  		htmlStr += "			<td></td>";
+					  	}
+					  	
+					  	var date = new Date(list.regdate);
+						var y = date.getFullYear();
+					    var M = date.getMonth()+1;
+					    var d = date.getDate();
+					    M = (M < 10) ? "0" + M : M;
+					    d = (d < 10) ? "0" + d : d;
+					  	var day= y + "-" + M + "-" + d;
+					  	
+					  	htmlStr += "			<td>" + day + "</td>";
+					  	
+					  	htmlStr += "		<tr>";
+					});
+					
+					htmlStr += "	</tbody>";
+					htmlStr += "</table>";
+					
+					$("#blackcontextmessage").find("h5").html(htmlStr);
+					$("#blackcontextModal").modal("show");
+			    },
+			    error : function(data) {
+			    	console.log("data : " + data);
+			    }
 			});
-			
-			$("#rejoin-idvalue").val("");
 		});
 		
-		function ajaxLoadMemberList(movePage, searchType, keyWord) {
+		function ajaxLoadBlackList(movePage, searchType, keyWord) {
 			
 			var pagevalue = JSON.stringify({
 	        	"movePage": movePage,
@@ -295,7 +323,7 @@
 	        });
 			
 			$.ajax({
-				url : "/admin/ajaxmemberlist.do",
+				url : "/admin/ajaxblacklist.do",
 				data : pagevalue,
 				dataType : "json",
 				contentType: "application/json; charset=UTF-8",
@@ -304,47 +332,33 @@
 					var htmlStr = "";
 					
 					$.each(data.list, function(index, list){ 
-						htmlStr += "<tr>";
-						htmlStr += "	<td>" + list.rn + "</td>";
-						htmlStr += "	<td>" + list.member_id +"</td>";
-						htmlStr += "	<td>" + list.member_name +"</td>";
+						htmlStr += "<tr data-src='" + list.member_id + "' data-src2='" + list.member_name + "'>";
+						htmlStr += "	<td class='blacklisttd'>" + list.rn + "</td>";
+						htmlStr += "	<td class='blacklisttd'>" + list.member_id +"</td>";
+						htmlStr += "	<td class='blacklisttd'>" + list.member_name +"</td>";
 						
-						var date = new Date(list.regDate);
+						
+						var date = new Date(list.regdate);
 						var y = date.getFullYear();
 					    var M = date.getMonth()+1;
 					    var d = date.getDate();
 					    M = (M < 10) ? "0" + M : M;
 					    d = (d < 10) ? "0" + d : d;
 					  	var day= y + "-" + M + "-" + d;
-					  	htmlStr += "	<td>" + day +"</td>";
+					  	htmlStr += "	<td class='blacklisttd'>" + day +"</td>";
 						
-						if(list.join_yn == true ) {
-							if(list.use_yn == true) {
-								htmlStr += "	<td>가입완료</td>";
-								htmlStr += "	<td>";
-								htmlStr += "		<button class='btn-sm btn-danger' id='blackregbtn' data-src='" + list.member_id + "' data-src2='" + list.member_name +"'>정지</button>";
-								htmlStr += "	</td>";
-							}else {
-								htmlStr += "	<td>블랙리스트</td>";
-								htmlStr += "	<td></td>";
-							}
-						}else {
-							if(list.use_yn == true) {
-								htmlStr += "	<td>메일 미승인</td>";
-								htmlStr += "	<td></td>";
-							}else {
-								htmlStr += "	<td>탈퇴</td>";
-								htmlStr += "	<td>";
-								htmlStr += "		<button class='btn-sm btn-warning' id='rejoinbtn' data-src='" + list.member_id + "' data-src2='" + list.member_name +"'>재가입승인</button>";
-								htmlStr += "	</td>";
-							}
-						}
+					  	htmlStr += "	<td class='blacklisttd'>";
+					  	htmlStr += list.regcontent;
+		    	 		htmlStr += "	</td>";
+						htmlStr += "	<td>";
+						htmlStr += "		<button class='btn-sm btn-primary' id='blackcanbtn' data-src='" + list.member_id + "' data-src2='" + list.member_name +"'>정지취소</button>";
+						htmlStr += "	</td>";
 						htmlStr += "</tr>";
 					});
 					
 					$("#tbody").empty();
 					$("#tbody").append(htmlStr);
-					$("#mcnt").html("count: " + data.cnt);
+					$("#bcnt").html("count: " + data.cnt);
 			            
 			        var htmlStr2 = "";
 			      		

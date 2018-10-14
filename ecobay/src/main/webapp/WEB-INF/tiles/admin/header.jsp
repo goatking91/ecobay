@@ -73,7 +73,7 @@
 					</a>
 					<ul class="treeview-menu">
 						<li><a href="/admin/memberlist.do">회원현황</a></li>
-						<li><a href="#">블랙리스트</a></li>
+						<li><a href="/admin/blacklist.do">블랙리스트</a></li>
 					</ul>
 				</li>
 

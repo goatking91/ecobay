@@ -5,17 +5,92 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 <mapper namespace="org.ecobay.admin.mapper.MemberMapper">
 	
-	<select id="readAll" resultType="MemberVO">
-		select @rownum:=@rownum+1 as rn, m.* from MEMBER m, (select @rownum:=0) tmp
+	<select id="memberList" resultType="MemberVO">
+		SELECT ml.*
+		FROM (SELECT @rownum:=@rownum+1 AS rn, m.* 
+			FROM MEMBER m, (SELECT @rownum:=0) tmp) ml
+		WHERE rn > 0
+		<include refid="search" />
+		LIMIT #{startIndex},#{cntPerPage}
 	</select>
 	
-	<select id="count" resultType="int">
-		select count(*) from MEMBER
+	<select id="memberListCount" resultType="int">
+		SELECT COUNT(*) 
+		FROM MEMBER 
+		WHERE USE_YN = FALSE OR USE_YN = TRUE
+		<include refid="search" />
  	</select>
  	
- 	<update id="black" parameterType="String">
- 		UPDATE MEMBER SET USE_YN = FALSE, MODDATE = NOW() WHERE MEMBER_ID = #{member_id};
+ 	<select id="blackList" resultType="BlacklistVO">
+		SELECT black.* 
+		FROM (
+			SELECT @rownum:=@rownum+1 AS rn, ml.*
+			FROM (
+				SELECT m.MEMBER_ID, m.MEMBER_NAME, b.REGDATE, b.REGCONTENT, b.BLACK_YN
+				FROM MEMBER m, BLACKLIST b
+				WHERE m.MEMBER_ID = b.MEMBER_ID) ml, (SELECT @rownum:=0) tmp
+			WHERE BLACK_YN = TRUE) black
+		<include refid="search" />
+		LIMIT #{startIndex},#{cntPerPage}
+	</select>
+	
+	<select id="blackListCount" resultType="int">
+		SELECT count(*)
+		FROM (SELECT  b.BLACK_YN
+			FROM MEMBER m, BLACKLIST b
+			WHERE m.MEMBER_ID = b.MEMBER_ID) ml
+		WHERE BLACK_YN = TRUE
+		<include refid="search" />
+ 	</select>
+ 	
+ 	<select id="blackContent" resultType="BlacklistVO">
+ 		SELECT ml.rn, ml.REGCONTENT, ml.CANCONTENT, ml.REGDATE
+		FROM 
+			(SELECT @rownum:=@rownum+1 AS rn, bl.*
+			FROM 
+                (SELECT b.*
+				FROM  BLACKLIST b
+				WHERE b.MEMBER_ID = #{member_id}
+				ORDER BY REGDATE DESC) bl 
+			, (SELECT @rownum:=0) tmp) ml
+ 	</select>
+ 	
+ 	<update id="blackRegId" parameterType="String">
+ 		UPDATE MEMBER SET USE_YN = FALSE, MODDATE = NOW() WHERE MEMBER_ID = #{member_id}
  	</update>
+ 	
+ 	<insert id="blackRegContent" parameterType="BlacklistVO">
+ 		INSERT INTO BLACKLIST(MEMBER_ID, REGCONTENT, BLACK_YN, REGDATE) VALUES (#{member_id}, #{regcontent}, TRUE, NOW())
+ 	</insert>
+ 	
+ 	<update id="rejoin" parameterType="String">
+ 		UPDATE MEMBER SET USE_YN = TRUE, JOIN_YN = TRUE, MODDATE = NOW(), DELDATE = NULL WHERE MEMBER_ID = #{member_id}
+ 	</update>
+ 	
+ 	<update id="blackCanId" parameterType="String">
+ 		UPDATE MEMBER SET USE_YN = TRUE, MODDATE = NOW() WHERE MEMBER_ID = #{member_id}
+ 	</update>
+ 	
+ 	<update id="blackCanContent" parameterType="String">
+ 		UPDATE BLACKLIST SET CANCONTENT = #{cancontent}, CANDATE = NOW(), BLACK_YN = FALSE WHERE MEMBER_ID = #{member_id} AND BLACK_YN = TRUE
+ 	</update>
+ 	
+ 	<sql id="search">
+		<if test="keyWord != null and keyWord != ''">
+		  	<if test="searchType == 'all' or searchType == null">
+		  		AND (
+		  			MEMBER_ID like CONCAT('%',#{keyWord},'%')
+		  			OR MEMBER_NAME like CONCAT('%',#{keyWord},'%')
+		  		)
+			</if>
+			<if test="searchType == 'member_id'">
+		  		AND MEMBER_ID like CONCAT('%',#{keyWord},'%')
+			</if>
+			<if test="searchType == 'member_name'">
+		  		AND MEMBER_NAME like CONCAT('%',#{keyWord},'%')
+			</if>
+		</if>
+	</sql>
  	
 </mapper>
 
