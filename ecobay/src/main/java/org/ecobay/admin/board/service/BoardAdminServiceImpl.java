@@ -50,8 +50,8 @@ public class BoardAdminServiceImpl implements BoardAdminService {
 	}
 
 	@Override
-	public List<FaqVO> faqList() throws Exception {	
-		return faqDao.faqList();
+	public List<FaqVO> faqList(FaqVO vo) throws Exception {	
+		return faqDao.faqList(vo);
 	}
 
 	@Override
@@ -67,6 +67,11 @@ public class BoardAdminServiceImpl implements BoardAdminService {
 	@Override
 	public void faqDelete(int faq_idx) throws Exception {
 		faqDao.faqDelete(faq_idx);
+	}
+	
+	@Override
+	public int selectFaqListCnt(FaqVO faqVO) throws Exception {
+		return faqDao.selectFaqListCnt(faqVO);
 	}
 
 	
@@ -176,7 +181,6 @@ public class BoardAdminServiceImpl implements BoardAdminService {
 	public int selectQnaListCnt(QnaVO qnaVO) throws Exception {
 		return qnaDao.selectQnaListCnt(qnaVO);
 	}
-
 
 
 }

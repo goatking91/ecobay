@@ -18,13 +18,14 @@ public class FaqVO {
 	/** 검색 **/
 	private String searchType;
 	private String keyWorld;
+	private String categoryCode;
 	
 	public FaqVO() {
 		
 	}
 	
 	public FaqVO(int faq_idx, String title, String content, Date regDate, Date modDate, CategoryVO category,
-			int startIndex, int cntPerPage, String searchType, String keyWorld) {
+			int startIndex, int cntPerPage, String searchType, String keyWorld, String categoryCode) {
 		super();
 		this.faq_idx = faq_idx;
 		this.title = title;
@@ -36,6 +37,7 @@ public class FaqVO {
 		this.cntPerPage = cntPerPage;
 		this.searchType = searchType;
 		this.keyWorld = keyWorld;
+		this.categoryCode = categoryCode;
 	}
 
 	public int getFaq_idx() {
@@ -76,7 +78,6 @@ public class FaqVO {
 
 	public void setModDate(Date modDate) {
 		this.modDate = modDate;
-	
 	}
 
 	public CategoryVO getCategory() {
@@ -118,12 +119,21 @@ public class FaqVO {
 	public void setKeyWorld(String keyWorld) {
 		this.keyWorld = keyWorld;
 	}
+	
+	public String getCategoryCode() {
+		return categoryCode;
+	}
+
+	public void setCategoryCode(String categoryCode) {
+		this.categoryCode = categoryCode;
+	}
 
 	@Override
 	public String toString() {
 		return "FaqVO [faq_idx=" + faq_idx + ", title=" + title + ", content=" + content + ", regDate=" + regDate
 				+ ", modDate=" + modDate + ", category=" + category + ", startIndex=" + startIndex + ", cntPerPage="
-				+ cntPerPage + ", searchType=" + searchType + ", keyWorld=" + keyWorld + "]";
+				+ cntPerPage + ", searchType=" + searchType + ", keyWorld=" + keyWorld + ", categoryCode="
+				+ categoryCode + "]";
 	}
 	
 	

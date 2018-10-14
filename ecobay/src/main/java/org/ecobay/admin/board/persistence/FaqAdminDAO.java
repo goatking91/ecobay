@@ -8,12 +8,14 @@ public interface FaqAdminDAO {
 	
 	public void regist(FaqVO vo) throws Exception;
 	
-	public List<FaqVO> faqList() throws Exception;
+	public List<FaqVO> faqList(FaqVO vo) throws Exception;
 	
 	public FaqVO faqLoad(int faq_idx) throws Exception;
 	
 	public void faqUpdate(FaqVO vo) throws Exception;
 	
 	public void faqDelete(int faq_idx) throws Exception;
+	
+	public int selectFaqListCnt(FaqVO vo) throws Exception;
 
 }

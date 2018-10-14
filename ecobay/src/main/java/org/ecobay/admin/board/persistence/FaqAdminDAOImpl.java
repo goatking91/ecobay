@@ -22,8 +22,8 @@ public class FaqAdminDAOImpl implements FaqAdminDAO {
 	}
 
 	@Override
-	public List<FaqVO> faqList() throws Exception {
-		return session.selectList(namespace + ".selectFaqList");	
+	public List<FaqVO> faqList(FaqVO vo) throws Exception {
+		return session.selectList(namespace + ".selectFaqList", vo);	
 	}
 
 	@Override
@@ -39,6 +39,11 @@ public class FaqAdminDAOImpl implements FaqAdminDAO {
 	@Override
 	public void faqDelete(int faq_idx) throws Exception {
 		session.delete(namespace + ".deleteFaq", faq_idx);
+	}
+
+	@Override
+	public int selectFaqListCnt(FaqVO vo) throws Exception {
+		return session.selectOne(namespace + ".selectFaqListCnt", vo);
 	}
 
 	

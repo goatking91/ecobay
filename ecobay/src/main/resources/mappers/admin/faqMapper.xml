@@ -14,10 +14,54 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		)
 	</insert>
 	
-	<select id="selectFaqList" resultType="FaqVO">
-		SELECT * 
-		FROM FAQ
-		ORDER BY REGDATE DESC
+	
+	
+	<resultMap type="FaqVO" id="selectFaqListResultMap">
+		<id column="FAQ_IDX" property="faq_idx" />
+		<result column="TITLE" property="title" />
+		<result column="CONTENT" property="content" />
+		<result column="REGDATE" property="regDate" />
+		<result column="MODDATE" property="modDate" />
+		<result column="CATEGORY_CD" property="categoryCode" />
+		<collection property="category" javaType="CategoryVO" ofType="CategoryVO">
+			<id column="CATEGORY_CD" property="category_cd" />
+			<result column="CATEGORY_NM" property="category_nm" />
+			<result column="REGDATE" property="regDate" />
+		</collection>
+	</resultMap>
+	<select id="selectFaqList" resultMap="selectFaqListResultMap" parameterType="FaqVO">
+		SELECT t1.*, t2.*
+		FROM FAQ t1 LEFT JOIN CATEGORY t2
+		ON t1.CATEGORY_CD = t2.CATEGORY_CD
+		WHERE t1.FAQ_IDX > 0 
+		AND t1.CATEGORY_CD like CONCAT('%',#{categoryCode},'%') 
+		<if test="keyWorld != null and keyWorld != ''">
+		  	<if test="searchType == 'all' or searchType == null">
+		  		<![CDATA[ 
+		  			AND t1.TITLE like CONCAT('%',#{keyWorld},'%')
+		  		]]>
+			</if>
+			<if test="searchType == 'title'">
+				<![CDATA[
+			  		AND t1.TITLE like CONCAT('%',#{keyWorld},'%')
+				]]>
+			</if>
+			<if test="searchType == 'content'">
+				<![CDATA[
+			  		AND t1.CONTENT like CONCAT('%',#{keyWorld},'%')
+				]]>
+			</if>
+			<if test="searchType == 'tnc'">
+				<![CDATA[
+			  		AND (
+			  			TITLE t1.like CONCAT('%',#{keyWorld},'%')
+			  			OR t1.CONTENT like CONCAT('%',#{keyWorld},'%')
+			  		)
+				]]>
+			</if> 
+		</if>
+		ORDER BY t1.FAQ_IDX DESC, t1.REGDATE DESC
+		LIMIT 0, 10;
 	</select>
 	
 	<select id="selectFaqOne" parameterType="int" resultType="FaqVO">
@@ -39,6 +83,45 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		DELETE FROM FAQ 
 		WHERE FAQ_IDX = #{faq_idx}
 	</delete>
+	
+	<select id="selectFaqListCnt" resultType="int" parameterType="FaqVO">
+		<![CDATA[ 
+			SELECT COUNT(FAQ_IDX)
+	        FROM FAQ
+	        WHERE FAQ_IDX > 0
+       		AND CATEGORY_CD like CONCAT('%',#{categoryCode},'%')
+       	]]>
+        <include refid="search" />
+	</select>
+	
+	
+	<sql id="search">
+		<if test="keyWorld != null and keyWorld != ''">
+		  	<if test="searchType == 'all' or searchType == null">
+		  		<![CDATA[ 
+		  			AND TITLE like CONCAT('%',#{keyWorld},'%')
+		  		]]>
+			</if>
+			<if test="searchType == 'title'">
+				<![CDATA[
+			  		AND TITLE like CONCAT('%',#{keyWorld},'%')
+				]]>
+			</if>
+			<if test="searchType == 'content'">
+				<![CDATA[
+			  		AND CONTENT like CONCAT('%',#{keyWorld},'%')
+				]]>
+			</if>
+			<if test="searchType == 'tnc'">
+				<![CDATA[
+			  		AND (
+			  			TITLE like CONCAT('%',#{keyWorld},'%')
+			  			OR CONTENT like CONCAT('%',#{keyWorld},'%')
+			  		)
+				]]>
+			</if> 
+		</if>
+	</sql>
  	
 </mapper>
 
