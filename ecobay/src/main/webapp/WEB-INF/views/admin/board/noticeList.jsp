@@ -32,6 +32,9 @@
 		<div class="row">
 			<div class="col-md-12" >
 				<div class="form-group row">
+					<div class="col-sm-4">
+						<a href="/admin/board/noticereg.do"><button type="button" class="btn btn-success">공지사항 등 록</button></a>
+					</div>
 					<div class="col-sm-3">
 						<div class="input-group">
 							<select class="custom-select" id="searchType" name="searchType">
@@ -42,7 +45,7 @@
 							</select>
 						</div>
 					</div>
-					<div class="col-sm-9">
+					<div class="col-sm-5">
 						<div class="input-group">
 							<input type="text" class="form-control" id="keyWorld" name="keyWorld" placeholder="검색내용을 입력하세요...">
 							<div class="input-group-append">

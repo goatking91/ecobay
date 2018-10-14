@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.ecobay.admin.mapper.CategoryMapper">
+	
+	<select id="selectCategory" resultType="CategoryVO" parameterType="String">
+		SELECT * 
+		FROM CATEGORY
+		WHERE CATEGORY_CD = #{category_cd}
+	</select>
+	
+	<select id="selectCategoryList" resultType="CategoryVO">
+		SELECT * 
+		FROM CATEGORY
+		ORDER BY REGDATE ASC
+	</select>
+	
+</mapper>
+

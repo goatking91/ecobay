@@ -7,10 +7,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<insert id="insertFaq" parameterType="FaqVO">
 		INSERT INTO FAQ (
-			TITLE, CONTENT, REGDATE, MODDATE
+			TITLE, CONTENT, REGDATE, MODDATE, CATEGORY_CD
 		)
 		VALUES ( 
-			#{title}, #{content}, now(), now() 
+			#{title}, #{content}, now(), now(), #{category.category_cd}
 		)
 	</insert>
 	

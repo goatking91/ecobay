@@ -1,6 +1,10 @@
 package org.ecobay.admin.board;
 
+import java.util.List;
+
+import org.ecobay.admin.board.domain.CategoryVO;
 import org.ecobay.admin.board.domain.FaqVO;
+import org.ecobay.admin.board.persistence.CategoryAdminDAO;
 import org.ecobay.admin.board.service.BoardAdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -16,6 +20,9 @@ public class FaqAdminController {
 	@Autowired
 	BoardAdminService service;
 	
+	@Autowired
+	private CategoryAdminDAO categoryAdminDAO;
+	
 	@RequestMapping(value="/faqlist.do", method = RequestMethod.GET)
     public String faqList(Model model) throws Exception {
 		model.addAttribute("faqList", service.faqList());
@@ -23,13 +30,20 @@ public class FaqAdminController {
     }
 	
 	@RequestMapping(value="/faqreg.do", method = RequestMethod.GET)
-    public String faqRegGET() {
+    public String faqRegGET(Model model) throws Exception {
+		
+		List<CategoryVO> categorys = categoryAdminDAO.categoryList();
+
+		model.addAttribute("categorys",categorys);
         return "admin/board/faqRegister.admin";
     }
 	
 	@RequestMapping(value="/faqreg.do", method = RequestMethod.POST)
-    public String faqRegPOST(FaqVO vo) throws Exception {
-		service.faqRegist(vo);
+    public String faqRegPOST(FaqVO faqVO, CategoryVO categoryVO) throws Exception {
+		
+		categoryVO = categoryAdminDAO.categoryLoad(categoryVO.getCategory_cd());
+		faqVO.setCategory(categoryVO);
+		service.faqRegist(faqVO);
 		
         return "redirect:/admin/board/faqlist.do";
     }

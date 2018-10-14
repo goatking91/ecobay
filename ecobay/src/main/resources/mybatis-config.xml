@@ -21,6 +21,7 @@
 		<typeAlias type="org.ecobay.admin.board.domain.NoticeFileVO" alias="NoticeFileVO"/>
 		<typeAlias type="org.ecobay.admin.board.domain.QnaVO" alias="QnaVO"/>
 		<typeAlias type="org.ecobay.admin.board.domain.QnaReplyVO" alias="QnaReplyVO"/>
+		<typeAlias type="org.ecobay.admin.board.domain.CategoryVO" alias="CategoryVO"/>
 		
 		<typeAlias type="org.ecobay.admin.member.domain.BlacklistVO" alias="BlacklistVO"/>
 	</typeAliases>
