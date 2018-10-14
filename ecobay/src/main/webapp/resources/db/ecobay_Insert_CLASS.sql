@@ -38,3 +38,11 @@ INSERT INTO CLASS VALUES ('CA', 'CO', '수집품', 'M', now(), now(), NULL, TRUE
 INSERT INTO CLASS VALUES ('CA', 'OA', '동양예술품', 'M', now(), now(), NULL, TRUE);
 INSERT INTO CLASS VALUES ('CA', 'WA', '서양예술품', 'M', now(), now(), NULL, TRUE);
 INSERT INTO CLASS VALUES ('CA', 'ZZ', '기타', 'M', now(), now(), NULL, TRUE);
+
+
+--카테고리
+INSERT INTO CATEGORY VALUES ('MI', '회원정보', now());
+INSERT INTO CATEGORY VALUES ('BI', '구매', now());
+INSERT INTO CATEGORY VALUES ('SI', '판매', now());
+INSERT INTO CATEGORY VALUES ('AI', '경매진행', now());
+INSERT INTO CATEGORY VALUES ('OT', '기타', now());
