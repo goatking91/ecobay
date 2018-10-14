@@ -5,11 +5,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 <mapper namespace="org.ecobay.user.mapper.NoticeMapper">
 	
-	<select id="selectNoticeList" resultType="NoticeVO">
+	<select id="selectNoticeList" resultType="NoticeVO"  parameterType="NoticeVO">
 		SELECT * 
 		FROM NOTICE
 		WHERE USE_YN = true
-		ORDER BY REGDATE DESC
+		AND NOTICE_IDX > 0
+		<include refid="search" />
+		ORDER BY NOTICE_IDX DESC, REGDATE DESC
+		LIMIT #{startIndex},#{cntPerPage}
 	</select>
 	
 	
@@ -74,13 +77,42 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		  FROM NOTICEFILE
 	</select>
 	
-	
 	<select id="selectNoticeTopList" resultType="NoticeVO">
 		SELECT * 
 		FROM NOTICE 
 		ORDER BY VIEWCNT DESC 
 		LIMIT 10
 	</select>
+	
+	<select id="selectNoticeListCnt" resultType="int" parameterType="NoticeVO">
+		SELECT COUNT(NOTICE_IDX)
+        FROM NOTICE
+        WHERE NOTICE_IDX > 0
+        <include refid="search" />
+	</select>
+	
+	
+	
+	
+	<sql id="search">
+		<if test="keyWorld != null and keyWorld != ''">
+		  	<if test="searchType == 'all' or searchType == null">
+		  		AND TITLE like CONCAT('%',#{keyWorld},'%')
+			</if>
+			<if test="searchType == 'title'">
+		  		AND TITLE like CONCAT('%',#{keyWorld},'%')
+			</if>
+			<if test="searchType == 'content'">
+		  		AND CONTENT like CONCAT('%',#{keyWorld},'%')
+			</if>
+			<if test="searchType == 'tnc'">
+		  		AND (
+		  			TITLE like CONCAT('%',#{keyWorld},'%')
+		  			OR CONTENT like CONCAT('%',#{keyWorld},'%')
+		  		)
+			</if> 
+		</if>
+	</sql>
 	
 	
 </mapper>

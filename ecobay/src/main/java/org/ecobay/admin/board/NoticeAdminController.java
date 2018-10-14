@@ -64,8 +64,6 @@ public class NoticeAdminController {
 		int listCnt = service.selectNoticeListCnt(noticeVO);
 		Pagination pagination = new Pagination(listCnt, movePage);
 		
-		System.out.println(keyWorld);
-		System.out.println(searchType);
 		noticeVO.setKeyWorld(keyWorld);
 		noticeVO.setSearchType(searchType);
 		noticeVO.setStartIndex(pagination.getStartIndex());

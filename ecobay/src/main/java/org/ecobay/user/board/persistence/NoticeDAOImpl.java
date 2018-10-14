@@ -17,8 +17,8 @@ public class NoticeDAOImpl implements NoticeDAO {
 	private static String namespace = "org.ecobay.user.mapper.NoticeMapper";
 
 	@Override
-	public List<NoticeVO> noticeList() throws Exception {
-		return session.selectList(namespace + ".selectNoticeList");	
+	public List<NoticeVO> noticeList(NoticeVO vo) throws Exception {
+		return session.selectList(namespace + ".selectNoticeList", vo);	
 	}
 
 	@Override
@@ -35,6 +35,11 @@ public class NoticeDAOImpl implements NoticeDAO {
 	@Override
 	public List<NoticeVO> ajaxNoticeTopList() throws Exception {
 		return session.selectList(namespace + ".selectNoticeTopList");	
+	}
+
+	@Override
+	public int selectNoticeListCnt(NoticeVO vo) throws Exception {
+		return session.selectOne(namespace + ".selectNoticeListCnt", vo);
 	}
 
 

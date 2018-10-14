@@ -6,76 +6,108 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<script src="/resources/bootstrap/js/bootstrap.js"></script>
-<script src="/resources/js/jquery-3.3.1.min.js"></script>
+	<meta charset="UTF-8">
+	<meta id="_csrf" name="_csrf" content="${_csrf.token}"/>
+	<meta id="_csrf_header" name="_csrf_header" content="${_csrf.headerName}"/>
+	<script src="/resources/js/NoticeList.js"></script>
 </head>
 <body>
 
-<div class="container">
-	<div class="row">
-		<div class="page-header" style="padding:2%">
-   	    	<h1>공지사항 </h1>
+	<div class="container">
+		<div class="row">
+			<div class="page-header" style="padding:2%">
+		  	    	<h1>공지사항</h1>
+			</div>
 		</div>
-		<div class="col-md-12" >
-			<form name="myform" action="list.do">
+		<!-- 검색 영역 -->
+		<div class="row">
+			<div class="col-md-12" >
 				<div class="form-group row">
 					<div class="col-sm-4"></div>
 					<div class="col-sm-3">
 						<div class="input-group">
-							<select class="custom-select" name="keyfield">
-				 				<option value="all" selected>전체검색</option>
-				 				<option value="title" selected>제목검색</option>
-				 				<option value="content" selected>내용검색</option>
+							<select class="custom-select" id="searchType" name="searchType">
+				 				<option value="all">전체검색</option>
+				 				<option value="title">제목</option>
+				 				<option value="content">내용</option>
+				 				<option value="tnc">제목+내용</option>
 							</select>
 						</div>
 					</div>
 					<div class="col-sm-5">
 						<div class="input-group">
-							<input type="text" class="form-control"
-								placeholder="검색내용을 입력하세요...">
+							<input type="text" class="form-control" id="keyWorld" name="keyWorld" placeholder="검색내용을 입력하세요...">
 							<div class="input-group-append">
-								<button class="btn btn-primary">검색</button>
+								<button type="button" id="searchBtn" class="btn btn-primary">검색</button>
 							</div>
 						</div>
 					</div>
 				</div>
-			</form>
-		</div>		 
-		<table class="table table-striped table-hover">
-		    <thead>
-		        <tr>
-		            <th>번호</th><th>제목</th>
-		            <th>작성자</th><th>등록일시</th><th>조회수</th>
-		        </tr>
-		    </thead>		    
-			<c:forEach var="notice" items="${noticeList}" varStatus="status">
-				<tr>
-				   <td>${status.index + 1}</td>
-				   <td><a href="/support/notice/noticedetail.do?idx=${notice.notice_idx }">${notice.title }</a></td>
-				   <td>관리자</td>
-				   <td><fmt:formatDate value="${notice.regDate}" pattern="yyyy-MM-dd"/></td>
-				   <td>${notice.viewCNT }</td>
-			    </tr>
-			    
-			</c:forEach>
-		</table>
-        </div>
-        <%-- <div align="center">
-		<tr>
-			<td colspan="6">
-				<c:if test="${startpage>10}">
-					<a href="#" class="btn btn-light">이전</a>
-				</c:if>
-				<c:forEach var="i" begin="${startpage}" end="${endpage}">
-					<a href="#" class="btn btn-primary">1</a>
-				</c:forEach>
-				<c:if test="${endpage<pagecount}">
-					<a href="#" class="btn btn-light">다음</a>
-				</c:if>
-			</td>
-		</tr>
-		</div> --%>
-</div>
+			</div>
+		</div>
+		
+		<!-- 리스트 영역 -->
+		<div class="row">
+			<div class="col-md-12">
+				<table class="table table-striped table-hover">
+				    <thead>
+				        <tr>
+				            <th width="10%">번호</th>
+				            <th width="60%">제목</th>
+				            <th width="10%">작성자</th>
+				            <th width="10%">등록일시</th>
+				            <th width="10%">조회수</th>
+				        </tr>
+				    </thead>
+				    <tbody id="noticeListTbody">
+				    
+				    	<c:forEach var="notice" items="${noticeList}" varStatus="status">
+							<tr>
+							   <td>${status.index + 1 }</td>
+							   <td><a href="/support/notice/noticedetail.do?idx=${notice.notice_idx }">${notice.title }</a></td>
+							   <td>관리자</td>
+							   <td><fmt:formatDate value="${notice.regDate}" pattern="yyyy-MM-dd"/></td>
+							   <td>${notice.viewCNT }</td>
+						    </tr>
+						</c:forEach>
+						
+					</tbody>
+				</table>
+			</div>
+		</div>
+		
+		<!-- 페이징 영역 -->
+		<div class="row">
+			<div class="col-lg-3"></div>
+			<div class="col-lg-6" align="center">
+				<div id="pagination">
+					<input type="hidden" id="curPage" value="${pagination.curPage }">
+				</div>
+			</div>
+			<div class="col-lg-3"></div>
+		</div>
+		
+	</div>
+
+
+	<!-- 모달 -->
+	<div id="myModal" class="modal" tabindex="-1" role="dialog">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title">title</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<p>body text</p>
+				</div>
+				<div class="modal-footer">
+	
+				</div>
+			</div>
+		</div>
+	</div>
 </body>
 </html>
