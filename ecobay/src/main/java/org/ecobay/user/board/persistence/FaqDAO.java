@@ -6,9 +6,11 @@ import org.ecobay.admin.board.domain.FaqVO;
 
 public interface FaqDAO {
 	
-	public List<FaqVO> faqList() throws Exception;
+	public List<FaqVO> faqList(FaqVO faqVO) throws Exception;
 	
 	public List<FaqVO> ajaxFaqTopList() throws Exception;
+	
+	public int selectFaqListCnt(FaqVO faqVO) throws Exception;
 	
 
 }

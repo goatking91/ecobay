@@ -35,13 +35,18 @@ public class BoardServiceImpl implements BoardService {
 	 * ============================================ */
 	
 	@Override
-	public List<FaqVO> faqList() throws Exception {
-		return faqDao.faqList();
+	public List<FaqVO> faqList(FaqVO faqVO) throws Exception {
+		return faqDao.faqList(faqVO);
 	}
 	
 	@Override
 	public List<FaqVO> LoadFaqTopList() throws Exception {
 		return faqDao.ajaxFaqTopList();
+	}
+
+	@Override
+	public int selectFaqListCnt(FaqVO faqVO) throws Exception {
+		return faqDao.selectFaqListCnt(faqVO);
 	}
 	
 	
@@ -50,8 +55,8 @@ public class BoardServiceImpl implements BoardService {
 	 * ============================================ */
 	
 	@Override
-	public List<NoticeVO> noticeList() throws Exception {
-		return noticeDao.noticeList();
+	public List<NoticeVO> noticeList(NoticeVO vo) throws Exception {
+		return noticeDao.noticeList(vo);
 	}
 
 	@Override
@@ -68,6 +73,12 @@ public class BoardServiceImpl implements BoardService {
 	public List<NoticeVO> LoadNoticeTopList() throws Exception {
 		return noticeDao.ajaxNoticeTopList();
 	}
+	
+	@Override
+	public int selectNoticeListCnt(NoticeVO noticeVO) throws Exception {
+		return noticeDao.selectNoticeListCnt(noticeVO);
+	}
+
 
 	
 	/* ============================================
@@ -79,7 +90,5 @@ public class BoardServiceImpl implements BoardService {
 		qnaDao.qnaRegist(vo);
 	}
 
-
-	
 
 }

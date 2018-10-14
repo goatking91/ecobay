@@ -18,13 +18,18 @@ public class FaqDAOImpl implements FaqDAO {
 	private static String namespace = "org.ecobay.user.mapper.FaqMapper";
 
 	@Override
-	public List<FaqVO> faqList() throws Exception {
-		return session.selectList(namespace + ".selectFaqList");	
+	public List<FaqVO> faqList(FaqVO faqVO) throws Exception {
+		return session.selectList(namespace + ".selectFaqList", faqVO);	
 	}
 
 	@Override
 	public List<FaqVO> ajaxFaqTopList() throws Exception {
 		return session.selectList(namespace + ".selectFaqTopList");
+	}
+
+	@Override
+	public int selectFaqListCnt(FaqVO faqVO) throws Exception {
+		return session.selectOne(namespace + ".selectFaqListCnt", faqVO);
 	}
 
 }
