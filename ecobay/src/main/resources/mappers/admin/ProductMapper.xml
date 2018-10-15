@@ -30,7 +30,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 						   FROM PRODUCT pp
 						  WHERE USE_YN = TRUE
 						    AND STATE_CD = '1'
-						  <include refid="search" />
+						  <include refid="reqsearch" />
 						) p, (SELECT @rownum:=0) tmp
 			   ) pd
 		   LIMIT #{startIndex},#{cntPerPage}
@@ -41,8 +41,21 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		  FROM PRODUCT
 		 WHERE USE_YN = TRUE
 		   AND STATE_CD = '1'
-		<include refid="search" />
+		<include refid="reqsearch" />
  	</select>
+ 	
+	<update id="updateProductState">
+		UPDATE PRODUCT
+		   SET  STATE_CD = #{state_cd}
+		      , STATE_NM = #{state_nm}
+		 WHERE PRODUCT_CD = #{product_cd}
+	</update>
+ 	
+ 	<sql id="reqsearch">
+		<if test="keyWord != null and keyWord != ''">
+			AND PRODUCT_NM like CONCAT('%',#{keyWord},'%')
+		</if>
+	</sql>
  	
  	<sql id="search">
 		<if test="keyWord != null and keyWord != ''">

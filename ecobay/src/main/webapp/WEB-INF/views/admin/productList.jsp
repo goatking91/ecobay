@@ -15,8 +15,8 @@
 		</h1>
 		<ol class="breadcrumb">
 			<li><a href="/admin/main.do"><i class="fa fa-dashboard"></i>Home</a></li>
-			<li><a href="/admin/Productlist.do">Product</a></li>
-			<li class="active"><a href="/admin/Productlist.do">List</a></li>
+			<li><a href="/admin/productlist.do">Product</a></li>
+			<li class="active"><a href="/admin/productlist.do">List</a></li>
 		</ol>
 	</section>
 	<!-- /페이지 헤더(제목) -->
@@ -24,24 +24,27 @@
 	<!-- 내용 -->
 	<section class="content container-fluid">
 	
-		<div class="col-md-12" >
-			<form>
+	<!-- 검색 영역 -->
+		<div class="row">
+			<div class="col-md-12" >
 				<div class="form-group row">
-					<div class="col-sm-4"></div>
+					<div class="col-sm-4">
+					</div>
 					<div class="col-sm-3">
 						<div class="input-group">
 							<select class="custom-select" id="searchType" name="searchType">
-				 				<option value="" selected>전체</option>
-				 				<option value="1" >요청</option>
-				 				<option value="2" >요청취소</option>
-				 				<option value="3" >승인</option>
-				 				<option value="4" >반려</option>
-				 				<option value="5" >낙찰</option>
-				 				<option value="6" >유찰</option>
-				 				<option value="7" >즉시구매</option>
+				 				<option value="">전체</option>
+				 				<option value="1">요청</option>
+				 				<option value="2">요청취소</option>
+				 				<option value="3">승인</option>
+				 				<option value="4">반려</option>
+				 				<option value="5">낙찰</option>
+				 				<option value="6">유찰</option>
+				 				<option value="7">즉시구매</option>
 							</select>
 						</div>
 					</div>
+					
 					<div class="col-sm-5">
 						<div class="input-group">
 							<input type="text" class="form-control" id="keyWord" name="keyWord" placeholder="검색어를 입력하세요...">
@@ -51,7 +54,7 @@
 						</div>
 					</div>
 				</div>
-			</form>
+			</div>
 		</div>
 			 
 		<table class="table table-striped table-hover">
@@ -83,7 +86,7 @@
 			<div class="col-lg-3"></div>
 			<div class="col-lg-6" align="center">
 				<div id="pagination">
-					<input type="hidden" id="curPage" value="${pagination.curPage }">
+					<input type="hidden" id="curPage" value="${pagination.curPage}">
 				</div>
 			</div>
 			<div class="col-lg-3"></div>
@@ -97,12 +100,12 @@
 	$(document).ready(function(){
 		var token = $("meta[name='_csrf']").attr("content");
 		var header = $("meta[name='_csrf_header']").attr("content");
-		
-	    $(document).ajaxSend(function(e, xhr, options) {
+
+		$(document).ajaxSend(function(e, xhr, options) {
 	        xhr.setRequestHeader(header, token);
 	    });
-	    
-	    var searchType = $("#searchType option:selected").val();
+		
+		var searchType = $("#searchType option:selected").val();
 		var keyWord = $('#keyWord').val();
 	    var nowPage = $('#curPage').val();
 	    
@@ -161,7 +164,7 @@
 					
 					$("#tbody").empty();
 					$("#tbody").append(htmlStr);
-					$("#mcnt").html("count: " + data.cnt);
+					$("#prodCnt").html("count: " + data.cnt);
 			            
 			        var htmlStr2 = "";
 			      		
@@ -194,7 +197,6 @@
 		            $('#pagination').empty();
 		            $('#pagination').append(htmlStr2);             
 		            $('#pagination').val('');
-		            
 			    },
 			    error : function(data) {
 			    	console.log("data : " + data);

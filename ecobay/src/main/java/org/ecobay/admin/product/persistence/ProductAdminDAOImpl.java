@@ -24,4 +24,19 @@ public class ProductAdminDAOImpl implements ProductAdminDAO {
 	public List<ProductVO> productList(ProductVO productVO) throws Exception {
 		return session.selectList(namespace + ".productList", productVO);
 	}
+
+	@Override
+	public int reqProductCount(ProductVO productVO) throws Exception {
+		return session.selectOne(namespace + ".reqProductCount", productVO);
+	}
+
+	@Override
+	public List<ProductVO> reqProductList(ProductVO productVO) throws Exception {
+		return session.selectList(namespace + ".reqProductList", productVO);
+	}
+
+	@Override
+	public void updateProductState(ProductVO productVO) throws Exception {
+		session.update(namespace + ".updateProductState", productVO);
+	}
 }

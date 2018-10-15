@@ -21,4 +21,19 @@ public class ProductAdminServiceImpl implements ProductAdminService {
 	public List<ProductVO> productList(ProductVO productVO) throws Exception {
 		return dao.productList(productVO);
 	}
+
+	@Override
+	public int reqProductCount(ProductVO productVO) throws Exception {
+		return dao.reqProductCount(productVO);
+	}
+
+	@Override
+	public List<ProductVO> reqProductList(ProductVO productVO) throws Exception {
+		return dao.reqProductList(productVO);
+	}
+
+	@Override
+	public void updateProductState(ProductVO productVO) throws Exception {
+		dao.updateProductState(productVO);
+	}
 }
