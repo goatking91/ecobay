@@ -52,4 +52,6 @@ import org.ecobay.user.product.domain.PaymentVO;
 	public void chkDel(List<String> list) throws Exception;
 	
 	public String paymentPrs(PaymentVO pvo, DeliveryVO dvo, AuctionInfoVO auctVO);
+	
+	public void stateChange(String product_cd) throws Exception;
 }

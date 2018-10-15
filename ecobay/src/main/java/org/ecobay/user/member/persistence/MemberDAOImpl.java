@@ -136,5 +136,10 @@ public class MemberDAOImpl implements MemberDAO {
 	public int buyCnt(String member_id) throws Exception {
 		return session.selectOne(namespace + ".buyCnt", member_id);
 	}
+
+	@Override
+	public void stateChange(String product_cd) throws Exception {
+		session.update(namespace + ".stateChange", product_cd);
+	}
 	
 }

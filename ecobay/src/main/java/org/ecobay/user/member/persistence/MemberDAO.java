@@ -54,4 +54,6 @@ public interface MemberDAO {
 	public List<MemberProductVO> buyList(MemberProductVO vo) throws Exception;
 	
 	public int buyCnt(String member_id) throws Exception;
+	
+	public void stateChange(String product_cd) throws Exception;
 }

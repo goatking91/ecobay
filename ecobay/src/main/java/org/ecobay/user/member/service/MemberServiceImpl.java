@@ -144,5 +144,10 @@ public class MemberServiceImpl implements MemberService {
 	public int buyCnt(String member_id) throws Exception {
 		return dao.buyCnt(member_id);
 	}
+
+	@Override
+	public void stateChange(String product_cd) throws Exception {
+		dao.stateChange(product_cd);
+	}
 	
 }

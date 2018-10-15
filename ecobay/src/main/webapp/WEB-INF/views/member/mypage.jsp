@@ -99,34 +99,31 @@ $(document).ready(function(){
 		});  
 		
 	});
+	$(document).on("click", "#stateChan", function(){//요청취소
+		$('#changeMessage').find('h4').text("요청을 취소하시겠습니까?");
+		$('#changeModal').modal('show');
+		
+		var product_cd = $('#prodcd').val();
+		
+		$('#ok').click(function(){
+
+			$.ajax({
+				async : true,
+				type : 'POST',
+				url : "/member/stateChange.do",
+				data : product_cd,
+				contentType: "application/json; charset=UTF-8",
+				success : function(data) {
+					$('#sellList-tap').tab('show');
+					sellListAjax(page);
+		        },
+		        error: function(data) {
+					console.log("error :" + data);
+				}
+			});
+		});
+	});
 	
-/* 	 $('#pwdChange-tap').click(function(){
-		
-		 $('#pwdChange').empty();
-		 
-		 var str = "";
-		 str = str + "<h3>비밀번호변경</h3>";
-		 str = str + "	<div class='form-group row row center' style='align:center;''>";
-		 str = str + "		<label class='col-sm-3 col-form-label text-right text-right' id='pwdlabel' for='pwd'>비밀번호</label>";
-		 str = str + "		<div class='col-sm-5'>";
-		 str = str + "			<input class='form-control' id='cpwd' name='pwd' type='password' placeholder='비밀번호'>";
-		 str = str + "			<span id='warning' style='color: red'></span>";
-		 str = str + "		</div>";
-		 str = str + "	</div>";
-		 str = str + "	<div class='form-group row'>";
-		 str = str + "		<label class='col-sm-3 col-form-label text-right' id='pwdcklabel' for='pwdck'>비밀번호 확인</label>";
-		 str = str + "		<div class="col-sm-5">";
-		 str = str + "			<input class='form-control' id='cpwdck' name='cpwdck' type='password' placeholder="비밀번호 확인">";
-		 str = str + "			<span id="warning2" style="color: red"></span>";
-		 str = str + "		</div>";
-		 str = str + "	</div>";
-		 str = str + "	<div class="form-group row">";
-		 str = str + "				<div class="col-sm text-center">";
-		 str = str + "					<input type="button" id="change" class="btn btn-lg btn-info" value="확인">";
-		 str = str + "				</div>	";
-		 str = str + "	</div>    "; 
-		
-	});  */
 	
 	$('#sellList-tap').click(function(){
 		
@@ -349,14 +346,7 @@ $(document).ready(function(){
 					str = str + "</div>";
 					console.log(data.arr);
 
-					$.each(data.arr, function(index, arr){
-						
-						var state_cd = arr.state_cd;
-						if(state_cd == '3'){
-							state_cd = "진행중";
-						}else{
-							state_cd = "경매종료";
-						}
+					$.each(data.arr, function(index, arr){						
 						str = str + "<div class='form-group row col-sm-12' style='padding:15px; margin:10px'>";
 						str = str + "	<div class='col-sm-1' style='padding-top:35px'>";
 						str = str + "		<input type='checkbox' class='check' id='checkBox' value=" + arr.product_cd + ">";
@@ -367,7 +357,17 @@ $(document).ready(function(){
 						str = str + "		<div><a style='color:grey; text-decoration: none' href='/product/detail.do?product_cd=" + arr.product_cd + "'>"+ arr.product_cd + "</a></div>";
 						str = str + "		<div id='product_nm'>" + arr.product_nm + "</div>";
 						str = str + "	</div>";
-						str = str + "	<div id='' class='col-sm-3' align='right' style='padding-top:35px'>" + state_cd + "</div>";
+						if(arr.state_cd == '3'){
+							str = str + "	<div id='' class='col-sm-3' align='right' style='padding-top:35px'>진행중</div>";
+						}else if(arr.state_cd == '1'){
+							str = str + "<buttton class='btn btn-info' id='stateChan' style='height:30%; margin-top:35px; margin-left:20px'>요청취소</buttton>";
+							str = str + "<input type='hidden' id='prodcd' value='"+ arr.product_cd +"'>";
+						}else if(arr.state_cd == '2'){
+							str = str + "	<div id='' class='col-sm-3' align='right' style='padding-top:35px'>요청취소</div>";
+						}else{
+							state_cd = "경매종료";
+						}
+						
 						str = str + "</div><hr>";
 
 					});
@@ -843,6 +843,33 @@ $(document).ready(function(){
   </div>
 </div>
 
+<!-- 요청취소 -->
+<div class="modal fade" id="changeModal" tabindex="-1" role="dialog" aria-labelledby="changeModal" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modaltitlee">안내</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form>
+	      	<div class="row">
+	      		<div class="col-md">
+		          <div id="changeMessage">
+					<h4 align="center"></h4>
+		          </div>
+		      </div>		      	
+		   </div>
+	      </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal" id='ok'>확인</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 
 

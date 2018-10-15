@@ -60,6 +60,12 @@ public class MemberController {
    
     
     @ResponseBody
+    @RequestMapping(value = "/stateChange.do", method = RequestMethod.POST)
+    public void stateChangePOST(@RequestBody String product_cd) throws Exception {
+    	service.stateChange(product_cd);
+    }
+    
+    @ResponseBody
     @RequestMapping(value = "/checkDel.do", method = RequestMethod.POST)
     public ResponseEntity<String> checkDelPOST(@RequestBody Object product_cd) throws Exception {
     	List<String> list = (List<String>) product_cd;
