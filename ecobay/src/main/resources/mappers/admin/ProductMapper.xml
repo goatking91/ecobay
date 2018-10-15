@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.ecobay.admin.mapper.ProductMapper">
+	<select id="productList" resultType="ProductVO">
+		SELECT pd.*
+		  FROM( SELECT @rownum:=@rownum+1 AS rn, p.*
+				  FROM ( SELECT pp.*
+						   FROM PRODUCT pp
+						  WHERE USE_YN = TRUE
+						  <include refid="search" />
+						) p, (SELECT @rownum:=0) tmp
+			   ) pd
+		   LIMIT #{startIndex},#{cntPerPage}
+	</select>
+	
+	<select id="productCount" resultType="int">
+		SELECT COUNT(*)
+		  FROM PRODUCT
+		 WHERE USE_YN = TRUE
+		<include refid="search" />
+ 	</select>
+ 	
+	<select id="reqProductList" resultType="ProductVO">
+		SELECT pd.*
+		  FROM( SELECT @rownum:=@rownum+1 AS rn, p.*
+				  FROM ( SELECT pp.*
+						   FROM PRODUCT pp
+						  WHERE USE_YN = TRUE
+						    AND STATE_CD = '1'
+						  <include refid="search" />
+						) p, (SELECT @rownum:=0) tmp
+			   ) pd
+		   LIMIT #{startIndex},#{cntPerPage}
+	</select>
+	
+	<select id="reqProductCount" resultType="int">
+		SELECT COUNT(*)
+		  FROM PRODUCT
+		 WHERE USE_YN = TRUE
+		   AND STATE_CD = '1'
+		<include refid="search" />
+ 	</select>
+ 	
+ 	<sql id="search">
+		<if test="keyWord != null and keyWord != ''">
+			AND PRODUCT_NM like CONCAT('%',#{keyWord},'%')
+		</if>
+		<if test="searchType != null and searchType != ''">
+			AND STATE_CD = #{searchType}
+		</if>
+	</sql>
+</mapper>

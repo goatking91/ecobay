@@ -40,6 +40,15 @@ public class ProductVO {
 	private String acutdate_end_str; // 경매종료일시(String)
 	private long money_first; // 시작가
 	
+	/** 페이징 **/
+	private int startIndex;
+	private int cntPerPage;
+	private int movePage;
+	
+	/** 검색 **/
+	private String searchType;
+	private String keyWord;
+	
 	public ProductVO() { 
 		
 	}
@@ -47,9 +56,10 @@ public class ProductVO {
 	public ProductVO(String product_cd, String product_nm, String member_id, String class_big_cd, String class_big_nm,
 			String class_mid_cd, String class_mid_nm, String content, String state_cd, String state_nm, Date regdate,
 			Date moddate, Date deldate, Boolean use_yn, int viewcnt, List<ProductImageVO> ivo, AuctionInfoVO avo,
-			DeliveryInfoVO dvo, int rn, String searchVal, int start_num, int end_num, int bid_cnt, 
-			long bid_max_money, long money_first,
-			String filename_thumb, String acutdate_start_str, String acutdate_end_str) {
+			DeliveryInfoVO dvo, int rn, String searchVal, int start_num, int end_num, int bid_cnt, long bid_max_money,
+			String filename_thumb, String acutdate_start_str, String acutdate_end_str, long money_first, int startIndex,
+			int cntPerPage, int movePage, String searchType, String keyWord) {
+		super();
 		this.product_cd = product_cd;
 		this.product_nm = product_nm;
 		this.member_id = member_id;
@@ -74,11 +84,17 @@ public class ProductVO {
 		this.end_num = end_num;
 		this.bid_cnt = bid_cnt;
 		this.bid_max_money = bid_max_money;
-		this.money_first = money_first;
 		this.filename_thumb = filename_thumb;
 		this.acutdate_start_str = acutdate_start_str;
 		this.acutdate_end_str = acutdate_end_str;
+		this.money_first = money_first;
+		this.startIndex = startIndex;
+		this.cntPerPage = cntPerPage;
+		this.movePage = movePage;
+		this.searchType = searchType;
+		this.keyWord = keyWord;
 	}
+
 
 	public String getProduct_cd() {
 		return product_cd;
@@ -305,20 +321,61 @@ public class ProductVO {
 	public void setAcutdate_end_str(String acutdate_end_str) {
 		this.acutdate_end_str = acutdate_end_str;
 	}
-
 	
+	
+	public int getStartIndex() {
+		return startIndex;
+	}
+
+	public void setStartIndex(int startIndex) {
+		this.startIndex = startIndex;
+	}
+
+	public int getCntPerPage() {
+		return cntPerPage;
+	}
+
+	public void setCntPerPage(int cntPerPage) {
+		this.cntPerPage = cntPerPage;
+	}
+
+	public int getMovePage() {
+		return movePage;
+	}
+
+	public void setMovePage(int movePage) {
+		this.movePage = movePage;
+	}
+
+	public String getSearchType() {
+		return searchType;
+	}
+
+	public void setSearchType(String searchType) {
+		this.searchType = searchType;
+	}
+
+	public String getKeyWord() {
+		return keyWord;
+	}
+
+	public void setKeyWord(String keyWord) {
+		this.keyWord = keyWord;
+	}
+
 	@Override
 	public String toString() {
 		return "ProductVO ["
 				+ "product_cd=" + product_cd + ", product_nm=" + product_nm + ", member_id=" + member_id
 				+ ", class_big_cd=" + class_big_cd + ", class_big_nm=" + class_big_nm + ", class_mid_cd=" + class_mid_cd
-				+ ", class_mid_nm=" + class_mid_nm + ", content=" + content + ", state_cd=" + state_cd + ", state_nm="
-				+ state_nm + ", regdate=" + regdate + ", moddate=" + moddate + ", deldate=" + deldate + ", use_yn="
-				+ use_yn + ", viewcnt=" + viewcnt + ", ivo=" + ivo + ", avo=" + avo + ", dvo=" + dvo + ", rn=" + rn
-				+ ", searchVal=" + searchVal + ", start_num=" + start_num + ", end_num=" + end_num + ", bid_cnt="
-				+ bid_cnt + ", bid_max_money=" + bid_max_money + ", money_first=" + money_first
-				+ ", filename_thumb=" + filename_thumb
+				+ ", class_mid_nm=" + class_mid_nm + ", content=" + content + ", state_cd=" + state_cd 
+				+ ", state_nm=" + state_nm + ", regdate=" + regdate + ", moddate=" + moddate + ", deldate=" + deldate 
+				+ ", use_yn=" + use_yn + ", viewcnt=" + viewcnt + ", ivo=" + ivo + ", avo=" + avo + ", dvo=" + dvo 
+				+ ", rn=" + rn + ", searchVal=" + searchVal + ", start_num=" + start_num + ", end_num=" + end_num 
+				+ ", bid_cnt=" + bid_cnt + ", bid_max_money=" + bid_max_money + ", filename_thumb=" + filename_thumb
 				+ ", acutdate_start_str=" + acutdate_start_str + ", acutdate_end_str=" + acutdate_end_str
+				+ ", money_first=" + money_first + ", startIndex=" + startIndex + ", cntPerPage=" + cntPerPage
+				+ ", movePage=" + movePage + ", searchType=" + searchType + ", keyWord=" + keyWord 
 				+ "]";
 	}
 }

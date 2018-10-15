@@ -60,8 +60,8 @@
 						</span>
 					</a>
 					<ul class="treeview-menu">
-						<li><a href="/admin/prodlist.do">상품현황</a></li>
-						<li><a href="/admin/prodreqlist.do">요청상품</a></li>
+						<li><a href="/admin/productlist.do">상품현황</a></li>
+						<li><a href="/admin/productreqlist.do">요청상품</a></li>
 					</ul>
 				</li>
 				
