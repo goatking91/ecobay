@@ -93,6 +93,15 @@
 			background-color: #F2F2F2; 
 			vertical-align: middle;
 		}
+		
+		.nav-filter 
+		{
+		    background-color: #f3f3f3;
+		    border: 1px;
+		    border-style: solid;
+		    font-weight: 600;
+		    color: black;
+		}
 	</style>
 	
 	
@@ -131,7 +140,7 @@
  		<div id="product-detail-info" class="row"><!--  important; -->
 		
 			<!-- 이미지 출력 영역 시작 -->
-			<div class="product-detail-thum col-sm-12 col-md-6">
+			<div class="product-detail-thum col-sm-12 col-md-6" style="margin-top: 20px;">
 				<h4>${prod.product_nm}</h4>
  				<div class="bxslider">
 					<c:forEach items="${img}" var="img">
@@ -142,12 +151,11 @@
 			<!-- 상품정보 출력영역 -->
 			<div class="product-detail-spec col-sm-12 col-md-6">
 				<div class="table-responsive">
-					<label style="float:right;" id="remain"></label>
 					<input id="endTime" type="hidden" value="${auct.acutdate_end_str}"> 
 					<table class="table">
 						<tr>
 							<th class="detailTitle">현재가</th>
-							<td colspan="2"><input type="text" size="10" name="moneyBid" id="moneyBid" style="border: none;" readOnly
+							<td><input type="text" size="10" name="moneyBid" id="moneyBid" style="border: none;" readOnly
 									<c:choose>
 										<c:when test="${prod.bid_max_money eq 0}">value='${auct.money_first}원'</c:when>
 										<c:otherwise>
@@ -155,6 +163,7 @@
 										</c:otherwise>
 									</c:choose>>
 							</td>
+							<td style="padding-right: 0pt;"><p style="float:right; color:white; background-color: rgb(17, 77, 165); margin: 0pt; " id="remain"></p></td>
 						</tr>
 						
 						<tr>
@@ -182,7 +191,9 @@
 									<td name="baynow_money" id="baynow_money">${auct.baynow_money}원</td>
 									<td style="text-align: center;">
 										<c:if test="${userid != null}">
-											<button type="button" class="btn btn-danger btn-sm" name="baynow_money" id="baynowBtn">즉시구매하기</button>
+											<c:if test="${prod.member_id != userid}">
+												<button type="button" class="btn btn-danger btn-sm" name="baynow_money" id="baynowBtn">즉시구매하기</button>
+											</c:if>
 										</c:if>
 									</td>
 								</c:when>
@@ -190,7 +201,9 @@
 									<td name="baynow_money" id="baynow_money">-원</td>
 									<td style="text-align: center;">
 										<c:if test="${userid != null}">
-											<button type="button" class="btn btn-danger btn-sm" name="baynow_money" id="baynowBtn" >즉시구매불가</button>
+											<c:if test="${prod.member_id != userid}">
+												<button type="button" class="btn btn-danger btn-sm" name="baynow_money" id="baynowBtn" >즉시구매불가</button>
+											</c:if>
 										</c:if>
 									</td>
 								</c:otherwise>
@@ -219,9 +232,11 @@
 						<tr>
 							<td colspan="3" style="vertical-align: middle; text-align: center;">
 								<c:if test="${userid != null}">
-									<c:if test="${prod.state_cd == '3'}">
-										<button type="button" class="btn btn-primary" id=bidRegBtn>입찰하기</button>
-										<button type="button" class="btn btn-primary" id=bidWishBtn>관심상품</button>
+									<c:if test="${prod.member_id != userid}">
+										<c:if test="${prod.state_cd == '3'}">
+											<button type="button" class="btn btn-primary" id=bidRegBtn>입찰하기</button>
+											<button type="button" class="btn btn-primary" id=bidWishBtn>관심상품</button>
+										</c:if>
 									</c:if>
 								</c:if>
 							</td>
@@ -233,10 +248,13 @@
 			
 			<!-- 탭 영역 -->
 			<div class="col-sm-12">
-				<nav class="nav nav-tabs" id="myTab" role="tablist">
+				<nav class="nav nav-pills nav-fill nav-filter"> <!-- <nav class="nav nav-tabs" id="myTab" role="tablist"> -->
 					<a class="nav-item nav-link active" id="nav-content-tab" data-toggle="tab" href="#nav-content" role="tab" aria-controls="nav-content" aria-selected="true">상품정보</a>
 					<a class="nav-item nav-link" id="nav-qna-tab" data-toggle="tab" href="#nav-qna" role="tab" aria-controls="nav-qna" aria-selected="false">상품문의</a>
+<!-- 					<a class="nav-item" href="#" aria-selected="false"></a>
+					<a class="nav-item" href="#" aria-selected="false"></a> -->
 				</nav>
+				
 				<div class="tab-content" id="nav-tabContent">
 					<div class="tab-pane fade show active" id="nav-content" role="tabpanel" aria-labelledby="nav-content-tab">
 						<div class="container">
@@ -286,12 +304,12 @@
 					
 						<div class="row">
 							<div class="col-md">
-								<input type="text" class="form-control" name="title" id="qtitle">
+								<input type="text" class="form-control" name="title" id="qtitle" placeholder="제목을 넣어주세요.">
 							</div>
 						</div>
 						<div class="row">
 							<div class="col-md">
-								<textarea class="form-control" cols="3" name="content" id="qcontent"></textarea>
+								<textarea class="form-control" cols="5" name="content" id="qcontent" placeholder="내용을 넣어주세요."></textarea>
 							</div>
 						</div>
 						
@@ -339,7 +357,7 @@
 						</div>
 						<div class="row">
 							<div class="col-md">
-								<textarea class="form-control" cols="3" name="content" id="acontent"></textarea>
+								<textarea class="form-control" cols="5" name="content" id="acontent" placeholder="내용을 넣어주세요."></textarea>
 							</div>
 						</div>
 						<div class="modal-footer">
@@ -412,24 +430,34 @@
 		function auctTime(){
 			var dateTime = new Date().getTime();
 			
-			if(endDateTime > dateTime) {
-				var difference_ms = endDateTime - dateTime;
-				difference_ms = difference_ms / 1000;
-				var seconds = Math.floor(difference_ms % 60);
-				difference_ms = difference_ms / 60; 
-				var minutes = Math.floor(difference_ms % 60);
-				difference_ms = difference_ms / 60; 
-				var hours = Math.floor(difference_ms % 24);  
-				var days = Math.floor(difference_ms / 24);
-				
-				seconds = (seconds < 10) ? "0" + seconds : seconds;
-				minutes = (minutes < 10) ? "0" + minutes : minutes;
-				hours = (hours < 10) ? "0" + hours : hours;
-	
-				document.getElementById("remain").innerHTML = "남은시간 : " + days + "일 " + hours + "시간 " + minutes + "분 " + seconds + "초";
-				setTimeout(auctTime, 1000);
-			}else {
-				document.getElementById("remain").innerHTML = "경매종료";
+			if(${prod.state_cd == '3'}) {
+				if(endDateTime > dateTime) {
+					var difference_ms = endDateTime - dateTime;
+					difference_ms = difference_ms / 1000;
+					var seconds = Math.floor(difference_ms % 60);
+					difference_ms = difference_ms / 60; 
+					var minutes = Math.floor(difference_ms % 60);
+					difference_ms = difference_ms / 60; 
+					var hours = Math.floor(difference_ms % 24);  
+					var days = Math.floor(difference_ms / 24);
+					
+					seconds = (seconds < 10) ? "0" + seconds : seconds;
+					minutes = (minutes < 10) ? "0" + minutes : minutes;
+					hours = (hours < 10) ? "0" + hours : hours;
+		
+					document.getElementById("remain").innerHTML = "&nbsp;&nbsp;남은시간 : " + days + "일 " + hours + "시간 " + minutes + "분 " + seconds + "초&nbsp;&nbsp;";
+					setTimeout(auctTime, 1000);
+				}
+				else {
+					document.getElementById("remain").innerHTML = "&nbsp;&nbsp;남은시간 : 경매종료&nbsp;&nbsp;";
+					
+					$('#baynowBtn').text("즉시구매불가"); // 경매종료시 메세지 변경.
+					$("#bidRegBtn").css("visibility", "hidden"); // 입찰하기 버튼 비활성화
+					$("#bidWishBtn").css("visibility", "hidden"); // 관심상품 등록 버튼 비활성화(틀은 고정.)
+				}
+			}
+			else {
+				document.getElementById("remain").innerHTML = "&nbsp;&nbsp;남은시간 : 경매종료&nbsp;&nbsp;";
 				
 				$('#baynowBtn').text("즉시구매불가"); // 경매종료시 메세지 변경.
 				$("#bidRegBtn").css("visibility", "hidden"); // 입찰하기 버튼 비활성화
@@ -853,12 +881,13 @@
 		    	 			str = str + "	</td>";
 		    	 			str = str + "</tr>";
 		    	 			str = str + "<tr class='collapse' id='data_" + arr.qna_idx + "'>";
-		    	 			str = str + "	<td colspan='5'>";
-		    	 			str = str + "		<label class='form-control' style='border: 0px; background: transparent;' id='qcontent" + arr.qna_idx + "'>" + arr.content + "</label>";
+		    	 			str = str + "	<td></td>";
+		    	 			str = str + "	<td colspan='4'>";
+		    	 			str = str + "		[문의내용]<br><label class='form-control' style='border: 0px; background: transparent;' id='qcontent" + arr.qna_idx + "'>" + arr.content + "</label>";
 		    	 			
 		    	 			if(arr.qna_reply != '') {
 		    	 				//str = str + "		<hr><input type='text' style='border: 0px;' value='" + arr.qna_reply + "' readonly>";
-		    	 				str = str + "		<hr><label class='form-control' style='border: 0px; background: transparent;'>" + arr.qna_reply + "</label>";
+		    	 				str = str + "		<hr>[답변내용]<br><label class='form-control' style='border: 0px; background: transparent;'>" + arr.qna_reply + "</label>";
 		    	 			}
 		    	 			
 		    	 			str = str + "	</td>";

@@ -56,30 +56,38 @@
 				</div>
 			</div>
 		</div>
-			 
-		<table class="table table-striped table-hover">
-		    <thead>
-   				<tr align="right">
-					<td colspan="4" id="prodCnt">count: ${pcnt}</td>
-				</tr>
-		        <tr>
-		            <th>번호</th><th>제목</th><th>등록일시</th><th>상태</th>
-		        </tr>
-		    </thead>
-		    <tbody id="tbody">		    
-				<c:forEach var="list" items="${list}">
-				    <tr>
-				    	<td>${list.rn}</td>
-				    	<td>${list.product_nm}</td>
-				    	<td><fmt:formatDate value="${list.regdate}" pattern="yyyy-MM-dd"/></td>
-				    	<td>
-				    		${list.state_nm}
-				    		<input type="hidden" style="display: none;" id="state_cd" value="${list.state_cd}">
-				    	</td>
-				    </tr>
-				</c:forEach>
-			</tbody>
-		</table>
+
+		<!-- 리스트 영역 -->
+		<div class="row">
+			<div class="col-md-12">			 
+				<table class="table table-striped table-hover">
+				    <thead>
+		   				<tr align="right">
+							<td colspan="4" id="prodCnt">count: ${pcnt}</td>
+						</tr>
+				        <tr>
+				            <th width="10%">번호</th>
+				            <th width="55%">제목</th>
+				            <th width="20%">등록일시</th>
+				            <th width="15%">상태</th>
+				        </tr>
+				    </thead>
+				    <tbody id="tbody">		    
+						<c:forEach var="list" items="${list}">
+						    <tr>
+						    	<td>${list.rn}</td>
+						    	<td>${list.product_nm}</td>
+						    	<td><fmt:formatDate value="${list.regdate}" pattern="yyyy-MM-dd"/></td>
+						    	<td>
+						    		${list.state_nm}
+						    		<input type="hidden" style="display: none;" id="state_cd" value="${list.state_cd}">
+						    	</td>
+						    </tr>
+						</c:forEach>
+					</tbody>
+				</table>
+			</div>
+		</div>
  
 		<!-- 페이징 영역 -->
 		<div class="row">

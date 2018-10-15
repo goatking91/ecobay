@@ -43,7 +43,45 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		   AND STATE_CD = '1'
 		<include refid="reqsearch" />
  	</select>
- 	
+
+	<select id="selectDetailProd" resultType="productVO">
+		SELECT    prod.PRODUCT_CD, prod.PRODUCT_NM, prod.MEMBER_ID
+                , prod.STATE_CD, prod.STATE_NM, prod.VIEWCNT
+                , IFNULL(prod.CONTENT, '') as CONTENT
+				, (SELECT COUNT(bid.PRODUCT_CD) FROM BIDINFO bid WHERE bid.PRODUCT_CD = prod.PRODUCT_CD) as BID_CNT
+				, IFNULL((SELECT MAX(bid.MONEY_BID) FROM BIDINFO bid WHERE bid.PRODUCT_CD = prod.PRODUCT_CD), 0) as BID_MAX_MONEY
+		   FROM PRODUCT prod
+		  WHERE prod.USE_YN = TRUE
+		    AND prod.PRODUCT_CD = #{product_cd}
+	</select>
+	
+	<select id="selectDetailAuct" resultType="AuctionInfoVO">
+		SELECT    auct.PRODUCT_CD
+                , IFNULL(auct.AUCTDATE_UNIT, 0) as AUCTDATE_UNIT
+                , IFNULL(DATE_FORMAT(auct.ACUTDATE_START, '%Y-%m-%d %H:%s'), '') as ACUTDATE_START_STR
+                , IFNULL(DATE_FORMAT(auct.ACUTDATE_END, '%Y-%m-%d %H:%s'), '') as ACUTDATE_END_STR
+				, IFNULL(auct.MONEY_FIRST, 0) as MONEY_FIRST
+                , IFNULL(auct.MONEY_UNIT, 0) as MONEY_UNIT
+                , auct.BAYNOW_YN
+                , IFNULL(auct.BAYNOW_MONEY, 0) as BAYNOW_MONEY
+		   FROM AUCTIONINFO auct
+		  WHERE auct.PRODUCT_CD = #{product_cd}
+	</select>
+	
+	<select id="selectDetailDeli" resultType="DeliveryInfoVO">
+		SELECT    deli.PRODUCT_CD
+                , IFNULL(deli.DELI_DIV_CD, '') as DELI_DIV_CD
+                , IFNULL(deli.DELI_DIV_NM, '') as DELI_DIV_NM
+		   FROM DELIVERYINFO deli
+		  WHERE deli.PRODUCT_CD = #{product_cd}
+	</select>
+	
+	<select id="selectImageList" resultType="ProductImageVO">
+		SELECT *
+		  FROM PRODUCTIMG
+		 WHERE PRODUCT_CD = #{product_cd}
+	</select>
+	
 	<update id="updateProductState">
 		UPDATE PRODUCT
 		   SET  STATE_CD = #{state_cd}

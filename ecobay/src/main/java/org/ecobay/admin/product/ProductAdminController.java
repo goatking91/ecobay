@@ -112,11 +112,12 @@ public class ProductAdminController {
 	@RequestMapping(value="/productreqproc.do", method = RequestMethod.POST)
 	public ResponseEntity<String> productReqProc(@RequestBody ProductVO productVO) throws Exception{
 		ResponseEntity<String> entity = null;
+		
 		try {
 			String statecd = productVO.getState_cd();
 			
-			if(statecd == "3" || statecd == "4") {
-				if(statecd == "3") {
+			if(statecd.equals("3") || statecd.equals("4")) {
+				if(statecd.equals("3")) {
 					productVO.setState_nm("승인");
 				}
 				else {
@@ -135,4 +136,21 @@ public class ProductAdminController {
 		}
 		return entity;
 	}
+	
+	@ResponseBody
+    @RequestMapping(value = "/ajaxreqproductdetail.do")
+    public Map<String, Object> detail(@RequestParam("product_cd") String product_cd) throws Exception {
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+    	ProductVO productVO = service.selectDetailProd(product_cd);
+    	
+    	if(productVO != null) {
+    		map.put("prod", productVO);	
+    		map.put("img", service.selectImageList(product_cd));
+    		map.put("auct", service.selectDetailAuct(product_cd));
+    		map.put("deli", service.selectDetailDeli(product_cd));
+    	}
+    	
+    	return map;
+    }
 }

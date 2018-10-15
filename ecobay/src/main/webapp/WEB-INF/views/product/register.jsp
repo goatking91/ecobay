@@ -42,7 +42,7 @@
 			<div class="table-responsive">
 				<table class="table">
 					<tr>
-						<th colspan="2">물품정보</th>
+						<th colspan="2"><h1>물품정보</h1></th>
 						<td style="text-align: right; vertical-align: bottom;"><font  size="1">* 표시는 필수 항목입니다.</font></td>
 					</tr>
 

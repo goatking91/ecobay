@@ -3,6 +3,9 @@ package org.ecobay.admin.product.persistence;
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
+import org.ecobay.user.product.domain.AuctionInfoVO;
+import org.ecobay.user.product.domain.DeliveryInfoVO;
+import org.ecobay.user.product.domain.ProductImageVO;
 import org.ecobay.user.product.domain.ProductVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -38,5 +41,25 @@ public class ProductAdminDAOImpl implements ProductAdminDAO {
 	@Override
 	public void updateProductState(ProductVO productVO) throws Exception {
 		session.update(namespace + ".updateProductState", productVO);
+	}
+
+	@Override
+	public ProductVO selectDetailProd(String product_cd) throws Exception {
+		return session.selectOne(namespace + ".selectDetailProd", product_cd);
+	}
+
+	@Override
+	public AuctionInfoVO selectDetailAuct(String product_cd) throws Exception {
+		return session.selectOne(namespace + ".selectDetailAuct", product_cd);
+	}
+
+	@Override
+	public DeliveryInfoVO selectDetailDeli(String product_cd) throws Exception {
+		return session.selectOne(namespace + ".selectDetailDeli", product_cd);
+	}
+
+	@Override
+	public List<ProductImageVO> selectImageList(String product_cd) throws Exception {
+		return session.selectList(namespace + ".selectImageList",product_cd);
 	}
 }
