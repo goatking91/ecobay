@@ -12,6 +12,7 @@
 	<security:http auto-config="true" use-expressions="true">
 		<security:intercept-url pattern="/" access="permitAll" />
 		<security:intercept-url pattern="/main.do" access="permitAll" />
+		<security:intercept-url pattern="/intro.do" access="permitAll" />
 		<security:intercept-url pattern="/login.do" access="permitAll" />
 		<security:intercept-url pattern="/ajaxfaqlist.do" access="permitAll" />
 		<security:intercept-url pattern="/ajaxnoticelist.do" access="permitAll" />

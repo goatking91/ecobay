@@ -40,4 +40,11 @@ public class MainController {
     	return "login.part";
     }
 	
+	//소개페이지
+	@RequestMapping(value="/intro.do", method = RequestMethod.GET)
+    public String intro() {
+    	return "introduction.page";
+    }
+	
+	
 }
