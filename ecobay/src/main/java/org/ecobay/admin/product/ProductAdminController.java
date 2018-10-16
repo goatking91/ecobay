@@ -14,6 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -138,18 +139,72 @@ public class ProductAdminController {
 	}
 	
 	@ResponseBody
-    @RequestMapping(value = "/ajaxreqproductdetail.do")
-    public Map<String, Object> detail(@RequestParam("product_cd") String product_cd) throws Exception {
+    @RequestMapping(value = "/ajaxreqproductdetail.do/{product_cd}", method = RequestMethod.POST)
+    public Map<String, Object> ajaxReqProductDetail(@PathVariable("product_cd") String product_cd) throws Exception {
 		Map<String, Object> map = new HashMap<String, Object>();
 		
     	ProductVO productVO = service.selectDetailProd(product_cd);
     	
     	if(productVO != null) {
-    		map.put("prod", productVO);	
+    		map.put("prod", productVO);
     		map.put("imglist", service.selectImageList(product_cd));
     		map.put("auct", service.selectDetailAuct(product_cd));
     		map.put("deli", service.selectDetailDeli(product_cd));
+    		
+    		//System.out.println(map.toString());
     	}
+    	
+    	return map;
+    }
+	
+	@RequestMapping(value="/payproductlist.do", method = RequestMethod.GET)
+    public String payProductListGET(ProductVO productVO, @RequestParam(defaultValue="1") int curPage, Model model) throws Exception {
+		int pcnt = service.payProductCount(productVO);
+		
+    	Pagination pagination = new Pagination(pcnt, curPage);
+    	
+    	productVO.setStartIndex(pagination.getStartIndex());
+    	productVO.setCntPerPage(pagination.getPageSize());
+
+    	model.addAttribute("list", service.payProductList(productVO));
+		model.addAttribute("pcnt", pcnt);
+    	model.addAttribute("pagination", pagination);
+
+    	return "admin/payProductList.admin";
+    }
+
+	@ResponseBody
+	@RequestMapping(value="/ajaxpayproductlist.do", method = RequestMethod.POST)
+    public Map<String, Object> ajaxPayProductList(@RequestBody ProductVO productVO) throws Exception {
+		int listCnt = service.payProductCount(productVO);
+		
+		String searchVal = productVO.getKeyWord();
+		String searchType = productVO.getSearchType();
+		
+		productVO.setKeyWord(searchVal);
+		productVO.setSearchType(searchType);
+
+		Pagination pagination = new Pagination(listCnt, productVO.getMovePage());
+
+		productVO.setStartIndex(pagination.getStartIndex());
+		productVO.setCntPerPage(pagination.getPageSize());
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		map.put("searchType", searchType);
+		map.put("searchVal", searchVal);
+		map.put("list", service.payProductList(productVO));
+		map.put("cnt", listCnt);
+		map.put("pagination", pagination);
+		
+		return map;
+    }
+	
+	@ResponseBody
+    @RequestMapping(value = "/ajaxpayproductdeli.do/{product_cd}", method = RequestMethod.POST)
+    public Map<String, Object> ajaxPayProductDeli(@PathVariable("product_cd") String product_cd) throws Exception {
+		Map<String, Object> map = new HashMap<String, Object>();
+    	map.put("deli", service.selectDeliProd(product_cd));
     	
     	return map;
     }

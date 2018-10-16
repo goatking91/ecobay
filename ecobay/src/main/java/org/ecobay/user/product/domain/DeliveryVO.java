@@ -4,6 +4,7 @@ import java.util.Date;
 
 public class DeliveryVO {
 	private String product_cd;
+	private String product_nm;
 	private String deli_nm;
 	private String deli_zipcode;
 	private String deli_addr1;
@@ -15,9 +16,10 @@ public class DeliveryVO {
 		
 	}
 	
-	public DeliveryVO(String product_cd, String deli_nm, String deli_zipcode, String deli_addr1, String deli_addr2,
+	public DeliveryVO(String product_cd, String product_nm, String deli_nm, String deli_zipcode, String deli_addr1, String deli_addr2,
 			String deli_phonenum, Date regdate) {
 		this.product_cd = product_cd;
+		this.product_nm = product_nm;
 		this.deli_nm = deli_nm;
 		this.deli_zipcode = deli_zipcode;
 		this.deli_addr1 = deli_addr1;
@@ -32,6 +34,14 @@ public class DeliveryVO {
 
 	public void setProduct_cd(String product_cd) {
 		this.product_cd = product_cd;
+	}
+	
+	public String getProduct_nm() {
+		return product_nm;
+	}
+
+	public void setProduct_nm(String product_nm) {
+		this.product_nm = product_nm;
 	}
 
 	public String getDeli_nm() {
@@ -83,12 +93,14 @@ public class DeliveryVO {
 	}
 
 
-
 	@Override
 	public String toString() {
-		return "DeliveryVO [product_cd=" + product_cd + ", deli_nm=" + deli_nm + ", deli_zipcode=" + deli_zipcode
-				+ ", deli_addr1=" + deli_addr1 + ", deli_addr2=" + deli_addr2 + ", deli_phonenum=" + deli_phonenum
-				+ ", regdate=" + regdate + "]";
+		return "DeliveryVO ["
+				+ "product_cd=" + product_cd + "product_nm=" + product_nm + ", deli_nm=" + deli_nm 
+				+ ", deli_zipcode=" + deli_zipcode + ", deli_addr1=" + deli_addr1 + ", deli_addr2=" + deli_addr2 
+				+ ", deli_phonenum=" + deli_phonenum
+				+ ", regdate=" + regdate 
+				+ "]";
 	}
 
 	

@@ -8,6 +8,7 @@ public class ProductVO {
 	private String product_cd;
 	private String product_nm;
 	private String member_id;
+	private String member_nm;
 	private String class_big_cd;
 	private String class_big_nm;
 	private String class_mid_cd;
@@ -32,13 +33,17 @@ public class ProductVO {
 	private int start_num;
 	private int end_num;
 	
-	// 상품리스트 출력용 추가.
+	// 상품 출력용 추가.
 	private int bid_cnt; // 입찰수
 	private long bid_max_money; // 최대입찰금액
 	private String filename_thumb; // 썸네일파일명
 	private String acutdate_start_str; // 경매시작일시(String)
 	private String acutdate_end_str; // 경매종료일시(String)
 	private long money_first; // 시작가
+	private long money_pay; // 결제금액
+	private String deli_div_cd; //배송구분코드
+	private String deli_div_nm; //배송구분명
+	
 	
 	/** 페이징 **/
 	private int startIndex;
@@ -53,16 +58,19 @@ public class ProductVO {
 		
 	}
 
-	public ProductVO(String product_cd, String product_nm, String member_id, String class_big_cd, String class_big_nm,
+	public ProductVO(String product_cd, String product_nm, String member_id, String member_nm,
+			String class_big_cd, String class_big_nm,
 			String class_mid_cd, String class_mid_nm, String content, String state_cd, String state_nm, Date regdate,
 			Date moddate, Date deldate, Boolean use_yn, int viewcnt, List<ProductImageVO> ivo, AuctionInfoVO avo,
 			DeliveryInfoVO dvo, int rn, String searchVal, int start_num, int end_num, int bid_cnt, long bid_max_money,
-			String filename_thumb, String acutdate_start_str, String acutdate_end_str, long money_first, int startIndex,
-			int cntPerPage, int movePage, String searchType, String keyWord) {
+			String filename_thumb, String acutdate_start_str, String acutdate_end_str, long money_first, long money_pay,
+			String deli_div_cd, String deli_div_nm,
+			int startIndex, int cntPerPage, int movePage, String searchType, String keyWord) {
 		super();
 		this.product_cd = product_cd;
 		this.product_nm = product_nm;
 		this.member_id = member_id;
+		this.member_nm = member_nm;
 		this.class_big_cd = class_big_cd;
 		this.class_big_nm = class_big_nm;
 		this.class_mid_cd = class_mid_cd;
@@ -88,6 +96,9 @@ public class ProductVO {
 		this.acutdate_start_str = acutdate_start_str;
 		this.acutdate_end_str = acutdate_end_str;
 		this.money_first = money_first;
+		this.money_pay = money_pay;
+		this.deli_div_cd = deli_div_cd;
+		this.deli_div_nm = deli_div_nm;
 		this.startIndex = startIndex;
 		this.cntPerPage = cntPerPage;
 		this.movePage = movePage;
@@ -118,6 +129,14 @@ public class ProductVO {
 
 	public void setMember_id(String member_id) {
 		this.member_id = member_id;
+	}
+	
+	public String getMember_nm() {
+		return member_nm;
+	}
+
+	public void setMember_nm(String member_nm) {
+		this.member_nm = member_nm;
 	}
 
 	public String getClass_big_cd() {
@@ -288,7 +307,6 @@ public class ProductVO {
 		this.bid_max_money = bid_max_money;
 	}
 	
-	
 	public long getMoney_first() {
 		return money_first;
 	}
@@ -296,7 +314,30 @@ public class ProductVO {
 	public void setMoney_first(long money_first) {
 		this.money_first = money_first;
 	}
+
+	public long getMoney_pay() {
+		return money_pay;
+	}
+
+	public void setMoney_pay(long money_pay) {
+		this.money_pay = money_pay;
+	}
 	
+	public String getDeli_div_cd() {
+		return deli_div_cd;
+	}
+
+	public void setDeli_div_cd(String deli_div_cd) {
+		this.deli_div_cd = deli_div_cd;
+	}
+	
+	public String getDeli_div_nm() {
+		return deli_div_nm;
+	}
+
+	public void setDeli_div_nm(String deli_div_nm) {
+		this.deli_div_nm = deli_div_nm;
+	}	
 
 	public String getFilename_thumb() {
 		return filename_thumb;
@@ -321,7 +362,6 @@ public class ProductVO {
 	public void setAcutdate_end_str(String acutdate_end_str) {
 		this.acutdate_end_str = acutdate_end_str;
 	}
-	
 	
 	public int getStartIndex() {
 		return startIndex;
@@ -366,7 +406,7 @@ public class ProductVO {
 	@Override
 	public String toString() {
 		return "ProductVO ["
-				+ "product_cd=" + product_cd + ", product_nm=" + product_nm + ", member_id=" + member_id
+				+ "product_cd=" + product_cd + ", product_nm=" + product_nm + ", member_id=" + member_id + ", member_nm=" + member_nm
 				+ ", class_big_cd=" + class_big_cd + ", class_big_nm=" + class_big_nm + ", class_mid_cd=" + class_mid_cd
 				+ ", class_mid_nm=" + class_mid_nm + ", content=" + content + ", state_cd=" + state_cd 
 				+ ", state_nm=" + state_nm + ", regdate=" + regdate + ", moddate=" + moddate + ", deldate=" + deldate 
@@ -374,7 +414,9 @@ public class ProductVO {
 				+ ", rn=" + rn + ", searchVal=" + searchVal + ", start_num=" + start_num + ", end_num=" + end_num 
 				+ ", bid_cnt=" + bid_cnt + ", bid_max_money=" + bid_max_money + ", filename_thumb=" + filename_thumb
 				+ ", acutdate_start_str=" + acutdate_start_str + ", acutdate_end_str=" + acutdate_end_str
-				+ ", money_first=" + money_first + ", startIndex=" + startIndex + ", cntPerPage=" + cntPerPage
+				+ ", money_first=" + money_first + ", money_pay=" + money_pay
+				+ ", deli_div_cd=" + deli_div_cd + ", deli_div_nm=" + deli_div_nm
+				+ ", startIndex=" + startIndex + ", cntPerPage=" + cntPerPage
 				+ ", movePage=" + movePage + ", searchType=" + searchType + ", keyWord=" + keyWord 
 				+ "]";
 	}
