@@ -1,0 +1,59 @@
+@charset "UTF-8";
+
+.introHead {
+	padding-top: 20px;
+}
+.introDiv {
+	padding-top: 15px;
+}
+.introBottom {
+	padding-top: 15px;
+	padding-bottom: 10px;
+}
+
+.mapDiv {
+	padding-bottom: 50px;
+}
+
+@media(max-width:830px) {
+	.mobilePd{
+		padding-right:15px !important;
+		padding-left:15px !important;
+	}
+	.mobileNone{display:none !important;}
+}
+
+.clearFix{}
+
+.clearFix:after{
+	content:"";
+	display:block;
+	clear:both;
+}
+
+.pr50 {padding-right:50px !important;}
+@media(max-width:830px){
+	.pr0m {padding-right:0px !important;}
+}
+
+@media(max-width:640px){
+	.pr0m {padding-right:0px !important;}
+}
+
+.mb5 {margin-bottom:5px !important;}
+.wp100 {width:100% !important;}
+.mb30 {margin-bottom:30px !important;}
+.lineH30{line-height:30px !important;}
+.mt30 {margin-top:30px !important;}
+
+.fs20{
+	font-size:20px;
+}
+.fs16i{
+	font-size:16px !important
+}
+
+.fcBlue{
+	color:#114da5 !important;
+}
+
