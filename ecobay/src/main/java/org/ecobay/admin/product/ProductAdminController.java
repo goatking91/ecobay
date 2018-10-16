@@ -146,7 +146,7 @@ public class ProductAdminController {
     	
     	if(productVO != null) {
     		map.put("prod", productVO);	
-    		map.put("img", service.selectImageList(product_cd));
+    		map.put("imglist", service.selectImageList(product_cd));
     		map.put("auct", service.selectDetailAuct(product_cd));
     		map.put("deli", service.selectDetailDeli(product_cd));
     	}
