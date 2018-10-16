@@ -315,7 +315,7 @@
 						str = str + "					<span>";
 						str = str + "						<b>판매자:</b>";
 						str = str + "					</span>";
-						str = str + "					<span class='prodMember_id' style='float: right;'>" + arr.member_id + "</span>";
+						str = str + "					<span class='prodMember_id' style='float: right;'>" + idCov(arr.member_id) + "</span>";
 						str = str + "				</li>";
 	    	 			str = str + "				<li class='list-group-item' style='padding:5px;'>";
 						str = str + "					<span style='float: left;'>";
@@ -334,16 +334,7 @@
 	    	 	
 	    	 			$("#enters").append(str);
 					});
-	    	 		
-	    	 		
-	    	 		
-	    	 		
-	    	 		
-	    	 		
-	    	 		
-	    	 		
-	    	 		
-	    	 		
+
 				}, 
 				error: function(error) {
 					console.log("error : " + error);
