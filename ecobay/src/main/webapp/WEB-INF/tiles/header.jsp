@@ -202,7 +202,7 @@
   </div>
 </div>
 
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModallabel" aria-hidden="true">
+<div class="modal fade" id="mysearchModal" tabindex="-1" role="dialog" aria-labelledby="myModallabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -358,7 +358,7 @@
 		});
 		
 		$('#newpwdModal').css("z-index","9999999");//모달 z-index 설정하기
-    	$('#myModal').css("z-index","99999999");
+    	$('#mysearchModal').css("z-index","99999999");
 		
 		$('#idgo').click(function(event){
     		var member_name = $('#member_name').val();
@@ -396,11 +396,11 @@
 	    				
 						$('#idModal').modal('hide'); 
 	    				$('#message').find('h4').text("회원님의 정보로 등록된 아이디는" + data.member_id + " 입니다");
-						$('#myModal').modal('show');	
+						$('#mysearchModal').modal('show');	
 					}else{
 						//$('#idModal').modal('hide'); 
 						$('#message').find('h4').text("정보가 일치하지 않습니다 다시 입력해주세요");
-						$('#myModal').modal('show');	
+						$('#mysearchModal').modal('show');	
 					} 
     			},
     	        error: function(data) {
@@ -451,7 +451,7 @@
 					}else{
 						//$('#idModal').modal('hide'); 
 						$('#message').find('h4').text("정보가 일치하지 않습니다 다시 입력해주세요");
-						$('#myModal').modal('show');	
+						$('#mysearchModal').modal('show');	
 						return false;
 					} 
     			},
@@ -476,7 +476,7 @@
     			return false;
     		}else if(pwd != pwdck){
     			$('#message').find('h4').text("동일한 비밀번호를 입력해주세요");
-				$('#myModal').modal('show');
+				$('#mysearchModal').modal('show');
 				return false;
     		}
     		
@@ -491,7 +491,7 @@
 	    			success : function(data) {//이름,생년월일,폰번호,아이디							 	
 		    					$('#newpwdModal').modal('hide'); 
 								$('#message').find('h4').text("비밀번호가 변경되었습니다");
-								$('#myModal').modal('show');
+								$('#mysearchModal').modal('show');
 	    			},
 	    	        error: function(error) {
 	    				console.log("error :" + data);
