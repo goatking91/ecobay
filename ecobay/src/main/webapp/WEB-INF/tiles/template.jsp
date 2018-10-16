@@ -19,7 +19,7 @@
         }
     </style>
     <script src="/resources/js/jquery-3.3.1.min.js"></script>
-    <link rel="stylesheet" href="/resources/lib/bootstrap/css/bootstrap.min.css" id="bootstrap-css" /> 
+    <link rel="stylesheet" href="/resources/lib/bootstrap/css/thema.min.css" id="bootstrap-css" /> 
     <script src="/resources/lib/bootstrap/js/bootstrap.min.js"></script>
 	<link rel="stylesheet" href="/resources/lib/jquery-ui/jquery-ui.min.css">
 	<script src="/resources/lib/jquery-ui/jquery-ui.min.js"></script>
