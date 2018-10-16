@@ -22,6 +22,12 @@
 		    });
 		});
 	</script>
+	<style>
+		.bolck {
+			opacity: 0.8;
+			filter: grayscale(80%);
+		}
+	</style>
 </head>
 <body>
 	<div class="container">
@@ -29,15 +35,6 @@
 		<form method="post">
 			<security:csrfInput/>
 			<div class="form-group row">
-				<div class="col-sm-6">
-					<div class="input-group">
-						<input type="text" class="form-control"
-							placeholder="검색내용을 입력하세요..." id="searchVal" name="searchVal" value="${sVal}">
-						<div class="input-group-append">
-							<button class="btn btn-secondary" id="searchProduct">검색</button>
-						</div>
-					</div>
-				</div>
 				<div class="col-sm-3">
 					<div class="input-group">
 						<select class="custom-select" name="class_big_cd" id="class_big_cd">
@@ -64,43 +61,83 @@
 						</select>
 					</div>
 				</div>
+				<div class="col-sm-6">
+					<div class="input-group">
+						<input type="text" class="form-control"
+							placeholder="검색내용을 입력하세요..." id="searchVal" name="searchVal" value="${sVal}">
+						<div class="input-group-append">
+							<button class="btn btn-secondary" id="searchProduct">검색</button>
+						</div>
+					</div>
+				</div>
 			</div>
 		</form>
 		<p>
-		<div id="products" class="row view-group">
+		
+		<div id="products" class="row view-group" style="margin-top: 15px; margin-bottom: 15px;">
 			<c:forEach var="list" items="${productList}">
-				<div class="item col-xs-4 col-lg-4">
+				<div class="item col-xs-3 col-lg-3">
 					<div class="thumbnail card" data-src="${list.product_cd}">
 						<div class="img-event">
-							<img class="group list-group-image img-fluid"
-								 src="/displayFile.do?fileName=${list.filename_thumb}"
-								 onerror="this.src='/resources/images/noimg.gif';" />
+							<c:choose>
+								<c:when test="${list.state_cd == '3' }">
+									<img class="group list-group-image img-fluid"
+										 src="/displayFile.do?fileName=${list.filename_thumb}"
+										 onerror="this.src='/resources/images/noimg.gif';"
+										 alt="" />
+								</c:when>
+								<c:otherwise>
+									<img class="group list-group-image img-fluid bolck"
+										 src="/displayFile.do?fileName=${list.filename_thumb}"
+										 onerror="this.src='/resources/images/noimg.gif';"
+										 alt="" />
+								</c:otherwise>
+							</c:choose>
 						</div>
-						<div class="caption card-body">
-							<h4 class="group card-title inner list-group-item-heading">
-								${list.product_nm}</h4>
-							<!-- <p class="group inner list-group-item-text">${list.content}</p>  -->
-							<div class="row">
-								<div class="col-xs-12 col-md-6">
-									<p class="lead">${list.bid_cnt}명/
-										<c:choose>
-											<c:when test="${list.bid_max_money == '0'}">${list.money_first}원</c:when>
-											<c:otherwise>${list.bid_max_money}원</c:otherwise>
-										</c:choose>
-									</p>
-								</div>
-								<div class="col-xs-12 col-md-6">
+						<div class="caption card-body" style="padding: 5px;">
+							<ul class="list-group list-group-flush">
+    							<li class="list-group-item">
+    								<h5 class="group card-title inner list-group-item-heading" style="height: 50px; margin: 0px">
+										${list.product_nm}
+									</h5>
+									<h5 class="group card-title inner list-group-item-heading" style="color: #4286f4; text-align: center; margin: 0px">
 									<c:choose>
-										<c:when test="${list.state_cd != '3'}">
-											<label>${list.acutdate_end_str}</label>
+                                		<c:when test="${list.bid_max_money == '0'}">${list.money_first}원</c:when>
+                                		<c:otherwise>${list.bid_max_money}원</c:otherwise>
+                            		</c:choose>
+                            		</h5>
+								</li>
+    							<li class="list-group-item" style="padding:5px;">
+									<span style="float: left;">
+	                                	<b>입찰:</b> 
+	                                     ${list.bid_cnt}명 
+									</span>
+									<span style="float: right;">
+										<b>조회:</b>
+										${list.viewcnt}
+	                                </span>
+								</li>
+    							<li class="list-group-item" style="padding:5px;">
+    								<span>
+										<b>판매자:</b> 
+									</span>
+									<span class="prodMember_id" style="float: right;">${list.member_id}</span>
+    							</li>
+    							<li class="list-group-item" style="padding:5px;">
+    								<span style="float: left;">
+										<b>경매종료:</b> 
+									</span>
+									<c:choose>
+										<c:when test="${list.state_cd == '3' }">
+											<span class="auctdate_end" style="float: right;">${list.acutdate_end_str}</span>
 										</c:when>
 										<c:otherwise>
-											<label>경매진행중</label>
+											<span class="auctdate_end" style="float: right;">${list.state_nm }</span>
 										</c:otherwise>
 									</c:choose>
 									
-								</div>
-							</div>
+    							</li>
+							</ul>						
 						</div>
 					</div>
 				</div>
@@ -122,7 +159,7 @@
 
 			    if ($(window).scrollTop() == $(document).height() - $(window).height()) {
 			    	++page;
-			    
+			
 			    	prodListSearch(page, searchVal, class_big_cd, class_mid_cd);
 			    }
 			});
@@ -148,6 +185,59 @@
 
 				createClsmid(valBig, "XX");
 			});
+		});
+		
+		// 판매자정보 *처리 하기
+		$(".prodMember_id").each(function(i, obj) {
+			var prodMember_id = $(this).text();
+			var sCov = idCov(prodMember_id);
+			$(this).text(sCov);
+		    
+		});
+		
+		// *처리 함수
+		function idCov(memberid){
+			var covNum = memberid.indexOf("@");
+			var sCov = "";
+			
+			for(var i=1; i<=memberid.length; i++) {
+				if(i > 2 && i <= covNum-1) {
+					sCov = sCov + "*"; 
+				}
+				else {
+					sCov = sCov + memberid.substring(i-1, i);
+				}
+			}
+			
+			return sCov;
+		}
+		
+		// 시간 표시
+		$(".auctdate_end").each(function(i, obj) {
+			var endDateTime = new Date($(this).text()+":00").getTime();
+			var dateTime = new Date().getTime();
+			
+			if(endDateTime > dateTime) {
+				var difference_ms = endDateTime - dateTime;
+				difference_ms = difference_ms / 1000;
+				var seconds = Math.floor(difference_ms % 60);
+				difference_ms = difference_ms / 60; 
+				var minutes = Math.floor(difference_ms % 60);
+				difference_ms = difference_ms / 60; 
+				var hours = Math.floor(difference_ms % 24);  
+				var days = Math.floor(difference_ms / 24);
+				
+				seconds = (seconds < 10) ? "0" + seconds : seconds;
+				minutes = (minutes < 10) ? "0" + minutes : minutes;
+				hours = (hours < 10) ? "0" + hours : hours;
+				if(days == 0) {
+					$(this).text(hours + "시간 " + minutes + "분");
+				}else if (days == 0 && hours == 0) {
+					$(this).text(minutes + "분");
+				}else {
+					$(this).text(days + "일 " + hours + "시간");
+				}	
+			}
 		});
 
 		function createClsmid(valBig, valMid){
@@ -192,43 +282,67 @@
 	    	 		
 	    	 		$.each(data.arr, function(index, arr) {
 	    	 			str = "";
-	    	 			str = str + "<div class='item col-xs-4 col-lg-4'>";
+	    	 			str = str + "<div class='item col-xs-3 col-lg-3'>";
 	    	 			str = str + "	<div class='thumbnail card' data-src='" + arr.product_cd + "'>";
 	    	 			str = str + "		<div class='img-event'>";
-	    	 			str = str + "			<img class='group list-group-image img-fluid' src='/displayFile.do?fileName=" + arr.filename_thumb + "' onerror=this.src='/resources/images/noimg.gif;' />";
+	    	 			if(arr.state_cd == '3') {
+	    	 				str = str + "			<img class='group list-group-image img-fluid' src='/displayFile.do?fileName=" + arr.filename_thumb + "' onerror=this.src='/resources/images/noimg.gif;' />";
+	    	 			}else {
+	    	 				str = str + "			<img class='group list-group-image img-fluid bolck' src='/displayFile.do?fileName=" + arr.filename_thumb + "' onerror=this.src='/resources/images/noimg.gif;' />";
+	    	 			}
 	    	 			str = str + "		</div>";
-	    	 			str = str + "		<div class='caption card-body'>";
-	    	 			str = str + "			<h4 class='group card-title inner list-group-item-heading'>" + arr.product_nm + "</h4>";
-	    	 			//str = str + "			<p class='group inner list-group-item-text'>" + arr.content + "</p>";
-	    	 			str = str + "			<div class='row'>";
-	    	 			str = str + "				<div class='col-xs-12 col-md-6'>";
-	    	 			str = str + "					<p class='lead'> " + arr.bid_cnt + "명/";
-	    	 			
+	    	 			str = str + "		<div class='caption card-body' style='padding: 5px;'>";
+	    	 			str = str + "			<ul class='list-group list-group-flush'>";
+	    	 			str = str + "				<li class='list-group-item'>";
+	    	 			str = str + "					<h5 class='group card-title inner list-group-item-heading' style='height: 50px; margin: 0px'>" + arr.product_nm + "</h5>"
 	    	 			if(arr.bid_max_money == 0) {
-	    	 				str = str + arr.money_first + "원</p>";
+	    	 				str = str + "					<h5 class='group card-title inner list-group-item-heading' style='color: #4286f4; text-align: center; margin: 0px'>" +arr.money_first + "원</h5>"
+	    	 			}else {
+	    	 				str = str + "					<h5 class='group card-title inner list-group-item-heading' style='color: #4286f4; text-align: center; margin: 0px'>" +arr.bid_max_money + "원</h5>"
 	    	 			}
-	    	 			else {
-	    	 				str = str + arr.bid_max_money + "원</p>";
-	    	 			}
-
-	    	 			str = str + "				</div>";
-	    	 			str = str + "					<div class='col-xs-12 col-md-6'>";
-	    	 			
-	    	 			if(arr.state_cd != '3') {
-	    	 			    str = str + "					<label>" + arr.acutdate_end_str + "</label>";
-	    	 			}
-	    	 			else {
-	    	 				str = str + "					<label>경매진행중</label>";
-	    	 			}
-	    	 			
-	    	 			str = str + "					</div>";
-	    	 			str = str + "				</div>";
-	    	 			str = str + "			</div>";
-	    	 			str = str + "		</div>";
-	    	 			str = str + "	</div>";
-	    	 			str = str + "</div>";
+	    	 			str = str + "				</li>"
+	    	 			str = str + "				<li class='list-group-item' style='padding:5px;'>";
+						str = str + "					<span style='float: left;'>";
+                        str = str + "						<b>입찰:</b>";
+                        str = str + arr.bid_cnt;
+                        str = str + "					</span>";
+                        str = str + "					<span style='float: right;'>";
+                        str = str + "						<b>조회:</b>";
+                        str = str + arr.viewcnt;
+                    	str = str + "					</span>";
+						str = str + "				</li>";
+						str = str + "				<li class='list-group-item' style='padding:5px;'>";
+						str = str + "					<span>";
+						str = str + "						<b>판매자:</b>";
+						str = str + "					</span>";
+						str = str + "					<span class='prodMember_id' style='float: right;'>" + arr.member_id + "</span>";
+						str = str + "				</li>";
+	    	 			str = str + "				<li class='list-group-item' style='padding:5px;'>";
+						str = str + "					<span style='float: left;'>";
+						str = str + "						<b>경매종료:</b>";
+						str = str + "					</span>";
+						if(arr.state_cd == '3') {
+							str = str + "					<span class='auctdate_end' style='float: right;'>" + arr.acutdate_end_str + "</span>";
+						}else {
+							str = str + "					<span class='auctdate_end' style='float: right;'>" + arr.state_nm + "</span>";
+						}
+						str = str + "				</li>";
+						str = str + "			</ul>";				
+						str = str + "		</div>"
+						str = str + "	</div>"
+						str = str + "</div>";
+	    	 	
 	    	 			$("#enters").append(str);
 					});
+	    	 		
+	    	 		
+	    	 		
+	    	 		
+	    	 		
+	    	 		
+	    	 		
+	    	 		
+	    	 		
 	    	 		
 				}, 
 				error: function(error) {

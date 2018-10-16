@@ -27,10 +27,10 @@ public class MainController {
 	@RequestMapping(value="/main.do", method = RequestMethod.GET)
     public String main(Model model, ProductVO vo) throws Exception {
 		vo.setStart_num(1);
-		vo.setEnd_num(3);
+		vo.setEnd_num(4);
 		model.addAttribute("list1", productService.selectListBest(vo));
-		vo.setStart_num(4);
-		vo.setEnd_num(6);
+		vo.setStart_num(5);
+		vo.setEnd_num(8);
 		model.addAttribute("list2", productService.selectListBest(vo));
         return "main.page";
     }

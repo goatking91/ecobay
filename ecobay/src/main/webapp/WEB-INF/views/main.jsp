@@ -63,95 +63,108 @@
 	</div>
 </div>
 <p>
-<div id="carouselControls" class="carousel slide" data-ride="carousel">
-	<div class="carousel-inner">
-		<div class="carousel-item active">
-			<div class="container">
-				<div class="row">
-					<c:forEach var="list" items="${list1}">
-						<div class="item col-xs-4 col-lg-4">
-							<div class="thumbnail card" data-src="${list.product_cd}">
-								<div class="img-event">
-									<img class="group list-group-image img-fluid"
-										 src="/displayFile.do?fileName=${list.filename_thumb}"
-										 onerror="this.src='/resources/images/noimg.gif';"
-										 alt="" />
-								</div>
-								<div class="caption card-body">
-									<h4 class="group card-title inner list-group-item-heading">
-										${list.product_nm}</h4>
-									<%-- <p class="group inner list-group-item-text">${list.content}</p> --%>
-									<div class="row">
-										<div class="col-xs-12 col-md-6">
-                                            <p class="lead">${list.bid_cnt}명/
-                                                <c:choose>
-                                                    <c:when test="${list.bid_max_money == '0'}">${list.money_first}원</c:when>
-                                                    <c:otherwise>${list.bid_max_money}원</c:otherwise>
-                                                </c:choose>
-                                            </p>
-										</div>
-										<div class="col-xs-12 col-md-6">
-										<%-- <c:if test="${list.state_cd != '3'}">
-												<label>${list.acutdate_start_str}</label>
-											</c:if> --%>
-										</div>
-									</div>
-								</div>
-							</div>
+	<div class="container">
+		<div class="row" style="margin-top: 15px; margin-bottom: 15px;">
+			<c:forEach var="list" items="${list1}">
+				<div class="item col-xs-3 col-lg-3">
+					<div class="thumbnail card" data-src="${list.product_cd}">
+						<div class="img-event">
+							<img class="group list-group-image img-fluid"
+								 src="/displayFile.do?fileName=${list.filename_thumb}"
+								 onerror="this.src='/resources/images/noimg.gif';"
+								 alt="" />
 						</div>
-					</c:forEach>
-				</div>
-			</div>
-		</div>
-		<div class="carousel-item">
-			<div class="container">
-				<div class="row">
-					<c:forEach var="list" items="${list2}">
-						<div class="item col-xs-4 col-lg-4">
-							<div class="thumbnail card" data-src="${list.product_cd}">
-								<div class="img-event">
-									<img class="group list-group-image img-fluid"
-										 src="/displayFile.do?fileName=${list.filename_thumb}"
-										 onerror="this.src='/resources/images/noimg.gif';"
-										 alt="" />
-								</div>
-								<div class="caption card-body">
-									<h4 class="group card-title inner list-group-item-heading">
-										${list.product_nm}</h4>
-									<%-- <p class="group inner list-group-item-text">${list.content}</p> --%>
-									<div class="row">
-										<div class="col-xs-12 col-md-6">
-									        <p class="lead">${list.bid_cnt}명/
-	                                           <c:choose>
-	                                               <c:when test="${list.bid_max_money == '0'}">${list.money_first}원</c:when>
-	                                               <c:otherwise>${list.bid_max_money}원</c:otherwise>
-	                                           </c:choose>
-	                                        </p>
-										</div>
-										<div class="col-xs-12 col-md-6">
-										<%-- <c:if test="${list.state_cd != '3'}">
-												<label>${list.acutdate_start_str}</label>
-											</c:if> --%>
-										</div>
-									</div>
-								</div>
-							</div>
+						<div class="caption card-body" style="padding: 5px;">
+							<ul class="list-group list-group-flush">
+    							<li class="list-group-item" style="padding:5px;">
+    								<h5 class="group card-title inner list-group-item-heading" style="height: 50px; margin: 0px">
+										${list.product_nm}
+									</h5>
+									<h5 class="group card-title inner list-group-item-heading" style="color: #4286f4; text-align: center; margin: 0px">
+									<c:choose>
+                                		<c:when test="${list.bid_max_money == '0'}">${list.money_first}원</c:when>
+                                		<c:otherwise>${list.bid_max_money}원</c:otherwise>
+                            		</c:choose>
+                            		</h5>
+								</li>
+    							<li class="list-group-item" style="padding:5px;">
+									<span style="float: left;">
+	                                	입찰: 
+	                                     ${list.bid_cnt}명 
+									</span>
+									<span style="float: right;">
+										조회: ${list.viewcnt}
+	                                </span>
+								</li>
+    							<li class="list-group-item" style="padding:5px;">
+    								<span>
+										판매자:
+									</span>
+									<span class="prodMember_id" style="float: right;">${list.member_id}</span>
+    							</li>
+    							<li class="list-group-item" style="padding:5px;">
+    								<span style="float: left;">
+										경매종료:
+									</span>
+									<span class="auctdate_end" style="float: right;">${list.acutdate_end_str}</span>
+    							</li>
+							</ul>						
 						</div>
-					</c:forEach>
+					</div>
 				</div>
-			</div>
+			</c:forEach>
 		</div>
-		<a class="carousel-control-prev" href="#carouselControls"
-			role="button" data-slide="prev"> <img
-			src="data:image/svg+xml;utf8;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iaXNvLTg4NTktMSI/Pgo8IS0tIEdlbmVyYXRvcjogQWRvYmUgSWxsdXN0cmF0b3IgMTkuMC4wLCBTVkcgRXhwb3J0IFBsdWctSW4gLiBTVkcgVmVyc2lvbjogNi4wMCBCdWlsZCAwKSAgLS0+CjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgdmVyc2lvbj0iMS4xIiBpZD0iTGF5ZXJfMSIgeD0iMHB4IiB5PSIwcHgiIHZpZXdCb3g9IjAgMCA0OTIgNDkyIiBzdHlsZT0iZW5hYmxlLWJhY2tncm91bmQ6bmV3IDAgMCA0OTIgNDkyOyIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSIgd2lkdGg9IjY0cHgiIGhlaWdodD0iNjRweCI+CjxnPgoJPGc+CgkJPHBhdGggZD0iTTE5OC42MDgsMjQ2LjEwNEwzODIuNjY0LDYyLjA0YzUuMDY4LTUuMDU2LDcuODU2LTExLjgxNiw3Ljg1Ni0xOS4wMjRjMC03LjIxMi0yLjc4OC0xMy45NjgtNy44NTYtMTkuMDMybC0xNi4xMjgtMTYuMTIgICAgQzM2MS40NzYsMi43OTIsMzU0LjcxMiwwLDM0Ny41MDQsMHMtMTMuOTY0LDIuNzkyLTE5LjAyOCw3Ljg2NEwxMDkuMzI4LDIyNy4wMDhjLTUuMDg0LDUuMDgtNy44NjgsMTEuODY4LTcuODQ4LDE5LjA4NCAgICBjLTAuMDIsNy4yNDgsMi43NiwxNC4wMjgsNy44NDgsMTkuMTEybDIxOC45NDQsMjE4LjkzMmM1LjA2NCw1LjA3MiwxMS44Miw3Ljg2NCwxOS4wMzIsNy44NjRjNy4yMDgsMCwxMy45NjQtMi43OTIsMTkuMDMyLTcuODY0ICAgIGwxNi4xMjQtMTYuMTJjMTAuNDkyLTEwLjQ5MiwxMC40OTItMjcuNTcyLDAtMzguMDZMMTk4LjYwOCwyNDYuMTA0eiIgZmlsbD0iIzAwMDAwMCIvPgoJPC9nPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+Cjwvc3ZnPgo=" />
-			<span class="sr-only">Previous</span>
-		</a> <a class="carousel-control-next" href="#carouselControls"
-			role="button" data-slide="next"> <img
-			src="data:image/svg+xml;utf8;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iaXNvLTg4NTktMSI/Pgo8IS0tIEdlbmVyYXRvcjogQWRvYmUgSWxsdXN0cmF0b3IgMTkuMC4wLCBTVkcgRXhwb3J0IFBsdWctSW4gLiBTVkcgVmVyc2lvbjogNi4wMCBCdWlsZCAwKSAgLS0+CjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgdmVyc2lvbj0iMS4xIiBpZD0iTGF5ZXJfMSIgeD0iMHB4IiB5PSIwcHgiIHZpZXdCb3g9IjAgMCA0OTIuMDA0IDQ5Mi4wMDQiIHN0eWxlPSJlbmFibGUtYmFja2dyb3VuZDpuZXcgMCAwIDQ5Mi4wMDQgNDkyLjAwNDsiIHhtbDpzcGFjZT0icHJlc2VydmUiIHdpZHRoPSI2NHB4IiBoZWlnaHQ9IjY0cHgiPgo8Zz4KCTxnPgoJCTxwYXRoIGQ9Ik0zODIuNjc4LDIyNi44MDRMMTYzLjczLDcuODZDMTU4LjY2NiwyLjc5MiwxNTEuOTA2LDAsMTQ0LjY5OCwwcy0xMy45NjgsMi43OTItMTkuMDMyLDcuODZsLTE2LjEyNCwxNi4xMiAgICBjLTEwLjQ5MiwxMC41MDQtMTAuNDkyLDI3LjU3NiwwLDM4LjA2NEwyOTMuMzk4LDI0NS45bC0xODQuMDYsMTg0LjA2Yy01LjA2NCw1LjA2OC03Ljg2LDExLjgyNC03Ljg2LDE5LjAyOCAgICBjMCw3LjIxMiwyLjc5NiwxMy45NjgsNy44NiwxOS4wNGwxNi4xMjQsMTYuMTE2YzUuMDY4LDUuMDY4LDExLjgyNCw3Ljg2LDE5LjAzMiw3Ljg2czEzLjk2OC0yLjc5MiwxOS4wMzItNy44NkwzODIuNjc4LDI2NSAgICBjNS4wNzYtNS4wODQsNy44NjQtMTEuODcyLDcuODQ4LTE5LjA4OEMzOTAuNTQyLDIzOC42NjgsMzg3Ljc1NCwyMzEuODg0LDM4Mi42NzgsMjI2LjgwNHoiIGZpbGw9IiMwMDAwMDAiLz4KCTwvZz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8L3N2Zz4K" />
-			<span class="sr-only">Next</span>
-		</a>
+		<div class="row" style="margin-top: 15px; margin-bottom: 15px;">
+			<c:forEach var="list" items="${list2}">
+				<div class="item col-xs-3 col-lg-3">
+					<div class="thumbnail card" data-src="${list.product_cd}">
+						<div class="img-event">
+							<img class="group list-group-image img-fluid"
+								 src="/displayFile.do?fileName=${list.filename_thumb}"
+								 onerror="this.src='/resources/images/noimg.gif';"
+								 alt="" />
+						</div>
+						<div class="caption card-body" style="padding: 5px;">
+							<ul class="list-group list-group-flush">
+    							<li class="list-group-item" style="padding:5px;">
+    								<h5 class="group card-title inner list-group-item-heading" style="height: 50px; margin: 0px">
+										${list.product_nm}
+									</h5>
+									<h5 class="group card-title inner list-group-item-heading" style="color: #4286f4; text-align: center; margin: 0px">
+									<c:choose>
+                                		<c:when test="${list.bid_max_money == '0'}">${list.money_first}원</c:when>
+                                		<c:otherwise>${list.bid_max_money}원</c:otherwise>
+                            		</c:choose>
+                            		</h5>
+								</li>
+    							<li class="list-group-item" style="padding:5px;">
+									<span style="float: left;">
+	                                	입찰: 
+	                                     ${list.bid_cnt}명 
+									</span>
+									<span style="float: right;">
+										조회: ${list.viewcnt}
+	                                </span>
+								</li>
+    							<li class="list-group-item" style="padding:5px;">
+    								<span>
+										판매자:
+									</span>
+									<span class="prodMember_id" style="float: right;">${list.member_id}</span>
+    							</li>
+    							<li class="list-group-item" style="padding:5px;">
+    								<span style="float: left;">
+										경매종료:
+									</span>
+									<span class="auctdate_end" style="float: right;">${list.acutdate_end_str}</span>
+    							</li>
+							</ul>						
+						</div>
+					</div>
+				</div>
+			</c:forEach>
+		</div>
 	</div>
-</div>
 <script type="text/javascript">
 	$(function() {
 		$(".thumbnail").on("click", function() {
@@ -193,5 +206,59 @@
 	        
 	        form.submit();
 		});
+		
+		// 판매자정보 *처리 하기
+		$(".prodMember_id").each(function(i, obj) {
+			var prodMember_id = $(this).text();
+			var sCov = idCov(prodMember_id);
+			$(this).text(sCov);
+		    
+		});
+		
+		// *처리 함수
+		function idCov(memberid){
+			var covNum = memberid.indexOf("@");
+			var sCov = "";
+			
+			for(var i=1; i<=memberid.length; i++) {
+				if(i > 2 && i <= covNum-1) {
+					sCov = sCov + "*"; 
+				}
+				else {
+					sCov = sCov + memberid.substring(i-1, i);
+				}
+			}
+			
+			return sCov;
+		}
+		
+		// 시간 표시
+		$(".auctdate_end").each(function(i, obj) {
+			var endDateTime = new Date($(this).text()+":00").getTime();
+			var dateTime = new Date().getTime();
+			
+			if(endDateTime > dateTime) {
+				var difference_ms = endDateTime - dateTime;
+				difference_ms = difference_ms / 1000;
+				var seconds = Math.floor(difference_ms % 60);
+				difference_ms = difference_ms / 60; 
+				var minutes = Math.floor(difference_ms % 60);
+				difference_ms = difference_ms / 60; 
+				var hours = Math.floor(difference_ms % 24);  
+				var days = Math.floor(difference_ms / 24);
+				
+				seconds = (seconds < 10) ? "0" + seconds : seconds;
+				minutes = (minutes < 10) ? "0" + minutes : minutes;
+				hours = (hours < 10) ? "0" + hours : hours;
+				if(days == 0) {
+					$(this).text(hours + "시간 " + minutes + "분");
+				}else if (days == 0 && hours == 0) {
+					$(this).text(minutes + "분");
+				}else {
+					$(this).text(days + "일 " + hours + "시간");
+				}	
+			}
+		});
+		
 	});
 </script>
