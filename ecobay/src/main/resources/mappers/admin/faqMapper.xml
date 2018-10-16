@@ -61,7 +61,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			</if> 
 		</if>
 		ORDER BY t1.FAQ_IDX DESC, t1.REGDATE DESC
-		LIMIT 0, 10;
+		LIMIT #{startIndex},#{cntPerPage}
 	</select>
 	
 	<select id="selectFaqOne" parameterType="int" resultType="FaqVO">
