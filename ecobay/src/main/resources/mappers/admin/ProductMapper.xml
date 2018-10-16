@@ -43,13 +43,62 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		   AND STATE_CD = '1'
 		<include refid="reqsearch" />
  	</select>
+ 	
+	<select id="payProductList" resultType="ProductVO">
+		SELECT pay.*
+		  FROM( SELECT @rownum:=@rownum+1 AS rn, pp.*
+				  FROM ( SELECT p.*
+						   FROM ( SELECT   py.PRODUCT_CD
+										, (SELECT pd.PRODUCT_NM FROM PRODUCT pd WHERE pd.PRODUCT_CD = py.PRODUCT_CD) as PRODUCT_NM
+										, py.MONEY_PAY
+										, auct.BAY_MEMBER_ID as MEMBER_ID
+										, (SELECT mem.MEMBER_NAME FROM MEMBER mem WHERE mem.MEMBER_ID = auct.BAY_MEMBER_ID) as MEMBER_NM
+										, (SELECT deli.DELI_DIV_CD FROM DELIVERYINFO deli WHERE deli.PRODUCT_CD = py.PRODUCT_CD) as DELI_DIV_CD
+										, py.REGDATE
+								   FROM PAYMENT py LEFT JOIN AUCTIONINFO auct
+									 ON py.PRODUCT_CD = auct.PRODUCT_CD
+								  WHERE auct.PAYMENT_PROC_CD = '2'
+								) p
+                        WHERE 1=1
+					  <include refid="paysearch" />
+                     ORDER BY REGDATE DESC
+					) pp , (SELECT @rownum:=0) tmp
+			   ) pay
+		   LIMIT #{startIndex},#{cntPerPage}
+	</select>
+	
+	<select id="payProductCount" resultType="int">
+		SELECT COUNT(p.PRODUCT_CD) as CNT
+		  FROM ( SELECT   py.PRODUCT_CD
+						, (SELECT pd.PRODUCT_NM FROM PRODUCT pd WHERE pd.PRODUCT_CD = py.PRODUCT_CD) as PRODUCT_NM
+						, py.MONEY_PAY
+						, auct.BAY_MEMBER_ID as MEMBER_ID
+						, (SELECT mem.MEMBER_NAME FROM MEMBER mem WHERE mem.MEMBER_ID = auct.BAY_MEMBER_ID) as MEMBER_NM
+						, py.REGDATE
+				   FROM PAYMENT py LEFT JOIN AUCTIONINFO auct
+					 ON py.PRODUCT_CD = auct.PRODUCT_CD
+				  WHERE auct.PAYMENT_PROC_CD = '2'
+				) p
+		WHERE 1=1
+		<include refid="paysearch" />
+ 	</select>
+
+	<select id="selectDeliProd" resultType="DeliveryVO">
+		SELECT *		
+		  FROM DELIVERY
+		 WHERE PRODUCT_CD = #{product_cd}
+	</select>
 
 	<select id="selectDetailProd" resultType="productVO">
-		SELECT    prod.PRODUCT_CD, prod.PRODUCT_NM, prod.MEMBER_ID
+		SELECT    prod.PRODUCT_CD, prod.PRODUCT_NM
+				, prod.MEMBER_ID
+				, (SELECT mem.MEMBER_NAME FROM MEMBER mem WHERE mem.MEMBER_ID = prod.MEMBER_ID) as MEMBER_NM
+				, prod.CLASS_BIG_CD
+				, (SELECT cls.CLASS_NM FROM CLASS cls WHERE cls.CLASS_BIG_CD = prod.CLASS_BIG_CD AND CLASS_DIV = 'B') as CLASS_BIG_NM
+				, prod.CLASS_MID_CD
+				, (SELECT cls.CLASS_NM FROM CLASS cls WHERE cls.CLASS_BIG_CD = prod.CLASS_BIG_CD AND cls.CLASS_MID_CD = prod.CLASS_MID_CD AND CLASS_DIV = 'M') as CLASS_MID_NM
                 , prod.STATE_CD, prod.STATE_NM, prod.VIEWCNT
                 , IFNULL(prod.CONTENT, '') as CONTENT
-				, (SELECT COUNT(bid.PRODUCT_CD) FROM BIDINFO bid WHERE bid.PRODUCT_CD = prod.PRODUCT_CD) as BID_CNT
-				, IFNULL((SELECT MAX(bid.MONEY_BID) FROM BIDINFO bid WHERE bid.PRODUCT_CD = prod.PRODUCT_CD), 0) as BID_MAX_MONEY
 		   FROM PRODUCT prod
 		  WHERE prod.USE_YN = TRUE
 		    AND prod.PRODUCT_CD = #{product_cd}
@@ -92,6 +141,23 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
  	<sql id="reqsearch">
 		<if test="keyWord != null and keyWord != ''">
 			AND PRODUCT_NM like CONCAT('%',#{keyWord},'%')
+		</if>
+	</sql>
+	
+ 	<sql id="paysearch">
+		<if test="keyWord != null and keyWord != ''">
+		  	<if test="searchType != null and searchType != ''">
+				<if test="searchType == 'all'">
+			  		AND (
+				  			   MEMBER_ID   like CONCAT('%',#{keyWord},'%')
+				  			OR MEMBER_NAME like CONCAT('%',#{keyWord},'%')
+				  			OR PRODUCT_NM  like CONCAT('%',#{keyWord},'%')
+			  			)
+				</if>
+	  			<if test="searchType != 'all'">
+	  				AND ${searchType} like CONCAT('%',#{keyWord},'%')
+	  			</if>
+			</if>
 		</if>
 	</sql>
  	

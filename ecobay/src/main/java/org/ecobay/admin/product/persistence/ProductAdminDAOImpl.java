@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.session.SqlSession;
 import org.ecobay.user.product.domain.AuctionInfoVO;
 import org.ecobay.user.product.domain.DeliveryInfoVO;
+import org.ecobay.user.product.domain.DeliveryVO;
 import org.ecobay.user.product.domain.ProductImageVO;
 import org.ecobay.user.product.domain.ProductVO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,5 +62,20 @@ public class ProductAdminDAOImpl implements ProductAdminDAO {
 	@Override
 	public List<ProductImageVO> selectImageList(String product_cd) throws Exception {
 		return session.selectList(namespace + ".selectImageList",product_cd);
+	}
+
+	@Override
+	public int payProductCount(ProductVO productVO) throws Exception {
+		return session.selectOne(namespace + ".payProductCount", productVO);
+	}
+
+	@Override
+	public List<ProductVO> payProductList(ProductVO productVO) throws Exception {
+		return session.selectList(namespace + ".payProductList", productVO);
+	}
+
+	@Override
+	public DeliveryVO selectDeliProd(String product_cd) throws Exception {
+		return session.selectOne(namespace + ".selectDeliProd", product_cd);
 	}
 }

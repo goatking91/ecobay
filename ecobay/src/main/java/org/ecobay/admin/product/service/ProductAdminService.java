@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.ecobay.user.product.domain.AuctionInfoVO;
 import org.ecobay.user.product.domain.DeliveryInfoVO;
+import org.ecobay.user.product.domain.DeliveryVO;
 import org.ecobay.user.product.domain.ProductImageVO;
 import org.ecobay.user.product.domain.ProductVO;
 
@@ -19,4 +20,9 @@ public interface ProductAdminService {
 	public AuctionInfoVO selectDetailAuct(String product_cd) throws Exception;
 	public DeliveryInfoVO selectDetailDeli(String product_cd) throws Exception;
 	public List<ProductImageVO> selectImageList(String product_cd) throws Exception;
+	
+	public int payProductCount(ProductVO productVO) throws Exception;
+	public List<ProductVO> payProductList(ProductVO productVO) throws Exception;
+	
+	public DeliveryVO selectDeliProd(String product_cd) throws Exception;
 }

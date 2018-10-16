@@ -5,6 +5,7 @@ import java.util.List;
 import org.ecobay.admin.product.persistence.ProductAdminDAO;
 import org.ecobay.user.product.domain.AuctionInfoVO;
 import org.ecobay.user.product.domain.DeliveryInfoVO;
+import org.ecobay.user.product.domain.DeliveryVO;
 import org.ecobay.user.product.domain.ProductImageVO;
 import org.ecobay.user.product.domain.ProductVO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,5 +59,20 @@ public class ProductAdminServiceImpl implements ProductAdminService {
 	@Override
 	public List<ProductImageVO> selectImageList(String product_cd) throws Exception {
 		return dao.selectImageList(product_cd);
+	}
+
+	@Override
+	public int payProductCount(ProductVO productVO) throws Exception {
+		return dao.payProductCount(productVO);
+	}
+
+	@Override
+	public List<ProductVO> payProductList(ProductVO productVO) throws Exception {
+		return dao.payProductList(productVO);
+	}
+
+	@Override
+	public DeliveryVO selectDeliProd(String product_cd) throws Exception {
+		return dao.selectDeliProd(product_cd);
 	}
 }
