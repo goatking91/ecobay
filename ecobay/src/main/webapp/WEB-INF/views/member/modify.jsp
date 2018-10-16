@@ -32,8 +32,8 @@ $(document).ready(function(){
 	$('#phone3').val(phone3);
 	
 	$('#modify_end').click(function(event){
-		var pwd = $('#pwd').val();
-		var pwdck = $('#pwdck').val();
+/* 		var pwd = $('#pwd').val();
+		var pwdck = $('#pwdck').val(); */
 		var phone1 = $('#phone1').val();
 		var phone2 = $('#phone2').val();
 		var phone3 = $('#phone3').val();
@@ -41,12 +41,12 @@ $(document).ready(function(){
 		var addr1 = $('#addr1').val();
 		var addr2 = $('#addr2').val();
 		
-		var reg_pwd = RegExp(/^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,16}$/);
+/* 		var reg_pwd = RegExp(/^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,16}$/); */
 		var reg_phone= RegExp(/(\d{3,4})/);
 		
         var phone = '';
 		
-		if(pwd.length == 0){
+		/* if(pwd.length == 0){
 			$('#message').find('h4').text("비밀번호를 입력해주세요");
 			$('#myModal').modal('show');
 			$("#pwd").focus();
@@ -63,7 +63,8 @@ $(document).ready(function(){
 		    $("#pwdck").val("");
 		    $("#pwdck").focus();
 			return false;
-		}if(phone2.length == 0){
+		} */
+		if(phone2.length == 0){
         	$('#message').find('h4').text("번호 가운데자리를 입력해주세요");
         	$('#myModal').modal('show');
         	$("#phone2").focus();
@@ -104,6 +105,13 @@ $(document).ready(function(){
         	$("#addr2").focus();
         	return false; 
         }
+        })
+        $('#cancel').click(function(){
+        	$('#message').find('h4').text("모든 입력을 취소하시겠습니까?");
+        	$('#myModal').modal('show');
+        	$('#ok').click(function(){
+        		location.href = "/member/mypage.do";
+        	})
 	});
 }); 
 </script>
@@ -129,7 +137,7 @@ $(document).ready(function(){
 					<input class="form-control border-0" style="background-color:white" id="member_id" name="member_id" type="text" value="${member.member_id}" readonly>
 				</div>		
         	</div>
-			<div class="form-group row row">
+			<!-- <div class="form-group row row">
 				<label class="col-sm-3 col-form-label text-right text-right" for="pwd">비밀번호</label>
 				<div class="col-sm-3">
 					<input class="form-control" id="pwd" name="pwd" type="password" placeholder="비밀번호">
@@ -140,7 +148,7 @@ $(document).ready(function(){
 				<div class="col-sm-3">
 					<input class="form-control" id="pwdck" name="pwdck" type="password" placeholder="비밀번호 확인">
 				</div>
-			</div>
+			</div> -->
 			<div class="form-group row">
 				<label class="col-sm-3 col-form-label text-right" for="birth">생년월일</label>
 				<div class="col-sm-3">
@@ -205,8 +213,8 @@ $(document).ready(function(){
 						
 			<div class="form-group row">
 				<div class="col-sm text-center">
-					<input type="submit" id="modify_end" name="modify_end" class="btn btn-lg btn-info" value="수정완료">&nbsp;
-					<input type="reset" class="btn btn-lg btn-info" value="초기화">
+					<input type="submit" id="modify_end" name="modify_end" class="btn btn-lg btn-primary" value="수정완료">&nbsp;
+					<input type="button" id="cancel" class="btn btn-lg btn-primary" value="취소">
 				</div>	
 			</div>     	
 		</form>
@@ -234,7 +242,7 @@ $(document).ready(function(){
 	      </form>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-primary" data-dismiss="modal">확인</button>
+        <button type="button" id="ok" class="btn btn-primary" data-dismiss="modal">확인</button>
       </div>
     </div>
   </div>

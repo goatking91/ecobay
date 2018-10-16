@@ -6,6 +6,7 @@ import javax.inject.Inject;
 
 import org.apache.ibatis.session.SqlSession;
 import org.ecobay.user.member.domain.MemberProductVO;
+import org.ecobay.user.member.domain.MemberQnaVO;
 import org.ecobay.user.member.domain.MemberVO;
 import org.ecobay.user.product.domain.AuctionInfoVO;
 import org.ecobay.user.product.domain.DeliveryVO;
@@ -140,6 +141,16 @@ public class MemberDAOImpl implements MemberDAO {
 	@Override
 	public void stateChange(String product_cd) throws Exception {
 		session.update(namespace + ".stateChange", product_cd);
+	}
+
+	@Override
+	public List<MemberQnaVO> qnaList(MemberQnaVO vo) throws Exception {
+		return session.selectList(namespace + ".qnaList", vo);
+	}
+
+	@Override
+	public int qnaCnt(String member_id) throws Exception {
+		return session.selectOne(namespace + ".qnaCnt", member_id);
 	}
 	
 }

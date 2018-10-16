@@ -6,7 +6,8 @@
 	<typeAliases>
 		<typeAlias type="org.ecobay.user.member.domain.MemberVO" alias="MemberVO"/>
 		<typeAlias type="org.ecobay.user.member.domain.MemberProductVO" alias="MemberProductVO"/>
-		
+		<typeAlias type="org.ecobay.user.member.domain.MemberQnaVO" alias="MemberQnaVO"/>
+
 		<typeAlias type="org.ecobay.user.product.domain.ProductVO" alias="ProductVO"/>
 		<typeAlias type="org.ecobay.user.product.domain.ProductImageVO" alias="ProductImageVO"/>
 		<typeAlias type="org.ecobay.user.product.domain.AuctionInfoVO" alias="AuctionInfoVO"/>

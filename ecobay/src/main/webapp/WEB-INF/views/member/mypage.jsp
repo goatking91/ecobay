@@ -20,6 +20,13 @@ $(document).ready(function(){
 	    });
 	});
 	
+	//===============내 정보- 수정버튼
+	$('#edit_button').click(function(event){
+		/* var pwd = $('#pwd').val(); *///입력받은값
+        $('#pwdModal').modal('show');
+	});
+	
+	//===============수정버튼 클릭시 뜨는 모달창 확인 버튼
 	$('#confirmpwd').click(function(event){
 		/* $('#myModal').css('z-index',99999); */
 		$('#enter').text("");
@@ -55,28 +62,30 @@ $(document).ready(function(){
 			}
 		});  
 	})
-	
-	$('#edit_button').click(function(event){
-		var pwd = $('#pwd').val();//입력받은값
-        $('#pwdModal').modal('show');
-	});
-	$(document).on("click", ".wbtnajax", function(){
-		wishListAjax($(this).val());
-	});
-	
-	$(document).on("click", ".sbtnajax", function(){
-		sellListAjax($(this).val());
-	});
-	
-	$(document).on("click", ".bbtnajax", function(){
+
+	//===============페이징 버튼 연결 	
+	$(document).on("click", ".bbtnajax", function(){//판매상품 페이징 버튼/ 이전 1234...다음
 		buyListAjax($(this).val());
 	});
 	
-	$(document).on("click", "#chK_all", function(){
+	$(document).on("click", ".sbtnajax", function(){//구매상품 페이징 버튼/ 이전 1234...다음
+		sellListAjax($(this).val());
+	});
+	
+	$(document).on("click", ".wbtnajax", function(){//관심상품 페이징 버튼/ 이전 1234...다음
+		wishListAjax($(this).val());
+	});
+	
+	$(document).on("click", ".qbtnajax", function(){//1:1문의 페이징 버튼/ 이전 1234...다음
+		qnaListAjax($(this).val());
+	});
+	
+	//===============관심상품 체크박스
+	$(document).on("click", "#chK_all", function(){//체크박스 모두선택
 		$('.check').prop('checked', this.checked);
 	});
 
-	$(document).on("click", "#delchk", function(){
+	$(document).on("click", "#delchk", function(){//관심상품리스트에서 체크된 상품들을 삭제
 		/* $("input:checkbox[id=chk"+ +""]) */
 		var wishDel = [];
 		$('#checkBox:checked').each(function() {
@@ -99,13 +108,15 @@ $(document).ready(function(){
 		});  
 		
 	});
-	$(document).on("click", "#stateChan", function(){//요청취소
+	
+	//===============내 구매상품 리스트에서 상품등록 요청취소/state_cd 1-->2
+	$(document).on("click", "#stateChan", function(){
 		$('#changeMessage').find('h4').text("요청을 취소하시겠습니까?");
 		$('#changeModal').modal('show');
 		
 		var product_cd = $('#prodcd').val();
 		
-		$('#ok').click(function(){
+		$('#ok').click(function(){//요청을 취소하시겠습니까? 모달의 확인버튼 눌렀을 시
 
 			$.ajax({
 				async : true,
@@ -124,28 +135,47 @@ $(document).ready(function(){
 		});
 	});
 	
+	$(document).on("click", ".qnaclick", function(){
+		//모달에 질문과 관리자답변 보이기
+
+		$('#mtitle').find('h5').text("제목: "+ $(this).children('#title').text());
+		$('#mregdate').find('h5').text("등록날짜: "+ $(this).children('#regdate_str').val());
+		$('#mcontent').find('h5').text("내용: "+ $(this).children('#content').val());
+
+		$('#a_id ').find('h6').text("관리자: "+ $(this).children('#admin_id').val());
+		$('#a_regdate').find('h6').text("등록날짜: "+ $(this).children('#replyregdate').val());
+		$('#a_content').find('h6').text("내용: "+ $(this).children('#replycontent').val()); 
+		$('#qnaModal').modal('show');
+	})
 	
-	$('#sellList-tap').click(function(){
+	//===============메뉴 클릭시 페이지 호출
+	$('#sellList-tap').click(function(){//내 구매상품
 		
 		sellListAjax(page);  
 		
 	});
 	
-	 $('#buyList-tap').click(function(){
+	 $('#buyList-tap').click(function(){//내 판매상품
 			
 		buyListAjax(page);  
 			
 	}); 
 	
-	$('#wishList-tap').click(function(){
+	$('#wishList-tap').click(function(){//내 관심상품
 		
 		wishListAjax(page);  
 		
 	});
 	
+ 	$('#qnaList-tap').click(function(){//1:1문의
+		
+		qnaListAjax(page);  
+		
+	}); 
 	
 	
-	function wishListAjax(page) {
+ 	//===============각 리스트 페이지
+	function wishListAjax(page) {//관심상품리스트
 		$.ajax({
 			async: true,
 			type: "POST",
@@ -194,24 +224,6 @@ $(document).ready(function(){
 				console.log(str);
 				var vo = JSON.parse(JSON.stringify(data.vo));
 
-				/* //페이징
-				var start, end, page, startpage, endpage, pagecount, temp, total;
-				
-				/ if(total/10>0){
-					pagecount = (total/10)+1;
-				}else{
-					pagecount = total/10;}
-				
-				start = ((page-1)*10)+1;
-				end = start*10;
-					
-				temp = (page-1)%10;
-				startpage =  page - temp;
-				endpage = startpage + 9; 
-				if(engpage>pagecount){endpage=pagecount;}		
-				
- 				str = str + "int start, end, pagenum, startpage, endpage, pagecount, temp";
-				str = str + "String pnum, returnpage"; */
 	 			str = str + "<div align='center'>";
 				str = str + "	<tr>";
 				str = str + "		<td colspan='6'>";
@@ -237,7 +249,7 @@ $(document).ready(function(){
 		});
 	}
 		
-		function buyListAjax(page) {
+		function buyListAjax(page) {//구매상품리스트
 			$.ajax({
 				async: true,
 				type: "POST",
@@ -260,10 +272,7 @@ $(document).ready(function(){
 
 					$.each(data.arr, function(index, arr){
 						
-						str = str + "<div class='form-group row col-sm-12' style='padding:15px; margin:10px'>";
-						str = str + "	<div class='col-sm-1' style='padding-top:35px'>";
-						str = str + "		<input type='checkbox' class='check' id='checkBox' value=" + arr.product_cd + ">";
-						str = str + "	</div>";	
+						str = str + "<div class='form-group row col-sm-12' style='padding:15px; margin:10px'>";	
 						str = str + "	<div class='col-sm-3'><img src='/displayFile.do?fileName=" + arr.filename_thumb + "' style='margin-left: auto; margin-right: auto; display: block; width:60%;'></div>";
 						str = str + "	<div class='col-sm-5' id='form-inline' style='padding-top:10px'>";
 						str = str + "		<div style='font-size:8pt'>" + arr.acutdate_start_str + "~" + arr.acutdate_end_str + "</div>";
@@ -282,24 +291,6 @@ $(document).ready(function(){
 					console.log(str);
 					var vo = JSON.parse(JSON.stringify(data.vo));
 
-					/* //페이징
-					var start, end, page, startpage, endpage, pagecount, temp, total;
-					
-					/ if(total/10>0){
-						pagecount = (total/10)+1;
-					}else{
-						pagecount = total/10;}
-					
-					start = ((page-1)*10)+1;
-					end = start*10;
-						
-					temp = (page-1)%10;
-					startpage =  page - temp;
-					endpage = startpage + 9; 
-					if(engpage>pagecount){endpage=pagecount;}		
-					
-	 				str = str + "int start, end, pagenum, startpage, endpage, pagecount, temp";
-					str = str + "String pnum, returnpage"; */
 		 			str = str + "<div align='center'>";
 					str = str + "	<tr>";
 					str = str + "		<td colspan='6'>";
@@ -325,7 +316,7 @@ $(document).ready(function(){
 			});
 	}
 		
-		function sellListAjax(page) {
+		function sellListAjax(page) {//판매상품리스트
 			$.ajax({
 				async: true,
 				type: "POST",
@@ -348,9 +339,6 @@ $(document).ready(function(){
 
 					$.each(data.arr, function(index, arr){						
 						str = str + "<div class='form-group row col-sm-12' style='padding:15px; margin:10px'>";
-						str = str + "	<div class='col-sm-1' style='padding-top:35px'>";
-						str = str + "		<input type='checkbox' class='check' id='checkBox' value=" + arr.product_cd + ">";
-						str = str + "	</div>";	
 						str = str + "	<div class='col-sm-3'><img src='/displayFile.do?fileName=" + arr.filename_thumb + "' style='margin-left: auto; margin-right: auto; display: block; width:60%;'></div>";
 						str = str + "	<div class='col-sm-5' id='form-inline' style='padding-top:10px'>";
 						str = str + "		<div style='font-size:8pt'>" + arr.acutdate_start_str + "~" + arr.acutdate_end_str + "</div>";
@@ -363,7 +351,7 @@ $(document).ready(function(){
 							str = str + "<buttton class='btn btn-info' id='stateChan' style='height:30%; margin-top:35px; margin-left:20px'>요청취소</buttton>";
 							str = str + "<input type='hidden' id='prodcd' value='"+ arr.product_cd +"'>";
 						}else if(arr.state_cd == '2'){
-							str = str + "	<div id='' class='col-sm-3' align='right' style='padding-top:35px'>요청취소</div>";
+							str = str + "	<div class='col-sm-3' align='right' style='padding-top:35px'>요청취소</div>";
 						}else{
 							state_cd = "경매종료";
 						}
@@ -374,24 +362,6 @@ $(document).ready(function(){
 					console.log(str);
 					var vo = JSON.parse(JSON.stringify(data.vo));
 
-					/* //페이징
-					var start, end, page, startpage, endpage, pagecount, temp, total;
-					
-					/ if(total/10>0){
-						pagecount = (total/10)+1;
-					}else{
-						pagecount = total/10;}
-					
-					start = ((page-1)*10)+1;
-					end = start*10;
-						
-					temp = (page-1)%10;
-					startpage =  page - temp;
-					endpage = startpage + 9; 
-					if(engpage>pagecount){endpage=pagecount;}		
-					
-	 				str = str + "int start, end, pagenum, startpage, endpage, pagecount, temp";
-					str = str + "String pnum, returnpage"; */
 		 			str = str + "<div align='center'>";
 					str = str + "	<tr>";
 					str = str + "		<td colspan='6'>";
@@ -416,6 +386,73 @@ $(document).ready(function(){
 				}
 			});
 	}
+		 
+		function qnaListAjax(page) {//1:1문의 내역
+			$.ajax({
+				async: true,
+				type: "POST",
+				data: member_id,
+				url : "/member/qnaList.do/" + page,
+				dataType : "json",
+				contentType: "application/json; charset=UTF-8",
+				success : function(data) {
+					$('#qnaList').empty();
+
+					var str = "";
+					str = str + "<h3>1:1문의 내역</h3>";
+					str = str + "<div class='bg-light border-top border-bottom form-inline col-sm-12' style='padding:15px; margin:10px'>";
+					str = str + "	<div class='col-sm-1'>넘버</div>"
+					str = str + "	<div class='col-sm-1'>글번호</div>"
+					str = str + "	<div class='col-sm-5'>제목</div>"
+					str = str + "	<div class='col-sm-2'>등록날짜</div>"
+					str = str + "	<div style='align:right'>문의 수 "+ data.cnt +"</div>"
+					str = str + "</div>";
+					console.log("arr="+data.arr);
+
+					$.each(data.arr, function(index, arr){				
+						str = str + "<div class='form-group row col-sm-12 qnaclick' style='padding:15px; margin:10px'>";
+						str = str + "	<div class='col-sm-1' style='padding-top:35px'>" + arr.rn + "	</div>";
+						str = str + "	<div class='col-sm-1' style='padding-top:35px'>" + arr.qna_idx + "	</div>";
+/* 						str = str + "	<button class='col-sm-5' id='title' style='padding-top:35px' value='" + arr.title + "'	></button>"; */
+ 						str = str + "	<div class='col-sm-5' id='title' style='padding-top:35px'>" + arr.title + "	</div>"; 
+ 						str = str + "	<div class='col-sm-2' style='padding-top:35px'>" + arr.regdate_str + "	</div>";
+						//타이틀 클릭했을 때 모달처리->내가쓴내용, 관리자 답변
+						str = str + "	<input type='hidden' id='content' value='"+ arr.content +"'>";
+						str = str + "	<input type='hidden' id='regdate_str' value='"+ arr.regdate_str +"'>";
+						str = str + "	<input type='hidden' id='admin_id' value='"+ arr.admin_id +"'>";
+						str = str + "	<input type='hidden' id='replycontent' value='"+ arr.replycontent +"'>";
+						str = str + "	<input type='hidden' id='replyregdate' value='"+ arr.replyregdate +"'>"; 
+						str = str + "</div><hr>";
+
+					});
+					console.log(str);
+					var vo = JSON.parse(JSON.stringify(data.vo));
+
+		 			str = str + "<div align='center'>";
+					str = str + "	<tr>";
+					str = str + "		<td colspan='6'>";
+					if(vo.startpage>10){
+						str = str + "			<button class='btn btn-light qbtnajax' value='" + (vo.startpage-10) +"' >이전</button>";	
+					}
+					for(var i = vo.startpage; i <= vo.endpage; i++){
+						str = str + "			<button class='btn btn-light qbtnajax' value='"+ i +"'>" + i + "</button>";
+					}
+					if(vo.endpage<vo.pagecount){
+						str = str + "	<button class='btn btn-light qbtnajax' value='"+ (vo.startpage+10) +"' >다음</button>";	
+					}
+					str = str + "	</td>";
+					str = str + "</tr>";
+					str = str + "</div>";  
+					
+					console.log(str);
+					$('#qnaList').append(str);
+		        },
+		        error: function(data) {
+					console.log("error :" + data);
+				}
+			});
+	}
+		
 		$('#getout-tap').click(function(){
 			$('#outPwdModal').modal('show');
 		});
@@ -621,7 +658,7 @@ $(document).ready(function(){
 </script>
 
 <hr>
-<div class="container bootstrap snippet">
+<div class="container bootstrap snippet" >
 	<div class="row">
 		<div class="col-sm-10"><h1>${member_name}</h1></div>
 		<div class="col-sm-2"></div>
@@ -629,25 +666,29 @@ $(document).ready(function(){
 
 	<div class="row">
 		<!-- 왼쪽 sub_nav -->
-		<div class="col-sm-3">
+		<div class="col-sm-2">
 			<ul class="list-group" id="myTab">
-            	<li class="list-group-item text-muted">
-            		<a id="myinfo-tap" data-toggle="tab" href="#nav-home" role="tab">내 정보</a>
+				<li style="list-style:none; color:#5ebded; text-align:center;"><h1><b>MYPAGE</b></h1></li>
+            	<li class="list-group-item text-muted" style="text-align:center; padding:1.5rem 1.25rem;">
+            		<a style="color:black" id="myinfo-tap" data-toggle="tab" href="#nav-home" role="tab">내 정보</a>
             	</li>
-            	<li class="list-group-item d-flex justify-content-between align-items-center sell_buyList">
-            		<a id="pwdChange-tap" data-toggle="tab" href="#pwdChange" role="tab">비밀번호변경하기</a>
+            	<li class="list-group-item sell_buyList" style="text-align:center; padding:1.5rem 1.25rem;">
+            		<a style="color:black" id="pwdChange-tap" data-toggle="tab" href="#pwdChange" role="tab">비밀번호 변경</a>
 				</li>
-            	<li class="list-group-item d-flex justify-content-between align-items-center sell_buyList">
-					<a id="sellList-tap" data-toggle="tab" href="#sellList" role="tab">내 판매상품</a>
+            	<li class="list-group-item sell_buyList" style="text-align:center; padding:1.5rem 1.25rem;">
+					<a style="color:black" id="sellList-tap" data-toggle="tab" href="#sellList" role="tab">내 판매상품</a>
 				</li>
-				<li class="list-group-item d-flex justify-content-between align-items-center menu_buyList">
-					<a id="buyList-tap" data-toggle="tab" href="#buyList" role="tab">내 구매상품</a>
+				<li class="list-group-item menu_buyList" style="text-align:center; padding:1.5rem 1.25rem;">
+					<a style="color:black" id="buyList-tap" data-toggle="tab" href="#buyList" role="tab">내 구매상품</a>
 				</li>
-				<li class="list-group-item d-flex justify-content-between align-items-center menu_wish">
-					<a id="wishList-tap" data-toggle="tab" href="#wishList" role="tab">관심상품</a> 
+				<li class="list-group-item menu_wish" style="text-align:center; padding:1.5rem 1.25rem;">
+					<a style="color:black" id="wishList-tap" data-toggle="tab" href="#wishList" role="tab">관심상품</a> 
 				</li>
-				<li class="list-group-item d-flex justify-content-between align-items-center menu_getout">
-					<a id="getout-tap" data-toggle="tab" href="#getout" role="tab">탈퇴하기</a> 
+				<li class="list-group-item menu_qna" style="text-align:center; padding:1.5rem 1.25rem;">
+					<a style="color:black" id="qnaList-tap" data-toggle="tab" href="#qnaList" role="tab">1:1문의 내역</a> 
+				</li>
+				<li class="list-group-item menu_getout" style="text-align:center; padding:1.5rem 1.25rem;">
+					<a style="color:black" id="getout-tap" data-toggle="tab" href="#getout" role="tab">탈퇴하기</a> 
 				</li>
 			</ul> 
 		</div>
@@ -655,20 +696,22 @@ $(document).ready(function(){
 		
 		
 		<!-- 탭 영역 -->
-		<div class="col-sm-9">
+		<div class="col-sm-10">
 			
 			<div class="tab-content" id="nav-tabContent">
-				<div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="myinfo-tap">
+				<div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="myinfo-tap" >
 					<div class="form-group row">
-						<h2>&nbsp;&nbsp;${member.member_name}</h2>&nbsp;&nbsp; <h6 style="padding-top:15px">님의 정보입니다</h6>
+						<div class="col-sm-12" align="center">
+							<h1><b>내 정보</b></h1>
+						</div>
 					</div>
 					<div class="col-sm-12">
 				        <form>
 				        	<div class="form-group row">
-								<label class="col-sm-3 col-form-label text-right" for="member_name">이름</label>
+								<label class="col-sm-3 col-form-label text-right" for="member_name"><b>이름</b></label>
 								<div class="col-sm-4">
 									<security:csrfInput/>
-									<input class="form-control border-0 " style="background-color:white" id="member_name" name="member_name" type="text" value="${member.member_name}" readonly>
+									<p id="member_name">${member.member_name}</p>
 								</div>
 							</div>
 				        	
@@ -722,7 +765,7 @@ $(document).ready(function(){
 										
 							<div class="form-group row">
 								<div class="col-sm text-center">
-									<input type="button" id="edit_button" class="btn btn-lg btn-info" value="수정">
+									<input type="button" id="edit_button" class="btn btn-lg btn-primary" value="수정">
 								</div>	
 							</div>     	
 						</form>
@@ -754,6 +797,7 @@ $(document).ready(function(){
 				<div class="tab-pane fade" id="sellList" role="tabpanel" aria-labelledby="sellList"></div>
 				<div class="tab-pane fade" id="buyList" role="tabpanel" aria-labelledby="buyList"></div>
 				<div class="tab-pane fade" id="wishList" role="tabpanel" aria-labelledby="wishList"></div>
+				<div class="tab-pane fade" id="qnaList" role="tabpanel" aria-labelledby="qnaList"></div>
 			</div>
 		</div>
 		<!--탭 영역 끝-->
@@ -928,6 +972,58 @@ $(document).ready(function(){
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
         <button type="button" id="outConfirmPwd" class="btn btn-primary">확인</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 1:1문의 상세 -->
+<div class="modal fade" id="qnaModal" tabindex="-1" role="dialog" aria-labelledby="qnaModal" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modaltitlee">1:1문의</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+	      	<div>내 질문</div>
+	      	<div class="row">
+	          <div id="mtitle">
+				<h5 align="center"></h5>
+	          </div>		      		      	
+			</div>
+			<div class="row">
+	          <div id="mregdate">
+				<h5 align="center"></h5>
+	          </div>		      		      	
+			</div>
+			<div class="row">
+	          <div id="mcontent">
+				<h5 align="center"></h5>
+	          </div>		      		      	
+			</div>
+	  		
+	  		<div>답변</div>
+	  		<div class="row">
+	          <div id="a_id">
+				<h6 align="center"></h6>
+	          </div>		      		      	
+			</div>
+			<div class="row">
+	          <div id="a_regdate">
+				<h6 align="center"></h6>
+	          </div>		      		      	
+			</div>
+			<div class="row">
+	          <div id="a_content">
+				<h6 align="center"></h6>
+	          </div>		      		      	
+			</div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal" id='ok'>확인</button>
       </div>
     </div>
   </div>

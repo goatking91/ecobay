@@ -43,6 +43,10 @@ $(document).ready(function(){
 
 	});
 	
+	if($('#member_id2').val() == '선택'){//회원가입 처음부터 직접입력칸 비활성화
+ 	   $('#member_id3').attr("readonly", true);
+    }
+	
 	$('#member_id2').bind('change', function(){
 		var member_id2 = $('#member_id2').val();
 		var member_id3 = $('#member_id3').val();

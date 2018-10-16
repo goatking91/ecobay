@@ -3,9 +3,9 @@ package org.ecobay.user.member.service;
 import java.util.List;
 
 import org.ecobay.user.member.domain.MemberProductVO;
+import org.ecobay.user.member.domain.MemberQnaVO;
 import org.ecobay.user.member.domain.MemberVO;
 import org.ecobay.user.product.domain.AuctionInfoVO;
-import org.ecobay.user.product.domain.BidInfoVO;
 import org.ecobay.user.product.domain.DeliveryVO;
 import org.ecobay.user.product.domain.PaymentVO;
 
@@ -54,4 +54,8 @@ import org.ecobay.user.product.domain.PaymentVO;
 	public String paymentPrs(PaymentVO pvo, DeliveryVO dvo, AuctionInfoVO auctVO);
 	
 	public void stateChange(String product_cd) throws Exception;
+	
+	public List<MemberQnaVO> qnaList(MemberQnaVO vo) throws Exception;
+	
+	public int qnaCnt(String member_id) throws Exception;
 }

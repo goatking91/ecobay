@@ -18,6 +18,7 @@ import javax.mail.internet.MimeMultipart;
 import javax.servlet.ServletContext;
 
 import org.ecobay.user.member.domain.MemberProductVO;
+import org.ecobay.user.member.domain.MemberQnaVO;
 import org.ecobay.user.member.domain.MemberVO;
 import org.ecobay.user.member.service.MemberService;
 import org.ecobay.user.product.domain.AuctionInfoVO;
@@ -225,10 +226,44 @@ public class MemberController {
     
     	Map<String, Object> map = new HashMap<String, Object>();
     	List<MemberProductVO> sellList = service.sellList(vo);
-    	
     	map.put("vo", vo);
     	map.put("cnt", total);
     	map.put("arr", sellList);
+
+    	return map;
+    }
+    
+    @ResponseBody
+    @RequestMapping(value = "/qnaList.do/{page}", method = RequestMethod.POST)
+    public Map<String, Object> qnaListPOST(@RequestBody String member_id, @PathVariable("page") int page, MemberQnaVO vo) throws Exception{
+    	
+    	int total = service.qnaCnt(member_id);
+    	int pagecount = 0;
+    	
+    	if(total%10 == 0) {
+    		pagecount = total/10;
+    	} else {
+    		pagecount = (total/10) +1;
+    	}
+    	vo.setPagecount(pagecount);
+    	vo.setPage(page);
+		vo.setStart(((page-1)*10)+1);
+		vo.setEnd(page*10);
+		vo.setTemp((page-1)%10);
+		vo.setStartpage(page - vo.getTemp());
+		if(vo.getStartpage() + 9 > pagecount) { vo.setEndpage(pagecount); }
+		else {
+			vo.setEndpage(vo.getStartpage() + 9);
+		}
+		vo.setMember_id(member_id);
+    
+    	Map<String, Object> map = new HashMap<String, Object>();
+    	List<MemberQnaVO> qnaList = service.qnaList(vo);
+    	
+    	System.out.println("qnaList=" + qnaList);
+    	map.put("vo", vo);
+    	map.put("cnt", total);
+    	map.put("arr", qnaList);
 
     	return map;
     }
@@ -285,6 +320,10 @@ public class MemberController {
         count = service.idcheck(member_id);
         map.put("cnt", count);
         return map;
+    }
+    @RequestMapping(value = "/mailcheck.do", method = RequestMethod.GET)
+    public String mailcheckGET() {
+    	return "member/mailCheck.Mypage";
     }
     
     @RequestMapping(value="/join.do", method = RequestMethod.GET)

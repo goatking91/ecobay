@@ -3,6 +3,7 @@ package org.ecobay.user.member.service;
 import java.util.List;
 
 import org.ecobay.user.member.domain.MemberProductVO;
+import org.ecobay.user.member.domain.MemberQnaVO;
 import org.ecobay.user.member.domain.MemberVO;
 import org.ecobay.user.member.persistence.MemberDAO;
 import org.ecobay.user.product.domain.AuctionInfoVO;
@@ -148,6 +149,16 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public void stateChange(String product_cd) throws Exception {
 		dao.stateChange(product_cd);
+	}
+
+	@Override
+	public List<MemberQnaVO> qnaList(MemberQnaVO vo) throws Exception {
+		return dao.qnaList(vo);
+	}
+
+	@Override
+	public int qnaCnt(String member_id) throws Exception {
+		return dao.buyCnt(member_id);
 	}
 	
 }

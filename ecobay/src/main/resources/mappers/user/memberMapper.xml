@@ -157,7 +157,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	                        AND AUCT.PAYMENT_PROC_CD != '3'
 					   ORDER BY AUCT.ACUTDATE_END DESC
 					  ) bp, (SELECT @rownum:=0)tmp
-			  )buyprod d
+			  )buyprod
 		WHERE buyprod.rn between #{start} and #{end}
 	</select>
 	
@@ -214,5 +214,26 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		WHERE PRODUCT_CD = #{product_cd}
 	</update>
 	
+	<select id="qnaList" resultType="MemberQnaVO">
+		 SELECT Q.* 
+          FROM(
+				SELECT @ROWNUM:=@ROWNUM+1 AS RN, a.*
+                FROM(SELECT QNA.QNA_IDX, QNA.MEMBER_ID, QNA.TITLE, QNA.CONTENT, 
+                IFNULL(DATE_FORMAT(QNA.REGDATE, '%Y-%m-%d %H:%s'), '') AS REGDATE_STR,
+                QNAREPLY.CONTENT AS REPLYCONTENT, QNAREPLY.ADMIN_ID, QNAREPLY.REGDATE AS REPLYREGDATE
+				FROM QNA LEFT JOIN QNAREPLY
+				ON QNA.QNA_IDX = QNAREPLY.QNA_IDX
+				WHERE MEMBER_ID = #{member_id}
+                ORDER BY QNA.REGDATE DESC
+                )a, (SELECT @ROWNUM:=0)TMP
+			  )Q     
+			WHERE Q.RN BETWEEN #{start} AND #{end} 
+	</select>
+	
+	<select id="qnaCnt" resultType="int">
+		select count(*) 
+		from qna 
+		where member_id = #{member_id}
+	</select>
 </mapper>
 
