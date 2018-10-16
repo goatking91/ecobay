@@ -156,10 +156,10 @@
         </button>
       </div>
       <div class="modal-body" style="text-align: center;">
-        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#findidModal">
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#findidModal" id="findidModalShow">
 		  아이디 찾기
 		</button>
-		<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#findpwdModal">
+		<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#findpwdModal" id="findpwdModalShow">
 		  비밀번호 찾기
 		</button>
       </div>
@@ -224,7 +224,7 @@
         <form>
 	      	<div class="row">
 	      		<div class="col-md">
-		          <div id="message">
+		          <div id="findmessage">
 					<h4 align="center"></h4>
 		          </div>
 		      </div>		      	
@@ -239,7 +239,7 @@
 </div>
 
 <!-- 비밀번호 찾기 모달 -->
-<div class="modal fade" id="pwdModal" tabindex="-1" role="dialog" aria-labelledby="findIdModalLabel" aria-hidden="true">
+<div class="modal fade" id="findpwdModal" tabindex="-1" role="dialog" aria-labelledby="findIdModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -253,19 +253,19 @@
 	      	<div class="row">
 		      	<div class="col-md">
 		          <div class="form-group text-left">
-		            <label for="name" class="col-form-label">아이디</label>
-		            <input id="member_id1" name="member_id" type="text" class="form-control">
-		            <span id="enter4" style="color: red"></span>
+		            <label for="findname" class="col-form-label">아이디</label>
+		            <input id="findmember_id1" name="member_id" type="text" class="form-control">
+		            <span id="findenter4" style="color: red"></span>
 		          </div>
 		          <div class="form-group text-left">
-		            <label for="member_name1" class="col-form-label">이름</label>
-		            <input id="member_name1" name="member_name" type="text" class="form-control">
-		            <span id="enter5" style="color: red"></span>
+		            <label for="findmember_name1" class="col-form-label">이름</label>
+		            <input id="findmember_name1" name="member_name" type="text" class="form-control">
+		            <span id="findenter5" style="color: red"></span>
 		          </div>
 		          <div class="form-group text-left">
-		            <label for="birth1" class="col-form-label">생년월일</label>
-		            <input id="birth1" name="birth" type="text" class="form-control">
-		            <span id="enter6" style="color: red"></span>
+		            <label for="findbirth1" class="col-form-label">생년월일</label>
+		            <input id="findbirth1" name="birth" type="text" class="form-control">
+		            <span id="findenter6" style="color: red"></span>
 		          </div>
 		       </div>
 		   </div>
@@ -273,7 +273,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" id="pwdgo" class="btn btn-primary">확인</button>
+        <button type="button" id="findpwdgo" class="btn btn-primary">확인</button>
       </div>
     </div>
   </div>
@@ -294,14 +294,14 @@
 	      	<div class="row">
 		      	<div class="col-md">
 		          <div class="form-group text-left">
-		            <label for="newpwd" class="col-form-label">새비밀번호</label>
-		            <input id="newpwd" name="pwd" type="password" class="form-control">
-		            <span id="1enter" style="color: red"></span>
+		            <label for="findnewpwd" class="col-form-label">새비밀번호</label>
+		            <input id="findnewpwd" name="pwd" type="password" class="form-control">
+		            <span id="find1enter" style="color: red"></span>
 		          </div>
 		          <div class="form-group text-left">
-		            <label for="newpwd2" class="col-form-label">비밀번호 확인</label>
-		            <input id="newpwd2" name="pwd2" type="password" class="form-control">
-		            <span id="2enter" style="color: red"></span>
+		            <label for="findnewpwd2" class="col-form-label">비밀번호 확인</label>
+		            <input id="findnewpwd2" name="pwd2" type="password" class="form-control">
+		            <span id="find2enter" style="color: red"></span>
 		          </div>
 		       </div>
 		   </div>
@@ -309,7 +309,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" id="newpwdgo" class="btn btn-primary">확인</button>
+        <button type="button" id="findnewpwdgo" class="btn btn-primary">확인</button>
       </div>
     </div>
   </div>
@@ -361,34 +361,42 @@
 	showTime();
 	$("document").ready(function() {	
 		
+		$("#findidModalShow").on("click", function() {
+			$("#findInfoModal").modal("hide");
+		});
+		
+		$("#findpwdModalShow").on("click", function() {
+			$("#findInfoModal").modal("hide");
+		});
+		
 		$("#searchBtn").on("click", function(e) {
 			e.preventDefault();
 			$('#searchForm')[0].submit();
 		});
 		
-		$('#newpwdModal').css("z-index","9999999");//모달 z-index 설정하기
+		$('#findnewpwdModal').css("z-index","9999999");//모달 z-index 설정하기
     	$('#mysearchModal').css("z-index","99999999");
 		
-		$('#idgo').click(function(event){
-    		var member_name = $('#member_name').val();
-    		var birth = $('#birth').val();
-    		var phone = $('#phone').val();
+		$('#findidgo').click(function(event){
+    		var member_name = $('#findmember_name').val();
+    		var birth = $('#findbirth').val();
+    		var phone = $('#findphone').val();
     		
     		var postData = {'member_name' : member_name , 'birth' : birth, 'phone' : phone};
     		//널체크
     		if(member_name.length == 0){
-    			$('#enter').text("이름 입력해주세요");
-    			$('#member_name').focus();
+    			$('#findenter').text("이름 입력해주세요");
+    			$('#findmember_name').focus();
     			return false;
     		}
     		if(birth.length == 0){
-    			$('#enter2').text("생년월일 입력해주세요");
-    			$('#birth').focus();
+    			$('#findenter2').text("생년월일 입력해주세요");
+    			$('#findbirth').focus();
     			return false;
     		}
     		if(phone.length == 0){
-    			$('#enter3').text("번호 입력해주세요");
-    			$('#phone').focus();
+    			$('#findenter3').text("번호 입력해주세요");
+    			$('#findphone').focus();
     			return false;
     		}
     		//ajax로 보내고 얘네를 쿼리를 돌려서  
@@ -403,12 +411,12 @@
     				console.log(data.member_id);
 					 if(data.member_id != ""){
 	    				
-						$('#idModal').modal('hide'); 
-	    				$('#message').find('h4').text("회원님의 정보로 등록된 아이디는" + data.member_id + " 입니다");
+						$('#findidModal').modal('hide'); 
+	    				$('#findmessage').find('h4').text("회원님의 정보로 등록된 아이디는" + data.member_id + " 입니다");
 						$('#mysearchModal').modal('show');	
 					}else{
 						//$('#idModal').modal('hide'); 
-						$('#message').find('h4').text("정보가 일치하지 않습니다 다시 입력해주세요");
+						$('#findmessage').find('h4').text("정보가 일치하지 않습니다 다시 입력해주세요");
 						$('#mysearchModal').modal('show');	
 					} 
     			},
@@ -421,26 +429,26 @@
     	
 		var tmpId;//비번 변경할 아이디 값 기억
 		
-    	$('#pwdgo').click(function(event){
-    		var member_id = $('#member_id1').val();
-    		var member_name = $('#member_name1').val();
-    		var birth = $('#birth1').val();
+    	$('#findpwdgo').click(function(event){
+    		var member_id = $('#findmember_id1').val();
+    		var member_name = $('#findmember_name1').val();
+    		var birth = $('#findbirth1').val();
     		
     		var postData = {'member_id' : member_id, 'member_name' : member_name, 'birth' : birth}
     		
     		if(member_id.length == 0){
-    			$('#enter4').text("아이디 입력해주세요");
-    			$('#member_id1').focus();
+    			$('#findenter4').text("아이디 입력해주세요");
+    			$('#findmember_id1').focus();
     			return false;
     		}
     		if(member_name.length == 0){
-    			$('#enter5').text("이름을 입력해주세요");
-    			$('#member_name1').focus();
+    			$('#findenter5').text("이름을 입력해주세요");
+    			$('#findmember_name1').focus();
     			return false;
     		}
     		if(birth.length == 0){
-    			$('#enter6').text("생일을 입력해주세요");
-    			$('#birth1').focus();
+    			$('#findenter6').text("생일을 입력해주세요");
+    			$('#findbirth1').focus();
     			return false;
     		}
     		//아이디를 먼저 받아와서 아이디에 해당하는 pwd값 업데이트
@@ -455,11 +463,11 @@
     				console.log(data.pwd);
 					 if(data.pwd != ""){
 	    				tmpId = data.member_id;
-						$('#pwdModal').modal('hide'); 
+						$('#findpwdModal').modal('hide'); 
 						$('#newpwdModal').modal('show');	
 					}else{
 						//$('#idModal').modal('hide'); 
-						$('#message').find('h4').text("정보가 일치하지 않습니다 다시 입력해주세요");
+						$('#findmessage').find('h4').text("정보가 일치하지 않습니다 다시 입력해주세요");
 						$('#mysearchModal').modal('show');	
 						return false;
 					} 
@@ -471,20 +479,20 @@
     		});
     	});
     	
-    	$('#newpwdgo').click(function(event){
-    		var pwd = $('#newpwd').val();
-    		var pwdck = $('#newpwd2').val();
+    	$('#findnewpwdgo').click(function(event){
+    		var pwd = $('#findnewpwd').val();
+    		var pwdck = $('#findnewpwd2').val();
     		
     		if(pwd.length == 0){
-    			$('#1enter').text("새 비밀번호를 입력해주세요");
-    			$('#newpwd').focus();
+    			$('#find1enter').text("새 비밀번호를 입력해주세요");
+    			$('#findnewpwd').focus();
     			return false;
     		}else if(pwdck.length == 0){
-    			$('#2enter').text("비밀번호를 한번 더 입력해주세요");
-    			$('#newpwd2').focus();
+    			$('#find2enter').text("비밀번호를 한번 더 입력해주세요");
+    			$('#findnewpwd2').focus();
     			return false;
     		}else if(pwd != pwdck){
-    			$('#message').find('h4').text("동일한 비밀번호를 입력해주세요");
+    			$('#findmessage').find('h4').text("동일한 비밀번호를 입력해주세요");
 				$('#mysearchModal').modal('show');
 				return false;
     		}
@@ -499,7 +507,7 @@
 /* 	    			contentType: "application/text; charset=UTF-8",  */ //배열을 넘길때 contentType쓰면 값이 안넘어감
 	    			success : function(data) {//이름,생년월일,폰번호,아이디							 	
 		    					$('#newpwdModal').modal('hide'); 
-								$('#message').find('h4').text("비밀번호가 변경되었습니다");
+								$('#findmessage').find('h4').text("비밀번호가 변경되었습니다");
 								$('#mysearchModal').modal('show');
 	    			},
 	    	        error: function(error) {
@@ -508,21 +516,21 @@
 	    		});
     	})
     	
-    	$( "#birth" ).flatpickr({
+    	$( "#findbirth" ).flatpickr({
         	maxDate: 'today',
             dateFormat: 'Y-m-d',
             onReady: function (selectedDates, dateStr, instance) {
-                $('#birth input').val(
+                $('#findbirth input').val(
                     instance.formatDate(new Date(), 'Y-m-d')
                 )
     		}
         });
     	
-    	$( "#birth1" ).flatpickr({
+    	$( "#findbirth1" ).flatpickr({
         	maxDate: 'today',
             dateFormat: 'Y-m-d',
             onReady: function (selectedDates, dateStr, instance) {
-                $('#birth1 input').val(
+                $('#findbirth1 input').val(
                     instance.formatDate(new Date(), 'Y-m-d')
                 )
     		}
