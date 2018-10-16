@@ -1,8 +1,19 @@
+<%@page import="org.ecobay.user.member.domain.MemberVO"%>
+<%@page import="org.springframework.security.core.context.SecurityContextHolder"%>
+<%@page import="org.springframework.security.core.Authentication"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%-- <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%> --%>
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="security"%>
+<%
+	Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
+	Object principal = auth.getPrincipal();
+	String name = "";
+	if(principal != null && principal instanceof MemberVO) {
+		name = ((MemberVO)principal).getMember_id();
+	}
+%>
 <link rel="stylesheet" href="/resources/css/header.css" />
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
@@ -87,7 +98,7 @@
 				
 				
 				<!-- 인증된 유저일 때 -->
-				<security:authorize access="isAuthenticated()">
+				<security:authorize access="isAuthenticated()" >
 					<button type="button" class="btn btn-outline-primary btn-sm dropdown-toggle" data-toggle="dropdown">
 						<i class="fa fa-user"></i>
 					</button>
@@ -96,18 +107,16 @@
 						<li>
 							<div class="row">
 								<div class="col-md-12">
-								
+									<div><%=name %>님 환영합니다.</div>
 									<div class="form-group">
-											<a style="text-decoration: none" href="/member/mypage.do"><button class="btn btn-default btn-block" >마이페이지</button></a>
-										</div>
-									
-										<div class="form-group">
-											<form class="logoutForm" role="logoutForm" method="post" action="/logout" accept-charset="UTF-8" id="login-nav">
-												<security:csrfInput />
-												<button type="submit" class="btn btn-primary btn-block">로그아웃</button>
-											</form>
-										</div>
-									
+										<a style="text-decoration: none" href="/member/mypage.do"><button class="btn btn-default btn-block" >마이페이지</button></a>
+									</div>
+									<div class="form-group">
+										<form class="logoutForm" role="logoutForm" method="post" action="/logout" accept-charset="UTF-8" id="login-nav">
+											<security:csrfInput />
+											<button type="submit" class="btn btn-primary btn-block">로그아웃</button>
+										</form>
+									</div>
 								</div>
 							</div>
 						</li>
@@ -147,10 +156,10 @@
         </button>
       </div>
       <div class="modal-body" style="text-align: center;">
-        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#idModal">
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#findidModal">
 		  아이디 찾기
 		</button>
-		<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#pwdModal">
+		<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#findpwdModal">
 		  비밀번호 찾기
 		</button>
       </div>
@@ -162,7 +171,7 @@
 </div>
 
 <!-- 아이디 찾기 모달 -->
-<div class="modal fade" id="idModal" tabindex="-1" role="dialog" aria-labelledby="findIdModalLabel" aria-hidden="true">
+<div class="modal fade" id="findidModal" tabindex="-1" role="dialog" aria-labelledby="findIdModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -176,19 +185,19 @@
 	      	<div class="row">
 		      	<div class="col-md">
 		          <div class="form-group text-left">
-		            <label for="name" class="col-form-label">이름</label>
-		            <input id="member_name" name="member_name" type="text" class="form-control">
-		            <span id="enter" style="color: red"></span>
+		            <label for="findname" class="col-form-label">이름</label>
+		            <input id="findmember_name" name="member_name" type="text" class="form-control">
+		            <span id="findenter" style="color: red"></span>
 		          </div>
 		          <div class="form-group text-left">
-		            <label for="birth" class="col-form-label">생년월일</label>
-		            <input id="birth" name="birth" type="text" class="form-control">
-		            <span id="enter2" style="color: red"></span>
+		            <label for="findbirth" class="col-form-label">생년월일</label>
+		            <input id="findbirth" name="birth" type="text" class="form-control">
+		            <span id="findenter2" style="color: red"></span>
 		          </div>
 		          <div class="form-group text-left">
-		            <label for="phone" class="col-form-label">번호</label>
-		            <input id="phone" name="phone" type="text" class="form-control" placeholder="ex)010-xxxx-oooo">
-		            <span id="enter3" style="color: red"></span>
+		            <label for="findphone" class="col-form-label">번호</label>
+		            <input id="findphone" name="phone" type="text" class="form-control" placeholder="ex)010-xxxx-oooo">
+		            <span id="findenter3" style="color: red"></span>
 		          </div>
 		       </div>
 		   </div>
@@ -196,7 +205,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" id="idgo" class="btn btn-primary">확인</button>
+        <button type="button" id="findidgo" class="btn btn-primary">확인</button>
       </div>
     </div>
   </div>
