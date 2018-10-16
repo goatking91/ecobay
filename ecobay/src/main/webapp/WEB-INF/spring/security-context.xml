@@ -55,7 +55,6 @@
 		<security:logout invalidate-session="true"
 			logout-url="/logout"
 			logout-success-url="/main.do?logout" />
-			
 		<!-- enable csrf protection -->
 		<security:csrf/>
 		<!-- 토큰설정을 다시 해야함... -->

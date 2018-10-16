@@ -210,10 +210,7 @@
       <label for="inputEmail" class="sr-only">Email address</label>
       <input type="text" name="member_id" id="member_id" class="form-control" placeholder="Email address" required autofocus>
       <label for="inputPassword" class="sr-only">Password</label>
-      <input type="password" name="pwd" id="pwd" class="form-control" placeholder="Password" required>
-	      <div align="left">
-	      	<input type="checkbox" value="remember-me"> 아이디 기억
-	      </div>
+      <input type="password" name="pwd" id="pwd" class="form-control" placeholder="Password" required>1
 	      <div class="d-flex justify-content-between align-items-center">
 		      <div align="left">
 		      	<a href="/member/join.do">회원가입</a>

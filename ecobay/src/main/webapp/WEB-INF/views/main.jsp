@@ -89,22 +89,23 @@
 								</li>
     							<li class="list-group-item" style="padding:5px;">
 									<span style="float: left;">
-	                                	입찰: 
-	                                     ${list.bid_cnt}명 
+	                                	<b>입찰:</b> 
+	                                    ${list.bid_cnt}명 
 									</span>
 									<span style="float: right;">
-										조회: ${list.viewcnt}
+										<b>조회:</b>
+										${list.viewcnt}
 	                                </span>
 								</li>
     							<li class="list-group-item" style="padding:5px;">
     								<span>
-										판매자:
+										<b>판매자:</b>
 									</span>
 									<span class="prodMember_id" style="float: right;">${list.member_id}</span>
     							</li>
     							<li class="list-group-item" style="padding:5px;">
     								<span style="float: left;">
-										경매종료:
+										<b>경매종료:</b>
 									</span>
 									<span class="auctdate_end" style="float: right;">${list.acutdate_end_str}</span>
     							</li>
@@ -139,22 +140,23 @@
 								</li>
     							<li class="list-group-item" style="padding:5px;">
 									<span style="float: left;">
-	                                	입찰: 
+	                                	<b>입찰:</b>
 	                                     ${list.bid_cnt}명 
 									</span>
 									<span style="float: right;">
-										조회: ${list.viewcnt}
+										<b>조회:</b>
+										${list.viewcnt}
 	                                </span>
 								</li>
     							<li class="list-group-item" style="padding:5px;">
     								<span>
-										판매자:
+										<b>판매자:</b>
 									</span>
 									<span class="prodMember_id" style="float: right;">${list.member_id}</span>
     							</li>
     							<li class="list-group-item" style="padding:5px;">
     								<span style="float: left;">
-										경매종료:
+										<b>경매종료:</b>
 									</span>
 									<span class="auctdate_end" style="float: right;">${list.acutdate_end_str}</span>
     							</li>
