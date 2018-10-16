@@ -21,18 +21,19 @@ $(function() {
     $(document).ajaxSend(function(e, xhr, options) {
         xhr.setRequestHeader(header, token);
     });
-	
-	$('#content').summernote({
+    
+    
+    $('#content').summernote({
 		lang: 'ko-KR',
-        height: 350,
+	    height: 350, 
         callbacks: {
         	onImageUpload: function(files, editor, welEditable) {
         		for (var i = files.length - 1; i >= 0; i--) {
         			sendFile(files[i], this);
         		}
         	}
-        } 
-      });
+        }
+	});
 	
 	function sendFile(file, el) {
 	      var form_data = new FormData();
@@ -50,6 +51,7 @@ $(function() {
 	        }
 	      });
 	 }
+
 });
 </script>
 <style type="text/css">

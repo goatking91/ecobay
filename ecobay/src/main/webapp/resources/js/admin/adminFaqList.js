@@ -20,6 +20,12 @@ $(function(){
 		ajaxLoadFaqList(movePage, searchType, keyWorld, category);
 	});
 	
+	//카테고리 체인지
+	$("#category").change(function(){
+		category = $("#category option:selected").val();
+		ajaxLoadFaqList(1, searchType, keyWorld, category);
+	});
+	
 	//검색 버튼 클릭
 	$(document).on("click", "#searchBtn", function(){
 		searchType = $("#searchType option:selected").val();

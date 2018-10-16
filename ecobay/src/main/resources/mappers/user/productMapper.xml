@@ -72,9 +72,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 					 , (SELECT COUNT(bid.PRODUCT_CD) FROM BIDINFO bid WHERE bid.PRODUCT_CD = prod.PRODUCT_CD) as BID_CNT
 					 , IFNULL((SELECT MAX(bid.MONEY_BID) FROM BIDINFO bid WHERE bid.PRODUCT_CD = prod.PRODUCT_CD), 0) as BID_MAX_MONEY
 			         , IFNULL((SELECT prodimg.FILENAME_THUMB FROM PRODUCTIMG prodimg WHERE prodimg.PRODUCT_CD = prod.PRODUCT_CD ORDER BY prodimg.IMG_IDX ASC limit 1), '') as FILENAME_THUMB
-			         , CASE 
-						 WHEN (prod.STATE_CD != '3') THEN IFNULL((SELECT DATE_FORMAT(auct.ACUTDATE_END, '%Y-%m-%d %H:%s') FROM AUCTIONINFO auct WHERE auct.PRODUCT_CD = prod.PRODUCT_CD), '')
-						 ELSE '' END AS ACUTDATE_END_STR
+			         , IFNULL((SELECT DATE_FORMAT(auct.ACUTDATE_END, '%Y-%m-%d %H:%s') FROM AUCTIONINFO auct WHERE auct.PRODUCT_CD = prod.PRODUCT_CD), '') AS ACUTDATE_END_STR
 					 , IFNULL((SELECT auct.MONEY_FIRST FROM AUCTIONINFO auct WHERE auct.PRODUCT_CD = prod.PRODUCT_CD), 0) as MONEY_FIRST
 			     FROM PRODUCT prod , (SELECT @rownum:=0) tmp
 			    WHERE prod.USE_YN = TRUE
@@ -100,7 +98,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		                       , (SELECT COUNT(PRODUCT_CD) FROM BIDINFO bid WHERE bid.PRODUCT_CD = prod.PRODUCT_CD) as BID_CNT
 		                       , IFNULL((SELECT MAX(MONEY_BID) FROM BIDINFO bid WHERE bid.PRODUCT_CD = prod.PRODUCT_CD), 0) as BID_MAX_MONEY
 		                       , IFNULL((SELECT prodimg.FILENAME_THUMB FROM PRODUCTIMG prodimg WHERE prodimg.PRODUCT_CD = prod.PRODUCT_CD ORDER BY prodimg.IMG_IDX ASC limit 1), '') as FILENAME_THUMB
-		                       , '' as ACUTDATE_END_STR
+		                       , IFNULL((SELECT DATE_FORMAT(auct.ACUTDATE_END, '%Y-%m-%d %H:%s') FROM AUCTIONINFO auct WHERE auct.PRODUCT_CD = prod.PRODUCT_CD), '') AS ACUTDATE_END_STR
 		                       , IFNULL((SELECT auct.MONEY_FIRST FROM AUCTIONINFO auct WHERE auct.PRODUCT_CD = prod.PRODUCT_CD), 0) as MONEY_FIRST
 		                    FROM PRODUCT prod
 		                   WHERE prod.USE_YN = TRUE

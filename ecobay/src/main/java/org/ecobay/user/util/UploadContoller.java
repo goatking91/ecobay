@@ -30,8 +30,6 @@ public class UploadContoller {
 	 @RequestMapping(value = "/uploadAjax.do", method = RequestMethod.POST, produces = "text/plain;charset=UTF-8")
 	    public ResponseEntity<String> uploadAjax(MultipartFile file) throws Exception {
 	    	
-	    	logger.info("originalName: " + file.getOriginalFilename());
-	    	logger.info(uploadPath);
 	    	return new ResponseEntity<String>(UploadFileUtils.uploadFile(uploadPath, file.getOriginalFilename(), file.getBytes()), HttpStatus.CREATED);
 	    }
 	    
@@ -39,8 +37,6 @@ public class UploadContoller {
 	 @RequestMapping(value = "/editUploadAjax.do", method = RequestMethod.POST, produces = "text/plain;charset=UTF-8")
 	    public ResponseEntity<String> editUploadAjax(MultipartFile file) throws Exception {
 	    	
-	    	logger.info("originalName: " + file.getOriginalFilename());
-	    	logger.info(uploadPath);
 	    	String uploadFileName = UploadFileUtils.editUploadFile(uploadPath, file.getOriginalFilename(), file.getBytes());
 	    	return ResponseEntity.ok().body("/displayFile.do?fileName=" + uploadFileName);
 	    }
@@ -52,8 +48,6 @@ public class UploadContoller {
 			
 			InputStream in = null;
 			ResponseEntity<byte[]> entity = null;
-			
-			logger.info("FILE NAME : " + fileName);
 			
 			try {
 			
@@ -87,8 +81,6 @@ public class UploadContoller {
 		@ResponseBody
 		@RequestMapping(value = "/deleteFile.do", method = RequestMethod.POST)
 		public ResponseEntity<String> deleteFile(String fileName) {
-			
-			logger.info("delete file: " + fileName);
 			
 			/*String formatName = fileName.substring(fileName.lastIndexOf(".")+1);*/
 				
