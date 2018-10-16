@@ -15,7 +15,8 @@ footer p { font-size:13px; color:#CCC; padding-bottom:0px; margin-bottom:8px;}
 
 .footer_ul2_amrc {margin:0px; list-style-type:none; padding:0px;}
 .footer_ul2_amrc li p { display:table; }
-.footer_ul2_amrc li a:hover { text-decoration:none;}
+.footer_ul2_amrc li a { color:#CCC;}
+.footer_ul2_amrc li a:hover { color:#fff; text-decoration:none;}
 .footer_ul2_amrc li i { margin-top:5px;}
 
 .bottom_border { border-bottom:1px solid #323f45; padding-bottom:20px;}
