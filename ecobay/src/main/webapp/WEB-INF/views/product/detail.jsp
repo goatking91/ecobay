@@ -104,19 +104,16 @@
 		}
 	</style>
 	
-	
-<script type="text/javascript">
-	$(function() {
-		$('.bxslider').bxSlider({
-			  auto: true,
-			  autoControls: true,
-			  stopAutoOnClick: true,
-			  pager: true
-		});
-	})
-</script>
-	
-	
+	<script type="text/javascript">
+		$(function() {
+			$('.bxslider').bxSlider({
+				  auto: true,
+				  autoControls: true,
+				  stopAutoOnClick: true,
+				  pager: true
+			});
+		})
+	</script>
 </head>
 <body>
 	<!-- 시큐리티 사용자ID 가져오기 -->
