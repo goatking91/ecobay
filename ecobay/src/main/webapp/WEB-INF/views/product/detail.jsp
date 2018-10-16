@@ -137,8 +137,7 @@
  		<div id="product-detail-info" class="row"><!--  important; -->
 		
 			<!-- 이미지 출력 영역 시작 -->
-			<div class="product-detail-thum col-sm-12 col-md-6" style="margin-top: 20px;">
-				<h4>${prod.product_nm}</h4>
+			<div class="product-detail-thum col-sm-12 col-md-6">
  				<div class="bxslider">
 					<c:forEach items="${img}" var="img">
 						<div><img src="/displayFile.do?fileName=${img.filename_thumb}" style="margin-left: auto; margin-right: auto; display: block;"></div>
@@ -150,6 +149,12 @@
 				<div class="table-responsive">
 					<input id="endTime" type="hidden" value="${auct.acutdate_end_str}"> 
 					<table class="table">
+						<tr>
+							<th colspan="3" style="text-align:center;">
+								<h4>${prod.product_nm}</h4>
+							</th>
+						</tr>
+					
 						<tr>
 							<th class="detailTitle">현재가</th>
 							<td><input type="text" size="10" name="moneyBid" id="moneyBid" style="border: none;" readOnly
@@ -349,7 +354,7 @@
 						</div>
 						<div class="row">
 							<div class="col-md">
-								<input class="form-control" cols="5" name="acontent_bf" id="acontent_bf" value="" readonly>
+								<input type="text" class="form-control" name="acontent_bf" id="acontent_bf" value="" readonly>
 							</div>
 						</div>
 						<div class="row">
