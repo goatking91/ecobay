@@ -239,7 +239,7 @@ public class MemberController {
     	
     	int total = service.qnaCnt(member_id);
     	int pagecount = 0;
-    	
+    	System.out.println("total=" + total);
     	if(total%10 == 0) {
     		pagecount = total/10;
     	} else {
