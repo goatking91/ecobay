@@ -11,6 +11,7 @@ import org.ecobay.user.member.domain.MemberVO;
 import org.ecobay.user.product.domain.AuctionInfoVO;
 import org.ecobay.user.product.domain.DeliveryVO;
 import org.ecobay.user.product.domain.PaymentVO;
+import org.ecobay.user.product.domain.ProductVO;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -73,20 +74,30 @@ public class MemberDAOImpl implements MemberDAO {
 	}
 
 	@Override
-	public String selectprod(String product_cd) throws Exception {
+	public ProductVO selectprod(String product_cd) throws Exception {
 		return session.selectOne(namespace + ".selectProd", product_cd);
+	}
+	
+	@Override
+	public MemberVO selectProdMember(String product_cd) throws Exception {
+		return session.selectOne(namespace + ".selectProdMember", product_cd);
 	}
 
 	@Override
 	public String selectimg(String product_cd) throws Exception {
 		return session.selectOne(namespace + ".selectImg", product_cd);
 	}
+	
+	@Override
+	public int deliveryInfo(String product_cd) throws Exception {
+		return session.selectOne(namespace + ".deliveryInfo", product_cd);
+	}
 
 	@Override
 	public void payment(PaymentVO pvo) {
 		session.insert(namespace + ".payment", pvo);		
 	}
-
+	
 	@Override
 	public void delivery(DeliveryVO dvo) {
 		session.insert(namespace + ".delivery", dvo);
@@ -95,7 +106,11 @@ public class MemberDAOImpl implements MemberDAO {
 	@Override
 	public void auctionInfo(AuctionInfoVO avo) {
 		session.update(namespace + ".auctionInfo", avo); 
-		
+	}
+	
+	@Override
+	public void productPayment(ProductVO productVO) {
+		session.update(namespace + ".productPayment", productVO); 
 	}
 
 	@Override

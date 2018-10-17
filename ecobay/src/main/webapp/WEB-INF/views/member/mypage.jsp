@@ -6,6 +6,12 @@
 	<meta id="_csrf" name="_csrf" content="${_csrf.token}"/>
 	<meta id="_csrf_header" name="_csrf_header" content="${_csrf.headerName}"/>
 </head>
+<style>
+b, strong {
+    font-weight: bolder;
+    margin: 20px;
+}
+</style>
 <script>
 $(document).ready(function(){
 	var token = $("meta[name='_csrf']").attr("content");
@@ -178,14 +184,32 @@ $(document).ready(function(){
 				$('#wishList').empty();
 
 				var str = "";
-				str = str + "<h3>관심 상품</h3>";
+				str = str + "<div class='bg-light border-top border-bottom form-inline col-sm-12' style='padding:15px; margin:10px'>";
+				str = str + "	<div class='col-sm-1'></div>"
+				str = str + "	<div class='col-sm-2'>물품사진</div>"
+				str = str + "	<div class='col-sm-1'></div>"
+				str = str + "	<div class='col-sm-4'>물품정보</div>"
+				str = str + "	<div class='col-sm-2'>진행상황</div>"
+				str = str + "	<div style='align:right'>구매수/ "+ data.cnt +"</div>"
+				str = str + "</div>";
+				
+				var str = "";
+				str = str + "<div class='form-group row'>";
+				str = str + "	<div class='col-sm-12' align='center'>";
+				str = str + "		<h1>내 관심 상품</h1>";
+				str = str + "	</div>";
+				str = str + "</div>";
+				str = str + "<hr style='margin-bottom:3rem; width:800px'>";
 				str = str + "<div class='bg-light border-top border-bottom form-inline col-sm-12' style='padding:15px; margin:10px'>";
 				str = str + "	<label class='checkbox'>";
 				str = str + "		<input type='checkbox' id ='chK_all' name='chK_all'>";
 				str = str + "	</label>";
-				str = str + "	<input type='button' class='btn btn-default' id='delchk' value='선택상품 삭제'>";
-				str = str + "<div class='col-sm-8'></div>"
-				str = str + "<div style='align:right'>관심상품수 "+ data.cnt +"</div>"
+				str = str + "	<input type='button' class='btn btn-primary disabled' id='delchk' value='선택삭제'>";
+				str = str + "	<div class='col-sm-2' align='center'>&nbsp;&nbsp;&nbsp;&nbsp;물품사진</div>"
+				str = str + "	<div class='col-sm-1'></div>"
+				str = str + "	<div class='col-sm-4'>물품정보</div>"
+				str = str + "	<div class='col-sm-2'>진행상황</div>"
+				str = str + "	<div style='align:right'>관심상품수/ "+ data.cnt +"</div>"
 				str = str + "</div>";
 				console.log(data.arr);
 				$.each(data.arr, function(index, arr){
@@ -201,12 +225,12 @@ $(document).ready(function(){
 					str = str + "		<input type='checkbox' class='check' id='checkBox' value=" + arr.product_cd + ">";
 					str = str + "	</div>";	
 					str = str + "	<div class='col-sm-3'><img src='/displayFile.do?fileName=" + arr.filename_thumb + "' style='margin-left: auto; margin-right: auto; display: block; width:60%;'></div>";
-					str = str + "	<div class='col-sm-5' id='form-inline' style='padding-top:10px'>";
+					str = str + "	<div class='col-sm-4' id='form-inline' style='padding-top:10px'>";
 					str = str + "		<div style='font-size:8pt'>" + arr.acutdate_start_str + "~" + arr.acutdate_end_str + "</div>";
 					str = str + "		<div><a style='color:grey; text-decoration: none' href='/product/detail.do?product_cd=" + arr.product_cd + "'>"+ arr.product_cd + "</a></div>";
 					str = str + "		<div id='product_nm'>" + arr.product_nm + "</div>";
 					str = str + "	</div>";
-					str = str + "	<div id='' class='col-sm-3' align='right' style='padding-top:35px'>" + state_cd + "</div>";
+					str = str + "	<div id='' class='col-sm-3' align='left' style='padding-top:35px;padding-left:50px'>" + state_cd + "</div>";
 					str = str + "</div><hr>";
 					
 				});
@@ -252,10 +276,19 @@ $(document).ready(function(){
 					$('#buyList').empty();
 
 					var str = "";
-					str = str + "<h3>구매 상품</h3>";
+					str = str + "<div class='form-group row'>";
+					str = str + "	<div class='col-sm-12' align='center'>";
+					str = str + "		<h1>내 구매 상품</h1>";
+					str = str + "	</div>";
+					str = str + "</div>";
+					str = str + "<hr style='margin-bottom:3rem; width:800px'>";
 					str = str + "<div class='bg-light border-top border-bottom form-inline col-sm-12' style='padding:15px; margin:10px'>";
-					str = str + "	<div class='col-sm-10'></div>"
-					str = str + "	<div style='align:right'>구매상품수 "+ data.cnt +"</div>"
+					str = str + "	<div class='col-sm-1'></div>"
+					str = str + "	<div class='col-sm-2'>물품사진</div>"
+					str = str + "	<div class='col-sm-1'></div>"
+					str = str + "	<div class='col-sm-4'>물품정보</div>"
+					str = str + "	<div class='col-sm-2'>진행상황</div>"
+					str = str + "	<div style='align:right'>구매수/ "+ data.cnt +"</div>"
 					str = str + "</div>";
 					console.log(data.arr);
 
@@ -354,28 +387,37 @@ $(document).ready(function(){
 					$('#sellList').empty();
 
 					var str = "";
-					str = str + "<h3>판매 상품</h3>";
+					str = str + "<div class='form-group row'>";
+					str = str + "	<div class='col-sm-12' align='center'>";
+					str = str + "		<h1>내 판매 상품</h1>";
+					str = str + "	</div>";
+					str = str + "</div>";
+					str = str + "<hr style='margin-bottom:3rem; width:800px'>";
 					str = str + "<div class='bg-light border-top border-bottom form-inline col-sm-12' style='padding:15px; margin:10px'>";
-					str = str + "	<div class='col-sm-10'></div>"
-					str = str + "	<div style='align:right'>판매상품수 "+ data.cnt +"</div>"
+					str = str + "	<div class='col-sm-1'></div>"
+					str = str + "	<div class='col-sm-2'>물품사진</div>"
+					str = str + "	<div class='col-sm-1'></div>"
+					str = str + "	<div class='col-sm-4'>물품정보</div>"
+					str = str + "	<div class='col-sm-2'>진행상황</div>"
+					str = str + "	<div style='align:right'>판매수/ "+ data.cnt +"</div>"
 					str = str + "</div>";
 					console.log(data.arr);
 
 					$.each(data.arr, function(index, arr){						
 						str = str + "<div class='form-group row col-sm-12' style='padding:15px; margin:10px'>";
 						str = str + "	<div class='col-sm-3'><img src='/displayFile.do?fileName=" + arr.filename_thumb + "' style='margin-left: auto; margin-right: auto; display: block; width:60%;'></div>";
-						str = str + "	<div class='col-sm-5' id='form-inline' style='padding-top:10px'>";
+						str = str + "	<div class='col-sm-3' id='form-inline' style='padding-top:10px'>";
 						str = str + "		<div style='font-size:8pt'>" + arr.acutdate_start_str + "~" + arr.acutdate_end_str + "</div>";
 						str = str + "		<div><a style='color:grey; text-decoration: none' href='/product/detail.do?product_cd=" + arr.product_cd + "'>"+ arr.product_cd + "</a></div>";
 						str = str + "		<div id='product_nm'>" + arr.product_nm + "</div>";
 						str = str + "	</div>";
 						if(arr.state_cd == '3'){
-							str = str + "	<div id='' class='col-sm-3' align='right' style='padding-top:35px'>진행중</div>";
+							str = str + "	<div id='' class='col-sm-3' align='right' style='padding-top:35px; padding-right:5px'>진행중</div>";
 						}else if(arr.state_cd == '1'){
 							str = str + "<buttton class='btn btn-info' id='stateChan' style='height:30%; margin-top:35px; margin-left:20px'>요청취소</buttton>";
 							str = str + "<input type='hidden' id='prodcd' value='"+ arr.product_cd +"'>";
 						}else if(arr.state_cd == '2'){
-							str = str + "	<div class='col-sm-3' align='right' style='padding-top:35px'>요청취소</div>";
+							str = str + "	<div class='col-sm-4' align='right' style='padding-top:35px; padding-right:60px'>요청취소</div>";
 						}else{
 							state_cd = "경매종료";
 						}
@@ -414,9 +456,9 @@ $(document).ready(function(){
 		//=======1:1문의리스트 클릭시 모달창=>문의내용, 관리자답변 보이기
 		$(document).on("click", ".qnaclick", function(){
 
-			$('#mtitle').find('h5').text("제목: "+ $(this).children('#title').text());
-			$('#mregdate').find('h5').text("등록날짜: "+ $(this).children('#regdate_str').val());
-			$('#mcontent').find('h5').text("내용: "+ $(this).children('#content').val());
+			$('#mtitle').find('h6').text("제목: "+ $(this).children('#title').text());
+			$('#mregdate').find('h6').text("등록날짜: "+ $(this).children('#regdate_str').val());
+			$('#mcontent').find('h6').text("내용: "+ $(this).children('#content').val());
 
 			$('#a_id ').find('h6').text("관리자: "+ $(this).children('#admin_id').val());
 			$('#a_regdate').find('h6').text("등록날짜: "+ $(this).children('#replyregdate').val());
@@ -437,23 +479,29 @@ $(document).ready(function(){
 					$('#qnaList').empty();
 
 					var str = "";
-					str = str + "<h3>1:1문의 내역</h3>";
+					str = str + "<div class='form-group row'>";
+					str = str + "	<div class='col-sm-12' align='center'>";
+					str = str + "		<h1>1:1문의 내역</h1>";
+					str = str + "	</div>";
+					str = str + "</div>";
+					str = str + "<hr style='margin-bottom:3rem; width:800px'>";
 					str = str + "<div class='bg-light border-top border-bottom form-inline col-sm-12' style='padding:15px; margin:10px'>";
-					str = str + "	<div class='col-sm-1'>넘버</div>"
-					str = str + "	<div class='col-sm-1'>글번호</div>"
-					str = str + "	<div class='col-sm-5'>제목</div>"
-					str = str + "	<div class='col-sm-2'>등록날짜</div>"
-					str = str + "	<div style='align:right'>문의 수 "+ data.cnt +"</div>"
+					str = str + "	<div class='col-sm-1'>순서</div>"
+					str = str + "	<div class='col-sm-1' style='padding:0px;'>글번호</div>"
+
+					str = str + "	<div class='col-sm-5' style='padding:0 170px'>제목</div>"
+					str = str + "	<div class='col-sm-4 ' style='padding:0 50px'>등록날짜</div>"
+					str = str + "	<div style='align:right'>문의수/ "+ data.cnt +"</div>"
 					str = str + "</div>";
 					console.log("arr="+data.arr);
 
 					$.each(data.arr, function(index, arr){				
 						str = str + "<div class='form-group row col-sm-12 qnaclick' style='padding:15px; margin:10px'>";
-						str = str + "	<div class='col-sm-1' style='padding-top:35px'>" + arr.rn + "	</div>";
-						str = str + "	<div class='col-sm-1' style='padding-top:35px'>" + arr.qna_idx + "	</div>";
+						str = str + "	<div class='col-sm-1' style='padding-top:10px'>" + arr.rn + "	</div>";
+						str = str + "	<div class='col-sm-1' style='padding-top:10px'>" + arr.qna_idx + "	</div>";
 /* 						str = str + "	<button class='col-sm-5' id='title' style='padding-top:35px' value='" + arr.title + "'	></button>"; */
- 						str = str + "	<div class='col-sm-5' id='title' style='padding-top:35px'>" + arr.title + "	</div>"; 
- 						str = str + "	<div class='col-sm-2' style='padding-top:35px'>" + arr.regdate_str + "	</div>";
+ 						str = str + "	<div class='col-sm-5' id='title' style='padding-top:10px'>" + arr.title + "	</div>"; 
+ 						str = str + "	<div class='col-sm-2' style='padding-top:10px'>" + arr.regdate_str + "	</div>";
 						//타이틀 클릭했을 때 모달처리->내가쓴내용, 관리자 답변
 						str = str + "	<input type='hidden' id='content' value='"+ arr.content +"'>";
 						str = str + "	<input type='hidden' id='regdate_str' value='"+ arr.regdate_str +"'>";
@@ -740,67 +788,65 @@ $(document).ready(function(){
 				<div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="myinfo-tap" >
 					<div class="form-group row">
 						<div class="col-sm-12" align="center">
-							<h1><b>내 정보</b></h1>
+							<h1>개인정보 관리</h1>
 						</div>
 					</div>
+					<hr style="margin-bottom:3rem; width:800px">
+
 					<div class="col-sm-12">
 				        <form>
 				        	<div class="form-group row">
-								<label class="col-sm-3 col-form-label text-right" for="member_name"><b>이름</b></label>
-								<div class="col-sm-4">
-									<security:csrfInput/>
-									<p id="member_name">${member.member_name}</p>
-								</div>
+				        		<div class="col-sm-4"></div>
+								<label class="col-sm-8 col-form-label text-left" id="member_name" for="member_name"><b>이름</b>${member.member_name}</label>
 							</div>
-				        	
+							<div align="center">
+								<hr style="margin:1rem; width:600px; ">
+				        	</div>
 				        	<div class="form-group row">
-				          		<label class="col-sm-3 col-form-label text-right text-right" for="member_id">ID</label>
-						        <div class="col-sm-4">
-						        	<div class="input-group">
-										<input class="form-control border-0 " style="background-color:white" id="member_id" name="member_id" type="text" value="${member.member_id}" readonly>
-									</div>
-								</div>
-				        		<div class="col-sm-3"></div>
+				        		<div class="col-sm-4"></div>
+				          		<label class="col-sm-8 col-form-label text-left"  for="member_id"><b>ID</b>${member.member_id}</label>
+								<input id="member_id" name="member_id" type="hidden" value="${member.member_id}" readonly>
+								<security:csrfInput/>
+				        	</div>
+				        	<div align="center">
+								<hr style="margin:1rem; width:600px; ">
 				        	</div>
 							<div class="form-group row">
-								<label class="col-sm-3 col-form-label text-right" for="birth">생년월일</label>
-								<div class="col-sm-3">
-									<input class="form-control border-0 " style="background-color:white" id="birth" name="birth" type="text" value="${member.birth}" readonly>
-								</div>
+								<div class="col-sm-4"></div>
+								<label class="col-sm-8 col-form-label text-left" id="birth" for="birth"><b>생년월일</b> ${member.birth}</label>
 							</div>
-							
+							<div align="center">
+								<hr style="margin:1rem; width:600px; ">
+				        	</div>
 							<div class="form-group row">
-								<label class="col-sm-3 col-form-label text-right" for="gender">성별</label>
-								<div class="col-sm-3">
-									<input class="form-control border-0 " style="background-color:white" id="gender" name="gender" type="text" value="${member.gender}" readonly>
-								</div>
+								<div class="col-sm-4"></div>
+								<label class="col-sm-8 col-form-label text-left" id="gender" for="gender"><b>성별</b>${member.gender}</label>
 							</div>	
-							
-							<div class="form-group row">	
-							<label class="col-sm-3 col-form-label text-right" for="phone">번호</label>
-								<div class="col-sm-3">
-									<input class="form-control border-0 " style="background-color:white" id="phone" name="phone" type="text" value="${member.phone}" readonly>
-								</div>
-							</div>    		
+							<div align="center">
+								<hr style="margin:1rem; width:600px; ">
+				        	</div>
 							<div class="form-group row">
-								<div class="col-sm-3"></div>
-								<div class="col-sm-3">
-									<input class="form-control border-0 " style="background-color:white" id="zipcode" name="zipcode" type="text" value="${member.zipcode}" readonly>	                  	
-								</div>
+								<div class="col-sm-4"></div>	
+								<label class="col-sm-8 col-form-label text-left" id="phone" for="phone"><b>번호</b>${member.phone}</label>
+							</div>
+							<div align="center">
+								<hr style="margin:1rem; width:600px; ">
+				        	</div>    		
+							<div class="form-group row">
+								<div class="col-sm-4"></div>	
+								<label class="col-sm-8 col-form-label text-left" id="zipcode" for="zipcode"><b>주소</b>${member.zipcode}(우편번호)</label>
 							</div> 
 							<div class="form-group row">
-								<label class="col-sm-3 col-form-label text-right" for="addr1">주소</label>
-								<div class="col-sm-6">
-									<input class="form-control border-0 " style="background-color:white" id="addr1" name="addr1" type="text" value="${member.addr1}" readonly>
-								</div>
+								<div class="col-sm-5"></div>	
+								<label class="col-sm-7 col-form-label text-left" id="addr1" for="addr1">${member.addr1}</label>
 							</div>
 							<div class="form-group row">
-								<div class="col-sm-3"></div>
-								<div class="col-sm-6">
-									<input class="form-control border-0 " style="background-color:white" id="addr2" name="addr2" type="text" value="${member.addr2}" readonly>
-								</div>	
+								<div class="col-sm-5"></div>	
+								<label class="col-sm-7 col-form-label text-left" id="addr2" for="addr2">${member.addr2}</label>
 							</div>
-										
+							<div align="center">
+								<hr style="margin:1rem; width:600px; ">
+				        	</div>			
 							<div class="form-group row">
 								<div class="col-sm text-center">
 									<input type="button" id="edit_button" class="btn btn-lg btn-primary" value="수정">
@@ -811,25 +857,37 @@ $(document).ready(function(){
 				</div>
 				<!-- 리스트 들어가는 부분 -->
 				<div class="tab-pane fade" id="pwdChange" role="tabpanel" aria-labelledby="pwdChange">
-					<h3>비밀번호변경</h3>
-					<div class="form-group row row center" style="align:center;">
-						<label class="col-sm-3 col-form-label text-right text-right" id="pwdlabel" for="pwd">비밀번호</label>
-						<div class="col-sm-5">
-							<input class="form-control" id="cpwd" name="pwd" type="password" placeholder="비밀번호">
+					<div class="form-group row">
+						<div class="col-sm-12" align="center">
+							<h1>비밀번호 변경</h1>
+						</div>
+					</div>
+					<hr style="margin-bottom:3rem; width:800px">
+					<div class="form-group row" style="align:center;">
+						<div class="col-sm-1"></div>	
+						<label class="col-sm-4 col-form-label text-right text-right" id="pwdlabel" for="pwd">비밀번호</label>
+						<div class="col-sm-4">
+							<input class="form-control" id="cpwd" name="pwd" type="password" placeholder="기존 비밀번호를 입력해주세요">
 							<span id="warning" style="color: red"></span>
 						</div>
+						<div class="col-sm-3"></div>
 					</div>
 					<div class="form-group row">
-						<label class="col-sm-3 col-form-label text-right" id="pwdcklabel" for="pwdck">비밀번호 확인</label>
-						<div class="col-sm-5">
-							<input class="form-control" id="cpwdck" name="cpwdck" type="password" placeholder="비밀번호 확인">
+						<div class="col-sm-1"></div>
+						<label class="col-sm-4 col-form-label text-right" id="pwdcklabel" for="pwdck">비밀번호 확인</label>
+						<div class="col-sm-4">
+							<input class="form-control" id="cpwdck" name="cpwdck" type="password" placeholder="비밀번호를 한 번 더 입력해주세요">
 							<span id="warning2" style="color: red"></span>
 						</div>
+						<div class="col-sm-3"></div>
 					</div>
+					<div align="center">
+								<hr style="margin:3rem; width:800px; ">
+				   	</div>	
 					<div class="form-group row">
-								<div class="col-sm text-center">
-									<input type="button" id="change" class="btn btn-lg btn-info" value="확인">
-								</div>	
+						<div class="col-sm text-center">
+							<input type="button" id="change" class="btn btn-lg btn-primary" value="확인">
+						</div>	
 					</div>    
 				</div>
 				<div class="tab-pane fade" id="sellList" role="tabpanel" aria-labelledby="sellList"></div>
@@ -1054,38 +1112,43 @@ $(document).ready(function(){
         </button>
       </div>
       <div class="modal-body">
-	      	<div>내 질문</div>
-	      	<div class="row">
-	          <div id="mtitle">
-				<h5 align="center"></h5>
-	          </div>		      		      	
-			</div>
-			<div class="row">
-	          <div id="mregdate">
-				<h5 align="center"></h5>
-	          </div>		      		      	
-			</div>
-			<div class="row">
-	          <div id="mcontent">
-				<h5 align="center"></h5>
-	          </div>		      		      	
-			</div>
-	  		
-	  		<div>답변</div>
-	  		<div class="row">
-	          <div id="a_id">
-				<h6 align="center"></h6>
-	          </div>		      		      	
-			</div>
-			<div class="row">
-	          <div id="a_regdate">
-				<h6 align="center"></h6>
-	          </div>		      		      	
-			</div>
-			<div class="row">
-	          <div id="a_content">
-				<h6 align="center"></h6>
-	          </div>		      		      	
+	      	<div class="container">
+		      	<div class="row text-primary">내 질문</div>
+		      	<div class="row" style="margin-top:15px;">
+		          <div id="mregdate">
+					<h6 align="center"></h6>
+		          </div>		      		      	
+				</div>
+		      	<div class="row">
+		          <div id="mtitle">
+					<h6 align="center"></h6>
+		          </div>		      		      	
+				</div>
+				
+				<div class="row">
+		          <div id="mcontent">
+					<h6 align="center"></h6>
+		          </div>		      		      	
+				</div>
+	  		</div>
+	  		<div class="container">
+		  		<div class="row text-danger" style="margin-top:15px;">답변</div>
+		  		<div class="row" style="margin-top:15px;">
+		          <div id="a_regdate">
+					<h6 align="center"></h6>
+		          </div>		      		      	
+				</div>
+		  		<div class="row" >
+		          <div id="a_id">
+					<h6 align="center"></h6>
+		          </div>		      		      	
+				</div>
+				
+				<div class="row">
+		          <div id="a_content">
+					<h6 align="center"></h6>
+		          </div>		      		      	
+				</div>
 			</div>
       </div>
       <div class="modal-footer">

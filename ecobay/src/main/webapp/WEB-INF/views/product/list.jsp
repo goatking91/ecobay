@@ -237,6 +237,8 @@
 				}else {
 					$(this).text(days + "일 " + hours + "시간");
 				}	
+			} else {
+				$(this).text(obj.state_nm);
 			}
 		});
 
