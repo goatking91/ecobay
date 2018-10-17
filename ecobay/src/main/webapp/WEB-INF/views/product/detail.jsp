@@ -165,7 +165,7 @@
 										</c:otherwise>
 									</c:choose>>
 							</td>
-							<td style="padding-right: 0pt;"><p style="float:right; color:white; background-color: rgb(17, 77, 165); margin: 0pt; " id="remain"></p></td>
+							<td style="padding-right: 0pt;"><span class="badge badge-pill badge-primary" style="font-size:11pt; margin: 0pt;" id="remain"></span></td>
 						</tr>
 						
 						<tr>
@@ -237,7 +237,7 @@
 									<c:if test="${prod.member_id != userid}">
 										<c:if test="${prod.state_cd == '3'}">
 											<button type="button" class="btn btn-primary" id=bidRegBtn>입찰하기</button>
-											<button type="button" class="btn btn-primary" id=bidWishBtn>관심상품</button>
+											<button type="button" class="btn btn-info" id=bidWishBtn>관심상품</button>
 										</c:if>
 									</c:if>
 								</c:if>
@@ -253,10 +253,8 @@
 				<nav class="nav nav-pills nav-fill nav-filter"> <!-- <nav class="nav nav-tabs" id="myTab" role="tablist"> -->
 					<a class="nav-item nav-link active" id="nav-content-tab" data-toggle="tab" href="#nav-content" role="tab" aria-controls="nav-content" aria-selected="true">상품정보</a>
 					<a class="nav-item nav-link" id="nav-qna-tab" data-toggle="tab" href="#nav-qna" role="tab" aria-controls="nav-qna" aria-selected="false">상품문의</a>
-<!-- 					<a class="nav-item" href="#" aria-selected="false"></a>
-					<a class="nav-item" href="#" aria-selected="false"></a> -->
 				</nav>
-				
+				<p>
 				<div class="tab-content" id="nav-tabContent">
 					<div class="tab-pane fade show active" id="nav-content" role="tabpanel" aria-labelledby="nav-content-tab">
 						<div class="container">
@@ -265,11 +263,9 @@
 					</div>
 
 					<div class="tab-pane fade" id="nav-qna" role="tabpanel" aria-labelledby="nav-qna-tab">
-						<%-- <c:import url="/WEB-INF/views/product/qna.jsp"></c:import> --%>
-						
 						<c:if test="${userid != null}">
 							<c:if test="${userid != prod.member_id}">
-								<button class="btn btn-primary" style="float: right;" id="btnQnaModal">문의하기</button>
+								<button class="btn btn-primary btn-sm" style="float: right;" id="btnQnaModal">문의하기</button>
 							</c:if>
 						</c:if>
 						

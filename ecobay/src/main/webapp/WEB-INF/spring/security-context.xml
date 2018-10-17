@@ -61,7 +61,7 @@
 		
 	</security:http>
 	
-	<security:authentication-manager>
+	<!-- <security:authentication-manager>
 		<security:authentication-provider>
 			<security:password-encoder hash="bcrypt" />
 			<security:jdbc-user-service data-source-ref="dataSource"
@@ -69,5 +69,16 @@
 				authorities-by-username-query="select member_id, m_type from member where member_id = ?"
 			/>
 		</security:authentication-provider>
+	</security:authentication-manager> -->
+	
+	<bean id="userService" class="org.ecobay.user.util.UserAuthenticationService">
+		<constructor-arg name="sqlSession" ref="sqlSession"/>
+	</bean>
+	
+	<security:authentication-manager>
+		<security:authentication-provider user-service-ref="userService">
+			<security:password-encoder hash="bcrypt" />
+		</security:authentication-provider>
 	</security:authentication-manager>
+	
 </beans>
