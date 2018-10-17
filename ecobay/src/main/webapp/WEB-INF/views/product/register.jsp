@@ -88,7 +88,7 @@
 						</td>
 					</tr>
 					<tr>
-						<th class="colTitle">첨부 이미지 미리보기</th>
+						<th class="colTitle">첨부 이미지<br> 미리보기</th>
 						<td colspan="2" class="fileDrop">
 							<div class="uploadedList fileDropImg">
 								<input style='display:none;' type='hidden' name='ivo[0].product_cd' value=''>
