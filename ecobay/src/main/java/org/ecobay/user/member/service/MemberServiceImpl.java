@@ -9,6 +9,7 @@ import org.ecobay.user.member.persistence.MemberDAO;
 import org.ecobay.user.product.domain.AuctionInfoVO;
 import org.ecobay.user.product.domain.DeliveryVO;
 import org.ecobay.user.product.domain.PaymentVO;
+import org.ecobay.user.product.domain.ProductVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -82,10 +83,15 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	public String selectprod(String product_cd) throws Exception {
+	public ProductVO selectprod(String product_cd) throws Exception {
 		return dao.selectprod(product_cd);
 	}
 
+	@Override
+	public MemberVO selectProdMember(String product_cd) throws Exception {
+		return dao.selectProdMember(product_cd);
+	}
+	
 	@Override
 	public String selectimg(String product_cd) throws Exception {
 		return dao.selectimg(product_cd);
@@ -111,15 +117,36 @@ public class MemberServiceImpl implements MemberService {
 		dao.chkDel(list);
 		
 	}
-
+	
+	@Override
+	public int deliveryInfo(String product_cd) throws Exception {
+		return dao.deliveryInfo(product_cd);
+	}
+	
 	@Override
 	@Transactional(propagation=Propagation.REQUIRED)
-	public String paymentPrs(PaymentVO pvo, DeliveryVO dvo, AuctionInfoVO auctVO) {
+	public String paymentPrs(PaymentVO pvo, DeliveryVO dvo, AuctionInfoVO auctVO, int deliveryInfo, int flag) {
 		String retVal = "ERR";
 		
 		dao.payment(pvo);
-		dao.delivery(dvo);
+		if(deliveryInfo == 2) {
+			dao.delivery(dvo);
+		}
 		dao.auctionInfo(auctVO);
+		
+		ProductVO productVO = new ProductVO();
+		if(flag == 1) {
+			productVO.setProduct_cd(auctVO.getProduct_cd());
+			productVO.setState_cd("7");
+			productVO.setState_nm("즉시구매");
+			dao.productPayment(productVO);
+    	}
+    	else if(flag == 2) {
+    		productVO.setProduct_cd(auctVO.getProduct_cd());
+			productVO.setState_cd("5");
+			productVO.setState_nm("낙찰");
+			dao.productPayment(productVO);
+    	}
 		
 		retVal = "OK";
 		

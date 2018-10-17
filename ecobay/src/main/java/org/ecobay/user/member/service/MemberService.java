@@ -8,6 +8,7 @@ import org.ecobay.user.member.domain.MemberVO;
 import org.ecobay.user.product.domain.AuctionInfoVO;
 import org.ecobay.user.product.domain.DeliveryVO;
 import org.ecobay.user.product.domain.PaymentVO;
+import org.ecobay.user.product.domain.ProductVO;
 
 	public interface MemberService {
 	
@@ -33,9 +34,13 @@ import org.ecobay.user.product.domain.PaymentVO;
 	
 	public AuctionInfoVO selectAuct(String product_cd) throws Exception;
 	
-	public String selectprod(String product_cd) throws Exception;
+	public ProductVO selectprod(String product_cd) throws Exception;
+	
+	public MemberVO selectProdMember(String product_cd) throws Exception;
 	
 	public String selectimg(String product_cd) throws Exception;
+	
+	public int deliveryInfo(String product_cd) throws Exception;
 	
 	public List<MemberProductVO> wishList(MemberProductVO vo) throws Exception;
 	
@@ -51,7 +56,7 @@ import org.ecobay.user.product.domain.PaymentVO;
 	
 	public void chkDel(List<String> list) throws Exception;
 	
-	public String paymentPrs(PaymentVO pvo, DeliveryVO dvo, AuctionInfoVO auctVO);
+	public String paymentPrs(PaymentVO pvo, DeliveryVO dvo, AuctionInfoVO auctVO, int deliveryInfo, int flag);
 	
 	public void stateChange(String product_cd) throws Exception;
 	

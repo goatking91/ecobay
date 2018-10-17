@@ -8,6 +8,7 @@ import org.ecobay.user.member.domain.MemberVO;
 import org.ecobay.user.product.domain.AuctionInfoVO;
 import org.ecobay.user.product.domain.DeliveryVO;
 import org.ecobay.user.product.domain.PaymentVO;
+import org.ecobay.user.product.domain.ProductVO;
 
 public interface MemberDAO {
 	public int idcheck(String member_id) throws Exception;
@@ -32,15 +33,21 @@ public interface MemberDAO {
 	
 	public AuctionInfoVO selectAuct(String product_cd) throws Exception;
 	
-	public String selectprod(String product_cd) throws Exception;
+	public ProductVO selectprod(String product_cd) throws Exception;
+	
+	public MemberVO selectProdMember(String product_cd) throws Exception;
 	
 	public String selectimg(String product_cd) throws Exception;
+	
+	public int deliveryInfo(String product_cd) throws Exception;
 	
 	public void payment(PaymentVO pvo);
 	
 	public void delivery(DeliveryVO dvo);
-	
+
 	public void auctionInfo(AuctionInfoVO avo);
+	
+	public void productPayment(ProductVO productVO);
 	
 	public List<MemberProductVO> wishList(MemberProductVO vo) throws Exception;
 	

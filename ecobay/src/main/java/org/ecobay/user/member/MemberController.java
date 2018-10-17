@@ -2,7 +2,6 @@ package org.ecobay.user.member;
 
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 
 import javax.activation.DataHandler;
@@ -94,6 +93,8 @@ public class MemberController {
     	
     	long payMoney = 0;
     	
+    	int deliveryInfo = service.deliveryInfo(product_cd);
+    	
     	// flag = 즉시구매(1) / 낙찰(2)
     	if(flag == 1) {
     		payMoney = auctVO.getBaynow_money();
@@ -105,24 +106,30 @@ public class MemberController {
 		model.addAttribute("member", service.read(userid));
     	model.addAttribute("auct", auctVO);
     	model.addAttribute("payMoney", payMoney);
-    	model.addAttribute("product_nm", service.selectprod(prodcd));
+    	model.addAttribute("product", service.selectprod(prodcd));
     	model.addAttribute("img", service.selectimg(prodcd));
+    	model.addAttribute("deliveryInfo", deliveryInfo);
+    	
+    	if(deliveryInfo == 1) {
+    		model.addAttribute("prodMember", service.selectProdMember(prodcd));
+    	}
 
     	return "member/payment.page";
     }
     @RequestMapping(value = "/payment.do/{product_cd}/{flag}", method = RequestMethod.POST)
-    public String paymentPOST(PaymentVO pvo, DeliveryVO dvo, String product_cd) throws Exception {
+    public String paymentPOST(PaymentVO pvo, DeliveryVO dvo, @PathVariable("product_cd") String product_cd, @PathVariable("flag") int flag) throws Exception {
     	User user = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     	
     	String userid = user.getUsername();
-    	long payMoney = pvo.getMoney_pay();
-    	System.out.println("payMoney="+payMoney);    	
+    	long payMoney = pvo.getMoney_pay(); 	
     	AuctionInfoVO auctVO = new AuctionInfoVO();
     	auctVO.setProduct_cd(product_cd);
     	auctVO.setBay_member_id(userid);
     	auctVO.setMoney_last(payMoney);
     	
-    	String retVal = service.paymentPrs(pvo, dvo, auctVO);
+    	int deliveryInfo = service.deliveryInfo(product_cd);
+    	
+    	String retVal = service.paymentPrs(pvo, dvo, auctVO, deliveryInfo, flag);
     	
     	//오류시 ERR return
     	if(retVal == "OK") {

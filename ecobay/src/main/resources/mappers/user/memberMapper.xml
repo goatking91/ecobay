@@ -86,10 +86,22 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		WHERE PRODUCT_CD = #{product_cd}
 	</select>
 	
-	<select id="selectProd" resultType="String">
-		SELECT PRODUCT_NM 
-		FROM PRODUCT
+	<select id="selectProd" resultType="ProductVO">
+		SELECT prod.PRODUCT_NM 
+			, prod.CLASS_BIG_CD
+			, (SELECT cls.CLASS_NM FROM CLASS cls WHERE cls.CLASS_BIG_CD = prod.CLASS_BIG_CD AND CLASS_DIV = 'B') as CLASS_BIG_NM
+			, prod.CLASS_MID_CD
+			, (SELECT cls.CLASS_NM FROM CLASS cls WHERE cls.CLASS_BIG_CD = prod.CLASS_BIG_CD AND cls.CLASS_MID_CD = prod.CLASS_MID_CD AND CLASS_DIV = 'M') as CLASS_MID_NM
+		FROM PRODUCT prod
 		WHERE PRODUCT_CD = #{product_cd}
+	</select>
+	
+	<select id="selectProdMember" resultType="MemberVO">
+		SELECT MEMBER_ID, MEMBER_NAME, PHONE
+		FROM MEMBER
+		WHERE MEMBER_ID = (SELECT MEMBER_ID 
+						  FROM PRODUCT
+						  WHERE PRODUCT_CD = #{product_cd})
 	</select>
 	
 	<select id="selectImg" resultType="String">
@@ -104,6 +116,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		VALUES(#{product_cd}, #{money_pay}, now())
 	</insert>
 	
+	<select id="deliveryInfo" resultType="int">
+		SELECT DELI_DIV_CD
+		FROM DELIVERYINFO
+		WHERE PRODUCT_CD = #{product_cd}
+	</select>
+	
 	<insert id="delivery" parameterType="DeliveryVO">
 		INSERT INTO DELIVERY
 		VALUES(#{product_cd}, #{deli_nm}, #{deli_zipcode}, #{deli_addr1}, #{deli_addr2}, #{deli_phonenum} , now())
@@ -114,6 +132,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		   SET MONEY_LAST = #{money_last}
 		     , BAY_MEMBER_ID = #{bay_member_id}
 		     , PAYMENT_PROC_CD = '2'
+		WHERE PRODUCT_CD = #{product_cd} 
+	</update>
+	
+	<update id="productPayment">
+		UPDATE PRODUCT
+		   SET STATE_CD = #{state_cd}
+		     , STATE_NM = #{state_nm}
 		WHERE PRODUCT_CD = #{product_cd} 
 	</update>
 	
