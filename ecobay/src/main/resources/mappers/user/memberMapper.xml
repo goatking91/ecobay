@@ -231,9 +231,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	<select id="qnaCnt" resultType="int">
-		select count(*) 
-		from qna 
-		where member_id = #{member_id}
+		SELECT COUNT(*) 
+		FROM QNA 
+		WHERE MEMBER_ID = #{member_id}
+	</select>
+	
+	<select id="selectUser" resultType="map">
+		SELECT MEMBER_ID as username, PWD as password, JOIN_YN as enabled, M_TYPE as authority, MEMBER_NAME as member_name
+		FROM MEMBER 
+		WHERE MEMBER_ID = #{member_id} AND JOIN_YN = TRUE AND USE_YN = TRUE
 	</select>
 </mapper>
 
