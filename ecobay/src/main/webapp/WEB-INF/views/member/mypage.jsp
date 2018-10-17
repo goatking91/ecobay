@@ -135,18 +135,7 @@ $(document).ready(function(){
 		});
 	});
 	
-	$(document).on("click", ".qnaclick", function(){
-		//모달에 질문과 관리자답변 보이기
-
-		$('#mtitle').find('h5').text("제목: "+ $(this).children('#title').text());
-		$('#mregdate').find('h5').text("등록날짜: "+ $(this).children('#regdate_str').val());
-		$('#mcontent').find('h5').text("내용: "+ $(this).children('#content').val());
-
-		$('#a_id ').find('h6').text("관리자: "+ $(this).children('#admin_id').val());
-		$('#a_regdate').find('h6').text("등록날짜: "+ $(this).children('#replyregdate').val());
-		$('#a_content').find('h6').text("내용: "+ $(this).children('#replycontent').val()); 
-		$('#qnaModal').modal('show');
-	})
+	
 	
 	//===============메뉴 클릭시 페이지 호출
 	$('#sellList-tap').click(function(){//내 구매상품
@@ -387,7 +376,21 @@ $(document).ready(function(){
 			});
 	}
 		 
-		function qnaListAjax(page) {//1:1문의 내역
+		//=======1:1문의리스트 클릭시 모달창=>문의내용, 관리자답변 보이기
+		$(document).on("click", ".qnaclick", function(){
+
+			$('#mtitle').find('h5').text("제목: "+ $(this).children('#title').text());
+			$('#mregdate').find('h5').text("등록날짜: "+ $(this).children('#regdate_str').val());
+			$('#mcontent').find('h5').text("내용: "+ $(this).children('#content').val());
+
+			$('#a_id ').find('h6').text("관리자: "+ $(this).children('#admin_id').val());
+			$('#a_regdate').find('h6').text("등록날짜: "+ $(this).children('#replyregdate').val());
+			$('#a_content').find('h6').text("내용: "+ $(this).children('#replycontent').val()); 
+			$('#qnaModal').modal('show');
+		})
+		
+		//========1:1문의 내역
+		function qnaListAjax(page) {
 			$.ajax({
 				async: true,
 				type: "POST",

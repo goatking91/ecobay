@@ -4,7 +4,7 @@ import java.util.Date;
 
 public class PaymentVO {
 	private String product_cd;
-	private int money_pay;
+	private long money_pay;
 	private Date regdate;
 	
 	public PaymentVO() {
@@ -27,11 +27,11 @@ public class PaymentVO {
 		this.product_cd = product_cd;
 	}
 
-	public int getMoney_pay() {
+	public long getMoney_pay() {
 		return money_pay;
 	}
 
-	public void setMoney_pay(int money_pay) {
+	public void setMoney_pay(long money_pay) {
 		this.money_pay = money_pay;
 	}
 

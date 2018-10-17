@@ -116,7 +116,7 @@ public class MemberController {
     	
     	String userid = user.getUsername();
     	long payMoney = pvo.getMoney_pay();
-    	    	
+    	System.out.println("payMoney="+payMoney);    	
     	AuctionInfoVO auctVO = new AuctionInfoVO();
     	auctVO.setProduct_cd(product_cd);
     	auctVO.setBay_member_id(userid);
@@ -270,7 +270,7 @@ public class MemberController {
     
     private MimeMessage getMimeMessage2(Session session, String member_id) throws Exception {
         MimeMessage message = new MimeMessage(session);
-            message.setSubject("ECObay 가입 확인 메일","utf-8");
+            message.setSubject("ECObay 결제완료 메일","utf-8");
             message.setRecipient(RecipientType.TO, new InternetAddress(member_id));
 
             //
@@ -282,9 +282,9 @@ public class MemberController {
             BodyPart messageBodyPart = new MimeBodyPart();
             
             String htmlText = "";
-            htmlText += "<H1>주문완료</H1><img style='width:15%;' src=\"cid:image\">"; 
-            htmlText += "<h4>"+member_id + "님, 안녕하세요.<br>ECObay 주문이 완료되었습니다<br>";
-            htmlText += "이메일 인증을 하지 않을 경우 사이트 이용이 제한되오니<br>";
+            htmlText += "<H1>결제완료</H1><img style='width:15%;' src=\"cid:image\">"; 
+            htmlText += "<h4>"+member_id + "님, 안녕하세요.<br>ECObay 주문결제가 완료되었습니다<br>";
+            htmlText += "이용해주셔서 감사합니다<br>";
             
             messageBodyPart.setContent(htmlText, "text/html;charset=utf-8");
 

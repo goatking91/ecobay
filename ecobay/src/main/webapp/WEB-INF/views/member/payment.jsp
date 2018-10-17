@@ -101,6 +101,8 @@ $(function() {
 		
 		/* m_redirect_url : 'http://localhost:7080/main.do' */
 		
+		
+		
 		IMP.init('imp74608433');//가맹점 식별코드
 		IMP.request_pay({
 		    pg : 'kakao', // version 1.1.0부터 지원.
@@ -285,14 +287,15 @@ $(function() {
 			<div id="pg"></div>
 				
 			<div class="page-header" style="padding:2%">
-   	    		<h2>최종결제정보(상품 1개)</h2>
+   	    		<h2>최종결제정보</h2>
    	    		<hr>
 			</div>
 			
 			<div style="font-size: 20pt" class="d-flex justify-content-between align-items-center">
 				<div class="col-sm-4" align="left">결제 예정금액</div>
 				<div class="col-sm-6"></div>
-                <label id='money_pay' name="money_pay" style="color: red; align:right;">${payMoney}</label>원
+                <label id='money_pay' style="color: red; align:right;">${payMoney}</label>원
+                <input type="hidden" name="money_pay" value="${payMoney}">
            </div>
 			
 					
