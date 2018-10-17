@@ -1,4 +1,4 @@
-<%@page import="org.ecobay.user.member.domain.MemberVO"%>
+<%@page import="org.ecobay.user.util.UserDetailsVO"%>
 <%@page import="org.springframework.security.core.context.SecurityContextHolder"%>
 <%@page import="org.springframework.security.core.Authentication"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
@@ -10,8 +10,8 @@
 
 	Object principal = auth.getPrincipal();
 	String name = "";
-	if(principal != null && principal instanceof MemberVO) {
-		name = ((MemberVO)principal).getMember_id();
+	if(principal != null && principal instanceof UserDetailsVO) {
+		name = ((UserDetailsVO)principal).getMember_name();
 	}
 %>
 <link rel="stylesheet" href="/resources/css/header.css" />
@@ -107,7 +107,7 @@
 						<li>
 							<div class="row">
 								<div class="col-md-12">
-									<div><%=name %>님 환영합니다.</div>
+									<div style ="text-align: center;"><%=name %>님 환영합니다.</div>
 									<div class="form-group">
 										<a style="text-decoration: none" href="/member/mypage.do"><button class="btn btn-default btn-block" >마이페이지</button></a>
 									</div>
