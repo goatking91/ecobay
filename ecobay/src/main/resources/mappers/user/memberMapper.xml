@@ -214,6 +214,19 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		WHERE PRODUCT_CD = #{product_cd}
 	</update>
 	
+	<update id="paycancelauct">
+		UPDATE AUCTIONINFO 
+		   SET PAYMENT_PROC_CD = '3'
+		WHERE PRODUCT_CD = #{product_cd}
+	</update>
+	
+	<update id="paycancelprod">
+		UPDATE PRODUCT 
+		   SET STATE_CD = '8' 
+		     , STATE_NM = '구매취소'
+		WHERE PRODUCT_CD = #{product_cd}
+	</update>
+	
 	<select id="qnaList" resultType="MemberQnaVO">
 		 SELECT Q.* 
           FROM(

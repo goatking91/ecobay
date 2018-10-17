@@ -8,6 +8,8 @@ import org.ecobay.user.member.domain.MemberVO;
 import org.ecobay.user.product.domain.AuctionInfoVO;
 import org.ecobay.user.product.domain.DeliveryVO;
 import org.ecobay.user.product.domain.PaymentVO;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 	public interface MemberService {
 	
@@ -58,4 +60,6 @@ import org.ecobay.user.product.domain.PaymentVO;
 	public List<MemberQnaVO> qnaList(MemberQnaVO vo) throws Exception;
 	
 	public int qnaCnt(String member_id) throws Exception;
+	
+	public void updatePayCancel(String product_cd)throws Exception;
 }

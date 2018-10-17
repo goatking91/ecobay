@@ -160,5 +160,11 @@ public class MemberServiceImpl implements MemberService {
 	public int qnaCnt(String member_id) throws Exception {
 		return dao.buyCnt(member_id);
 	}
+
+	@Override
+	public void updatePayCancel(String product_cd) throws Exception {
+		dao.paycancelauct(product_cd);
+		dao.paycancelprod(product_cd);
+	}
 	
 }

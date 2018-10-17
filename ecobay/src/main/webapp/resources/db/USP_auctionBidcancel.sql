@@ -33,8 +33,8 @@ BEGIN
 					IF NOT m_Done THEN
 						/* 해당 상품의 상태코드(6:낙찰) 정보를 유찰로 변경함 */
 						UPDATE product
-						   SET STATE_CD = '6'
-							 , STATE_NM = '유찰'
+						   SET STATE_CD = '7'
+							 , STATE_NM = '구매취소'
 							 , MODDATE = now()
 						 WHERE PRODUCT_CD = productcd;
 						

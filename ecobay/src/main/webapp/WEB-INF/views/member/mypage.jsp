@@ -64,11 +64,11 @@ $(document).ready(function(){
 	})
 
 	//===============페이징 버튼 연결 	
-	$(document).on("click", ".bbtnajax", function(){//판매상품 페이징 버튼/ 이전 1234...다음
+	$(document).on("click", ".bbtnajax", function(){//구매상품 페이징 버튼/ 이전 1234...다음
 		buyListAjax($(this).val());
 	});
 	
-	$(document).on("click", ".sbtnajax", function(){//구매상품 페이징 버튼/ 이전 1234...다음
+	$(document).on("click", ".sbtnajax", function(){//판매상품 페이징 버튼/ 이전 1234...다음
 		sellListAjax($(this).val());
 	});
 	
@@ -138,13 +138,13 @@ $(document).ready(function(){
 	
 	
 	//===============메뉴 클릭시 페이지 호출
-	$('#sellList-tap').click(function(){//내 구매상품
+	$('#sellList-tap').click(function(){//내 판매상품
 		
 		sellListAjax(page);  
 		
 	});
 	
-	 $('#buyList-tap').click(function(){//내 판매상품
+	 $('#buyList-tap').click(function(){//내 구매상품
 			
 		buyListAjax(page);  
 			
@@ -273,6 +273,7 @@ $(document).ready(function(){
 						//낙찰되었지만 구매아직안했을때 payment_proc_cd=1
 						if(arr.payment_proc_cd == '1'){
 							str = str + "		<a href='/member/payment.do/" + arr.product_cd + "/2'><buttton class='btn btn-info'>구매결제</buttton></a>";
+							str = str + "		<button class='btn btn-danger' id='paycanbtn' data-src='" + arr.product_cd + "'>구매취소</button>";
 						}
 						str = str + "	</div>";
 						str = str + "</div><hr>";
@@ -303,7 +304,41 @@ $(document).ready(function(){
 					console.log("error :" + data);
 				}
 			});
-	}
+		}
+		
+		// 구매현황 - 구매취소버튼 클릭시
+		$(document).on("click", "#paycanbtn", function(){
+			var prodcd = $(this).attr("data-src");
+			
+			$("#paycanMessage").find("h5").text("[" + prodcd + "]상품을 구매취소하겠습니까?");
+			$('#paycanproduct_cd').val("");
+			$('#paycanproduct_cd').val(prodcd);
+			$("#paycanModal").modal("show");
+		});
+		
+		
+		// 구매취소 모달 - 확인버튼 클릭시
+		$(document).on("click", "#paycanokbtn", function(){
+			var prodcd = $('#paycanproduct_cd').val();
+			
+			paycancelAjax(prodcd);
+		});
+		
+		function paycancelAjax(product_cd) { // 구매취소하기.
+ 			$.ajax({
+				async: true,
+				type: "POST",
+				url : "/member/paycancelajax.do",
+				data: product_cd,
+				contentType: "application/json; charset=UTF-8",
+				success : function(data) {
+					buyListAjax(1);
+		        },
+		        error: function(data) {
+					console.log("error :" + data);
+				}
+			});
+		}
 		
 		function sellListAjax(page) {//판매상품리스트
 			$.ajax({
@@ -918,8 +953,6 @@ $(document).ready(function(){
   </div>
 </div>
 
-
-
 <div class="modal fade" id="pwdModal" tabindex="-1" role="dialog" aria-labelledby="findIdModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
@@ -975,6 +1008,36 @@ $(document).ready(function(){
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
         <button type="button" id="outConfirmPwd" class="btn btn-primary">확인</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 구매취소 -->
+<div class="modal fade" id="paycanModal" tabindex="-1" role="dialog" aria-labelledby="paycanModal" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="paycanmodaltitle">안내</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form>
+        	<input type="hidden" style="display: none;" class="form-control" id="paycanproduct_cd" name="product_cd" value="">
+	      	<div class="row">
+	      		<div class="col-md">
+		          <div id="paycanMessage">
+					<h5 align="center"></h5>
+		          </div>
+		      </div>		      	
+		   </div>
+	      </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal" id='paycanokbtn'>확인</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal">취소</button>
       </div>
     </div>
   </div>

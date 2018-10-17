@@ -152,5 +152,14 @@ public class MemberDAOImpl implements MemberDAO {
 	public int qnaCnt(String member_id) throws Exception {
 		return session.selectOne(namespace + ".qnaCnt", member_id);
 	}
-	
+
+	@Override
+	public void paycancelauct(String product_cd) {
+		session.update(namespace + ".paycancelauct", product_cd);
+	}
+
+	@Override
+	public void paycancelprod(String product_cd) {
+		session.update(namespace + ".paycancelprod", product_cd);
+	}
 }

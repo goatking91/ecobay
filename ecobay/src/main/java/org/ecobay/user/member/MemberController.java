@@ -537,4 +537,19 @@ public class MemberController {
     	
     	return entity;
     }
+    
+    @ResponseBody
+    @RequestMapping(value="/paycancelajax.do", method = RequestMethod.POST)
+    public ResponseEntity<String> paycancelAjax(@RequestBody String product_cd) throws Exception{
+    	ResponseEntity<String> entity = null;
+    	try {
+    		service.updatePayCancel(product_cd);
+    		entity = new ResponseEntity<String>("SUCCESS", HttpStatus.OK);
+    	} catch (Exception ex) {
+			ex.printStackTrace();
+			entity = new ResponseEntity<String>(ex.getMessage(), HttpStatus.BAD_REQUEST);
+		}
+    	
+    	return entity;
+    }
 }

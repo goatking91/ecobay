@@ -61,4 +61,7 @@ public interface MemberDAO {
 	public List<MemberQnaVO> qnaList(MemberQnaVO vo) throws Exception;
 	
 	public int qnaCnt(String member_id) throws Exception;
+	
+	public void paycancelauct(String product_cd) throws Exception;
+	public void paycancelprod(String product_cd) throws Exception;
 }
