@@ -39,8 +39,8 @@ public class MemberServiceImpl implements MemberService {
 
 	@Override
 	public void modify(MemberVO vo) throws Exception {
-		String encPassword = passwordEncoder.encode(vo.getPwd());
-		vo.setPwd(encPassword);
+/*		String encPassword = passwordEncoder.encode(vo.getPwd());
+		vo.setPwd(encPassword);*/
 		dao.update(vo);	
 	}
 
@@ -185,7 +185,7 @@ public class MemberServiceImpl implements MemberService {
 
 	@Override
 	public int qnaCnt(String member_id) throws Exception {
-		return dao.buyCnt(member_id);
+		return dao.qnaCnt(member_id);
 	}
 	
 }

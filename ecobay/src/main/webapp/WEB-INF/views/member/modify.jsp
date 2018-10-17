@@ -118,106 +118,108 @@ $(document).ready(function(){
 </head>
 <body>
 <article>
-	<div class="page-header" style="padding:2%">
-   	    <h1>수정 </h1>
-   	    <hr>
-	</div>
-	<div class="col-sm-12">
-        <form name="myform" method="post" action="modify.do">
-        	<div class="form-group row">
-				<label class="col-sm-3 col-form-label text-right" for="member_name">이름</label>
-				<div class="col-sm-4">
-					<security:csrfInput/>
-					<input class="form-control border-0" style="background-color:white" id="member_name" name="member_name" type="text" value="${member.member_name}" readonly>
+	<div class="container">
+		<div class="page-header" style="padding:2%">
+	   	    <h1 align="center">회원정보수정 </h1>
+	   	    <hr>
+		</div>
+		<div class="col-sm-12">
+	        <form name="myform" method="post" action="modify.do">
+	        	<div class="form-group row">
+					<label class="col-sm-3 col-form-label text-right" for="member_name">이름</label>
+					<div class="col-sm-4">
+						<security:csrfInput/>
+						<input class="form-control border-0" style="background-color:white" id="member_name" name="member_name" type="text" value="${member.member_name}" readonly>
+					</div>
 				</div>
-			</div>
-        	<div class="form-group row row">
-          		<label class="col-sm-3 col-form-label text-right text-right" for="member_id">ID</label>
-		        <div class="col-sm-3">
-					<input class="form-control border-0" style="background-color:white" id="member_id" name="member_id" type="text" value="${member.member_id}" readonly>
-				</div>		
-        	</div>
-			<!-- <div class="form-group row row">
-				<label class="col-sm-3 col-form-label text-right text-right" for="pwd">비밀번호</label>
-				<div class="col-sm-3">
-					<input class="form-control" id="pwd" name="pwd" type="password" placeholder="비밀번호">
+	        	<div class="form-group row row">
+	          		<label class="col-sm-3 col-form-label text-right text-right" for="member_id">ID</label>
+			        <div class="col-sm-3">
+						<input class="form-control border-0" style="background-color:white" id="member_id" name="member_id" type="text" value="${member.member_id}" readonly>
+					</div>		
+	        	</div>
+				<!-- <div class="form-group row row">
+					<label class="col-sm-3 col-form-label text-right text-right" for="pwd">비밀번호</label>
+					<div class="col-sm-3">
+						<input class="form-control" id="pwd" name="pwd" type="password" placeholder="비밀번호">
+					</div>
 				</div>
-			</div>
-			<div class="form-group row">
-				<label class="col-sm-3 col-form-label text-right" for="pwdck">비밀번호 확인</label>
-				<div class="col-sm-3">
-					<input class="form-control" id="pwdck" name="pwdck" type="password" placeholder="비밀번호 확인">
-				</div>
-			</div> -->
-			<div class="form-group row">
-				<label class="col-sm-3 col-form-label text-right" for="birth">생년월일</label>
-				<div class="col-sm-3">
-					<input class="form-control border-0" style="background-color:white" id="birth" name="birth" type="text" value="${member.birth}" readonly>
-				</div>
-			</div>	
-			<div class="form-group row">
-				<label class="col-sm-3 col-form-label text-right" for="gender">성별</label>
-				<div class="col-sm-3">
-						<input class="form-control border-0" style="background-color:white" id="gender" name="gender" type="text" value="${member.gender}" readonly>
+				<div class="form-group row">
+					<label class="col-sm-3 col-form-label text-right" for="pwdck">비밀번호 확인</label>
+					<div class="col-sm-3">
+						<input class="form-control" id="pwdck" name="pwdck" type="password" placeholder="비밀번호 확인">
+					</div>
+				</div> -->
+				<div class="form-group row">
+					<label class="col-sm-3 col-form-label text-right" for="birth">생년월일</label>
+					<div class="col-sm-3">
+						<input class="form-control border-0" style="background-color:white" id="birth" name="birth" type="text" value="${member.birth}" readonly>
+					</div>
+				</div>	
+				<div class="form-group row">
+					<label class="col-sm-3 col-form-label text-right" for="gender">성별</label>
+					<div class="col-sm-3">
+							<input class="form-control border-0" style="background-color:white" id="gender" name="gender" type="text" value="${member.gender}" readonly>
+						</div>	
+				</div>	
+				
+				<div class="form-group row">	
+				<label class="col-sm-3 col-form-label text-right" for="phone1 phone2 phone3">번호</label>
+					<div class="col-sm-3">
+						<div class="input-group">				
+						<select class="form-control" id="phone1" name="phone1">
+							<option value="010">010</option>
+							<option value="011">011</option>
+							<option value="016">016</option>
+							<option value="017">017</option>
+							<option value="018">018</option>
+							<option value="019">019</option>
+						</select>
+						<div class="input-group-append">
+	    						<span class="input-group-text" id="basic-addon2">-</span>
+	  					</div>
+						<input class="form-control" id="phone2" name="phone2" type="text">
+						<div class="input-group-append">
+	    						<span class="input-group-text" id="basic-addon2">-</span>
+	  					</div>					
+						<input class="form-control" id="phone3" name="phone3" type="text">
+						<input class="form-control" id="phone" name="phone" type="hidden" value="${member.phone}">
+					</div>
 					</div>	
-			</div>	
-			
-			<div class="form-group row">	
-			<label class="col-sm-3 col-form-label text-right" for="phone1 phone2 phone3">번호</label>
-				<div class="col-sm-3">
-					<div class="input-group">				
-					<select class="form-control" id="phone1" name="phone1">
-						<option value="010">010</option>
-						<option value="011">011</option>
-						<option value="016">016</option>
-						<option value="017">017</option>
-						<option value="018">018</option>
-						<option value="019">019</option>
-					</select>
-					<div class="input-group-append">
-    						<span class="input-group-text" id="basic-addon2">-</span>
-  					</div>
-					<input class="form-control" id="phone2" name="phone2" type="text">
-					<div class="input-group-append">
-    						<span class="input-group-text" id="basic-addon2">-</span>
-  					</div>					
-					<input class="form-control" id="phone3" name="phone3" type="text">
-					<input class="form-control" id="phone" name="phone" type="hidden" value="${member.phone}">
 				</div>
-				</div>	
-			</div>
-			
-			<div class="form-group row">
-				<label class="col-sm-3 col-form-label text-right" for="zipcode">주소</label>
-				<div class="col-sm-3">
-					<div class="input-group">
-						<input class="form-control" id="zipcode" name="zipcode" type="text" value="${member.zipcode}">
-						<span class="input-group-append">
-	                    		<button id="search" class="btn btn-secondary" >우편번호찾기</button>
-	                  	</span>
-					</div>	                  	
+				
+				<div class="form-group row">
+					<label class="col-sm-3 col-form-label text-right" for="zipcode">주소</label>
+					<div class="col-sm-3">
+						<div class="input-group">
+							<input class="form-control" id="zipcode" name="zipcode" type="text" value="${member.zipcode}">
+							<span class="input-group-append">
+		                    		<button id="search" class="btn btn-secondary" >우편번호찾기</button>
+		                  	</span>
+						</div>	                  	
+					</div>
+				</div> 
+				<div class="form-group row">
+					<div class="col-sm-3"></div>
+					<div class="col-sm-6">
+						<input class="form-control" id="addr1" name="addr1" type="text" value="${member.addr1}">
+					</div>	
 				</div>
-			</div> 
-			<div class="form-group row">
-				<div class="col-sm-3"></div>
-				<div class="col-sm-6">
-					<input class="form-control" id="addr1" name="addr1" type="text" value="${member.addr1}">
-				</div>	
-			</div>
-			<div class="form-group row">
-				<div class="col-sm-3"></div>
-				<div class="col-sm-6">
-					<input class="form-control" id="addr2" name="addr2" type="text" value="${member.addr2}">
-				</div>	
-			</div>
-						
-			<div class="form-group row">
-				<div class="col-sm text-center">
-					<input type="submit" id="modify_end" name="modify_end" class="btn btn-lg btn-primary" value="수정완료">&nbsp;
-					<input type="button" id="cancel" class="btn btn-lg btn-primary" value="취소">
-				</div>	
-			</div>     	
-		</form>
+				<div class="form-group row">
+					<div class="col-sm-3"></div>
+					<div class="col-sm-6">
+						<input class="form-control" id="addr2" name="addr2" type="text" value="${member.addr2}">
+					</div>	
+				</div>
+							
+				<div class="form-group row">
+					<div class="col-sm text-center">
+						<input type="submit" id="modify_end" name="modify_end" class="btn btn-lg btn-primary" value="수정완료">&nbsp;
+						<input type="button" id="cancel" class="btn btn-lg btn-primary" value="취소">
+					</div>	
+				</div>     	
+			</form>
+		</div>
 	</div>
 </article>
 
