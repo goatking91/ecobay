@@ -87,21 +87,24 @@ $(function() {
 				$('#deli_zipcode').focus();
 				return false;
 			}
+			
 			if(member_name.length == ''){
 				$('#message').find('h4').text("이름을 입력해주세요");
 				$('#myModal').modal('show');
 				$('#member_name').focus();
 				return false;
 			}
+			
 			if(phone5.length == '' || phone6.length == ''){
 				$('#message').find('h4').text("번호를 입력해주세요");
 				$('#myModal').modal('show');
 				$('#phone5').focus();
 				return false;
-			} else {
+			} 
+			else {
 	        	phone = phone4 + "-" + phone5 + "-" + phone6;
 	        	$('#DELI_PHONENUM').val(phone);
-	        } 	
+	        }
 		}
 		
 		/* m_redirect_url : 'http://localhost:7080/main.do' */
@@ -119,7 +122,6 @@ $(function() {
 		    buyer_tel : DELI_PHONENUM,
 		    buyer_addr : addr1 + " " + addr2,
 		    buyer_postcode : deli_zipcode,
-		    
 		}, function(rsp) {
 		    if ( rsp.success ) {
 		        var msg = '결제가 완료되었습니다.';
@@ -301,7 +303,7 @@ $(function() {
 				</div>
 				<div class="form-group row">
 					<div class="col-sm-4"><img src="/displayFile.do?fileName=${img}" style="margin-left: auto; margin-right: 0px; display: block; width: 100px; height: 100px;"></div>
-					<div class="col-sm-1 text-right" style="margin-top: auto; margin-bottom: auto; display: block;">
+					<div class="col-sm-1 text-right" style="margin-top: auto; margin-bottom: auto; display: block; padding-left: 0px;">
 						<b>분류</b><br>
 						<b>상품 코드</b><br>
 						<b>상품명</b><br>
@@ -310,6 +312,7 @@ $(function() {
 						${product.class_big_nm} > ${product.class_mid_nm} <br>
 						${auct.product_cd} <br>
 						${product.product_nm}
+						<input type="hidden" id="product_nm" value="${product.product_nm}">
 					</div>
 					<%-- <div class="col-sm-3" id="product_cd" style="margin-bottom: auto; margin-top: auto; display: block;"><b>상품 코드 : </b>${auct.product_cd}</div>
 	 				<div class="col-sm-2" style="margin-bottom: auto; margin-top: auto; display: block;"><b>상품명 : </b>${product.product_nm}</div>

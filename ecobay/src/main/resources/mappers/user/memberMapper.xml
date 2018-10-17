@@ -32,34 +32,37 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
  	</select>
 	
 	<update id="verify" parameterType="MemberVO">
-		UPDATE MEMBER SET
-		JOIN_YN = TRUE
+		UPDATE MEMBER 
+		   SET JOIN_YN = TRUE
+		     , MODDATE = now()
 		WHERE MEMBER_ID = #{member_id}
-		AND BIRTH = #{birth}
+		  AND BIRTH = #{birth}
 	</update>
 	
 	<update id="update" parameterType="MemberVO">
-		UPDATE MEMBER SET
-		ZIPCODE = #{zipcode},
-		ADDR1 = #{addr1},
-		ADDR2 = #{addr2},
-		PHONE = #{phone},
-		MODDATE = now()
+		UPDATE MEMBER 
+		SET    ZIPCODE = #{zipcode}
+			 , ADDR1 = #{addr1}
+			 , ADDR2 = #{addr2}
+			 , PHONE = #{phone}
+			 , MODDATE = now()
 		WHERE MEMBER_ID = #{member_id}			
 	</update>
 	
 	<update id="delete" parameterType="String"><!-- 회원탈퇴 -->
-		UPDATE MEMBER SET
-		JOIN_YN = FALSE,
-		USE_YN = FALSE
-		WHERE MEMBER_ID = #{member_id}	
+		UPDATE MEMBER 
+		   SET  JOIN_YN = FALSE
+		      , USE_YN = FALSE
+		      , MODDATE = now()
+		WHERE MEMBER_ID = #{member_id}
 	</update>
 	
 	<select id="idfind" parameterType="MemberVO" resultType="String">
-		SELECT MEMBER_ID FROM MEMBER WHERE 
-		MEMBER_NAME = #{member_name} AND
-		BIRTH = #{birth} AND
-		PHONE = #{phone}
+		SELECT MEMBER_ID 
+		  FROM MEMBER 
+		 WHERE MEMBER_NAME = #{member_name} 
+		   AND BIRTH = #{birth} 
+		   AND PHONE = #{phone}
 	</select>
 	
 	<select id="pwdfind" parameterType="MemberVO" resultType="String">
@@ -131,6 +134,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		   SET MONEY_LAST = #{money_last}
 		     , BAY_MEMBER_ID = #{bay_member_id}
 		     , PAYMENT_PROC_CD = '2'
+		     , MODDATE = now()
 		WHERE PRODUCT_CD = #{product_cd} 
 	</update>
 	
@@ -138,6 +142,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		UPDATE PRODUCT
 		   SET STATE_CD = #{state_cd}
 		     , STATE_NM = #{state_nm}
+		     , MODDATE = now()
 		WHERE PRODUCT_CD = #{product_cd} 
 	</update>
 	
@@ -226,21 +231,24 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	  	 
 	<delete id="chkDel">
 		DELETE FROM PRODUCTWISH
-		WHERE PRODUCT_CD IN
+		 WHERE PRODUCT_CD IN
 		<foreach collection="list" item="type" open="(" close=")" separator=",">
 			#{type}
 		</foreach>
 	</delete>
 	
 	<update id="stateChange">
-		UPDATE PRODUCT SET 
-		STATE_CD = '2', STATE_NM = '요청취소'
+		UPDATE PRODUCT 
+		   SET  STATE_CD = '2'
+		      , STATE_NM = '요청취소'
+		      , MODDATE = now()
 		WHERE PRODUCT_CD = #{product_cd}
 	</update>
 	
 	<update id="paycancelauct">
 		UPDATE AUCTIONINFO 
 		   SET PAYMENT_PROC_CD = '3'
+		     , MODDATE = now()
 		WHERE PRODUCT_CD = #{product_cd}
 	</update>
 	
@@ -248,6 +256,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		UPDATE PRODUCT 
 		   SET STATE_CD = '8' 
 		     , STATE_NM = '구매취소'
+		     , MODDATE = now()
 		WHERE PRODUCT_CD = #{product_cd}
 	</update>
 	
@@ -269,8 +278,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<select id="qnaCnt" resultType="int">
 		SELECT COUNT(*)
-		FROM QNA 
-		WHERE MEMBER_ID = #{member_id}
+		  FROM QNA 
+		 WHERE MEMBER_ID = #{member_id}
 	</select>
 	
 	<select id="selectUser" resultType="map">

@@ -256,6 +256,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<update id="delete">
 		UPDATE PRODUCT
 		   SET USE_YN = FALSE
+		     , MODDATE = now()
 		 WHERE PRODUCT_CD = #{product_cd}
 	</update>
 	
