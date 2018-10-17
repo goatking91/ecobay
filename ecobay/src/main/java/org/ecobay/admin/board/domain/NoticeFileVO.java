@@ -11,15 +11,16 @@ public class NoticeFileVO {
 	private String filename_org;
 	private long fileSize;
 	private Date regdate;
+	private Boolean del_YN;
 	
 	private double fileSizeByte;
 	
 	public NoticeFileVO() {
 	}
-
+	
 
 	public NoticeFileVO(int file_cd, int file_idx, int notice_idx, String filename, String filename_org, long fileSize,
-			Date regdate, double fileSizeByte) {
+			Date regdate, Boolean del_YN, double fileSizeByte) {
 		super();
 		this.file_cd = file_cd;
 		this.file_idx = file_idx;
@@ -28,6 +29,7 @@ public class NoticeFileVO {
 		this.filename_org = filename_org;
 		this.fileSize = fileSize;
 		this.regdate = regdate;
+		this.del_YN = del_YN;
 		this.fileSizeByte = fileSizeByte;
 	}
 
@@ -98,13 +100,21 @@ public class NoticeFileVO {
 	public void setFileSizeByte(double fileSizeByte) {
 		this.fileSizeByte = fileSizeByte;
 	}
+	
+	public Boolean getDel_YN() {
+		return del_YN;
+	}
 
+
+	public void setDel_YN(Boolean del_YN) {
+		this.del_YN = del_YN;
+	}
 
 	@Override
 	public String toString() {
 		return "NoticeFileVO [file_cd=" + file_cd + ", file_idx=" + file_idx + ", notice_idx=" + notice_idx
 				+ ", filename=" + filename + ", filename_org=" + filename_org + ", fileSize=" + fileSize + ", regdate="
-				+ regdate + ", fileSizeByte=" + fileSizeByte + "]";
+				+ regdate + ", del_YN=" + del_YN + ", fileSizeByte=" + fileSizeByte + "]";
 	}
 	
 	

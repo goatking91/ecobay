@@ -1,35 +1,18 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 	
-	<style type="text/css">
-		.colTitle
-		{
-			width:15%;
-			text-align:right; 
-			background-color: #F2F2F2; 
-			vertical-align: middle;
-		}
-		
-	</style>
-	<script>
-		$(document).ready(function(){
-			
-			$('#delBtn').click(function(event){
-				$('#message').find('h5').text("삭제가 완료되었습니다.");
-				$('#myModal').modal('show');
-				
-			});
-			
-			$('#delConfirm').click(function(event){
-				var idx = $('#notice_idx').val();
-				location.href="/admin/board/noticedel.do?idx="+idx;
-			});
-			
-			
-			
-		});
-	
-	</script>
+<meta id="_csrf" name="_csrf" content="${_csrf.token}"/>
+<meta id="_csrf_header" name="_csrf_header" content="${_csrf.headerName}"/>
+<script src="/resources/js/admin/adminNoticeDetail.js"></script>
+
+<style type="text/css">
+	.colTitle {
+		width:15%;
+		text-align:right; 
+		background-color: #F2F2F2; 
+		vertical-align: middle;
+	}
+</style>
 	
 	<div class="content-wrapper">
 	<!-- 페이지 헤더(제목) -->
@@ -53,7 +36,7 @@
 		
 		<div class="container">
 			<form name="noticeDetailForm" action="/admin/board/noticemod.do" class="form-horizontal" method="get">
-				<input type="hidden" id="notice_idx" name="idx" value="${notice.notice_idx }">
+				<input type="hidden" id="noticeIDX" name="idx" value="${notice.notice_idx }">
 				<div class="table-responsive">
 					<table class="table">
 	
@@ -64,10 +47,10 @@
 							<td>${notice.viewCNT }</td>
 						</tr>
 						
-						<tr>
+						<tr id="fileListTR">
 							<th class="colTitle">첨부파일</th>
 							<td colspan="3">
-								<c:forEach var="filelist" items="${notice.fileVOList }">
+								<%-- <c:forEach var="filelist" items="${notice.fileVOList }">
 									<c:choose>
 										<c:when test="${filelist.filename_org ne null}">
 											<a href="/admin/board/download.do?fileidx=${filelist.file_idx}&noticeidx=${notice.notice_idx}">${filelist.filename_org} </a>
@@ -81,7 +64,7 @@
 											첨부파일이 존재하지 않습니다.
 										</c:otherwise>
 									</c:choose>
-           						</c:forEach>								
+           						</c:forEach>	 --%>							
               				</td>
 						</tr>
 						<tr>

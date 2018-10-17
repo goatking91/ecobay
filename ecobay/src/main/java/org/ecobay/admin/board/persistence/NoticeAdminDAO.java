@@ -27,5 +27,7 @@ public interface NoticeAdminDAO {
 	public int maxNoticeIDX() throws Exception;
 	
 	public int selectNoticeListCnt(NoticeVO vo) throws Exception;
+	
+	public void noticeFileDelete(int file_idx) throws Exception;
 
 }

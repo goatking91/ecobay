@@ -71,6 +71,10 @@ public class NoticeAdminDAOImpl implements NoticeAdminDAO {
 	public int selectNoticeListCnt(NoticeVO vo) throws Exception {
 		return session.selectOne(namespace + ".selectNoticeListCnt", vo);
 	}
-	
-	
+
+	@Override
+	public void noticeFileDelete(int file_idx) throws Exception {
+		session.insert(namespace + ".deleteNoticeFile", file_idx);
+	}
+
 }

@@ -42,6 +42,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			<result column="FILESIZE" property="fileSize"/>
 			<result column="REGDATE" property="regdate" />
 			<result column="fileSizeByte" property="fileSizeByte" />
+			<result column="DEL_YN" property="del_YN" />
 		</collection>
 	</resultMap>
 	<select id="selectNoticeOne" parameterType="int" resultMap="selectNoticeResultMap" statementType="PREPARED">
@@ -61,6 +62,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			t2.FILENAME_ORG as fileName_org,
 			t2.FILESIZE as fileSize,
 			t2.REGDATE as fRegDate,
+			t2.DEL_YN as del_YN,
 			ROUND(t2.FILESIZE/1024,1) as fileSizeByte
 
 		FROM NOTICE t1 LEFT JOIN NOTICEFILE t2
@@ -82,7 +84,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			VIEWCNT = viewcnt+1
 		WHERE NOTICE_IDX = #{notice_idx}
 	</update>
-	
 	
 	<update id="deleteNotice" parameterType="int">
 		UPDATE NOTICE SET
@@ -116,6 +117,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         WHERE NOTICE_IDX > 0
         <include refid="search" />
 	</select>
+	
+	<update id="deleteNoticeFile" parameterType="int">
+		UPDATE NOTICEFILE SET
+			DEL_YN = TRUE,
+			DELDATE = now()
+		WHERE FILE_IDX = #{file_idx}
+	</update>
 	
 	
 	

@@ -1,14 +1,15 @@
 package org.ecobay.admin.board;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.mail.Multipart;
 
 import org.ecobay.admin.board.domain.NoticeFileVO;
 import org.ecobay.admin.board.domain.NoticeVO;
-import org.ecobay.admin.board.domain.QnaVO;
 import org.ecobay.admin.board.service.BoardAdminService;
 import org.ecobay.user.util.Pagination;
 import org.ecobay.user.util.UploadContoller;
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
@@ -76,7 +78,6 @@ public class NoticeAdminController {
 		
 		return map;
     }
-	
 
     @RequestMapping(value="/noticereg.do", method = RequestMethod.GET)
     public String noticeRegGET() {
@@ -95,19 +96,19 @@ public class NoticeAdminController {
 		
 		int idx = Integer.parseInt(notice_idx);
 		NoticeVO notice = service.noticeLoad(idx);
-		List<NoticeFileVO> noticeFile = notice.getFileVOList();
 		
 		model.addAttribute("notice", notice);
-		model.addAttribute("fileList", noticeFile);
 		
         return "admin/board/noticeModify.admin";
     }
 	
     @RequestMapping(value="/noticemod.do", method = RequestMethod.POST)
-    public String noticeModPOST(NoticeVO vo) throws Exception {
-		service.noticeUpdate(vo);
-		
-        return "redirect:/admin/board/noticelist.do";
+    public String noticeModPOST(NoticeVO newNoticeVO) throws Exception {
+    	
+    	service.noticeUpdate(newNoticeVO);
+    	int idx = newNoticeVO.getNotice_idx();
+    	
+        return "redirect:/admin/board/noticedetail.do?idx="+idx;
     }
     
     
@@ -121,22 +122,27 @@ public class NoticeAdminController {
     }
 	
 	
-	
-    
     @RequestMapping(value="/noticedetail.do", method = RequestMethod.GET)
     public String noticeDetailGET(@RequestParam("idx") String notice_idx, Model model) throws Exception {
     	
     	int idx = Integer.parseInt(notice_idx);
     	service.noticeViewCnt(idx);
+    	
+    	
     	NoticeVO notice = service.noticeLoad(idx);
     	
-    	
-    	List<NoticeFileVO> noticeFile = notice.getFileVOList();
+    	List<NoticeFileVO> noitceFileList = new ArrayList<NoticeFileVO>();
+    	if (notice.getFileVOList() != null) {
+    		for (NoticeFileVO file : notice.getFileVOList()) {
+    			if (file.getDel_YN() != null) {
+    				if (file.getDel_YN() == false) {
+        				noitceFileList.add(file);
+        			}
+				}
+    		}
+		}
     	
 		model.addAttribute("notice", notice);
-		model.addAttribute("fileList", noticeFile);
-
-
 		
     	return "admin/board/noticeDetail.admin";
     }
@@ -150,7 +156,6 @@ public class NoticeAdminController {
     	
     	String systemFileName = "";
     	String orgfileName = "";
-    	
     	
     	List<NoticeFileVO> noticeFile = notice.getFileVOList();
     	for (NoticeFileVO file : noticeFile) {
@@ -170,5 +175,38 @@ public class NoticeAdminController {
 
     }
     
+    @ResponseBody
+	@RequestMapping(value="/ajaxfilelist.do", method = RequestMethod.GET)
+    public Map<String, Object> ajaxFileList(NoticeVO noticeVO, @RequestParam(value="idx") String idx) throws Exception {
+    	
+    	int notice_idx = Integer.parseInt(idx);
+    	noticeVO = service.noticeLoad(notice_idx);
+    	
+    	List<NoticeFileVO> noitceFileList = new ArrayList<NoticeFileVO>();
+    	for (NoticeFileVO file : noticeVO.getFileVOList()) {
+    		if (file.getDel_YN() != null) {
+				if (file.getDel_YN() == false) {
+    				noitceFileList.add(file);
+    			}
+			}
+		}
+    	
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("fileList", noitceFileList);
+		
+		return map;
+    }
+    
+    @ResponseBody
+	@RequestMapping(value="/ajaxfiledelete.do", method = RequestMethod.GET)
+    public Map<String, Object> ajaxFileDelete(@RequestParam(value="fileidx") String idx) throws Exception {
+    	
+    	int file_idx = Integer.parseInt(idx);
+    	service.noticeFileDelete(file_idx);
+    	
+    	Map<String, Object> map = new HashMap<String, Object>();
+    	map.put("isSuccess", "true");
+		return map;
+    }
     
 }

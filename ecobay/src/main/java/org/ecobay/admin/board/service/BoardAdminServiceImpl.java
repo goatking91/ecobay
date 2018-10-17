@@ -1,6 +1,7 @@
 package org.ecobay.admin.board.service;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -93,7 +94,7 @@ public class BoardAdminServiceImpl implements BoardAdminService {
 				String savedPath = UploadFileUtils.calcPath(uploadPath);
 				
 				String originalFileName = file.getOriginalFilename();
-				String systemFileName = savedPath + uid.toString() + "_" + originalFileName;
+				String systemFileName = savedPath + File.separator + uid.toString() + "_" + originalFileName;
 				
 				File temp = new File(uploadPath, systemFileName);
 				FileCopyUtils.copy(file.getBytes(), temp);
@@ -124,10 +125,119 @@ public class BoardAdminServiceImpl implements BoardAdminService {
 	public NoticeVO noticeLoad(int notice_idx) throws Exception {
 		return noticeDao.noticeLoad(notice_idx);
 	}
-
+	
 	@Override
 	public void noticeUpdate(NoticeVO vo) throws Exception {
-		noticeDao.noticeUpdate(vo);
+		int maxNoticeFileCnt;
+		
+    	NoticeVO oldNoticeVO = noticeDao.noticeLoad(vo.getNotice_idx());
+    	
+    	//두 VO합친 업데이트 될 VO
+    	NoticeVO changeNoticeVO = new NoticeVO();
+    	changeNoticeVO.setTitle(vo.getTitle());
+    	changeNoticeVO.setContent(vo.getContent());
+    	changeNoticeVO.setUpload(vo.getUpload());
+    	
+    	changeNoticeVO.setNotice_idx(oldNoticeVO.getNotice_idx());
+    	changeNoticeVO.setRegDate(oldNoticeVO.getRegDate());
+    	changeNoticeVO.setModDate(oldNoticeVO.getModDate());
+    	changeNoticeVO.setUse_YN(oldNoticeVO.isUse_YN());
+    	changeNoticeVO.setViewCNT(oldNoticeVO.getViewCNT());
+    	changeNoticeVO.setFileVOList(oldNoticeVO.getFileVOList());
+    	
+    	//삭제가 false인 List
+    	List<NoticeFileVO> oldFileDelFalseList =  new ArrayList<NoticeFileVO>();
+    	NoticeFileVO oldNoticeFileVO = new NoticeFileVO();
+    	
+    	int oldFileListSize = changeNoticeVO.getFileVOList().size();
+    	
+    	//기존 파일의 수가 0이 아니면서, 첫번째 파일 인덱스가 0이 아닌 경우
+		if (oldFileListSize != 0 && changeNoticeVO.getFileVOList().get(0).getFile_idx() != 0) {
+    		for (int j = 0; j < oldFileListSize; j++) {
+    			boolean del_yn = changeNoticeVO.getFileVOList().get(j).getDel_YN();
+    			if (del_yn == false) {
+    				oldNoticeFileVO = changeNoticeVO.getFileVOList().get(j);
+    				oldFileDelFalseList.add(oldNoticeFileVO);
+    			} 
+    		}
+    		
+    		int changeUploadSize = changeNoticeVO.getUpload().size();
+    		//삭제 하고 업로드
+    		for (int i = 0; i < changeUploadSize; i++) {
+        		MultipartFile file = changeNoticeVO.getUpload().get(i);
+        		
+        		if (!file.isEmpty()) {
+        			
+        			if (!oldFileDelFalseList.isEmpty() && changeUploadSize <= oldFileListSize ) {
+        				int delFileIdx = oldFileDelFalseList.get(i).getFile_idx();
+        				noticeDao.noticeFileDelete(delFileIdx);
+        			}
+        			
+        			UUID uid = UUID.randomUUID();
+        			
+        			String savedPath = UploadFileUtils.calcPath(uploadPath);
+        			
+        			String originalFileName = file.getOriginalFilename();
+        			String systemFileName = savedPath + File.separator + uid.toString() + "_" + originalFileName;
+        			
+        			File temp = new File(uploadPath, systemFileName);
+        			FileCopyUtils.copy(file.getBytes(), temp);
+        			
+        			NoticeFileVO noticeFile = new NoticeFileVO();
+        			noticeFile.setNotice_idx(changeNoticeVO.getNotice_idx());
+        			noticeFile.setFilename_org(originalFileName);
+        			noticeFile.setFilename(systemFileName);
+        			maxNoticeFileCnt = noticeDao.maxNoticeFileCnt();
+        			noticeFile.setFile_cd(maxNoticeFileCnt);
+        			noticeFile.setFile_idx(maxNoticeFileCnt);
+        			noticeFile.setFileSize(file.getSize());
+        			
+        			changeNoticeVO.addArticleFile(noticeFile);
+        			
+        			noticeDao.noticeFileInsert(noticeFile);
+        		}
+        		
+        		//공지사항 업데이트
+        		noticeDao.noticeUpdate(changeNoticeVO);
+        		
+    		}
+    		
+		} else {
+			//그냥 업로드 진행
+			for (int i = 0; i < changeNoticeVO.getUpload().size(); i++) {
+	    		MultipartFile file = changeNoticeVO.getUpload().get(i);
+	    		
+	    		if (!file.isEmpty()) {
+        			
+	    			UUID uid = UUID.randomUUID();
+	    			
+	    			String savedPath = UploadFileUtils.calcPath(uploadPath);
+	    			
+	    			String originalFileName = file.getOriginalFilename();
+	    			String systemFileName = savedPath + File.separator + uid.toString() + "_" + originalFileName;
+	    			
+	    			File temp = new File(uploadPath, systemFileName);
+	    			FileCopyUtils.copy(file.getBytes(), temp);
+	    			
+	    			NoticeFileVO noticeFile = new NoticeFileVO();
+	    			noticeFile.setNotice_idx(changeNoticeVO.getNotice_idx());
+	    			noticeFile.setFilename_org(originalFileName);
+	    			noticeFile.setFilename(systemFileName);
+	    			maxNoticeFileCnt = noticeDao.maxNoticeFileCnt();
+	    			noticeFile.setFile_cd(maxNoticeFileCnt);
+	    			noticeFile.setFile_idx(maxNoticeFileCnt);
+	    			noticeFile.setFileSize(file.getSize());
+	    			
+	    			changeNoticeVO.addArticleFile(noticeFile);
+	    			
+	    			noticeDao.noticeFileInsert(noticeFile);
+        		}
+			}
+			
+			//공지사항 업데이트
+    		noticeDao.noticeUpdate(changeNoticeVO);
+			
+		}
 		
 	}
 
@@ -145,6 +255,12 @@ public class BoardAdminServiceImpl implements BoardAdminService {
 	@Override
 	public int selectNoticeListCnt(NoticeVO noticeVO) throws Exception {
 		return noticeDao.selectNoticeListCnt(noticeVO);
+	}
+	
+	@Override
+	public void noticeFileDelete(int file_idx) throws Exception {
+		noticeDao.noticeFileDelete(file_idx);
+		
 	}
 	
 	
@@ -181,6 +297,5 @@ public class BoardAdminServiceImpl implements BoardAdminService {
 	public int selectQnaListCnt(QnaVO qnaVO) throws Exception {
 		return qnaDao.selectQnaListCnt(qnaVO);
 	}
-
 
 }

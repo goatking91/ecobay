@@ -89,8 +89,6 @@ public class UploadFileUtils {
 		
 		makeDir(uploadPath, yearPath, monthPath, datePath);
 		
-		logger.info(datePath);
-		
 		return datePath;
 	}
 	

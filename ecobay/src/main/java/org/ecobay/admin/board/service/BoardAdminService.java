@@ -38,6 +38,8 @@ public interface BoardAdminService {
 		
 		public int selectNoticeListCnt(NoticeVO noticeVO) throws Exception;
 		
+		public void noticeFileDelete(int file_idx) throws Exception;
+		
 		
 		/* QNA */
 		public List<QnaVO> qnaList(QnaVO qnaVO) throws Exception;
