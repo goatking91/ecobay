@@ -126,14 +126,14 @@ $(document).ready(function(){
 		<div class="col-sm-12">
 	        <form name="myform" method="post" action="modify.do">
 	        	<div class="form-group row">
-					<label class="col-sm-3 col-form-label text-right" for="member_name">이름</label>
+					<div class="col-sm-3 text-right" style="margin-top:auto;margin-bottom:auto;"><b>이름</b></div>
 					<div class="col-sm-4">
 						<security:csrfInput/>
 						<input class="form-control border-0" style="background-color:white" id="member_name" name="member_name" type="text" value="${member.member_name}" readonly>
 					</div>
 				</div>
 	        	<div class="form-group row row">
-	          		<label class="col-sm-3 col-form-label text-right text-right" for="member_id">ID</label>
+	          		<div class="col-sm-3 text-right" style="margin-top:auto;margin-bottom:auto;"><b>ID</b></div>
 			        <div class="col-sm-3">
 						<input class="form-control border-0" style="background-color:white" id="member_id" name="member_id" type="text" value="${member.member_id}" readonly>
 					</div>		
@@ -151,21 +151,21 @@ $(document).ready(function(){
 					</div>
 				</div> -->
 				<div class="form-group row">
-					<label class="col-sm-3 col-form-label text-right" for="birth">생년월일</label>
+					<div class="col-sm-3 text-right" style="margin-top:auto;margin-bottom:auto;"><b>생년월일</b></div>
 					<div class="col-sm-3">
 						<input class="form-control border-0" style="background-color:white" id="birth" name="birth" type="text" value="${member.birth}" readonly>
 					</div>
 				</div>	
 				<div class="form-group row">
-					<label class="col-sm-3 col-form-label text-right" for="gender">성별</label>
+					<div class="col-sm-3 text-right" style="margin-top:auto;margin-bottom:auto;"><b>성별</b></div>
 					<div class="col-sm-3">
 							<input class="form-control border-0" style="background-color:white" id="gender" name="gender" type="text" value="${member.gender}" readonly>
 						</div>	
 				</div>	
 				
 				<div class="form-group row">	
-				<label class="col-sm-3 col-form-label text-right" for="phone1 phone2 phone3">번호</label>
-					<div class="col-sm-3">
+				<div class="col-sm-3 text-right" style="margin-top:auto;margin-bottom:auto;"><b>번호</b></div>
+					<div class="col-sm-4">
 						<div class="input-group">				
 						<select class="form-control" id="phone1" name="phone1">
 							<option value="010">010</option>
@@ -189,7 +189,7 @@ $(document).ready(function(){
 				</div>
 				
 				<div class="form-group row">
-					<label class="col-sm-3 col-form-label text-right" for="zipcode">주소</label>
+				<div class="col-sm-3 text-right" style="margin-top:auto;margin-bottom:auto;"><b>주소</b></div>
 					<div class="col-sm-3">
 						<div class="input-group">
 							<input class="form-control" id="zipcode" name="zipcode" type="text" value="${member.zipcode}">

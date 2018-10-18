@@ -150,7 +150,6 @@ public class MemberController {
     		pagecount = (total/10) +1;
     	}
     	vo.setPagecount(pagecount);
-    	System.out.println("total="+total);
     	vo.setPage(page);
 		vo.setStart(((page-1)*10)+1);
 		vo.setEnd(page*10);
@@ -219,7 +218,6 @@ public class MemberController {
     		pagecount = (total/10) +1;
     	}
     	vo.setPagecount(pagecount);
-    	System.out.println("total="+total);
     	vo.setPage(page);
 		vo.setStart(((page-1)*10)+1);
 		vo.setEnd(page*10);
@@ -246,7 +244,6 @@ public class MemberController {
     	
     	int total = service.qnaCnt(member_id);
     	int pagecount = 0;
-    	System.out.println("total=" + total);
     	if(total%10 == 0) {
     		pagecount = total/10;
     	} else {
@@ -266,8 +263,7 @@ public class MemberController {
     
     	Map<String, Object> map = new HashMap<String, Object>();
     	List<MemberQnaVO> qnaList = service.qnaList(vo);
-    	
-    	System.out.println("qnaList=" + qnaList);
+
     	map.put("vo", vo);
     	map.put("cnt", total);
     	map.put("arr", qnaList);
@@ -312,12 +308,7 @@ public class MemberController {
             message.setContent(multipart);
         
         return message;
-    }
-    @RequestMapping(value = "/paymentEnd.do", method = RequestMethod.GET)
-    public String paymentEndGET() {
-    	return "member/paymentEnd.page";
-    }
-    
+    } 
     
     @RequestMapping(value = "/idcheck.do", method = RequestMethod.POST)
     @ResponseBody
