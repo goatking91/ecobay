@@ -465,7 +465,7 @@
 		
 		auctTime();
 		
-		$(function(){
+		$(function() {
 			/*======================================================================================*/
 			// ajax처리시 권한 스크립트
 			/*======================================================================================*/
@@ -476,7 +476,7 @@
 		        xhr.setRequestHeader(header, token);
 		    });
 		    /*======================================================================================*/
-	      	var product_cd = "${prod.product_cd}";
+		  	var product_cd = "${prod.product_cd}";
 			var userid = "${userid}";
 			var memberId_sale = "${prod.member_id}";
 			
@@ -487,6 +487,7 @@
 			$("#prodMember_id").ready(function() {
 				var prodMember_id = "${prod.member_id}";
 				var sCov = idCov(prodMember_id);
+				//var sCov = idCov(memberId_sale);
 				
 				$("#prodMember_id").val(sCov);
 			});
@@ -561,10 +562,11 @@
 			$("#bidRegBtn").on("click", function(){
 				var dateTime = new Date().getTime(); // 현재시간
 				
+				
 				if(endDateTime > dateTime) {
-    	 			$('#myModalCancelBtn').css("display", "");
-    	 			$('#myModal_div').val("bid");
-    	 			
+		 			$('#myModalCancelBtn').css("display", "");
+		 			$('#myModal_div').val("bid");
+		 			
 		            $('#myModal #message').find('h4').text("입찰하시겠습니까?");
 		        	$('#myModal').modal('show');
 				}
@@ -574,7 +576,7 @@
 					$('#baynowBtn').text("즉시구매불가"); // 경매종료시 메세지 변경.
 					
 					$('#myModalCancelBtn').css("display", "none");
-    	 			$('#myModal_div').val("");
+		 			$('#myModal_div').val("");
 		            $('#myModal #message').find('h4').text("경매가 종료되었습니다.");
 		        	$('#myModal').modal('show');
 				}
@@ -595,7 +597,7 @@
 		    	 			$('#myModalCancelBtn').css("display", "none");
 		    	 			$('#myModal_div').val("");
 		    	 			
- 		    	 			if(iProdWishCnt == 0) {
+			    	 			if(iProdWishCnt == 0) {
 		    	 				$('#myModal #message').find('h4').text("관심상품 등록되었습니다.");
 		    	 			}
 		    	 			else {
@@ -615,7 +617,7 @@
 					$('#baynowBtn').text("즉시구매불가"); // 경매종료시 메세지 변경.
 					
 					$('#myModalCancelBtn').css("display", "none");
-    	 			$('#myModal_div').val("");
+		 			$('#myModal_div').val("");
 		            $('#myModal #message').find('h4').text("경매가 종료되었습니다.");
 		        	$('#myModal').modal('show');
 				}
@@ -637,9 +639,9 @@
 					var dateTime = new Date().getTime(); // 현재시간
 					
 					if(endDateTime > dateTime) {
-	    	 			$('#myModalCancelBtn').css("display", "");
-	    	 			$('#myModal_div').val("baynow");
-	    	 			
+			 			$('#myModalCancelBtn').css("display", "");
+			 			$('#myModal_div').val("baynow");
+			 			
 			            $('#myModal #message').find('h4').text("즉시구매를 진행하시겠습니까?");
 			        	$('#myModal').modal('show');
 					}
@@ -649,7 +651,7 @@
 						$('#baynowBtn').text("즉시구매불가"); // 경매종료시 메세지 변경.
 						
 						$('#myModalCancelBtn').css("display", "none");
-	    	 			$('#myModal_div').val("");
+			 			$('#myModal_div').val("");
 			            $('#myModal #message').find('h4').text("경매가 종료되었습니다.");
 			        	$('#myModal').modal('show');
 					}
@@ -663,8 +665,8 @@
 
 			// 문의하기 모달 호출.
 			$("#btnQnaModal").on("click", function(){
-	            $('#qModal').css("zIndex", "999999");
-	        	$('#qModal').modal('show');
+		        $('#qModal').css("zIndex", "999999");
+		    	$('#qModal').modal('show');
 			});
 			
 			// 답변하기 모달 호출.
@@ -675,15 +677,15 @@
 				if(noIdx == null || noIdx.length == 0) {
 					return false;
 				}
-	
+
 				var nowtitle = $('#qtitle'+noIdx).text();
 				var nowcontent = $('#qcontent'+noIdx).text();
 				
 				$("#aqna_idx").val(noIdx); // 문의idx 전달.
 				$("#atitle").val("[답변] " + nowtitle);// 문의 제목 자동처리[답변] - 읽기전용
 				$("#acontent_bf").val("[문의] " + nowcontent);// 문의 내용 출력 - 읽기전용
-	
-	            $('#aModal').css("zIndex", "999999");
+
+		        $('#aModal').css("zIndex", "999999");
 				$('#aModal').modal('show');
 			});
 			
@@ -725,7 +727,7 @@
 					
 					return false;
 				}
-	
+
 				var form_data = $("#qnaform").serialize();
 				
 				$.ajax({
@@ -777,7 +779,7 @@
 					
 					return false;
 				}
-	
+
 				var form_data = $("#replyform").serialize();
 				
 				$.ajax({
@@ -798,19 +800,19 @@
 				$("#acontent").val("");
 			});
 			
-	 		// name="qnapagecount" 클릭이벤트 - 페이징 처리용.
+			// name="qnapagecount" 클릭이벤트 - 페이징 처리용.
 			$(document).on("click", "a[name='qnapagecount']", function(){
 				var pageVal = $(this).attr("qna-page-no");
 				qnaListCall(pageVal);
 			});
-	 		
-	 		// name="bidpagecount" 클릭이벤트 - 페이징 처리용.
+				
+			// name="bidpagecount" 클릭이벤트 - 페이징 처리용.
 			$(document).on("click", "a[name='bidpagecount']", function(){
 				var pageVal = $(this).attr("bid-page-no");
 				bidListCall(pageVal);
 			});
 			
-	 		// 문의리스트 출력 및 페이징 처리.
+			// 문의리스트 출력 및 페이징 처리.
 			function qnaListCall(pagenum){
 				$.ajax({
 					async: true,
@@ -865,7 +867,7 @@
 		    	 			
 		    	 			str = str + "	<td data-toggle='collapse' data-target='#data_" + arr.qna_idx + "' style='text-align: center;'>" + regdate + "</td>";
 		    	 			str = str + "	<td style='text-align: center;'>";
-	
+
 		    	 			if(userid != null) {
 			    	 			if(userid == memberId_sale && arr.qna_reply == '') {
 			    	 				str = str + "		<a href='javascript:void(0);'><button id='replyBtn" + arr.qna_idx + "' class='btn btn-sm btn-primary reply'>답변</button></a>";
@@ -874,7 +876,7 @@
 			    	 			if(userid == arr.member_id) {
 			    	 				str = str + "		<a href='javascript:void(0);'><button id='delBtn" + arr.qna_idx + "' class='btn btn-sm btn-danger del'>삭제</button></a>";
 			    	 			}
-	    	 				}
+			 				}
 		    	 			
 		    	 			str = str + "	</td>";
 		    	 			str = str + "</tr>";
@@ -896,7 +898,7 @@
 		    	 		str = str + "<thead>";
 		    	 		str = str + "	<tr align='center'>";
 		    	 		str = str + "		<td colspan='5'>";
-	
+
 		    	 		// [맨앞] 출력 여부 - [1]이면 출력하지 않기. - iPageNum
 		    	 		if(pagenum != 1) {
 		    	 			//str = str + "		<a name='pagecount' qna-page-no='1' href='javascript:void(0);'>[처음]</a>";
@@ -904,7 +906,7 @@
 		    	 			str = str + "			<button class='btn btn-sm btn-outline-secondary'>처음</button>";
 		    	 			str = str + "		</a>";
 		    	 		}
-	
+
 		    	 		// [이전] 출력 여부 - [11]부터 [이전]을 붙여줘야 하며 이동시 10씩 빼줘야 함.
 		    	 		if(iStartPage > qnaPageCnt) {
 		    	 			//str = str + "		<a name='pagecount' qna-page-no='" + (iStartPage - qnaPageCnt) + "' href='javascript:void(0);'>[이전]</a>";
@@ -926,7 +928,7 @@
 			    	 			str = str + "		</a>";
 		    	 			}
 		    	 		}
-	
+
 		    	 		// [다음] 출력 여부 - 최종페이지가 아닌 경우 [다음]을 붙여줘야 하며 이동시 10씩 더해줘야 함.
 		    	 		if(iEndPage < iPageTotalNum) {
 		    	 			//str = str + "		<a name='pagecount' qna-page-no='" + (iStartPage + qnaPageCnt) + "' href='javascript:void(0);'>[다음]</a>";
@@ -954,8 +956,8 @@
 					}
 				});
 			}
-	 		
-	 		// 문의리스트 출력 및 페이징 처리.
+				
+			// 문의리스트 출력 및 페이징 처리.
 			function bidListCall(pageNum){
 				var sTitle = " * ${prod.product_nm} * "; // 제목
 				$("#bidtitle").text(sTitle);
@@ -1025,7 +1027,7 @@
 			    	 			str = str + "			<button class='btn btn-sm btn-outline-secondary'>처음</button>";
 			    	 			str = str + "		</a>";
 			    	 		}
-		
+
 			    	 		// [이전] 출력 여부 - [11]부터 [이전]을 붙여줘야 하며 이동시 10씩 빼줘야 함.
 			    	 		if(iStartPage > bidPageCnt) {
 			    	 			str = str + "		<a style='text-decoration: none;' name='bidpagecount' bid-page-no='" + (iStartPage - bidPageCnt) + "' href='javascript:void(0);'>";
@@ -1044,7 +1046,7 @@
 				    	 			str = str + "		</a>";
 			    	 			}
 			    	 		}
-		
+
 			    	 		// [다음] 출력 여부 - 최종페이지가 아닌 경우 [다음]을 붙여줘야 하며 이동시 10씩 더해줘야 함.
 			    	 		if(iEndPage < iPageTotalNum) {
 			    	 			str = str + "		<a style='text-decoration: none;' name='bidpagecount' bid-page-no='" + (iStartPage + bidPageCnt) + "' href='javascript:void(0);'>";
@@ -1079,9 +1081,8 @@
 						console.log("error :" + data);
 					}
 				});
-	 		}
-		});
+			}
+		 });
 	</script>
-	
 </body>
 </html>
