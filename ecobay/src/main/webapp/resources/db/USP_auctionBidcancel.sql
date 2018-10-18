@@ -31,9 +31,9 @@ BEGIN
 			curRepeat : REPEAT
 				FETCH m_Cursor INTO productcd;
 					IF NOT m_Done THEN
-						/* 해당 상품의 상태코드(6:낙찰) 정보를 유찰로 변경함 */
+						/* 해당 상품의 상태코드(8:구매취소) 정보를 유찰로 변경함 */
 						UPDATE product
-						   SET STATE_CD = '7'
+						   SET STATE_CD = '8'
 							 , STATE_NM = '구매취소'
 							 , MODDATE = now()
 						 WHERE PRODUCT_CD = productcd;
