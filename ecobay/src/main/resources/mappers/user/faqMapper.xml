@@ -43,14 +43,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			<if test="searchType == 'tnc'">
 				<![CDATA[
 			  		AND (
-			  			TITLE t1.like CONCAT('%',#{keyWorld},'%')
+			  			t1.TITLE like CONCAT('%',#{keyWorld},'%')
 			  			OR t1.CONTENT like CONCAT('%',#{keyWorld},'%')
 			  		)
 				]]>
 			</if> 
 		</if>
 		ORDER BY t1.FAQ_IDX DESC, t1.REGDATE DESC
-		LIMIT 0, 10;
+		LIMIT #{startIndex},#{cntPerPage}
 	</select>
 	
 	<select id="selectFaqTopList" resultType="FaqVO">

@@ -6,76 +6,7 @@
 <meta id="_csrf" name="_csrf" content="${_csrf.token}"/>
 <meta id="_csrf_header" name="_csrf_header" content="${_csrf.headerName}"/>
 <link rel="stylesheet" href="/resources/css/supportMain.css">
-
-<script>
-
-
-	$(function(){
-		/* ajax 시큐리티 토큰 */
-		var token = $("meta[name='_csrf']").attr("content");
-		var header = $("meta[name='_csrf_header']").attr("content");
-	    $(document).ajaxSend(function(e, xhr, options) {
-	        xhr.setRequestHeader(header, token);
-	    });
-		
-	    loadNoticeAjax();
-	    loadFaqAjax();
-		
-	});
-	
-	
-
-	function loadNoticeAjax() {
-		$.ajax({
-			url : "/ajaxnoticelist.do",
-			method : "POST",
-	        cache : false,
-	        success : function(data) {
-				var htmlStr = "";
-				for (var i = 0; i < data.noticeTopList.length; i++) {
-					
-					htmlStr += "<tr>";
-					htmlStr += "<td>" + (i+1) + "</td>";
-					htmlStr += "<td><a href="+ data.noticeTopList[i].notice_idx +">" + data.noticeTopList[i].title + "</a></td>";
-					htmlStr += "<tr>";
-				}
-	            $('#noticeTbody').empty();
-	            $('#noticeTbody').append(htmlStr);
-	            $('#noticeTbody').val('');
-	        },
-	        error : function(jqXHR, data) {
-	        	console.log("error :"+ jqXHR.status);
-	        	console.log("data : " + data);
-	        }
-	    });
-	}
-	
-	
-	function loadFaqAjax() {
-		$.ajax({
-			url : "/ajaxfaqlist.do",
-			method : "POST",
-	        cache : false,
-	        success : function(data) {
-				var htmlStr = "";
-				for (var i = 0; i < data.faqTopList.length; i++) {
-					htmlStr += "<tr>";
-					htmlStr += "<td>" + (i+1) + "</td>";
-					htmlStr += "<td><a href="+ data.faqTopList[i].faq_idx +">" + data.faqTopList[i].title + "</a></td>";
-					htmlStr += "<tr>";
-				}
-		            $('#faqTbody').empty();
-		            $('#faqTbody').append(htmlStr);             
-		            $('#faqTbody').val('');
-	        },
-	        error : function(jqXHR) {
-	        	console.log("error :"+ jqXHR.status);
-	        }
-	    });
-	}
-	
-	
-</script>
+<script type="text/javascript" src="/resources/js/supportMain.js"></script>
 
 <div class="container">
 	<div id="support-headr">
@@ -126,11 +57,12 @@
 			</div>
 		</div>
 		
-		
+		<!-- TOP10 LIST -->
 		<div class="row lists">
+		
+			<!-- 자주묻는 질문 -->
 			<div class="col-md-6">
 				<div class="faqlists">
-				
 					<div align="center">
 						<h5>자주묻는 질문 TOP10</h5>
 					</div>
@@ -148,52 +80,13 @@
 						</thead>
 						
 						<tbody id="faqTbody">
-							<tr>
-								<td>1</td>
-								<td>제목</td>
-							</tr>
-							<tr>
-								<td>2</td>
-								<td>제목</td>
-							</tr>
-							<tr>
-								<td>3</td>
-								<td>제목</td>
-							</tr>
-							<tr>
-								<td>4</td>
-								<td>제목</td>
-							</tr>
-							<tr>
-								<td>5</td>
-								<td>제목</td>
-							</tr>
-							<tr>
-								<td>6</td>
-								<td>제목</td>
-							</tr>
-							<tr>
-								<td>7</td>
-								<td>제목</td>
-							</tr>
-							<tr>
-								<td>8</td>
-								<td>제목</td>
-							</tr>
-							<tr>
-								<td>9</td>
-								<td>제목</td>
-							</tr>
-							<tr>
-								<td>10</td>
-								<td>제목</td>
-							</tr>
+							
 						</tbody>
 					</table>
 				</div>
 			</div>
 		
-		
+			<!-- 공지사항 -->
 			<div class="col-md-6">
 				<div class="noticelists">
 					<div align="center">
@@ -214,46 +107,7 @@
 						</thead>
 						
 						<tbody id="noticeTbody">
-							<tr>
-								<td>1</td>
-								<td>제목</td>
-							</tr>
-							<tr>
-								<td>2</td>
-								<td>제목</td>
-							</tr>
-							<tr>
-								<td>3</td>
-								<td>제목</td>
-							</tr>
-							<tr>
-								<td>4</td>
-								<td>제목</td>
-							</tr>
-							<tr>
-								<td>5</td>
-								<td>제목</td>
-							</tr>
-							<tr>
-								<td>6</td>
-								<td>제목</td>
-							</tr>
-							<tr>
-								<td>7</td>
-								<td>제목</td>
-							</tr>
-							<tr>
-								<td>8</td>
-								<td>제목</td>
-							</tr>
-							<tr>
-								<td>9</td>
-								<td>제목</td>
-							</tr>
-							<tr>
-								<td>10</td>
-								<td>제목</td>
-							</tr>
+							
 						</tbody>
 					</table>
 				</div>
