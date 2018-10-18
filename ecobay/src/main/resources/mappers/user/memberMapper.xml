@@ -134,7 +134,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		   SET MONEY_LAST = #{money_last}
 		     , BAY_MEMBER_ID = #{bay_member_id}
 		     , PAYMENT_PROC_CD = '2'
-		     , MODDATE = now()
 		WHERE PRODUCT_CD = #{product_cd} 
 	</update>
 	
@@ -248,7 +247,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<update id="paycancelauct">
 		UPDATE AUCTIONINFO 
 		   SET PAYMENT_PROC_CD = '3'
-		     , MODDATE = now()
 		WHERE PRODUCT_CD = #{product_cd}
 	</update>
 	
