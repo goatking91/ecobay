@@ -60,9 +60,9 @@
 						</span>
 					</a>
 					<ul class="treeview-menu">
-						<li><a href="/admin/productlist.do">상품현황</a></li>
-						<li><a href="/admin/reqproductlist.do">요청상품</a></li>
-						<li><a href="/admin/payproductlist.do">상품결제현황</a></li>
+						<li><a href="/admin/productlist.do">물품현황</a></li>
+						<li><a href="/admin/reqproductlist.do">물품승인요청</a></li>
+						<li><a href="/admin/payproductlist.do">물품결제현황</a></li>
 					</ul>
 				</li>
 				

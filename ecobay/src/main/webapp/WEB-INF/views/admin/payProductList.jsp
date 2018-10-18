@@ -70,7 +70,7 @@
 				<table class="table table-striped table-hover">
 				    <thead>
 		   				<tr align="right">
-							<td colspan="4" id="prodCnt">count: ${pcnt}</td>
+							<td colspan="7" id="prodCnt">count: ${pcnt}</td>
 						</tr>
 				        <tr>
 				            <th width="10%">번호</th>
