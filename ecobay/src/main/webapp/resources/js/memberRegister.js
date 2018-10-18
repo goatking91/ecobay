@@ -1,4 +1,15 @@
 $(document).ready(function(){
+	 $( "#birth" ).flatpickr({
+	    	maxDate: '2003-12-31',
+	        dateFormat: 'Y-m-d',
+	        locale: "ko",
+	        onReady: function (selectedDates, dateStr, instance) {
+	            $('#birth input').val(
+	                instance.formatDate(new Date(), 'Y-m-d')
+	            )
+			}
+	    });
+	
 	var flag = false;
 	
 	$('#searchCode').click(function() {		
