@@ -1,4 +1,4 @@
-package org.ecobay.admin.stats.domain;
+package org.ecobay.admin.main.domain;
 
 public class StatsVO {
 	private String skey;

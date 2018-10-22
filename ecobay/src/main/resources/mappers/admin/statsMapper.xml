@@ -4,6 +4,23 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="org.ecobay.admin.mapper.StatsMapper">
+	<select id="memberJoinDays" resultType="StatsVO">
+		SELECT   mem.date_str as skey
+			   , COUNT(mem.date_str) as val
+		FROM
+		(
+			SELECT DATE_FORMAT(REGDATE, '%Y-%m-%d') as date_str
+			  FROM MEMBER
+			 WHERE JOIN_YN = 1 AND USE_YN = 1 
+		 	<![CDATA[
+			   AND REGDATE >= DATE_ADD(now(), INTERVAL -6 DAY) 
+		       AND REGDATE <= now()
+			]]>
+		  ORDER BY REGDATE
+		) mem
+		 group by mem.date_str
+	</select>
+
 	<select id="memberJoinDaysM" resultType="StatsVO">
 		SELECT   mem.date_str as skey
 			   , COUNT(mem.date_str) as val
@@ -11,10 +28,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		(
 			SELECT DATE_FORMAT(REGDATE, '%Y-%m-%d') as date_str
 			  FROM MEMBER
-			 WHERE GENDER = '남'
+			 WHERE JOIN_YN = 1 AND USE_YN = 1 
+			   AND GENDER = '남'
 		 	<![CDATA[
-			   AND REGDATE > DATE_ADD(sysdate(), INTERVAL -7 DAY) 
-		       AND REGDATE <= sysdate()
+			   AND REGDATE >= DATE_ADD(now(), INTERVAL -6 DAY) 
+		       AND REGDATE <= now()
 			]]>
 		  ORDER BY REGDATE
 		) mem
@@ -28,10 +46,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		(
 			SELECT DATE_FORMAT(REGDATE, '%Y-%m-%d') as date_str
 			  FROM MEMBER
-			 WHERE GENDER = '여'
+			 WHERE JOIN_YN = 1 AND USE_YN = 1 
+			   AND GENDER = '여'
 		 	<![CDATA[
-			   AND REGDATE > DATE_ADD(sysdate(), INTERVAL -7 DAY) 
-		       AND REGDATE <= sysdate()
+			   AND REGDATE >= DATE_ADD(now(), INTERVAL -6 DAY) 
+		       AND REGDATE <= now()
 			]]>
 		  ORDER BY REGDATE
 		) mem
@@ -48,8 +67,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 				SELECT '2' as num FROM DUAL
 				UNION ALL
 				SELECT '3' as num FROM DUAL
-			) ct 
-				left join
+			) ct left join
 			(
 				SELECT  PAYMENT_PROC_CD as skey
 					  , COUNT(PRODUCT_CD) as val

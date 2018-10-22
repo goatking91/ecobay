@@ -59,7 +59,7 @@
 						</span>
 					</a>
 					<ul class="treeview-menu">
-						<li><a href="/admin/stats.do">통계</a></li>
+						<li><a href="/admin/main.do">통계</a></li>
 					</ul>
 				</li>
 				
