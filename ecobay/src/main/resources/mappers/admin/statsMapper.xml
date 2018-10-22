@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.ecobay.admin.mapper.StatsMapper">
+	<select id="memberJoinDaysM" resultType="StatsVO">
+		SELECT   mem.date_str as skey
+			   , COUNT(mem.date_str) as val
+		FROM
+		(
+			SELECT DATE_FORMAT(REGDATE, '%Y-%m-%d') as date_str
+			  FROM MEMBER
+			 WHERE GENDER = '남'
+		 	<![CDATA[
+			   AND REGDATE > DATE_ADD(sysdate(), INTERVAL -7 DAY) 
+		       AND REGDATE <= sysdate()
+			]]>
+		  ORDER BY REGDATE
+		) mem
+		 group by mem.date_str
+	</select>
+	
+	<select id="memberJoinDaysF" resultType="StatsVO">
+		SELECT   mem.date_str as skey
+			   , COUNT(mem.date_str) as val
+		FROM
+		(
+			SELECT DATE_FORMAT(REGDATE, '%Y-%m-%d') as date_str
+			  FROM MEMBER
+			 WHERE GENDER = '여'
+		 	<![CDATA[
+			   AND REGDATE > DATE_ADD(sysdate(), INTERVAL -7 DAY) 
+		       AND REGDATE <= sysdate()
+			]]>
+		  ORDER BY REGDATE
+		) mem
+		 group by mem.date_str
+	</select>
+	
+	<select id="productPayState" resultType="StatsVO">
+		SELECT  ct.num as skey
+			  , IFNULL(ai.val, 0) as val
+	    FROM
+			(
+				SELECT '1' as num FROM DUAL
+				UNION ALL
+				SELECT '2' as num FROM DUAL
+				UNION ALL
+				SELECT '3' as num FROM DUAL
+			) ct 
+				left join
+			(
+				SELECT  PAYMENT_PROC_CD as skey
+					  , COUNT(PRODUCT_CD) as val
+				FROM auctioninfo
+				WHERE PAYMENT_PROC_CD IN ('1', '2', '3')
+				GROUP BY PAYMENT_PROC_CD
+			) ai
+		ON ct.num = ai.skey
+	</select>
+</mapper>

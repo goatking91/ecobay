@@ -24,6 +24,8 @@
 		<typeAlias type="org.ecobay.admin.board.domain.QnaReplyVO" alias="QnaReplyVO"/>
 		<typeAlias type="org.ecobay.admin.board.domain.CategoryVO" alias="CategoryVO"/>
 		
+		<typeAlias type="org.ecobay.admin.board.domain.StatsVO" alias="StatsVO"/>
+		
 		<typeAlias type="org.ecobay.admin.member.domain.BlacklistVO" alias="BlacklistVO"/>
 	</typeAliases>
 </configuration>
