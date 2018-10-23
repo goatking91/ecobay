@@ -9,6 +9,28 @@
 	<!-- 스프링 시큐리티 설정의 거의 모든것 -->
 	<security:http pattern="/resources/**" security="none" />
 	
+	<security:http pattern="/admin/**" auto-config="true" use-expressions="true">
+		<security:intercept-url pattern="/admin/login.do" access="hasAnyRole('ANONYMOUS','ROLE_USER','ROLE_ADMIN')" />
+		<security:intercept-url pattern="/admin/**" access="isAuthenticated()" />
+		<security:intercept-url pattern="/admin/**" access="hasRole('ROLE_ADMIN')" />
+		
+		<security:form-login login-page="/admin/login.do"
+			login-processing-url="/admin/login"
+			default-target-url="/admin/main.do"
+			username-parameter="member_id"
+			password-parameter="pwd"
+			authentication-failure-url="/admin/login.do?error"
+			always-use-default-target="true" />
+			
+		<security:logout invalidate-session="true"
+			logout-url="/admin/logout"
+			logout-success-url="/admin/main.do?logout" />
+		<!-- enable csrf protection -->
+		<security:csrf/>
+		<!-- 토큰설정을 다시 해야함... -->
+		<security:access-denied-handler error-page="/admin/login.do" />
+	</security:http>
+	
 	<security:http auto-config="true" use-expressions="true">
 		<security:intercept-url pattern="/" access="permitAll" />
 		<security:intercept-url pattern="/main.do" access="permitAll" />
@@ -37,7 +59,6 @@
 		<security:intercept-url pattern="/product/bidReg.do/**" access="hasRole('ROLE_USER')"/>
 		<security:intercept-url pattern="/product/prodWish.do/**" access="hasRole('ROLE_USER')"/>
 		<security:intercept-url pattern="/displayFile.do/**" access="permitAll"/>
-		<security:intercept-url pattern="/admin/**" access="permitAll"/>
 		<!-- <security:intercept-url pattern="/admin/**" access="hasRole('ROLE_ADMIN')"/> -->
 		<!-- <security:intercept-url pattern="/member/**" access="hasRole('ANONYMOUS')"/> -->
 		<security:intercept-url pattern="/**" access="isAuthenticated()" /> 
