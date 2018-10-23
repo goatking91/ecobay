@@ -1,4 +1,4 @@
-CREATE DEFINER=`ecobay`@`%` PROCEDURE `USP_auctionBidcancel`()
+﻿CREATE DEFINER=`ecobay`@`%` PROCEDURE `USP_auctionBidcancel`()
     COMMENT ' description :  USP_auction_bidcancel => 낙찰처리된 상품의 미결제시 유찰처리하기 -- call USP_auction_bidcancel();\n			** 낙찰처리된 상품의 처리구분코드가 ‘(1:대기)’이면서 정해진 결제마감시간이 초과된 상품의 개수 구하기\n			 => 1개 이상인 경우엔 해당 상품의 상품코드 리스트 구하기.\n			  1. 해당 상품의 상태코드(6:낙찰) 정보를 유찰로 변경함.\n			  2. 경매설정에서 처리구분코드를 (3:취소)로 변경함. '
 BEGIN
 	DECLARE m_Done INT DEFAULT 0;
@@ -31,7 +31,7 @@ BEGIN
 			curRepeat : REPEAT
 				FETCH m_Cursor INTO productcd;
 					IF NOT m_Done THEN
-						/* 해당 상품의 상태코드(8:구매취소) 정보를 유찰로 변경함 */
+						/* 해당 상품의 상태코드(5:낙찰) 정보를 (8:구매취소)로 변경함 */
 						UPDATE product
 						   SET STATE_CD = '8'
 							 , STATE_NM = '구매취소'

@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.ecobay.admin.mapper.StatsMapper">
+	<select id="memberJoinDays" resultType="StatsVO">
+		SELECT  ct.date_str as skey
+			  , IFNULL(mm.val, 0) as val
+	    FROM
+			(
+				SELECT DATE_FORMAT(DATE_ADD(now(), INTERVAL -6 DAY), '%Y-%m-%d') as date_str FROM DUAL
+				UNION ALL
+				SELECT DATE_FORMAT(DATE_ADD(now(), INTERVAL -5 DAY), '%Y-%m-%d') as date_str FROM DUAL
+				UNION ALL
+				SELECT DATE_FORMAT(DATE_ADD(now(), INTERVAL -4 DAY), '%Y-%m-%d') as date_str FROM DUAL
+   				UNION ALL
+				SELECT DATE_FORMAT(DATE_ADD(now(), INTERVAL -3 DAY), '%Y-%m-%d') as date_str FROM DUAL
+				UNION ALL
+				SELECT DATE_FORMAT(DATE_ADD(now(), INTERVAL -2 DAY), '%Y-%m-%d') as date_str FROM DUAL
+				UNION ALL
+				SELECT DATE_FORMAT(DATE_ADD(now(), INTERVAL -1 DAY), '%Y-%m-%d') as date_str FROM DUAL
+				UNION ALL
+				SELECT DATE_FORMAT(now(), '%Y-%m-%d') as date_str FROM DUAL
+			) ct left join
+			(
+				SELECT   mem.date_str as skey
+					   , COUNT(mem.date_str) as val
+				FROM
+				(
+					SELECT DATE_FORMAT(REGDATE, '%Y-%m-%d') as date_str
+					  FROM MEMBER
+					 WHERE JOIN_YN = 1 AND USE_YN = 1
+				 	<![CDATA[
+					   AND REGDATE >= DATE_ADD(now(), INTERVAL -6 DAY) 
+				       AND REGDATE <= now()
+					]]>
+				  ORDER BY REGDATE
+				) mem
+				 group by mem.date_str
+			) mm
+		ON ct.date_str = mm.skey
+		ORDER BY skey
+	</select>
+
+	<select id="memberJoinDaysM" resultType="StatsVO">
+		SELECT  ct.date_str as skey
+			  , IFNULL(mm.val, 0) as val
+	    FROM
+			(
+				SELECT DATE_FORMAT(DATE_ADD(now(), INTERVAL -6 DAY), '%Y-%m-%d') as date_str FROM DUAL
+				UNION ALL
+				SELECT DATE_FORMAT(DATE_ADD(now(), INTERVAL -5 DAY), '%Y-%m-%d') as date_str FROM DUAL
+				UNION ALL
+				SELECT DATE_FORMAT(DATE_ADD(now(), INTERVAL -4 DAY), '%Y-%m-%d') as date_str FROM DUAL
+   				UNION ALL
+				SELECT DATE_FORMAT(DATE_ADD(now(), INTERVAL -3 DAY), '%Y-%m-%d') as date_str FROM DUAL
+				UNION ALL
+				SELECT DATE_FORMAT(DATE_ADD(now(), INTERVAL -2 DAY), '%Y-%m-%d') as date_str FROM DUAL
+				UNION ALL
+				SELECT DATE_FORMAT(DATE_ADD(now(), INTERVAL -1 DAY), '%Y-%m-%d') as date_str FROM DUAL
+				UNION ALL
+				SELECT DATE_FORMAT(now(), '%Y-%m-%d') as date_str FROM DUAL
+			) ct left join
+			(
+				SELECT   mem.date_str as skey
+					   , COUNT(mem.date_str) as val
+				FROM
+				(
+					SELECT DATE_FORMAT(REGDATE, '%Y-%m-%d') as date_str
+					  FROM MEMBER
+					 WHERE JOIN_YN = 1 AND USE_YN = 1
+					   AND GENDER = '남'
+				 	<![CDATA[
+					   AND REGDATE >= DATE_ADD(now(), INTERVAL -6 DAY) 
+				       AND REGDATE <= now()
+					]]>
+				  ORDER BY REGDATE
+				) mem
+				 group by mem.date_str
+			) mm
+		ON ct.date_str = mm.skey
+		ORDER BY skey
+	</select>
+	
+	<select id="memberJoinDaysF" resultType="StatsVO">
+		SELECT  ct.date_str as skey
+			  , IFNULL(mm.val, 0) as val
+	    FROM
+			(
+				SELECT DATE_FORMAT(DATE_ADD(now(), INTERVAL -6 DAY), '%Y-%m-%d') as date_str FROM DUAL
+				UNION ALL
+				SELECT DATE_FORMAT(DATE_ADD(now(), INTERVAL -5 DAY), '%Y-%m-%d') as date_str FROM DUAL
+				UNION ALL
+				SELECT DATE_FORMAT(DATE_ADD(now(), INTERVAL -4 DAY), '%Y-%m-%d') as date_str FROM DUAL
+   				UNION ALL
+				SELECT DATE_FORMAT(DATE_ADD(now(), INTERVAL -3 DAY), '%Y-%m-%d') as date_str FROM DUAL
+				UNION ALL
+				SELECT DATE_FORMAT(DATE_ADD(now(), INTERVAL -2 DAY), '%Y-%m-%d') as date_str FROM DUAL
+				UNION ALL
+				SELECT DATE_FORMAT(DATE_ADD(now(), INTERVAL -1 DAY), '%Y-%m-%d') as date_str FROM DUAL
+				UNION ALL
+				SELECT DATE_FORMAT(now(), '%Y-%m-%d') as date_str FROM DUAL
+			) ct left join
+			(
+				SELECT   mem.date_str as skey
+					   , COUNT(mem.date_str) as val
+				FROM
+				(
+					SELECT DATE_FORMAT(REGDATE, '%Y-%m-%d') as date_str
+					  FROM MEMBER
+					 WHERE JOIN_YN = 1 AND USE_YN = 1
+					   AND GENDER = '여'
+				 	<![CDATA[
+					   AND REGDATE >= DATE_ADD(now(), INTERVAL -6 DAY) 
+				       AND REGDATE <= now()
+					]]>
+				  ORDER BY REGDATE
+				) mem
+				 group by mem.date_str
+			) mm
+		ON ct.date_str = mm.skey
+		ORDER BY skey
+	</select>
+	
+	<select id="productPayState" resultType="StatsVO">
+		SELECT  ct.num as skey
+			  , IFNULL(ai.val, 0) as val
+	    FROM
+			(
+				SELECT '1' as num FROM DUAL
+				UNION ALL
+				SELECT '2' as num FROM DUAL
+				UNION ALL
+				SELECT '3' as num FROM DUAL
+			) ct left join
+			(
+				SELECT  PAYMENT_PROC_CD as skey
+					  , COUNT(PRODUCT_CD) as val
+				 FROM auctioninfo
+				WHERE PAYMENT_PROC_CD IN ('1', '2', '3')
+				GROUP BY PAYMENT_PROC_CD
+			) ai
+		ON ct.num = ai.skey
+		ORDER BY skey
+	</select>
+	
+	<select id="productState" resultType="StatsVO">
+		SELECT  ct.num as skey
+			  , IFNULL(pd.val, 0) as val
+	    FROM
+			(
+				SELECT '1' as num FROM DUAL
+				UNION ALL
+				SELECT '2' as num FROM DUAL
+				UNION ALL
+				SELECT '3' as num FROM DUAL
+				UNION ALL
+				SELECT '4' as num FROM DUAL
+				UNION ALL
+				SELECT '5' as num FROM DUAL
+				UNION ALL
+				SELECT '6' as num FROM DUAL
+				UNION ALL
+				SELECT '7' as num FROM DUAL
+				UNION ALL
+				SELECT '8' as num FROM DUAL
+			) ct left join
+			(
+				SELECT  STATE_CD as skey
+					  , COUNT(PRODUCT_CD) as val
+				 FROM PRODUCT
+				WHERE USE_YN = 1
+				GROUP BY STATE_CD
+			) pd
+		ON ct.num = pd.skey
+		ORDER BY skey
+	</select>
+</mapper>

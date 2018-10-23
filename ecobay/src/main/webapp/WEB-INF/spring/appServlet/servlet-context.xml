@@ -34,9 +34,9 @@
 	</beans:bean>
 	
 	<beans:bean id="uploadPath" class="java.lang.String">
-		<beans:constructor-arg value="/Users/seung-minyeom/Documents/upload" />
+		<!-- <beans:constructor-arg value="/Users/seung-minyeom/Documents/upload" /> -->
 		<!-- <beans:constructor-arg value="/home/ec2-user/upload" /> -->
-		<!-- <beans:constructor-arg value="E:\\finalSpring\\upload" /> -->
+		 <beans:constructor-arg value="C:\Es\upload" /> 
 	</beans:bean>
 	
 	 <!-- Tiles -->
