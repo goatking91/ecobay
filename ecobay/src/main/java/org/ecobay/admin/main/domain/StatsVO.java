@@ -3,8 +3,6 @@ package org.ecobay.admin.main.domain;
 public class StatsVO {
 	private String skey;
 	private int val;
-<<<<<<< HEAD
-=======
 	
 	public String getSkey() {
 		return skey;
@@ -35,5 +33,4 @@ public class StatsVO {
 				+ ", val=" + val 
 				+ "]";
 	}
->>>>>>> f53421a84dbe9cad7325ed3f48cc0efbece281af
 }
