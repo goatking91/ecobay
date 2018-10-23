@@ -30,4 +30,9 @@ public class AdminMainController {
 		
         return "admin/main.admin";
     }
+	
+	@RequestMapping(value="/login.do", method = RequestMethod.GET)
+    public String login() {
+    	return "admin/login.admin";
+    }
 }
