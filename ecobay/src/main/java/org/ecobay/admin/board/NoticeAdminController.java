@@ -111,6 +111,12 @@ public class NoticeAdminController {
         return "redirect:/admin/board/noticedetail.do?idx="+idx;
     }
     
+	@RequestMapping(value="/noticedel.do", method = RequestMethod.GET)
+    public String ajaxNoticeDel(String idx) throws Exception {
+		int notice_idx = Integer.parseInt(idx);
+		service.noticeDelete(notice_idx);
+		return "redirect:/admin/board/noticelist.do";
+    }
     
     @ResponseBody
 	@RequestMapping(value="/ajaxnoticedel.do", method = RequestMethod.POST)

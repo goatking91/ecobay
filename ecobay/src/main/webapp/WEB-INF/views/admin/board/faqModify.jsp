@@ -12,7 +12,12 @@ $(function() {
 	$('#content').summernote({
 		lang: 'ko-KR',
         height: 350
-      });
+    });
+	
+	$(document).on("click", "#backBtn", function(){
+		location.href = "/admin/board/faqlist.do";
+	});
+	
 });
 </script>
 <style type="text/css">
@@ -75,7 +80,7 @@ $(function() {
             <p>
             <div align="center" class="form-actions">
 	            <button type="submit" class="btn btn-primary"> 등  록 </button>&nbsp;
-	            <button type="button" class="btn btn-info"> 취  소 </button>
+	            <button id="backBtn" type="button" class="btn btn-info"> 취  소 </button>
 			</div>
 		</form>
 	</div>
