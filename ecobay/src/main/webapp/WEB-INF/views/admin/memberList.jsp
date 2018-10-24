@@ -54,7 +54,7 @@
 		    	<tr align="right"><td id="mcnt" colspan="6">count: ${cnt}</td></tr>
 		        <tr>
 		            <th>번호</th><th>회원아이디</th><th>이름</th>
-		            <th>등록일시</th><th>등록사유</th><th>관리</th>
+		            <th>등록일시</th><th>상태</th><th>관리</th>
 		        </tr>
 		    </thead>
 		    <tbody id="tbody">		    
