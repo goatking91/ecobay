@@ -97,7 +97,7 @@
 						<div class="caption card-body" style="padding: 5px;">
 							<ul class="list-group list-group-flush">
     							<li class="list-group-item" style="padding:5px;">
-    								<h5 class="group card-title inner list-group-item-heading" style="height: 50px; margin: 0px">
+    								<h5 class="group card-title inner list-group-item-heading" style="height: 75px; margin: 0px">
 										${list.product_nm}
 									</h5>
 									<h5 class="group card-title inner list-group-item-heading" style="color: #4286f4; text-align: center; margin: 0px">
@@ -118,10 +118,10 @@
 	                                </span>
 								</li>
     							<li class="list-group-item" style="padding:5px;">
-    								<span class="h6">
+    								<h6 class="h6">
 										<b>판매자:</b> 
-									</span>
-									<span class="prodMember_id h6" style="float: right;">${list.member_id}</span>
+									</h6>
+									<h6 class="prodMember_id h6" style="float: right;">${list.member_id}</h6>
     							</li>
     							<li class="list-group-item" style="padding:5px;">
     								<span class="h6" style="float: left;">
@@ -296,7 +296,7 @@
 	    	 			str = str + "		<div class='caption card-body' style='padding: 5px;'>";
 	    	 			str = str + "			<ul class='list-group list-group-flush' style='padding:5px;'>";
 	    	 			str = str + "				<li class='list-group-item'>";
-	    	 			str = str + "					<h5 class='group card-title inner list-group-item-heading' style='height: 50px; margin: 0px'>" + arr.product_nm + "</h5>"
+	    	 			str = str + "					<h5 class='group card-title inner list-group-item-heading' style='height: 75px; margin: 0px'>" + arr.product_nm + "</h5>"
 	    	 			if(arr.bid_max_money == 0) {
 	    	 				str = str + "					<h5 class='group card-title inner list-group-item-heading' style='color: #4286f4; text-align: center; margin: 0px'>" +arr.money_first + "원</h5>"
 	    	 			}else {
@@ -314,10 +314,10 @@
                     	str = str + "					</span>";
 						str = str + "				</li>";
 						str = str + "				<li class='list-group-item' style='padding:5px;'>";
-						str = str + "					<span class='h6'>";
+						str = str + "					<h6>";
 						str = str + "						<b>판매자:</b>";
-						str = str + "					</span>";
-						str = str + "					<span class='prodMember_id h6' style='float: right;'>" + idCov(arr.member_id) + "</span>";
+						str = str + "					</h6>";
+						str = str + "					<h6 class='prodMember_id h6' style='float: right;'>" + idCov(arr.member_id) + "</h6>";
 						str = str + "				</li>";
 	    	 			str = str + "				<li class='list-group-item' style='padding:5px;'>";
 						str = str + "					<span class='h6' style='float: left;'>";

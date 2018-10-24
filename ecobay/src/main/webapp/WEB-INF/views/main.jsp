@@ -77,7 +77,7 @@
 						<div class="caption card-body" style="padding: 5px;">
 							<ul class="list-group list-group-flush">
     							<li class="list-group-item" style="padding:5px;">
-    								<h5 class="group card-title inner list-group-item-heading" style="height: 50px; margin: 0px">
+    								<h5 class="group card-title inner list-group-item-heading" style="height: 75px; margin: 0px">
 										${list.product_nm}
 									</h5>
 									<h5 class="group card-title inner list-group-item-heading" style="color: #4286f4; text-align: center; margin: 0px">
@@ -98,10 +98,10 @@
 	                                </span>
 								</li>
     							<li class="list-group-item" style="padding:5px;">
-    								<span class="h6">
+    								<h6>
 										<b>판매자:</b>
-									</span>
-									<span class="prodMember_id h6" style="float: right;">${list.member_id}</span>
+									</h6>
+									<h6 class="prodMember_id" style="float: right;">${list.member_id}</h6>
     							</li>
     							<li class="list-group-item" style="padding:5px;">
     								<span class="h6" style="float: left;">
@@ -128,7 +128,7 @@
 						<div class="caption card-body" style="padding: 5px;">
 							<ul class="list-group list-group-flush">
     							<li class="list-group-item" style="padding:5px;">
-    								<h5 class="group card-title inner list-group-item-heading" style="height: 50px; margin: 0px">
+    								<h5 class="group card-title inner list-group-item-heading" style="height: 75px; margin: 0px">
 										${list.product_nm}
 									</h5>
 									<h5 class="group card-title inner list-group-item-heading" style="color: #4286f4; text-align: center; margin: 0px">
@@ -149,10 +149,10 @@
 	                                </span>
 								</li>
     							<li class="list-group-item" style="padding:5px;">
-    								<span class="h6">
+    								<h6>
 										<b>판매자:</b>
-									</span>
-									<span class="prodMember_id h6" style="float: right;">${list.member_id}</span>
+									</h6>
+									<h6 class="prodMember_id" style="float: right;">${list.member_id}</h6>
     							</li>
     							<li class="list-group-item" style="padding:5px;">
     								<span class="h6" style="float: left;">
