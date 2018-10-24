@@ -181,7 +181,7 @@
             <div align="center" class="form-actions">
 	            <input type="submit" id="regbutton" class="btn btn-lg btn-default btn-primary" value=" 등&nbsp;&nbsp;&nbsp;록 ">&nbsp;
 	            <!-- <input type="reset" class="btn btn-lg btn-info" value=" 초기화 "> -->
-	            <input type="button" class="btn btn-lg btn-info" id="backbtn" value="뒤로가기">
+	            <input type="button" class="btn btn-lg btn-primary" id="backbtn" value="뒤로가기">
 			</div>
 		</form>
 	</div>
