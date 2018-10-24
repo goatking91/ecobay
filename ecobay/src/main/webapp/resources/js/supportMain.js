@@ -24,7 +24,7 @@ $(function(){
 					
 					htmlStr += "<tr>";
 					htmlStr += "<td>" + (i+1) + "</td>";
-					htmlStr += "<td><a href="+ data.noticeTopList[i].notice_idx +">" + data.noticeTopList[i].title + "</a></td>";
+					htmlStr += "<td><a href='/support/notice/noticedetail.do?idx="+ data.noticeTopList[i].notice_idx +"'>" + data.noticeTopList[i].title + "</a></td>";
 					htmlStr += "<tr>";
 				}
 	            $('#noticeTbody').empty();
