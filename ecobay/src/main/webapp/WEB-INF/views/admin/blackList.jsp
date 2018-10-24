@@ -27,28 +27,26 @@
 	<section class="content container-fluid">
 	
 		<div class="col-md-12" >
-			<form>
-				<div class="form-group row">
-					<div class="col-sm-4"></div>
-					<div class="col-sm-3">
-						<div class="input-group">
-							<select class="custom-select" id="searchType" name="searchType">
-								<option value="all">전체검색</option>
-				 				<option value="member_id">아이디검색</option>
-				 				<option value="member_name">이름검색</option>
-							</select>
-						</div>
+			<div class="form-group row">
+				<div class="col-sm-4"></div>
+				<div class="col-sm-3">
+					<div class="input-group">
+						<select class="custom-select" id="searchType" name="searchType">
+							<option value="all">전체검색</option>
+			 				<option value="member_id">아이디검색</option>
+			 				<option value="member_name">이름검색</option>
+						</select>
 					</div>
-					<div class="col-sm-5">
-						<div class="input-group">
-							<input type="text" class="form-control" id="keyWord" name="keyWord" placeholder="검색내용을 입력하세요...">
-							<div class="input-group-append">
-								<button type="button" id="searchBtn" class="btn btn-primary">검색</button>
-							</div>
+				</div>
+				<div class="col-sm-5">
+					<div class="input-group">
+						<input type="text" class="form-control" id="keyWord" name="keyWord" placeholder="검색내용을 입력하세요...">
+						<div class="input-group-append">
+							<button type="button" id="searchBtn" class="btn btn-primary">검색</button>
 						</div>
 					</div>
 				</div>
-			</form>
+			</div>
 		</div>
 			 
 		<table class="table table-striped table-hover">
@@ -171,7 +169,7 @@
 	      	<div class="row">
 	      		<div class="col-md">
 		          <div id="blackcontextmessage">
-					<h5 align="center"></h5>
+					<h6 align="center"></h6>
 		          </div>
 		      </div>		      	
 		   </div>
@@ -305,7 +303,7 @@
 					htmlStr += "	</tbody>";
 					htmlStr += "</table>";
 					
-					$("#blackcontextmessage").find("h5").html(htmlStr);
+					$("#blackcontextmessage").find("h6").html(htmlStr);
 					$("#blackcontextModal").modal("show");
 			    },
 			    error : function(data) {

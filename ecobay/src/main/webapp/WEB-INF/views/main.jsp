@@ -88,26 +88,26 @@
                             		</h5>
 								</li>
     							<li class="list-group-item" style="padding:5px;">
-									<span style="float: left;">
+									<span class="h6" style="float: left;">
 	                                	<b>입찰:</b> 
 	                                    ${list.bid_cnt}명 
 									</span>
-									<span style="float: right;">
+									<span class="h6" style="float: right;">
 										<b>조회:</b>
 										${list.viewcnt}
 	                                </span>
 								</li>
     							<li class="list-group-item" style="padding:5px;">
-    								<span>
+    								<span class="h6">
 										<b>판매자:</b>
 									</span>
-									<span class="prodMember_id" style="float: right;">${list.member_id}</span>
+									<span class="prodMember_id h6" style="float: right;">${list.member_id}</span>
     							</li>
     							<li class="list-group-item" style="padding:5px;">
-    								<span style="float: left;">
+    								<span class="h6" style="float: left;">
 										<b>경매종료:</b>
 									</span>
-									<span class="auctdate_end" style="float: right;">${list.acutdate_end_str}</span>
+									<span class="auctdate_end h6" style="float: right;">${list.acutdate_end_str}</span>
     							</li>
 							</ul>						
 						</div>
@@ -139,26 +139,26 @@
                             		</h5>
 								</li>
     							<li class="list-group-item" style="padding:5px;">
-									<span style="float: left;">
+									<span class="h6" style="float: left;">
 	                                	<b>입찰:</b>
 	                                     ${list.bid_cnt}명 
 									</span>
-									<span style="float: right;">
+									<span class="h6" style="float: right;">
 										<b>조회:</b>
 										${list.viewcnt}
 	                                </span>
 								</li>
     							<li class="list-group-item" style="padding:5px;">
-    								<span>
+    								<span class="h6">
 										<b>판매자:</b>
 									</span>
-									<span class="prodMember_id" style="float: right;">${list.member_id}</span>
+									<span class="prodMember_id h6" style="float: right;">${list.member_id}</span>
     							</li>
     							<li class="list-group-item" style="padding:5px;">
-    								<span style="float: left;">
+    								<span class="h6" style="float: left;">
 										<b>경매종료:</b>
 									</span>
-									<span class="auctdate_end" style="float: right;">${list.acutdate_end_str}</span>
+									<span class="auctdate_end h6" style="float: right;">${list.acutdate_end_str}</span>
     							</li>
 							</ul>						
 						</div>

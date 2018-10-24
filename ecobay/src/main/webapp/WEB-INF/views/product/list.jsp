@@ -96,7 +96,7 @@
 						</div>
 						<div class="caption card-body" style="padding: 5px;">
 							<ul class="list-group list-group-flush">
-    							<li class="list-group-item">
+    							<li class="list-group-item" style="padding:5px;">
     								<h5 class="group card-title inner list-group-item-heading" style="height: 50px; margin: 0px">
 										${list.product_nm}
 									</h5>
@@ -108,31 +108,31 @@
                             		</h5>
 								</li>
     							<li class="list-group-item" style="padding:5px;">
-									<span style="float: left;">
+									<span class="h6" style="float: left;">
 	                                	<b>입찰:</b> 
 	                                     ${list.bid_cnt}명 
 									</span>
-									<span style="float: right;">
+									<span class="h6" style="float: right;">
 										<b>조회:</b>
 										${list.viewcnt}
 	                                </span>
 								</li>
     							<li class="list-group-item" style="padding:5px;">
-    								<span>
+    								<span class="h6">
 										<b>판매자:</b> 
 									</span>
-									<span class="prodMember_id" style="float: right;">${list.member_id}</span>
+									<span class="prodMember_id h6" style="float: right;">${list.member_id}</span>
     							</li>
     							<li class="list-group-item" style="padding:5px;">
-    								<span style="float: left;">
+    								<span class="h6" style="float: left;">
 										<b>경매종료:</b> 
 									</span>
 									<c:choose>
 										<c:when test="${list.state_cd == '3' }">
-											<span class="auctdate_end" style="float: right;">${list.acutdate_end_str}</span>
+											<span class="auctdate_end h6" style="float: right;">${list.acutdate_end_str}</span>
 										</c:when>
 										<c:otherwise>
-											<span class="auctdate_end" style="float: right;">${list.state_nm }</span>
+											<span class="auctdate_end h6" style="float: right;">${list.state_nm }</span>
 										</c:otherwise>
 									</c:choose>
 									
@@ -294,7 +294,7 @@
 	    	 			}
 	    	 			str = str + "		</div>";
 	    	 			str = str + "		<div class='caption card-body' style='padding: 5px;'>";
-	    	 			str = str + "			<ul class='list-group list-group-flush'>";
+	    	 			str = str + "			<ul class='list-group list-group-flush' style='padding:5px;'>";
 	    	 			str = str + "				<li class='list-group-item'>";
 	    	 			str = str + "					<h5 class='group card-title inner list-group-item-heading' style='height: 50px; margin: 0px'>" + arr.product_nm + "</h5>"
 	    	 			if(arr.bid_max_money == 0) {
@@ -304,29 +304,29 @@
 	    	 			}
 	    	 			str = str + "				</li>"
 	    	 			str = str + "				<li class='list-group-item' style='padding:5px;'>";
-						str = str + "					<span style='float: left;'>";
+						str = str + "					<span class='h6' style='float: left;'>";
                         str = str + "						<b>입찰:</b>";
                         str = str + arr.bid_cnt;
                         str = str + "					</span>";
-                        str = str + "					<span style='float: right;'>";
+                        str = str + "					<span class='h6' style='float: right;'>";
                         str = str + "						<b>조회:</b>";
                         str = str + arr.viewcnt;
                     	str = str + "					</span>";
 						str = str + "				</li>";
 						str = str + "				<li class='list-group-item' style='padding:5px;'>";
-						str = str + "					<span>";
+						str = str + "					<span class='h6'>";
 						str = str + "						<b>판매자:</b>";
 						str = str + "					</span>";
-						str = str + "					<span class='prodMember_id' style='float: right;'>" + idCov(arr.member_id) + "</span>";
+						str = str + "					<span class='prodMember_id h6' style='float: right;'>" + idCov(arr.member_id) + "</span>";
 						str = str + "				</li>";
 	    	 			str = str + "				<li class='list-group-item' style='padding:5px;'>";
-						str = str + "					<span style='float: left;'>";
+						str = str + "					<span class='h6' style='float: left;'>";
 						str = str + "						<b>경매종료:</b>";
 						str = str + "					</span>";
 						if(arr.state_cd == '3') {
-							str = str + "					<span class='auctdate_end' style='float: right;'>" + arr.acutdate_end_str + "</span>";
+							str = str + "					<span class='auctdate_end h6' style='float: right;'>" + arr.acutdate_end_str + "</span>";
 						}else {
-							str = str + "					<span class='auctdate_end' style='float: right;'>" + arr.state_nm + "</span>";
+							str = str + "					<span class='auctdate_end h6' style='float: right;'>" + arr.state_nm + "</span>";
 						}
 						str = str + "				</li>";
 						str = str + "			</ul>";				
