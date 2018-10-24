@@ -43,6 +43,7 @@
 				 				<option value="5">낙찰</option>
 				 				<option value="6">유찰</option>
 				 				<option value="7">즉시구매</option>
+				 				<option value="8">구매취소</option>
 							</select>
 						</div>
 					</div>
