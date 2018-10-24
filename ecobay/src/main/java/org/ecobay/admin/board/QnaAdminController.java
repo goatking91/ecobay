@@ -73,7 +73,7 @@ public class QnaAdminController {
 		return map;
     }
 	
-	@RequestMapping(value="/qnadetail.do", method = RequestMethod.POST)
+	@RequestMapping(value="/qnadetail.do", method = RequestMethod.GET)
     public String qnaDetail(@RequestParam("idx") String notice_idx, Model model) throws Exception {
 		int idx = Integer.parseInt(notice_idx);
 		model.addAttribute("qna",service.qnaLoad(idx));
