@@ -40,8 +40,8 @@
 		<security:intercept-url pattern="/ajaxnoticelist.do" access="permitAll" />
 		<security:intercept-url pattern="/support.do" access="permitAll" />
 		<security:intercept-url pattern="/support/**" access="permitAll" />
-		<security:intercept-url pattern="/member/delete.do" access="hasRole('ROLE_USER')"/>
-		<security:intercept-url pattern="/member/payment.do" access="hasRole('ROLE_USER')"/>
+		<security:intercept-url pattern="/member/delete.do" access="hasAnyRole('ROLE_USER','ROLE_ADMIN')"/>
+		<security:intercept-url pattern="/member/payment.do" access="hasAnyRole('ROLE_USER','ROLE_ADMIN')"/>
 		<security:intercept-url pattern="/member/join.do" access="hasRole('ANONYMOUS')"/>
 		<security:intercept-url pattern="/member/reg.do" access="hasRole('ANONYMOUS')"/>
 		<security:intercept-url pattern="/member/idcheck.do" access="hasRole('ANONYMOUS')"/>
@@ -49,15 +49,15 @@
 		<security:intercept-url pattern="/member/idfind.do" access="hasRole('ANONYMOUS')"/>
 		<security:intercept-url pattern="/member/pwdfind.do" access="hasRole('ANONYMOUS')"/>		
 		<security:intercept-url pattern="/member/newpwd.do" access="permitAll"/>
-		<security:intercept-url pattern="/member/wishList.do" access="hasRole('ROLE_USER')"/>
+		<security:intercept-url pattern="/member/wishList.do" access="hasAnyRole('ROLE_USER','ROLE_ADMIN')"/>
 		<security:intercept-url pattern="/product/list.do/**" access="permitAll"/>
 		<security:intercept-url pattern="/product/listAjax.do/**" access="permitAll"/>
 		<security:intercept-url pattern="/product/detail.do" access="permitAll"/>
 		<security:intercept-url pattern="/product/midclass.do/**" access="permitAll"/>
 		<security:intercept-url pattern="/product/prodqna.do/**" access="permitAll"/>
 		<security:intercept-url pattern="/product/bidList.do/**" access="permitAll"/>
-		<security:intercept-url pattern="/product/bidReg.do/**" access="hasRole('ROLE_USER')"/>
-		<security:intercept-url pattern="/product/prodWish.do/**" access="hasRole('ROLE_USER')"/>
+		<security:intercept-url pattern="/product/bidReg.do/**" access="hasAnyRole('ROLE_USER','ROLE_ADMIN')"/>
+		<security:intercept-url pattern="/product/prodWish.do/**" access="hasAnyRole('ROLE_USER','ROLE_ADMIN')"/>
 		<security:intercept-url pattern="/displayFile.do/**" access="permitAll"/>
 		<!-- <security:intercept-url pattern="/admin/**" access="hasRole('ROLE_ADMIN')"/> -->
 		<!-- <security:intercept-url pattern="/member/**" access="hasRole('ANONYMOUS')"/> -->
