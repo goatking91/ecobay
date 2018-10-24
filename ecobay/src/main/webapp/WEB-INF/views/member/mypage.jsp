@@ -30,10 +30,10 @@ b, strong {
             	<li class="list-group-item text-muted" style="text-align:center; padding:1.5rem 1.25rem;">
             		<a style="color:black" id="myinfo-tap" data-toggle="tab" href="#nav-home" role="tab">내 정보</a>
             	</li>
-            	<li class="list-group-item sell_buyList" style="text-align:center; padding:1.5rem 1.25rem;">
+            	<li class="list-group-item menu_pwdChange" style="text-align:center; padding:1.5rem 1.25rem;">
             		<a style="color:black" id="pwdChange-tap" data-toggle="tab" href="#pwdChange" role="tab">비밀번호 변경</a>
 				</li>
-            	<li class="list-group-item sell_buyList" style="text-align:center; padding:1.5rem 1.25rem;">
+            	<li class="list-group-item menu_sellList" style="text-align:center; padding:1.5rem 1.25rem;">
 					<a style="color:black" id="sellList-tap" data-toggle="tab" href="#sellList" role="tab">내 판매상품</a>
 				</li>
 				<li class="list-group-item menu_buyList" style="text-align:center; padding:1.5rem 1.25rem;">

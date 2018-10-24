@@ -13,7 +13,7 @@ $(document).ready(function(){
 	
 	//===============내 정보- 수정버튼
 	$('#edit_button').click(function(event){
-		/* var pwd = $('#pwd').val(); *///입력받은값
+		$('#pwd').val('');
         $('#pwdModal').modal('show');
 	});
 	
@@ -129,28 +129,56 @@ $(document).ready(function(){
 	
 	
 	//===============메뉴 클릭시 페이지 호출
-	$('#sellList-tap').click(function(){//내 판매상품
+	
+	
+	
+	$('#myinfo-tap').click(function(){//내 판매상품
+		$('#cpwd').val('');
+		$('#cpwdck').val('');
+		sellListAjax(page);  
 		
+	});
+	
+	$('#pwdChange-tap').click(function(){//내 판매상품
+		$('#cpwd').val('');
+		$('#cpwdck').val('');
+		sellListAjax(page);  
+		
+	});	
+	
+	$('#sellList-tap').click(function(){//내 판매상품
+		$('#cpwd').val('');
+		$('#cpwdck').val('');
 		sellListAjax(page);  
 		
 	});
 	
 	 $('#buyList-tap').click(function(){//내 구매상품
-			
+		$('#cpwd').val('');
+		$('#cpwdck').val('');	
 		buyListAjax(page);  
 			
 	}); 
 	
 	$('#wishList-tap').click(function(){//내 관심상품
-		
+		$('#cpwd').val('');
+		$('#cpwdck').val('');
 		wishListAjax(page);  
 		
 	});
 	
  	$('#qnaList-tap').click(function(){//1:1문의
-		
+ 		$('#cpwd').val('');
+		$('#cpwdck').val('');
 		qnaListAjax(page);  
 		
+	}); 
+ 	
+ 	
+ 	$('#getout-tap').click(function(){//탈퇴
+ 		$('#cpwd').val('');
+		$('#cpwdck').val('');
+		$('#outPwd').val('');
 	}); 
 	
 	
@@ -440,12 +468,17 @@ $(document).ready(function(){
 
 			$('#mtitle').find('h6').text("제목: "+ $(this).children('#title').text());
 			$('#mregdate').find('h6').text("등록날짜: "+ $(this).children('#regdate_str').val());
-			$('#mcontent').find('h6').text("내용: "+ $(this).children('#content').val());
+			$('#mcontent').find('h6').text("내용: "+ $(this).children('#content').text());
 
+			if($('#admin_id').val() != 'null'){
 			$('#a_id ').find('h6').text("관리자: "+ $(this).children('#admin_id').val());
 			$('#a_regdate').find('h6').text("등록날짜: "+ $(this).children('#replyregdate').val());
-			$('#a_content').find('h6').text("내용: "+ $(this).children('#replycontent').val()); 
+			$('#a_content').find('h6').text("내용: "+ $(this).children('#replycontent').text()); 
+			}else if($('#admin_id').val() == 'null'){
+				$('#a_id ').find('h6').text("아직 답변이 등록되지 않았습니다");
+			}
 			$('#qnaModal').modal('show');
+			
 		})
 		
 		//========1:1문의 내역
@@ -487,10 +520,11 @@ $(document).ready(function(){
  						str = str + "	<div class='col-sm-5' id='title' style='padding-top:10px'>" + arr.title + "	</div>"; 
  						str = str + "	<div class='col-sm-4' style='padding-top:10px' align='right'>" + arr.regdate_str + "	</div>";
 						//타이틀 클릭했을 때 모달처리->내가쓴내용, 관리자 답변
-						str = str + "	<input type='hidden' id='content' value='"+ arr.content +"'>";
+ 						
+ 						str = str + "<div id='content' style='display:none'>" + arr.content + "</div>";
 						str = str + "	<input type='hidden' id='regdate_str' value='"+ arr.regdate_str +"'>";
 						str = str + "	<input type='hidden' id='admin_id' value='"+ arr.admin_id +"'>";
-						str = str + "	<input type='hidden' id='replycontent' value='"+ arr.replycontent +"'>";
+ 						str = str + "<div id='replycontent' style='display:none'>" + arr.replycontent + "</div>";
 						str = str + "	<input type='hidden' id='replyregdate' value='"+ arr.replyregdate +"'>"; 
 						str = str + "</div><hr>";
 
@@ -650,26 +684,39 @@ $(document).ready(function(){
 						$('#pwdChange').empty();
 						
 						var str = "";
-						str = str + "<h3>비밀번호변경</h3>";
-						str = str + "<div class='form-group row row'>";
-						str = str + "	<label class='col-sm-3 col-form-label text-right text-right' for='newPwd'>새 비밀번호</label>";
-						str = str + "	<div class='col-sm-5'>";					
-						str = str + "		<input class='form-control' id='newPwd' name='newPwd' type='password' placeholder='새 비밀번호'>";					
-						str = str + "		<span id='warning3' style='color: red'></span>";
-						str = str + "	</div>";	
-						str = str + "</div>";	
-						str = str + "<div class='form-group row'>";	
-						str = str + "	<label class='col-sm-3 col-form-label text-right' for='newPwdck'>비밀번호 확인</label>";	
-						str = str + "	<div class='col-sm-5'>";	
-						str = str + "		<input class='form-control' id='newPwdck' name='newPwdck' type='password' placeholder='비밀번호 확인'>";	
-						str = str + "		<span id='warning4' style='color: red'></span>";	
-						str = str + "	</div>";	
+						str = str + "<div class='form-group row'>";
+						str = str + "	<div class='col-sm-12' align='center'>";
+						str = str + "		<h1>비밀번호 변경</h1>";
+						str = str + "	</div>";
 						str = str + "</div>";
+						str = str + "<hr style='margin-bottom:3rem; width:800px'>";
+						str = str + "<div class='form-group row' style='align:center;'>";
+						str = str + "	<div class='col-sm-1'></div>";
+						str = str + "	<label class='col-sm-4 col-form-label text-right text-right' for='newPwd'>새 비밀번호</label>";
+						str = str + "	<div class='col-sm-4'>";
+						str = str + "		<input class='form-control' id='newPwd' name='newPwd' type='password' placeholder='새 비밀번호를 입력해주세요'>";
+						str = str + "		<span id='warning3' style='color: red'></span>";
+						str = str + "	</div>";
+						str = str + "	<div class='col-sm-3'></div>";
+						str = str + "</div>";
+						
+						str = str + "<div class='form-group row'>";
+						str = str + "	<div class='col-sm-1'></div>";
+						str = str + "	<label class='col-sm-4 col-form-label text-right' for='newPwdck'>비밀번호 확인</label>";
+						str = str + "	<div class='col-sm-4'>";
+						str = str + "		<input class='form-control' id='newPwdck' name='newPwdck' type='password' placeholder='비밀번호를 한 번 더 입력해주세요'>";
+						str = str + "		<span id='warning4' style='color: red'></span>";
+						str = str + "	</div>";
+						str = str + "	<div class='col-sm-3'></div>";
+						str = str + "</div>";
+						str = str + "<div align='center'>";
+						str = str + "		<hr style='margin:3rem; width:800px;'>";
+						str = str + "</div>	";
 						str = str + "<div class='form-group row'>";
 						str = str + "	<div class='col-sm text-center'>";
-						str = str + "	<input type='button' id='update' class='btn btn-lg btn-info' value='새 비밀번호로 변경'>";
-						str = str + "	</div>";	
-						str = str + "</div>";
+						str = str + "		<input type='button' id='update' class='btn btn-lg btn-primary' value='새 비밀번호로 변경'>";
+						str = str + "	</div>	";
+						str = str + "</div>  ";  
 						
 						$('#pwdChange').append(str);
 					}
@@ -682,6 +729,29 @@ $(document).ready(function(){
 		});
 		$(document).on("click", "#update", function(){
 			var pwd = $('#newPwd').val();
+			var pwdck = $('#newPwdck').val();
+			
+			var reg_pwd = RegExp(/^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,16}$/);
+			
+			if(pwd.length == 0){
+				$('#message').find('h4').text("비밀번호를 입력해주세요");
+				$('#myModal').modal('show');
+				$("#pwd").focus();
+				return false;
+			}else if(!reg_pwd.test(pwd)){
+				$('#message').find('h4').text('특수문자를 포함한 8~16자리 수를 입력해주세요');
+			    $('#myModal').modal('show');
+			    $("#pwd").val("");
+			    $("#pwd").focus();
+			    return false;
+			}if(pwd != pwdck){
+				$('#message').find('h4').text("동일한 비밀번호를 입력해주세요");
+				$('#myModal').modal('show');
+			    $("#pwdck").val("");
+			    $("#pwdck").focus();
+				return false;
+			}
+			
 			$.ajax({
 				async: true,
     			type: 'POST',
@@ -696,25 +766,40 @@ $(document).ready(function(){
 					$('#pwdChange').empty();
 					
 					var str = "";
-					str = str + "<h3>비밀번호변경</h3>";
-					str = str + "<div class='form-group row row'>";
-					str = str + "	<label class='col-sm-3 col-form-label text-right text-right' for='pwd'>비밀번호</label>";
-					str = str + "	<div class='col-sm-5'>";					
-					str = str + "		<input class='form-control' id='pwd' name='pwd' type='password' placeholder='비밀번호'>";					
-					str = str + "		<span id='warning3' style='color: red'></span>";
-					str = str + "	</div>";	
-					str = str + "</div>";	
-					str = str + "<div class='form-group row'>";	
-					str = str + "	<label class='col-sm-3 col-form-label text-right' for='newPwdck'>비밀번호 확인</label>";	
-					str = str + "	<div class='col-sm-5'>";	
-					str = str + "		<input class='form-control' id='pwdck' name='pwdck' type='password' placeholder='비밀번호 확인'>";	
-					str = str + "		<span id='warning4' style='color: red'></span>";	
-					str = str + "	</div>";	
+
+					str = str + "<div class='tab-pane fade' id='pwdChange' role='tabpanel' aria-labelledby='pwdChange'>";
+					str = str + "<div class='form-group row'>";
+					str = str + "	<div class='col-sm-12' align='center'>";
+					str = str + "		<h1>비밀번호 변경</h1>";
+					str = str + "	</div>";
+					str = str + "</div>";
+					str = str + "<hr style='margin-bottom:3rem; width:800px'>";
+					str = str + "<div class='form-group row' style='align:center;'>";
+					str = str + "	<div class='col-sm-1'></div>	";
+					str = str + "	<label class='col-sm-4 col-form-label text-right text-right' id='pwdlabel' for='pwd'>비밀번호</label>";
+					str = str + "	<div class='col-sm-4'>";
+					str = str + "		<input class='form-control' id='cpwd' name='pwd' type='password' placeholder='기존 비밀번호를 입력해주세요'>";
+					str = str + "		<span id='warning' style='color: red'></span>";
+					str = str + "	</div>";
+					str = str + "	<div class='col-sm-3'></div>";
 					str = str + "</div>";
 					str = str + "<div class='form-group row'>";
+					str = str + "	<div class='col-sm-1'></div>";
+					str = str + "	<label class='col-sm-4 col-form-label text-right' id='pwdcklabel' for='pwdck'>비밀번호 확인</label>";
+					str = str + "	<div class='col-sm-4'>";
+					str = str + "		<input class='form-control' id='cpwdck' name='cpwdck' type='password' placeholder='비밀번호를 한 번 더 입력해주세요'>";
+					str = str + "		<span id='warning2' style='color: red'></span>";
+					str = str + "	</div>";
+					str = str + "	<div class='col-sm-3'></div>";
+					str = str + "</div>";
+					str = str + "<div align='center'>";
+					str = str + "			<hr style='margin:3rem; width:800px; '>";
+					str = str + "</div>	";
+					str = str + "<div class='form-group row'>";
 					str = str + "	<div class='col-sm text-center'>";
-					str = str + "	<input type='button' id='change' class='btn btn-lg btn-info' value='확인'>";
+					str = str + "		<input type='button' id='change' class='btn btn-lg btn-primary' value='확인'>";
 					str = str + "	</div>";	
+					str = str + "</div>";    
 					str = str + "</div>";
 					
 					$('#pwdChange').append(str);

@@ -18,6 +18,7 @@ $(function() {
     });
 });
 </script>
+<script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
 <title>modify.jsp</title>
 
 <script type="text/javascript">
@@ -30,6 +31,48 @@ $(document).ready(function(){
 	$('#phone1').val(phone1);
 	$('#phone2').val(phone2);
 	$('#phone3').val(phone3);
+	
+$('#search').click(function() {		
+		
+		new daum.Postcode({
+	        oncomplete: function(data) {
+	        	var fullAddr = '';
+				var extraAddr ='';
+				
+				
+				// 사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
+	            if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
+	                fullAddr = data.roadAddress;
+
+	            } else { // 사용자가 지번 주소를 선택했을 경우(J)
+	                fullAddr = data.jibunAddress;
+	            }
+
+	            // 사용자가 선택한 주소가 도로명 타입일때 조합한다.
+	            if(data.userSelectedType === 'R'){
+	                //법정동명이 있을 경우 추가한다.
+	                if(data.bname !== ''){
+	                    extraAddr += data.bname;
+	                }
+	                // 건물명이 있을 경우 추가한다.
+	                if(data.buildingName !== ''){
+	                    extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
+	                }
+	                // 조합형주소의 유무에 따라 양쪽에 괄호를 추가하여 최종 주소를 만든다.
+	                fullAddr += (extraAddr !== '' ? ' ('+ extraAddr +')' : '');
+	            }
+
+	            // 우편번호와 주소 정보를 해당 필드에 넣는다.
+	            $('#zipcode').val(data.zonecode);
+	            $('#addr1').val(fullAddr);
+
+
+	            // 커서를 상세주소 필드로 이동한다.
+	            $('#addr2').focus();
+	        }
+	    }).open();
+
+	});
 	
 	$('#modify_end').click(function(event){
 /* 		var pwd = $('#pwd').val();
@@ -105,6 +148,8 @@ $(document).ready(function(){
         	$("#addr2").focus();
         	return false; 
         }
+        
+        
         })
         $('#cancel').click(function(){
         	$('#message').find('h4').text("모든 입력을 취소하시겠습니까?");
@@ -194,7 +239,7 @@ $(document).ready(function(){
 						<div class="input-group">
 							<input class="form-control" id="zipcode" name="zipcode" type="text" value="${member.zipcode}">
 							<span class="input-group-append">
-		                    		<button id="search" class="btn btn-secondary" >우편번호찾기</button>
+		                    		<input type='button' id="search" class="btn btn-secondary" value='우편번호찾기'>
 		                  	</span>
 						</div>	                  	
 					</div>
