@@ -212,16 +212,16 @@ $(function(){
 				htmlStrProd += "	</tr>";
 				htmlStrProd += "	<tr>";
 				htmlStrProd += "		<th class='detailTitle'>시작가</th>";
-				htmlStrProd += "		<td colspan='2'>" + data.auct.money_first + "</td>";
+				htmlStrProd += "		<td colspan='2'>" + data.auct.money_first + "원" + "</td>";
 				htmlStrProd += "	</tr>";
 				htmlStrProd += "	<tr>";
 				htmlStrProd += "		<th class='detailTitle'>입찰단위</th>";
-				htmlStrProd += "		<td colspan='2'>" + data.auct.money_unit + "</td>";
+				htmlStrProd += "		<td colspan='2'>" + data.auct.money_unit + "원" + "</td>";
 				htmlStrProd += "	</tr>";
 				htmlStrProd += "	<tr>";
 				htmlStrProd += "		<th class='detailTitle'>즉시구매</th>";
 				if(data.auct.baynow_yn == true) {
-					htmlStrProd += "		<td>" + data.auct.baynow_money + "</td>";
+					htmlStrProd += "		<td>" + data.auct.baynow_money + "원" + "</td>";
 					htmlStrProd += "		<td>" + "즉시구매가능" + "</td>";
 				}
 				else {

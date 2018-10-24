@@ -70,8 +70,21 @@ $(function(){
 				htmlStr += "		<td colspan='2'>" + data.deli.deli_phonenum + "</td>";
 				htmlStr += "	</tr>";
 				htmlStr += "	<tr>";
+				
+				var date = new Date(data.deli.regdate);
+				var y = date.getFullYear();
+			    var M = date.getMonth()+1;
+			    var d = date.getDate();
+	 		    var h = date.getHours(); // 0 - 23
+	 		    var m = date.getMinutes(); // 0 - 59
+			    M = (M < 10) ? "0" + M : M;
+			    d = (d < 10) ? "0" + d : d;
+	 		    h = (h < 10) ? "0" + h : h;
+	 		    m = (m < 10) ? "0" + m : m;
+	 		    var regdate = y + '-' + M + '-' + d + ' ' + h + ':' + m;
+				
 				htmlStr += "		<th class='detailTitle'>주문일시</th>";
-				htmlStr += "		<td>" + data.deli.regdate + "</td>";
+				htmlStr += "		<td>" + regdate + "</td>";
 				htmlStr += "	</tr>";
 				
 				$("#productdelimessage").find("#productdeli").html(htmlStr);
