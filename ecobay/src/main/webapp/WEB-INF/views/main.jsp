@@ -24,20 +24,20 @@
 		</ol>
 		<div class="carousel-inner">
 			<div class="carousel-item active">
-				<img class="d-block w-100" src="/resources/images/main_cal6_1.jpg"
-					alt="첫번째 슬라이드">
+				<a href="product/detail.do?product_cd=DGZZ1810260001"><img class="d-block w-100" src="/resources/images/main_cal6_1.jpg"
+					alt="첫번째 슬라이드"></a>
 			</div>
 			<div class="carousel-item">
-				<img class="d-block w-100" src="/resources/images/main_cal7_1.jpg"
-					alt="두번째 슬라이드">
+				<a href="product/detail.do?product_cd=LVLT1810290001"><img class="d-block w-100" src="/resources/images/main_cal7_1.jpg"
+					alt="두번째 슬라이드"></a>
 			</div>
 			<div class="carousel-item">
-				<img class="d-block w-100" src="/resources/images/main_cal9.jpg"
-					alt="세번째 슬라이드">
+				<a href="product/detail.do?product_cd=FSCL1810240006"><img class="d-block w-100" src="/resources/images/main_cal9.jpg"
+					alt="세번째 슬라이드"></a>
 			</div>
 			<div class="carousel-item">
-				<img class="d-block w-100" src="/resources/images/main_cal10.jpg"
-					alt="세번째 슬라이드">
+				<a href="product/detail.do?product_cd=LGLI1810260001"><img class="d-block w-100" src="/resources/images/main_cal10.jpg"
+					alt="네번째 슬라이드"></a>
 			</div>
 		</div>
 		<a class="carousel-control-prev" href="#carouselIndicators"
