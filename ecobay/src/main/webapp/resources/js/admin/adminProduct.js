@@ -170,14 +170,14 @@ $(function(){
 			// 이미지 출력 영역 - imglist
 			$.each(data.imglist, function(index, imglist){ 
 				htmlStrImg += "			<div style='width:auto;'>"; //overflow: hidden
-				htmlStrImg += "				<img src='/displayFile.do?fileName=" + imglist.filename + "' style='margin-left: auto; margin-right: auto; display: block;max-width:100%;'>";
+				htmlStrImg += "				<img src='/displayFile.do?fileName=" + imglist.filename + "' style='margin-left: auto; margin-right: auto; display: block; max-width:100%;'>";
 				htmlStrImg += "			</div>";
 			});
 			
 			// 상품설명 출력영역 - prod.content
 			htmlStrContent += "	<tr>";
 			htmlStrContent += "		<td>";
-			htmlStrContent += "			<div id='content'>";
+			htmlStrContent += "			<div id='content' style='width:auto;'>";
 			htmlStrContent += data.prod.content;
 			htmlStrContent += "			</div>";
 			htmlStrContent += "		</td>";

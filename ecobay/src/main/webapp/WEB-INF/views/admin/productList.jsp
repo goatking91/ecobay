@@ -8,6 +8,15 @@
 
 <script src="/resources/js/admin/adminProduct.js"></script>
 
+<style>
+	img {
+		margin-left: auto; 
+		margin-right: auto; 
+		display: block;
+		max-width:100%;
+	}
+</style>
+
 <div class="content-wrapper">
 	<!-- 페이지 헤더(제목) -->
 	<section class="content-header">

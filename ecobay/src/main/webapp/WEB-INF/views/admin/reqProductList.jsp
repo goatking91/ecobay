@@ -18,6 +18,14 @@
 			vertical-align: middle;
 			border: 1px solid white;
 		}
+		
+	img 
+	{
+		margin-left: auto; 
+		margin-right: auto; 
+		display: block;
+		max-width:100%;
+	}
 </style>
 
 <script src="/resources/js/admin/adminReqProduct.js"></script>
