@@ -19,11 +19,11 @@
 			vertical-align: middle;
 		}
 </style>
-<div class="container">
-	<h3>
+<div class="container" style="margin-top: 20px;">
+	<h2>
 		1:1문의
 		<small>-등록</small>
-	</h3>
+	</h2>
 </div>
 
 <div class="container" style="margin-top: 20px;">

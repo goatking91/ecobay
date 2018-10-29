@@ -500,7 +500,11 @@ $(document).ready(function(){
 					str = str + "	</div>";
 					str = str + "</div>";
 					str = str + "<hr style='margin-bottom:3rem; width:925px'>";
-					str = str + "	<div style='text-align:right'>문의수/ "+ data.cnt +"</div>"
+					str = str + "<div class='row'>";
+					str = str + "   <div class='col-sm-2' style='text-align:right'><a href='/support/qna/qnareg.do'><button type='button' class='btn btn-primary'>1:1문의 등록</button></a></div>";
+					str = str + "	<div class='col-sm-8'></div>"
+					str = str + "   <div class='col-sm-2' style='text-align:right'>문의수/ "+ data.cnt +"</div>";			
+					str = str + "</div>"
 					str = str + "<div class='bg-light border-top border-bottom form-inline col-sm-12' style='padding:15px; margin:10px'>";
 					str = str + "	<div class='col-sm-1'>순서</div>"
 					str = str + "	<div class='col-sm-1' style='padding:0px;'>글번호</div>"
