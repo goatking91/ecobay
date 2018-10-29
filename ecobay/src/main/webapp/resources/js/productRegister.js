@@ -350,11 +350,17 @@ $(function() {
         
         // 4. 이미지 upload하기 전에 index 순차적으로 새로 부여.
         $(".uploadData").each( function (index) {
-	        $(this).find("input[name=filename]").attr("name", "ivo[" + index + "].filename");
-	        $(this).find("input[name=filename_org]").attr("name", "ivo[" + index + "].filename_org");
-	        $(this).find("input[name=filename_thumb]").attr("name", "ivo[" + index + "].filename_thumb");
-	        $(this).find("input[name=img_idx]").attr("name", "ivo[" + index + "].img_idx").attr("value", index);
-	    });
+            $(this).find("input[name=filename]").attr("name", "ivo[" + index + "].filename");
+            $(this).find("input[name=filename_org]").attr("name", "ivo[" + index + "].filename_org");
+            $(this).find("input[name=filename_thumb]").attr("name", "ivo[" + index + "].filename_thumb");
+            $(this).find("input[name=img_idx]").attr("name", "ivo[" + index + "].img_idx").attr("value", index);
+        });
+        
+        $('#message').find('h4').html("등록이 정상처리되었습니다.<br>관리자가 검토 후 최종 승인 처리가 완료됩니다.<br><h6 class='text-danger'>1시간 이내로 승인이 처리됩니다.</h6>");
+    	$('#myModal').modal('show');
+    	$('#submitButton').click(function(event) {
+            $('#iform').submit();
+    	});
     });
 	/*======================================================================================*/
  });
