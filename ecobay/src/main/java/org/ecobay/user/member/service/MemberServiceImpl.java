@@ -193,5 +193,9 @@ public class MemberServiceImpl implements MemberService {
 		dao.paycancelauct(product_cd);
 		dao.paycancelprod(product_cd);
 	}
-	
+
+	@Override
+	public DeliveryVO selectDeliProd(String product_cd) throws Exception {
+		return dao.selectDeliProd(product_cd);
+	}
 }

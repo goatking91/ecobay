@@ -447,4 +447,32 @@ b, strong {
   </div>
 </div>
 
-           
+<!-- 배송정보 -->
+<div class="modal fade" id="productdeliModal" tabindex="-1" role="dialog" aria-labelledby="myModallabel" aria-hidden="true">
+	<div class="modal-dialog modal-lg" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="productdelimodaltitle">배송정보</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+		   	</div>
+			<div class="modal-body">
+				<form>
+					<div class="row">
+						<div class="col-md">
+							<div id="productdelimessage">
+								<h6></h6>
+								<table class='table' id='productdeli'>
+								</table>
+							</div>
+						</div>		      	
+					</div>
+				</form>
+			</div>
+      		<div class="modal-footer">
+       			<button type="button" class="btn btn-primary" data-dismiss="modal">확인</button>
+      		</div>
+		</div>
+	</div>
+</div>

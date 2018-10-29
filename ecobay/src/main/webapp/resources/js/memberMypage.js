@@ -23,7 +23,7 @@ $(document).ready(function(){
 		$('#enter').text("");
 		
 		var pwd = $('#pwd').val();//입력받은값
-		console.log(pwd);
+		//console.log(pwd);
 		if(pwd.length == 0){
 			$('#enter').text("비밀번호를 입력하세요");
 	        return false;
@@ -36,16 +36,16 @@ $(document).ready(function(){
 			dataType : "json",
 			contentType: "application/json; charset=UTF-8",
 			success : function(data) {
-				console.log(data);
+				//console.log(data);
 				if(data.flag == false){
 					$('#enter').text("올바른 비밀번호가 아닙니다");
-					console.log(data);
-					console.log(data.flag);
+					//console.log(data);
+					//console.log(data.flag);
 					return false;
 				}else{
 					location.href='/member/modify.do?member_id='+data.member_id;
-					console.log(data.member_id);
-					console.log(data.flag);
+					//console.log(data.member_id);
+					//console.log(data.flag);
 				}
 	        },
 	        error: function(data) {
@@ -126,6 +126,72 @@ $(document).ready(function(){
 		});
 	});
 	
+	// 내 구매상품에서 배송버튼 클릭시
+	$(document).on("click", "#delibtn", function() {
+		var cd = $(this).attr("data-src");
+		var name = $(this).attr("data-src2");
+		
+		productDeli(cd, name);
+	});
+	
+	function productDeli(product_cd, product_nm) {
+			$.ajax({
+				async: true,
+				type: 'POST',
+			url : "/member/ajaxproductdeli.do/" + product_cd,
+			contentType: "application/json; charset=UTF-8",
+		    success : function(data) {
+		    	var htmlStr = "";
+
+				$("#productdelimodaltitle").text(product_nm);
+				
+				htmlStr += "	<tr>";
+				htmlStr += "		<th class='detailTitle'>상품번호</th>";
+				htmlStr += "		<td>" + data.deli.product_cd + "</td>";
+				htmlStr += "	</tr>";
+				htmlStr += "	<tr>";
+				htmlStr += "		<th class='detailTitle'>우편번호</th>";
+				htmlStr += "		<td>[" + data.deli.deli_zipcode + "] " + data.deli.deli_addr1 + "</td>";
+				htmlStr += "	</tr>";
+				htmlStr += "	<tr>";
+				htmlStr += "		<th class='detailTitle'>상세주소</th>";
+				htmlStr += "		<td colspan='2'>" + data.deli.deli_addr2 + "</td>";
+				htmlStr += "	</tr>";
+				htmlStr += "	<tr>";
+				htmlStr += "		<th class='detailTitle'>이름</th>";
+				htmlStr += "		<td>" + data.deli.deli_nm + "</td>";
+				htmlStr += "	</tr>";
+				htmlStr += "	<tr>";
+				htmlStr += "		<th class='detailTitle'>전화번호</th>";
+				htmlStr += "		<td colspan='2'>" + data.deli.deli_phonenum + "</td>";
+				htmlStr += "	</tr>";
+				htmlStr += "	<tr>";
+				
+				var date = new Date(data.deli.regdate);
+				var y = date.getFullYear();
+			    var M = date.getMonth()+1;
+			    var d = date.getDate();
+	 		    var h = date.getHours(); // 0 - 23
+	 		    var m = date.getMinutes(); // 0 - 59
+			    M = (M < 10) ? "0" + M : M;
+			    d = (d < 10) ? "0" + d : d;
+	 		    h = (h < 10) ? "0" + h : h;
+	 		    m = (m < 10) ? "0" + m : m;
+	 		    var regdate = y + '-' + M + '-' + d + ' ' + h + ':' + m;
+				
+				htmlStr += "		<th class='detailTitle'>주문일시</th>";
+				htmlStr += "		<td>" + regdate + "</td>";
+				htmlStr += "	</tr>";
+				
+				$("#productdelimessage").find("#productdeli").html(htmlStr);
+				$("#productdeliModal").modal("show");
+		    },
+		    error : function(data) {
+		    	console.log("data : " + data);
+		    }
+		 });
+	}
+	
 	
 	
 	//===============메뉴 클릭시 페이지 호출
@@ -192,7 +258,7 @@ $(document).ready(function(){
 			dataType : "json",
 			contentType: "application/json; charset=UTF-8",
 			success : function(data) {
-				console.log("1");
+				//console.log("1");
 				
 				$('#wishList').empty();
 
@@ -215,7 +281,7 @@ $(document).ready(function(){
 				str = str + "	<div class='col-sm-2'>진행상황</div>"
 
 				str = str + "</div>";
-				console.log(data.arr);
+				//console.log(data.arr);
 				$.each(data.arr, function(index, arr){
 					
 					var state_cd = arr.state_cd;
@@ -238,7 +304,7 @@ $(document).ready(function(){
 					str = str + "</div><hr>";
 					
 				});
-				console.log(str);
+				//console.log(str);
 				var vo = JSON.parse(JSON.stringify(data.vo));
 
 	 			str = str + "<div align='center'>";
@@ -257,7 +323,7 @@ $(document).ready(function(){
 				str = str + "</tr>";
 				str = str + "</div>";  
 				
-				console.log(str);
+				//console.log(str);
 				$('#wishList').append(str);
 	        },
 	        error: function(data) {
@@ -275,7 +341,7 @@ $(document).ready(function(){
 				dataType : "json",
 				contentType: "application/json; charset=UTF-8",
 				success : function(data) {
-					console.log("1");
+					//console.log("1");
 					
 					$('#buyList').empty();
 
@@ -295,29 +361,42 @@ $(document).ready(function(){
 					str = str + "	<div class='col-sm-2'></div>"
 					str = str + "	<div class='col-sm-2'>상태</div>"
 					str = str + "</div>";
-					console.log(data.arr);
+					//console.log(data.arr);
 
 					$.each(data.arr, function(index, arr){
 						
 						str = str + "<div class='form-group row col-sm-12' style='padding:15px; margin:10px'>";	
 						str = str + "	<div class='col-sm-3'><img src='/displayFile.do?fileName=" + arr.filename_thumb + "' style='margin-left: auto; margin-right: auto; display: block; width:60%;'></div>";
-						str = str + "	<div class='col-sm-4' id='form-inline' style='margin-top:auto;margin-bottom:auto;'>";
+						str = str + "	<div class='col-sm-5' id='form-inline' style='margin-top:auto;margin-bottom:auto;'>";
 						str = str + "		<div style='font-size:8pt'>" + arr.acutdate_start_str + "~" + arr.acutdate_end_str + "</div>";
 						str = str + "		<div><a style='color:grey; text-decoration: none' href='/product/detail.do?product_cd=" + arr.product_cd + "'>"+ arr.product_cd + "</a></div>";
 						str = str + "		<div id='product_nm' style='font-size:16pt'>" + arr.product_nm + "</div>";
 						str = str + "	</div>"; 
-						str = str + "		<div class='col-sm-3' style='margin-top:auto;margin-bottom:auto;text-align:right'>" + arr.state_nm + "</div>";
+						str = str + "		<div class='col-sm-2' style='margin-top:auto;margin-bottom:auto;'>" + arr.state_nm + " "; // text-align:right
+						
+						// 낙찰되어 결제된 정보 - 배송인 경우 배송정보 보기.
+						if(arr.payment_proc_cd == '2') {
+							if(arr.deli_div_cd == '2') {
+								str = str + "<button class='btn-sm btn-warning' id='delibtn' data-src='" + arr.product_cd + "' data-src2='" + arr.product_nm + "' data-src3='2'>배송</button>";
+							}
+							else if(arr.deli_div_cd == '1') {
+								str = str + " [직거래]";
+							}
+						}
+						str = str + "	</div>";
+						
 						//낙찰되었지만 구매아직안했을때 payment_proc_cd=1
 						if(arr.payment_proc_cd == '1'){
 	 						str = str + "	<div class='col-sm-2' style='margin:auto; padding:0;'>"; 
 							str = str + "		<a href='/member/payment.do/" + arr.product_cd + "/2'><buttton class='btn btn-primary'>구매결제</buttton></a>";
 							str = str + "		<button class='btn btn-danger' id='paycanbtn' data-src='" + arr.product_cd + "'>구매취소</button>";
 							str = str + "	</div>";
+							str = str + "	<div class='col-sm-1'></div>";
 						}
 						str = str + "	</div>";
 						str = str + "</div><hr>";
 					});
-					console.log(str);
+					//console.log(str);
 					var vo = JSON.parse(JSON.stringify(data.vo));
 
 		 			str = str + "<div align='center'>";
@@ -336,7 +415,7 @@ $(document).ready(function(){
 					str = str + "</tr>";
 					str = str + "</div>";  
 					
-					console.log(str);
+					//console.log(str);
 					$('#buyList').append(str);
 		        },
 		        error: function(data) {
@@ -407,7 +486,7 @@ $(document).ready(function(){
 					str = str + "	<div class='col-sm-4' style='text-align:center'>상태</div>"
 
 					str = str + "</div>";
-					console.log(data.arr);
+					//console.log(data.arr);
 
 					$.each(data.arr, function(index, arr){						
 						str = str + "<div class='form-group row col-sm-12' style='padding:15px; margin:10px'>";
@@ -435,7 +514,7 @@ $(document).ready(function(){
 						str = str + "</div><hr>";
 
 					});
-					console.log(str);
+					//console.log(str);
 					var vo = JSON.parse(JSON.stringify(data.vo));
 
 		 			str = str + "<div align='center'>";
@@ -454,7 +533,7 @@ $(document).ready(function(){
 					str = str + "</tr>";
 					str = str + "</div>";  
 					
-					console.log(str);
+					//console.log(str);
 					$('#sellList').append(str);
 		        },
 		        error: function(data) {
@@ -514,7 +593,7 @@ $(document).ready(function(){
 					str = str + "	<div class='col-sm-3' style='padding:0 50px; text-align:left'>등록날짜</div>"
 
 					str = str + "</div>";
-					console.log("arr="+data.arr);
+					//console.log("arr="+data.arr);
 
 					$.each(data.arr, function(index, arr){				
 						str = str + "<div class='form-group row col-sm-12 qnaclick' style='padding:15px; margin:10px'>";
@@ -533,7 +612,7 @@ $(document).ready(function(){
 						str = str + "</div><hr>";
 
 					});
-					console.log(str);
+					//console.log(str);
 					var vo = JSON.parse(JSON.stringify(data.vo));
 
 		 			str = str + "<div align='center'>";
@@ -552,7 +631,7 @@ $(document).ready(function(){
 					str = str + "</tr>";
 					str = str + "</div>";  
 					
-					console.log(str);
+					//console.log(str);
 					$('#qnaList').append(str);
 		        },
 		        error: function(data) {
@@ -574,7 +653,7 @@ $(document).ready(function(){
 					data: member_id,
 					contentType: "application/json; charset=UTF-8",
 					success : function(data) {
-						console.log(data);
+						//console.log(data);
 						$('#logoutMessage').find('h4').text("그동안 Ecobay를 이용해주셔서 감사합니다");
 						$('#logoutModal').modal('show');
 						setTimeout(function() {
@@ -595,7 +674,7 @@ $(document).ready(function(){
 			$('#outEnter').text("");
 			
 			var pwd = $('#outPwd').val();//입력받은값
-			console.log(pwd);
+			//console.log(pwd);
 			if(pwd.length == 0){
 				$('#outEnter').text("비밀번호를 입력하세요");
 		        return false;
@@ -608,11 +687,11 @@ $(document).ready(function(){
 				dataType : "json",
 				contentType: "application/json; charset=UTF-8",
 				success : function(data) {
-					console.log(data);
+					//console.log(data);
 					if(data.flag == false){
 						$('#outEnter').text("올바른 비밀번호가 아닙니다");
-						console.log(data);
-						console.log(data.flag);
+						//console.log(data);
+						//console.log(data.flag);
 						return false;
 					}else{
 						$('#outPwdModal').modal('hide');
@@ -655,7 +734,7 @@ $(document).ready(function(){
 			var retvalue = 0;
 			
 			
-			console.log(pwd);
+			//console.log(pwd);
 			if(pwd.length == 0){
 				$('#warning').text("비밀번호를 입력하세요");
 		        return false;

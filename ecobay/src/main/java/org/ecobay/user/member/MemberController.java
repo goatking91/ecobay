@@ -550,4 +550,13 @@ public class MemberController {
     	
     	return entity;
     }
+    
+	@ResponseBody
+    @RequestMapping(value = "/ajaxproductdeli.do/{product_cd}", method = RequestMethod.POST)
+    public Map<String, Object> ajaxPayProductDeli(@PathVariable("product_cd") String product_cd) throws Exception {
+		Map<String, Object> map = new HashMap<String, Object>();
+    	map.put("deli", service.selectDeliProd(product_cd));
+    	
+    	return map;
+    }
 }

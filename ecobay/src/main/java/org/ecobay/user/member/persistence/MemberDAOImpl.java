@@ -177,4 +177,9 @@ public class MemberDAOImpl implements MemberDAO {
 	public void paycancelprod(String product_cd) {
 		session.update(namespace + ".paycancelprod", product_cd);
 	}
+
+	@Override
+	public DeliveryVO selectDeliProd(String product_cd) throws Exception {
+		return session.selectOne(namespace + ".selectDeliProd", product_cd);
+	}
 }

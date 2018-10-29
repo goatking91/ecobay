@@ -65,4 +65,6 @@ import org.ecobay.user.product.domain.ProductVO;
 	public int qnaCnt(String member_id) throws Exception;
 	
 	public void updatePayCancel(String product_cd)throws Exception;
+	
+	public DeliveryVO selectDeliProd(String product_cd) throws Exception;
 }

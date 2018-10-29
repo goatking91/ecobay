@@ -71,4 +71,6 @@ public interface MemberDAO {
 	
 	public void paycancelauct(String product_cd) throws Exception;
 	public void paycancelprod(String product_cd) throws Exception;
+	
+	public DeliveryVO selectDeliProd(String product_cd) throws Exception;
 }
