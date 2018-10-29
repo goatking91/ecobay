@@ -78,10 +78,10 @@
 				    <tbody id="tbody">		    
 						<c:forEach var="list" items="${list}">
 						    <tr>
-						    	<td>${list.rn}</td>
-						    	<td>${list.product_nm}</td>
-						    	<td><fmt:formatDate value="${list.regdate}" pattern="yyyy-MM-dd"/></td>
-						    	<td>
+						    	<td class="listtd"  data-src="${list.product_cd}">${list.rn}</td>
+						    	<td class="listtd"  data-src="${list.product_cd}">${list.product_nm}</td>
+						    	<td class="listtd"  data-src="${list.product_cd}"><fmt:formatDate value="${list.regdate}" pattern="yyyy-MM-dd"/></td>
+						    	<td class="listtd"  data-src="${list.product_cd}">
 						    		${list.state_nm}
 						    		<input type="hidden" style="display: none;" id="state_cd" value="${list.state_cd}">
 						    	</td>
@@ -105,4 +105,39 @@
 	
 	</section>
 	<!-- /내용 -->
+</div>
+
+<div class="modal fade" id="productdetailModal" tabindex="-1" role="dialog" aria-labelledby="myModallabel" aria-hidden="true">
+	<div class="modal-dialog modal-lg" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="productdetailmodaltitle">경매상품</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+		   	</div>
+			<div class="modal-body">
+				<form>
+					<div class="row">
+						<div class="col-md">
+							<div id="productdetailmessage">
+								<!-- align="center" -->
+								<h6></h6>
+								<table class='table' id='prodinfo'>
+								</table>
+								<div class="product-detail-thum col-sm-12">
+									<div id='imginfo'></div>
+								</div>
+								<table class='table' id='prodcontent'>
+								</table>
+							</div>
+						</div>		      	
+					</div>
+				</form>
+			</div>
+      		<div class="modal-footer">
+       			<button type="button" class="btn btn-primary" data-dismiss="modal">확인</button>
+      		</div>
+		</div>
+	</div>
 </div>

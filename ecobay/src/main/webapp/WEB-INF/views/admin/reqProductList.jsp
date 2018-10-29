@@ -168,7 +168,7 @@
 								<table class='table' id='prodinfo'>
 								</table>
 								<div class="product-detail-thum col-sm-12">
-									<div id='imginfo'></div> <!-- class='bxslider' -->
+									<div id='imginfo'></div>
 								</div>
 								<table class='table' id='prodcontent'>
 								</table>

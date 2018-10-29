@@ -28,7 +28,7 @@ $(function(){
 		ajaxLoadReqProductList(1, searchType, keyWord);
 	});
 	
-	//제목 클릭
+	//행클릭시 상세보기 모달 호출
 	$(document).on("click", ".reqlisttd", function(){
 		var cd = $(this).attr("data-src");
 
@@ -238,11 +238,11 @@ $(function(){
 				htmlStrProd += "		<td colspan='2'>" + data.deli.deli_div_nm + "</td>";
 				htmlStrProd += "	</tr>";
 
-				// 이미지 출력 영역 - imglist - <table class='table' id='imginfo'> - filename_thumb
-					$.each(data.imglist, function(index, imglist){ 
-						htmlStrImg += "			<div style='width:auto;'>"; //overflow: hidden
-						htmlStrImg += "				<img src='/displayFile.do?fileName=" + imglist.filename + "' style='margin-left: auto; margin-right: auto; display: block;max-width:100%;'>";
-						htmlStrImg += "			</div>";
+				// 이미지 출력 영역 - imglist
+				$.each(data.imglist, function(index, imglist){ 
+					htmlStrImg += "			<div style='width:auto;'>"; //overflow: hidden
+					htmlStrImg += "				<img src='/displayFile.do?fileName=" + imglist.filename + "' style='margin-left: auto; margin-right: auto; display: block;max-width:100%;'>";
+					htmlStrImg += "			</div>";
 				});
 				
 				// 상품설명 출력영역 - prod.content

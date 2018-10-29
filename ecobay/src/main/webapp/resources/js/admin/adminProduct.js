@@ -27,6 +27,13 @@ $(function(){
 		
 		ajaxLoadProductList(1, searchType, keyWord);
 	});
+	
+	//행클릭시 상세보기 모달 호출
+	$(document).on("click", ".listtd", function(){
+		var cd = $(this).attr("data-src");
+
+		productDetail(cd);
+	});
     
 	function ajaxLoadProductList(movePage, searchType, keyWord) {
 		
@@ -47,8 +54,8 @@ $(function(){
 				
 				$.each(data.list, function(index, list){ 
 					htmlStr += "<tr>";
-					htmlStr += "	<td>" + list.rn + "</td>";
-					htmlStr += "	<td>" + list.product_nm +"</td>";
+					htmlStr += "	<td class='listtd'  data-src='" + list.product_cd + "'>" + list.rn + "</td>";
+					htmlStr += "	<td class='listtd'  data-src='" + list.product_cd + "'>" + list.product_nm +"</td>";
 					
 					var date = new Date(list.regdate);
 					var y = date.getFullYear();
@@ -57,8 +64,8 @@ $(function(){
 				    M = (M < 10) ? "0" + M : M;
 				    d = (d < 10) ? "0" + d : d;
 				  	var day= y + "-" + M + "-" + d;
-				  	htmlStr += "	<td>" + day +"</td>";
-				  	htmlStr += "	<td>" + list.state_nm + "</td>";
+				  	htmlStr += "	<td class='listtd'  data-src='" + list.product_cd + "'>" + day +"</td>";
+				  	htmlStr += "	<td class='listtd'  data-src='" + list.product_cd + "'>" + list.state_nm + "</td>";
 				  	htmlStr += "	<input type='hidden' style='display: none;' id='state_cd' value='" + list.state_cd + "'>";
 					htmlStr += "</tr>";
 				});
@@ -104,4 +111,89 @@ $(function(){
 		    }
 		 });
 	}
+	
+	function productDetail(product_cd) {
+		$.ajax({
+			async: true,
+			type: 'POST',
+		url : "/admin/ajaxreqproductdetail.do/" + product_cd,
+		contentType: "application/json; charset=UTF-8",
+	    success : function(data) {
+	    	var htmlStr = "";
+	    	var htmlStrProd = "";
+	    	var htmlStrImg = "";
+	    	var htmlStrContent = "";
+	    	
+			$("#productdetailmodaltitle").text(data.prod.product_nm);
+			
+			htmlStrProd += "	<tr>";
+			htmlStrProd += "		<th class='detailTitle'>상품번호</th>";
+			htmlStrProd += "		<td colspan='2'>" + data.prod.product_cd + "</td>";
+			htmlStrProd += "	</tr>";
+			htmlStrProd += "	<tr>";
+			htmlStrProd += "		<th class='detailTitle'>분류</th>";
+			htmlStrProd += "		<td>" + data.prod.class_big_nm + "</td>";
+			htmlStrProd += "		<td>" + data.prod.class_mid_nm + "</td>";
+			htmlStrProd += "	</tr>";
+			htmlStrProd += "	<tr>";
+			htmlStrProd += "		<th class='detailTitle'>경매기간</th>";
+			htmlStrProd += "		<td colspan='2'>" + data.auct.acutdate_start_str + "~" + data.auct.acutdate_end_str + "</td>";
+			htmlStrProd += "	</tr>";
+			htmlStrProd += "	<tr>";
+			htmlStrProd += "		<th class='detailTitle'>시작가</th>";
+			htmlStrProd += "		<td colspan='2'>" + data.auct.money_first + "원" + "</td>";
+			htmlStrProd += "	</tr>";
+			htmlStrProd += "	<tr>";
+			htmlStrProd += "		<th class='detailTitle'>입찰단위</th>";
+			htmlStrProd += "		<td colspan='2'>" + data.auct.money_unit + "원" + "</td>";
+			htmlStrProd += "	</tr>";
+			htmlStrProd += "	<tr>";
+			htmlStrProd += "		<th class='detailTitle'>즉시구매</th>";
+			if(data.auct.baynow_yn == true) {
+				htmlStrProd += "		<td>" + data.auct.baynow_money + "원" + "</td>";
+				htmlStrProd += "		<td>" + "즉시구매가능" + "</td>";
+			}
+			else {
+				htmlStrProd += "		<td>" + " - 원 " + "</td>";
+				htmlStrProd += "		<td>" + "즉시구매불가" + "</td>";
+			}
+			htmlStrProd += "	</tr>";
+			htmlStrProd += "	<tr>";
+			htmlStrProd += "		<th class='detailTitle'>판매자정보</th>";
+			htmlStrProd += "		<td colspan='2'>" + data.prod.member_nm + "(" + data.prod.member_id + ")</td>";
+			htmlStrProd += "	</tr>";
+			htmlStrProd += "	<tr>";
+			htmlStrProd += "		<th class='detailTitle'>배송정보</th>";
+			htmlStrProd += "		<td colspan='2'>" + data.deli.deli_div_nm + "</td>";
+			htmlStrProd += "	</tr>";
+
+			// 이미지 출력 영역 - imglist
+			$.each(data.imglist, function(index, imglist){ 
+				htmlStrImg += "			<div style='width:auto;'>"; //overflow: hidden
+				htmlStrImg += "				<img src='/displayFile.do?fileName=" + imglist.filename + "' style='margin-left: auto; margin-right: auto; display: block;max-width:100%;'>";
+				htmlStrImg += "			</div>";
+			});
+			
+			// 상품설명 출력영역 - prod.content
+			htmlStrContent += "	<tr>";
+			htmlStrContent += "		<td>";
+			htmlStrContent += "			<div id='content'>";
+			htmlStrContent += data.prod.content;
+			htmlStrContent += "			</div>";
+			htmlStrContent += "		</td>";
+			htmlStrContent += "	</tr>";
+			
+			$("#productdetailmessage").find("#prodinfo").html(htmlStrProd);
+			
+			$("#productdetailmessage").find("#imginfo").html(htmlStrImg);
+			$("#productdetailmessage").find("#prodcontent").html(htmlStrContent);
+			
+			
+			$("#productdetailModal").modal("show");
+	    },
+	    error : function(data) {
+	    	console.log("data : " + data);
+	    }
+	 });
+}
 }); /* END 물품현황 AJAX */
