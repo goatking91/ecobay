@@ -503,7 +503,7 @@ public class MemberController {
     	vo.setMember_id(member_id);
     	vo.setBirth(birth);
     	service.verify(vo);
-    	return "main.page";
+    	return "redirect:/main.do";
     }
     
     @RequestMapping(value = "/modify.do", method = RequestMethod.GET)
